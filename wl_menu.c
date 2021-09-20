@@ -67,7 +67,7 @@ CP_itemtype MainMenu[] = {
 	{1, STR_NG, CP_NewGame},
 	{1, STR_LG, CP_LoadGame},
 	{0, STR_SG, CP_SaveGame},
-	{1, "Options", CP_Options},
+	{1, STR_OP, CP_Options},
 #else
 	{1, STR_NG, CP_NewGame},
 	{1, STR_SD, CP_Sound},
@@ -165,9 +165,14 @@ CP_itemtype OptMenu[] = {
 	{0, "", MouseSensitivity},
 	{1, "", CustomControls}
 #else
-	{1, "Sound Options", 0},
-	{1, "Control Options", 0},
+	{1, STR_OP_SND, CP_Sound},
+	{1, STR_OP_CTL, CP_Control},
+#ifdef USE_MODERNMENU
+	{1, STR_OP_CV, CP_ChangeView}
+#else
 	{1, STR_CV, CP_ChangeView}
+#endif
+	
 #endif
 };
 
@@ -1788,7 +1793,11 @@ CP_Options(int blank)
 		which = HandleMenu(&OptItems, OptMenu, NULL);
 		switch (which)
 		{
-
+		default:
+			DrawOptScreen();
+			MenuFadeIn();
+			WaitKeyUp();
+			break;
 		}
 	} while (which >= 0);
 

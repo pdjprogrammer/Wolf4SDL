@@ -27,6 +27,11 @@
 #define	STR_BD	"Back to Demo"
 #define STR_QT	"Quit"
 
+#define STR_OP	"Options"
+#define STR_OP_SND	"Sound Options"
+#define STR_OP_CTL	"Control Options"
+#define STR_OP_CV	"View Size"
+
 #define STR_LOADING	"Loading"
 #define STR_SAVING	"Saving"
 
