@@ -51,6 +51,9 @@
 #define	STR_PORT2	"Use joystick port 2"
 #define	STR_GAMEPAD	"Gravis GamePad Enabled"
 #define	STR_SENS	"Mouse Sensitivity"
+#ifdef USE_MODERNCONTROLS
+#define	STR_MOUSEMOVEMENT	"Enable Mouse Y Axis"
+#endif
 #define	STR_CUSTOM	"Customize controls"
 
 #define	STR_DADDY	"Can I play, Daddy?"

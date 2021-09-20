@@ -399,6 +399,10 @@ void VL_GetPalette (SDL_Color *palette)
 
 void VL_FadeOut (int start, int end, int red, int green, int blue, int steps)
 {
+#ifdef NO_TIME_WASTE
+    steps = 0;
+#endif
+
 	int		    i,j,orig,delta;
 	SDL_Color   *origptr, *newptr;
 
@@ -455,6 +459,10 @@ void VL_FadeOut (int start, int end, int red, int green, int blue, int steps)
 
 void VL_FadeIn (int start, int end, SDL_Color *palette, int steps)
 {
+#ifdef NO_TIME_WASTE
+    steps = 0;
+#endif
+
 	int i,j,delta;
 
 	VL_WaitVBL(1);

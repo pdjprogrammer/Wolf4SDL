@@ -76,7 +76,11 @@
 #define CTL_Y   86
 #endif
 #define CTL_W   284
+#ifdef USE_MODERNCONTROLS
+#define CTL_H   75
+#else
 #define CTL_H   60
+#endif
 
 #define LSM_X   85
 #define LSM_Y   55
@@ -196,6 +200,7 @@ int CP_Quit(int);
 int CP_ViewScores(int);
 int  CP_EndGame(int);
 int  CP_CheckQuick(ScanCode scancode);
+int Controls(int);
 int CustomControls(int);
 int MouseSensitivity(int);
 

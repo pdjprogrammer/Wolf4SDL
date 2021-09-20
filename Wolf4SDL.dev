@@ -5,14 +5,14 @@ UnitCount=55
 Type=0
 Ver=1
 ObjFiles=
-Includes=C:\Dev-Cpp\include\SDL;C:\Dev-Cpp\include\SDL_Mixer
-Libs=C:\Dev-Cpp\lib\SDL;C:\Dev-Cpp\lib\SDL_Mixer
+Includes=E:\_dev\Wolf3D\Wolf4SDL\include\SDL2_mingw
+Libs=E:\_dev\Wolf3D\Wolf4SDL\lib\SDL2_mingw
 PrivateResource=Wolf4SDL_private.rc
 ResourceIncludes=
 MakeIncludes=
 Compiler=-Dmain=SDL_main_@@_
 CppCompiler=
-Linker=-lmingw32 -lSDL -lSDL_mixer_@@_
+Linker=-lmingw32 -lSDL2 -lSDL2_mixer_@@_
 IsCpp=0
 Icon=Wolf4SDL.ico
 ExeOutput=obj
