@@ -262,10 +262,10 @@ CP_itemtype CusMenu[] = {
 };
 
 CP_itemtype CusMouseMenu[] = {
-	{1, "Attack", 0},
-	{1, "Strafe", 0},
 	{1, "Run", 0},
-	{1, "Use", 0}
+	{1, "Open", 0},
+	{1, "Fire", 0},
+	{1, "Strafe", 0}
 };
 
 CP_itemtype OptMenu[] = {
@@ -291,11 +291,11 @@ CP_itemtype OptMenu[] = {
 // CP_iteminfo struct format: short x, y, amount, curpos, indent;
 CP_iteminfo MainItems = { MENU_X, MENU_Y, lengthof(MainMenu), STARTITEM, 24 },
 OptItems = { OPT_X, OPT_Y, lengthof(OptMenu), 0, 32 },
+CusMouseItems = { OPT_MOUSE_X, OPT_MOUSE_Y, lengthof(CusMouseMenu), 0, 32 },
 SndItems = { SM_X, SM_Y1, lengthof(SndMenu), 0, 52 },
 LSItems = { LSM_X, LSM_Y, lengthof(LSMenu), 0, 24 },
 CtlItems = { CTL_X, CTL_Y, lengthof(CtlMenu), -1, 56 },
 CusItems = { 8, CST_Y + 13 * 2, lengthof(CusMenu), -1, 0 },
-CusMouseItems = { 8, CST_Y + 13 * 2, lengthof(CusMouseMenu), -1, 0 },
 #ifndef SPEAR
 NewEitems = { NE_X, NE_Y, lengthof(NewEmenu), 0, 88 },
 #endif
@@ -2101,39 +2101,36 @@ CustomMouseControls(int blank)
 
 	do
 	{
-		which = HandleMenu(&CusMouseItems, &CusMouseMenu[0], FixupCustom);
+		which = HandleMenu(&CusMouseItems, &CusMouseMenu[0], NULL);
 		switch (which)
 		{
-			case 0:
-				DefineMouseBtns();
-				DrawCustMouse(1);
-				break;
-			/*case 3:
-				DefineJoyBtns();
-				DrawCustJoy(0);
-				break;
-			case 6:
-				DefineKeyBtns();
-				DrawCustKeybd(0);
-				break;
-			case 8:
-				DefineKeyMove();
-				DrawCustKeys(0);*/
+		case 0:
+			DefineMouseRunBtn();
+			DrawCustMouse(1);
+			break;
+		case 1:
+			DefineMouseOpenBtn();
+			DrawCustMouse(2);
+			break;
+		case 2:
+			DefineMouseFireBtn();
+			DrawCustMouse(3);
+			break;
+		case 3:
+			DefineMouseStrafeBtn();
+			DrawCustMouse(4);
 		default:
-			MenuFadeOut();
-			DrawCtlScreen();
-			MenuFadeIn();
-			WaitKeyUp();
 			break;
 		}
 	} while (which >= 0);
 
-	
+	MenuFadeOut();
+	DrawCtlScreen();
+	MenuFadeIn();
 
 	return 0;
 }
 #else
-
 ////////////////////////////////////////////////////////////////////
 //
 // CUSTOMIZE CONTROLS
@@ -2181,21 +2178,45 @@ CustomControls(int blank)
 	return 0;
 }
 
-#endif // USE_MODERN_CONTROLS
+#endif
 
-
-
+#ifdef USE_MODERN_OPTIONS
 ////////////////////////
 //
 // DEFINE THE MOUSE BUTTONS
 //
-void
-DefineMouseBtns(void)
+void DefineMouseRunBtn(void)
+{
+	CustomCtrls mouseallowed = { 1, 0, 0, 0 };
+	EnterCtrlData(1, &mouseallowed, DrawCustMouse, PrintCustMouse, MOUSE);
+}
+
+void DefineMouseOpenBtn(void)
+{
+	CustomCtrls mouseallowed = { 0, 1, 0, 0 };
+	EnterCtrlData(2, &mouseallowed, DrawCustMouse, PrintCustMouse, MOUSE);
+}
+
+
+void DefineMouseFireBtn(void)
+{
+	CustomCtrls mouseallowed = { 0, 0, 1, 0 };
+	EnterCtrlData(3, &mouseallowed, DrawCustMouse, PrintCustMouse, MOUSE);
+}
+
+
+void DefineMouseStrafeBtn(void)
+{
+	CustomCtrls mouseallowed = { 0, 0, 0, 1 };
+	EnterCtrlData(4, &mouseallowed, DrawCustMouse, PrintCustMouse, MOUSE);
+}
+#else
+void DefineMouseBtns(void)
 {
 	CustomCtrls mouseallowed = { 0, 1, 1, 1 };
 	EnterCtrlData(2, &mouseallowed, DrawCustMouse, PrintCustMouse, MOUSE);
 }
-
+#endif
 
 ////////////////////////
 //
@@ -2597,14 +2618,15 @@ DrawCustomMouseScreen(void)
 	WindowW = 320;
 
 #ifndef SPEAR
-	PrintY = OPT_MOUSE_Y;
-	US_CPrint("Mouse\n");
+	//PrintY = OPT_MOUSE_Y;
+	//US_CPrint("Mouse\n");
 #else
 	PrintY = CST_Y + 13;
 	VWB_DrawPic(128, 48, C_MOUSEPIC);
 #endif
 
 	SETFONTCOLOR(TEXTCOLOR, BKGDCOLOR);
+	DrawMenu(&CusMouseItems, CusMouseMenu);
 #ifdef SPANISH
 	PrintX = CST_START - 16;
 	US_Print(STR_CRUN);
@@ -2615,8 +2637,7 @@ DrawCustomMouseScreen(void)
 	PrintX = CST_START - 16 + CST_SPC * 3;
 	US_Print(STR_CSTRAFE "\n");
 #else
-	/*
-	PrintX = CST_START;
+	/*PrintX = CST_START;
 	US_Print(STR_CRUN);
 	PrintX = CST_START + CST_SPC * 1;
 	US_Print(STR_COPEN);
@@ -2873,10 +2894,10 @@ DrawCustMouse(int hilight)
 	if (!mouseenabled)
 	{
 		SETFONTCOLOR(DEACTIVE, BKGDCOLOR);
-		CusMenu[0].active = 0;
+		CusMouseMenu[0].active = 0;
 	}
 	else
-		CusMenu[0].active = 1;
+		CusMouseMenu[0].active = 1;
 
 	PrintY = CST_Y + 13 * 2;
 	for (i = 0; i < 4; i++)

@@ -177,7 +177,15 @@ void EraseGun(CP_iteminfo* item_i, CP_itemtype* items, int x, int y, int which);
 void DrawMenuGun(CP_iteminfo* iteminfo);
 void DrawStripes(int y);
 
+#ifdef USE_MODERN_OPTIONS
+void DefineMouseRunBtn(void);
+void DefineMouseOpenBtn(void);
+void DefineMouseFireBtn(void);
+void DefineMouseStrafeBtn(void);
+#else
 void DefineMouseBtns(void);
+#endif
+
 void DefineJoyBtns(void);
 void DefineKeyBtns(void);
 void DefineKeyMove(void);
@@ -225,10 +233,15 @@ int CP_ViewScores(int);
 int  CP_EndGame(int);
 int  CP_CheckQuick(ScanCode scancode);
 int Controls(int);
-int CustomControls(int);
-int MouseSensitivity(int);
 
+int MouseSensitivity(int);
+#ifdef USE_MODERN_OPTIONS
 int CustomMouseControls(int);
+#else
+int CustomControls(int);
+#endif // USE_MODERN_OPTIONS
+
+
 
 void CheckForEpisodes(void);
 
