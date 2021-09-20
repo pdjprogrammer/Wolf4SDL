@@ -153,7 +153,7 @@ CP_itemtype CtlMenu[] = {
 	{1, STR_CUSTOM, CustomControls}
 #else
 	{0, STR_JOYEN, 0},
-	{1, STR_OP_MOUSE, 0},
+	{1, STR_OP_MOUSE, CustomMouseControls},
 	{1, STR_OP_KEYBOARD, 0},
 	{1, STR_OP_JOYSTICK, 0}
 #endif
@@ -261,6 +261,13 @@ CP_itemtype CusMenu[] = {
 	{1, "", 0}
 };
 
+CP_itemtype CusMouseMenu[] = {
+	{1, "Attack", 0},
+	{1, "Strafe", 0},
+	{1, "Run", 0},
+	{1, "Use", 0}
+};
+
 CP_itemtype OptMenu[] = {
 #ifdef JAPAN
 	{0, "", 0},
@@ -288,6 +295,7 @@ SndItems = { SM_X, SM_Y1, lengthof(SndMenu), 0, 52 },
 LSItems = { LSM_X, LSM_Y, lengthof(LSMenu), 0, 24 },
 CtlItems = { CTL_X, CTL_Y, lengthof(CtlMenu), -1, 56 },
 CusItems = { 8, CST_Y + 13 * 2, lengthof(CusMenu), -1, 0 },
+CusMouseItems = { 8, CST_Y + 13 * 2, lengthof(CusMouseMenu), -1, 0 },
 #ifndef SPEAR
 NewEitems = { NE_X, NE_Y, lengthof(NewEmenu), 0, 88 },
 #endif
@@ -2001,7 +2009,7 @@ DrawCtlScreen(void)
 		if (mouseenabled && mousemovement)
 			VWB_DrawPic(x, y, C_SELECTEDPIC);
 		else
-			VWB_DrawPic(x, y, C_NOTSELECTEDPIC);		
+			VWB_DrawPic(x, y, C_NOTSELECTEDPIC);
 	#endif	*/
 	if (joystickenabled)
 		VWB_DrawPic(x, y, C_SELECTEDPIC);
@@ -2070,6 +2078,61 @@ DrawOptScreen(void)
 	VW_UpdateScreen();
 }
 
+#ifdef USE_MODERN_OPTIONS
+
+////////////////////////////////////////////////////////////////////
+//
+// CUSTOMIZE MOUSE CONTROLS
+//
+////////////////////////////////////////////////////////////////////
+enum
+{
+	FIRE, STRAFE, RUN, OPEN
+};
+char mbarray[4][3] = { "b0", "b1", "b2", "b3" };
+int8_t order[4] = { RUN, OPEN, FIRE, STRAFE };
+
+int
+CustomMouseControls(int blank)
+{
+	int which;
+
+	DrawCustomMouseScreen();
+
+	do
+	{
+		which = HandleMenu(&CusMouseItems, &CusMouseMenu[0], FixupCustom);
+		switch (which)
+		{
+			case 0:
+				DefineMouseBtns();
+				DrawCustMouse(1);
+				break;
+			/*case 3:
+				DefineJoyBtns();
+				DrawCustJoy(0);
+				break;
+			case 6:
+				DefineKeyBtns();
+				DrawCustKeybd(0);
+				break;
+			case 8:
+				DefineKeyMove();
+				DrawCustKeys(0);*/
+		default:
+			MenuFadeOut();
+			DrawCtlScreen();
+			MenuFadeIn();
+			WaitKeyUp();
+			break;
+		}
+	} while (which >= 0);
+
+	
+
+	return 0;
+}
+#else
 
 ////////////////////////////////////////////////////////////////////
 //
@@ -2117,6 +2180,9 @@ CustomControls(int blank)
 
 	return 0;
 }
+
+#endif // USE_MODERN_CONTROLS
+
 
 
 ////////////////////////
@@ -2485,6 +2551,102 @@ FixupCustom(int w)
 	lastwhich = w;
 }
 
+#ifdef USE_MODERN_OPTIONS
+////////////////////////
+//
+// DRAW CUSTOMIZE MOUSE SCREEN
+//
+void
+DrawCustomMouseScreen(void)
+{
+	int i;
+
+
+#ifdef JAPAN
+	VWB_DrawPic(0, 0, S_CUSTOMPIC);
+	fontnumber = 1;
+
+	PrintX = CST_START;
+	PrintY = CST_Y + 26;
+	DrawCustMouse(0);
+
+	PrintX = CST_START;
+	US_Print("\n\n\n");
+	DrawCustJoy(0);
+
+	PrintX = CST_START;
+	US_Print("\n\n\n");
+	DrawCustKeybd(0);
+
+	PrintX = CST_START;
+	US_Print("\n\n\n");
+	DrawCustKeys(0);
+#else
+	ClearMScreen();
+	WindowX = 0;
+	WindowW = 320;
+	VWB_DrawPic(112, 184, C_MOUSELBACKPIC);
+	DrawStripes(10);
+	VWB_DrawPic(80, 0, C_CUSTOMIZEPIC);
+
+	//
+	// MOUSE
+	//
+	SETFONTCOLOR(READCOLOR, BKGDCOLOR);
+	WindowX = 0;
+	WindowW = 320;
+
+#ifndef SPEAR
+	PrintY = OPT_MOUSE_Y;
+	US_CPrint("Mouse\n");
+#else
+	PrintY = CST_Y + 13;
+	VWB_DrawPic(128, 48, C_MOUSEPIC);
+#endif
+
+	SETFONTCOLOR(TEXTCOLOR, BKGDCOLOR);
+#ifdef SPANISH
+	PrintX = CST_START - 16;
+	US_Print(STR_CRUN);
+	PrintX = CST_START - 16 + CST_SPC * 1;
+	US_Print(STR_COPEN);
+	PrintX = CST_START - 16 + CST_SPC * 2;
+	US_Print(STR_CFIRE);
+	PrintX = CST_START - 16 + CST_SPC * 3;
+	US_Print(STR_CSTRAFE "\n");
+#else
+	/*
+	PrintX = CST_START;
+	US_Print(STR_CRUN);
+	PrintX = CST_START + CST_SPC * 1;
+	US_Print(STR_COPEN);
+	PrintX = CST_START + CST_SPC * 2;
+	US_Print(STR_CFIRE);
+	PrintX = CST_START + CST_SPC * 3;
+	US_Print(STR_CSTRAFE "\n");*/
+#endif
+	DrawWindow(OPT_MOUSE_X - 8, OPT_MOUSE_Y - 5, OPT_MOUSE_W, OPT_MOUSE_H, BKGDCOLOR);
+	DrawMenuGun(&CusMouseItems);
+	//DrawCustMouse(0);
+	US_Print("\n");
+#endif
+	//
+	// PICK STARTING POINT IN MENU
+	//
+	if (CusMouseItems.curpos < 0)
+		for (i = 0; i < CusMouseItems.amount; i++)
+			if (CusMouseMenu[i].active)
+			{
+				CusMouseItems.curpos = i;
+				break;
+			}
+
+
+	VW_UpdateScreen();
+	MenuFadeIn();
+}
+#else
+
 
 ////////////////////////
 //
@@ -2680,6 +2842,9 @@ DrawCustomScreen(void)
 	MenuFadeIn();
 }
 
+#endif // USE_MODERN_OPTIONS
+
+
 
 void
 PrintCustMouse(int i)
@@ -2699,7 +2864,6 @@ void
 DrawCustMouse(int hilight)
 {
 	int i, color;
-
 
 	color = TEXTCOLOR;
 	if (hilight)

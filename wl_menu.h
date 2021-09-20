@@ -95,6 +95,11 @@
 #define OPT_H   48
 #endif
 
+#define OPT_MOUSE_X   36
+#define OPT_MOUSE_Y   64
+#define OPT_MOUSE_W   264
+#define OPT_MOUSE_H   118
+
 #define LSM_X   85
 #define LSM_Y   55
 #define LSM_W   175
@@ -184,10 +189,10 @@ void DrawLoadSaveScreen(int loadsave);
 void DrawNewEpisode(void);
 void DrawNewGame(void);
 void DrawChangeView(int view);
-void DrawOptScreen(void);
 void DrawMouseSens(void);
 void DrawCtlScreen(void);
 void DrawCustomScreen(void);
+void DrawCustomMouseScreen(void);
 void DrawLSAction(int which);
 void DrawCustMouse(int hilight);
 void DrawCustJoy(int hilight);
@@ -197,6 +202,10 @@ void PrintCustMouse(int i);
 void PrintCustJoy(int i);
 void PrintCustKeybd(int i);
 void PrintCustKeys(int i);
+
+void DrawOptScreen(void);
+
+
 
 void PrintLSEntry(int w, int color);
 void TrackWhichGame(int w);
@@ -218,6 +227,8 @@ int  CP_CheckQuick(ScanCode scancode);
 int Controls(int);
 int CustomControls(int);
 int MouseSensitivity(int);
+
+int CustomMouseControls(int);
 
 void CheckForEpisodes(void);
 
