@@ -63,13 +63,20 @@ CP_itemtype MainMenu[] = {
 	{1, "", 0},
 	{1, "", 0}
 #else
-
+#ifdef USE_MODERNMENU
+	{1, STR_NG, CP_NewGame},
+	{1, STR_LG, CP_LoadGame},
+	{0, STR_SG, CP_SaveGame},
+	{1, "Options", CP_Options},
+#else
 	{1, STR_NG, CP_NewGame},
 	{1, STR_SD, CP_Sound},
 	{1, STR_CL, CP_Control},
 	{1, STR_LG, CP_LoadGame},
 	{0, STR_SG, CP_SaveGame},
 	{1, STR_CV, CP_ChangeView},
+#endif
+
 
 #ifndef GOODTIMES
 #ifndef SPEAR
@@ -82,7 +89,6 @@ CP_itemtype MainMenu[] = {
 
 #endif
 #endif
-
 	{1, STR_VS, CP_ViewScores},
 	{1, STR_BD, 0},
 	{1, STR_QT, 0}
@@ -144,9 +150,24 @@ CP_itemtype CtlMenu[] = {
 #ifdef USE_MODERNCONTROLS
 	{0, STR_MOUSEMOVEMENT, 0},
 #endif
-	
+
 	{0, STR_JOYEN, 0},
 	{1, STR_CUSTOM, CustomControls}
+#endif
+};
+
+CP_itemtype OptMenu[] = {
+#ifdef JAPAN
+	{0, "", 0},
+	{0, "", 0},
+	{0, "", 0},
+	{0, "", 0},
+	{0, "", MouseSensitivity},
+	{1, "", CustomControls}
+#else
+	{1, "Sound Options", 0},
+	{1, "Control Options", 0},
+	{1, STR_CV, CP_ChangeView}
 #endif
 };
 
@@ -252,6 +273,7 @@ CP_itemtype CusMenu[] = {
 
 // CP_iteminfo struct format: short x, y, amount, curpos, indent;
 CP_iteminfo MainItems = { MENU_X, MENU_Y, lengthof(MainMenu), STARTITEM, 24 },
+OptItems = { OPT_X, OPT_Y, lengthof(OptMenu), 0, 32 },
 SndItems = { SM_X, SM_Y1, lengthof(SndMenu), 0, 52 },
 LSItems = { LSM_X, LSM_Y, lengthof(LSMenu), 0, 24 },
 CtlItems = { CTL_X, CTL_Y, lengthof(CtlMenu), -1, 56 },
@@ -1747,6 +1769,33 @@ CP_Control(int blank)
 	return 0;
 }
 
+////////////////////////////////////////////////////////////////////
+//
+// DEFINE OPTIONS
+//
+////////////////////////////////////////////////////////////////////
+int
+CP_Options(int blank)
+{
+	int which;
+
+	DrawOptScreen();
+	MenuFadeIn();
+	WaitKeyUp();
+
+	do
+	{
+		which = HandleMenu(&OptItems, OptMenu, NULL);
+		switch (which)
+		{
+
+		}
+	} while (which >= 0);
+
+	MenuFadeOut();
+
+	return 0;
+}
 
 ////////////////////////////////
 //
@@ -1948,6 +1997,49 @@ DrawCtlScreen(void)
 	}
 
 	DrawMenuGun(&CtlItems);
+	VW_UpdateScreen();
+}
+
+///////////////////////////
+//
+// DRAW OPTIONS MENU SCREEN
+//
+void
+DrawOptScreen(void)
+{
+	int i, x, y;
+
+#ifdef JAPAN
+	VWB_DrawPic(0, 0, S_CONTROLPIC);
+#else
+	ClearMScreen();
+	DrawStripes(10);
+	VWB_DrawPic(80, 0, C_CONTROLPIC);
+	VWB_DrawPic(112, 184, C_MOUSELBACKPIC);
+	DrawWindow(OPT_X - 8, OPT_Y - 5, OPT_W, OPT_H, BKGDCOLOR);
+#endif
+	WindowX = 0;
+	WindowW = 320;
+	SETFONTCOLOR(TEXTCOLOR, BKGDCOLOR);
+
+	DrawMenu(&OptItems, OptMenu);
+
+	//
+	// PICK FIRST AVAILABLE SPOT
+	//
+	if (OptItems.curpos < 0 || !OptMenu[OptItems.curpos].active)
+	{
+		for (i = 0; i < OptItems.amount; i++)
+		{
+			if (OptMenu[i].active)
+			{
+				OptItems.curpos = i;
+				break;
+			}
+		}
+	}
+
+	DrawMenuGun(&OptItems);
 	VW_UpdateScreen();
 }
 
@@ -2330,7 +2422,7 @@ FixupCustom(int w)
 		break;
 	case 8:
 		DrawCustKeys(1);
-}
+	}
 
 
 	if (lastwhich >= 0)
@@ -3602,7 +3694,7 @@ WaitKeyUp();
 SD_PlaySound((soundnames)whichsnd[xit]);
 
 return xit;
-}
+			}
 
 #ifdef JAPAN
 ////////////////////////////////////////////////////////////////////
@@ -3697,7 +3789,7 @@ Message(const char* string)
 	SETFONTCOLOR(0, TEXTCOLOR);
 	US_Print(string);
 	VW_UpdateScreen();
-}
+	}
 
 ////////////////////////////////////////////////////////////////////
 //
@@ -4062,8 +4154,8 @@ CheckForEpisodes(void)
 			{
 				Quit("The configuration directory \"%s\" could not be created.", configdir);
 			}
-			}
 		}
+	}
 
 	//
 	// JAPANESE VERSION
@@ -4083,7 +4175,7 @@ CheckForEpisodes(void)
 		strcat(demoname, extension);
 		EpisodeSelect[1] =
 			EpisodeSelect[2] = EpisodeSelect[3] = EpisodeSelect[4] = EpisodeSelect[5] = 1;
-	}
+			}
 	else
 		Quit("NO JAPANESE WOLFENSTEIN 3-D DATA FILES to be found!");
 	strcpy(graphext, extension);

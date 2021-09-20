@@ -82,6 +82,15 @@
 #define CTL_H   60
 #endif
 
+#define OPT_X   64
+#ifdef JAPAN
+#define OPT_Y   70
+#else
+#define OPT_Y   86
+#endif
+#define OPT_W   200
+#define OPT_H   60
+
 #define LSM_X   85
 #define LSM_Y   55
 #define LSM_W   175
@@ -107,18 +116,18 @@
 // TYPEDEFS
 //
 typedef struct {
-                short x,y,amount,curpos,indent;
-                } CP_iteminfo;
+	short x, y, amount, curpos, indent;
+} CP_iteminfo;
 
 typedef struct {
-                short active;
-                char string[36];
-                int (* routine)(int temp1);
-                } CP_itemtype;
+	short active;
+	char string[36];
+	int (*routine)(int temp1);
+} CP_itemtype;
 
 typedef struct {
-                short allowed[4];
-                } CustomCtrls;
+	short allowed[4];
+} CustomCtrls;
 
 extern CP_itemtype MainMenu[];
 extern CP_iteminfo MainItems;
@@ -135,35 +144,35 @@ void SetupControlPanel(void);
 void SetupSaveGames();
 void CleanupControlPanel(void);
 
-void DrawMenu(CP_iteminfo *item_i,CP_itemtype *items);
-int  HandleMenu(CP_iteminfo *item_i,
-                CP_itemtype *items,
-                void (*routine)(int w));
+void DrawMenu(CP_iteminfo* item_i, CP_itemtype* items);
+int  HandleMenu(CP_iteminfo* item_i,
+	CP_itemtype* items,
+	void (*routine)(int w));
 void ClearMScreen(void);
-void DrawWindow(int x,int y,int w,int h,int wcolor);
-void DrawOutline(int x,int y,int w,int h,int color1,int color2);
+void DrawWindow(int x, int y, int w, int h, int wcolor);
+void DrawOutline(int x, int y, int w, int h, int color1, int color2);
 void WaitKeyUp(void);
-void ReadAnyControl(ControlInfo *ci);
+void ReadAnyControl(ControlInfo* ci);
 void TicDelay(int count);
 int StartCPMusic(int song);
-int  Confirm(const char *string);
-void Message(const char *string);
+int  Confirm(const char* string);
+void Message(const char* string);
 void CheckPause(void);
 void ShootSnd(void);
 void CheckSecretMissions(void);
 void BossKey(void);
 
-void DrawGun(CP_iteminfo *item_i,CP_itemtype *items,int x,int *y,int which,int basey,void (*routine)(int w));
-void DrawHalfStep(int x,int y);
-void EraseGun(CP_iteminfo *item_i,CP_itemtype *items,int x,int y,int which);
-void DrawMenuGun(CP_iteminfo *iteminfo);
+void DrawGun(CP_iteminfo* item_i, CP_itemtype* items, int x, int* y, int which, int basey, void (*routine)(int w));
+void DrawHalfStep(int x, int y);
+void EraseGun(CP_iteminfo* item_i, CP_itemtype* items, int x, int y, int which);
+void DrawMenuGun(CP_iteminfo* iteminfo);
 void DrawStripes(int y);
 
 void DefineMouseBtns(void);
 void DefineJoyBtns(void);
 void DefineKeyBtns(void);
 void DefineKeyMove(void);
-void EnterCtrlData(int index,CustomCtrls *cust,void (*DrawRtn)(int),void (*PrintRtn)(int),int type);
+void EnterCtrlData(int index, CustomCtrls* cust, void (*DrawRtn)(int), void (*PrintRtn)(int), int type);
 
 void DrawMainMenu(void);
 void DrawSoundMenu(void);
@@ -171,6 +180,7 @@ void DrawLoadSaveScreen(int loadsave);
 void DrawNewEpisode(void);
 void DrawNewGame(void);
 void DrawChangeView(int view);
+void DrawOptScreen(void);
 void DrawMouseSens(void);
 void DrawCtlScreen(void);
 void DrawCustomScreen(void);
@@ -184,7 +194,7 @@ void PrintCustJoy(int i);
 void PrintCustKeybd(int i);
 void PrintCustKeys(int i);
 
-void PrintLSEntry(int w,int color);
+void PrintLSEntry(int w, int color);
 void TrackWhichGame(int w);
 void DrawNewGameDiff(int w);
 void FixupCustom(int w);
@@ -193,6 +203,7 @@ int CP_NewGame(int);
 int CP_Sound(int);
 int  CP_LoadGame(int quick);
 int  CP_SaveGame(int quick);
+int CP_Options(int);
 int CP_Control(int);
 int CP_ChangeView(int);
 int CP_ExitOptions(int);
@@ -209,40 +220,45 @@ void CheckForEpisodes(void);
 void FreeMusic(void);
 
 
-enum {MOUSE,JOYSTICK,KEYBOARDBTNS,KEYBOARDMOVE};        // FOR INPUT TYPES
+enum { MOUSE, JOYSTICK, KEYBOARDBTNS, KEYBOARDMOVE };        // FOR INPUT TYPES
 
 enum menuitems
 {
-        newgame,
-        soundmenu,
-        control,
-        loadgame,
-        savegame,
-        changeview,
+	newgame,
+#ifndef USE_MODERNMENU
+	soundmenu,
+	control,
+#endif
+	loadgame,
+	savegame,
+#ifndef USE_MODERNMENU
+	changeview,
+#else
+	options,
+#endif
 
 #ifndef GOODTIMES
 #ifndef SPEAR
-        readthis,
+	readthis,
 #endif
 #endif
-
-        viewscores,
-        backtodemo,
-        quit
+	viewscores,
+	backtodemo,
+	quit
 };
 
 //
 // WL_INTER
 //
 typedef struct {
-                int kill,secret,treasure;
-                int32_t time;
-                } LRstruct;
+	int kill, secret, treasure;
+	int32_t time;
+} LRstruct;
 
 extern LRstruct LevelRatios[];
 
-void Write (int x,int y,const char *string);
+void Write(int x, int y, const char* string);
 void NonShareware(void);
-int GetYorN(int x,int y,int pic);
+int GetYorN(int x, int y, int pic);
 
 #endif
