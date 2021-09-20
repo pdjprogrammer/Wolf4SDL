@@ -21,7 +21,12 @@
 #define	STR_CL	"Control"
 #define	STR_LG	"Load Game"
 #define	STR_SG	"Save Game"
+#ifndef USE_MODERN_OPTIONS
 #define	STR_CV	"Change View"
+#else
+#define	STR_CV	"View Size"
+
+#endif
 #define	STR_VS	"View Scores"
 #define STR_EG	"End Game"
 #define	STR_BD	"Back to Demo"
@@ -30,7 +35,6 @@
 #define STR_OP	"Options"
 #define STR_OP_SND	"Sound Options"
 #define STR_OP_CTL	"Control Options"
-#define STR_OP_CV	"View Size"
 
 #define STR_LOADING	"Loading"
 #define STR_SAVING	"Saving"
@@ -56,7 +60,7 @@
 #define	STR_PORT2	"Use joystick port 2"
 #define	STR_GAMEPAD	"Gravis GamePad Enabled"
 #define	STR_SENS	"Mouse Sensitivity"
-#ifdef USE_MODERNCONTROLS
+#ifdef USE_MODERN_OPTIONS
 #define	STR_MOUSEMOVEMENT	"Enable Mouse Y Axis"
 #endif
 #define	STR_CUSTOM	"Customize controls"

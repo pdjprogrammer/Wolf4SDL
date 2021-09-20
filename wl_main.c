@@ -157,7 +157,7 @@ void ReadConfig(void)
 		read(file, &sds, sizeof(sds));
 
 		read(file, &mouseenabled, sizeof(mouseenabled));
-#ifdef USE_MODERNCONTROLS
+#ifdef USE_MODERN_OPTIONS
 		read(file, &mousemovement, sizeof(mousemovement));
 #endif		
 		read(file, &joystickenabled, sizeof(joystickenabled));
@@ -191,14 +191,14 @@ void ReadConfig(void)
 		// make sure values are correct
 
 		if (mouseenabled) mouseenabled = true;
-#ifdef USE_MODERNCONTROLS
+#ifdef USE_MODERN_OPTIONS
 		if (mousemovement) mousemovement = true;
 #endif		
 		if (joystickenabled) joystickenabled = true;
 
 		if (!MousePresent)
 			mouseenabled = false;
-#ifdef USE_MODERNCONTROLS
+#ifdef USE_MODERN_OPTIONS
 		mousemovement = false;
 #endif
 			
@@ -284,7 +284,7 @@ void WriteConfig(void)
 		write(file, &DigiMode, sizeof(DigiMode));
 
 		write(file, &mouseenabled, sizeof(mouseenabled));
-#ifdef USE_MODERNCONTROLS
+#ifdef USE_MODERN_OPTIONS
 		write(file, &mousemovement, sizeof(mousemovement));
 #endif		
 		write(file, &joystickenabled, sizeof(joystickenabled));

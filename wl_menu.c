@@ -63,7 +63,7 @@ CP_itemtype MainMenu[] = {
 	{1, "", 0},
 	{1, "", 0}
 #else
-#ifdef USE_MODERNMENU
+#ifdef USE_MODERN_OPTIONS
 	{1, STR_NG, CP_NewGame},
 	{1, STR_LG, CP_LoadGame},
 	{0, STR_SG, CP_SaveGame},
@@ -128,7 +128,7 @@ CP_itemtype SndMenu[] = {
 #ifdef JAPAN
 enum { CTL_MOUSEENABLE, CTL_JOYENABLE, CTL_JOY2BUTTONUNKNOWN, CTL_GAMEPADUNKONWN, CTL_MOUSESENS, CTL_CUSTOMIZE };
 #else
-#ifdef USE_MODERNCONTROLS
+#ifdef USE_MODERN_OPTIONS
 enum { CTL_MOUSEENABLE, CTL_MOUSESENS, CTL_MOUSEMOVEMENT, CTL_JOYENABLE, CTL_CUSTOMIZE };
 #else
 enum { CTL_MOUSEENABLE, CTL_MOUSESENS, CTL_JOYENABLE, CTL_CUSTOMIZE };
@@ -146,33 +146,12 @@ CP_itemtype CtlMenu[] = {
 	{1, "", CustomControls}
 #else
 	{0, STR_MOUSEEN, 0},
-	{0, STR_SENS, MouseSensitivity},
-#ifdef USE_MODERNCONTROLS
+	{0, STR_SENS, MouseSensitivity},	
+#ifdef USE_MODERN_OPTIONS
 	{0, STR_MOUSEMOVEMENT, 0},
 #endif
-
 	{0, STR_JOYEN, 0},
 	{1, STR_CUSTOM, CustomControls}
-#endif
-};
-
-CP_itemtype OptMenu[] = {
-#ifdef JAPAN
-	{0, "", 0},
-	{0, "", 0},
-	{0, "", 0},
-	{0, "", 0},
-	{0, "", MouseSensitivity},
-	{1, "", CustomControls}
-#else
-	{1, STR_OP_SND, CP_Sound},
-	{1, STR_OP_CTL, CP_Control},
-#ifdef USE_MODERNMENU
-	{1, STR_OP_CV, CP_ChangeView}
-#else
-	{1, STR_CV, CP_ChangeView}
-#endif
-	
 #endif
 };
 
@@ -274,6 +253,26 @@ CP_itemtype CusMenu[] = {
 	{1, "", 0},
 	{0, "", 0},
 	{1, "", 0}
+};
+
+CP_itemtype OptMenu[] = {
+#ifdef JAPAN
+	{0, "", 0},
+	{0, "", 0},
+	{0, "", 0},
+	{0, "", 0},
+	{0, "", MouseSensitivity},
+	{1, "", CustomControls}
+#else
+	{1, STR_OP_SND, CP_Sound},
+	{1, STR_OP_CTL, CP_Control},
+#ifdef SHOW_GAME_OPTIONS
+	{1, STR_CV, CP_ChangeView},
+	{1, "Game Options", 0}
+#else
+	{1, STR_CV, CP_ChangeView}
+#endif	
+#endif
 };
 
 // CP_iteminfo struct format: short x, y, amount, curpos, indent;
@@ -1743,7 +1742,7 @@ CP_Control(int blank)
 			CusItems.curpos = -1;
 			ShootSnd();
 			break;
-#ifdef USE_MODERNCONTROLS
+#ifdef USE_MODERN_OPTIONS
 		case CTL_MOUSEMOVEMENT:
 			mousemovement ^= 1;
 			DrawCtlScreen();
@@ -1956,13 +1955,13 @@ DrawCtlScreen(void)
 	if (MousePresent)
 	{
 		CtlMenu[CTL_MOUSESENS].active = CtlMenu[CTL_MOUSEENABLE].active = 1;
-#ifdef USE_MODERNCONTROLS
+#ifdef USE_MODERN_OPTIONS
 		CtlMenu[CTL_MOUSEMOVEMENT].active = CtlMenu[CTL_MOUSEENABLE].active = 1;
 #endif		
 	}
 
 	CtlMenu[CTL_MOUSESENS].active = mouseenabled;
-#ifdef USE_MODERNCONTROLS
+#ifdef USE_MODERN_OPTIONS
 	CtlMenu[CTL_MOUSEMOVEMENT].active = mouseenabled;
 #endif	
 
@@ -1977,7 +1976,7 @@ DrawCtlScreen(void)
 		VWB_DrawPic(x, y, C_NOTSELECTEDPIC);
 
 	y = CTL_Y + 29;
-#ifdef USE_MODERNCONTROLS
+#ifdef USE_MODERN_OPTIONS
 	if (mouseenabled && mousemovement)
 		VWB_DrawPic(x, y, C_SELECTEDPIC);
 	else

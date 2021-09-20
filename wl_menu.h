@@ -76,7 +76,7 @@
 #define CTL_Y   86
 #endif
 #define CTL_W   284
-#ifdef USE_MODERNCONTROLS
+#ifdef USE_MODERN_OPTIONS
 #define CTL_H   75
 #else
 #define CTL_H   60
@@ -89,7 +89,11 @@
 #define OPT_Y   86
 #endif
 #define OPT_W   200
-#define OPT_H   60
+#ifdef SHOW_GAME_OPTIONS
+#define OPT_H   62
+#else
+#define OPT_H   48
+#endif
 
 #define LSM_X   85
 #define LSM_Y   55
@@ -225,13 +229,13 @@ enum { MOUSE, JOYSTICK, KEYBOARDBTNS, KEYBOARDMOVE };        // FOR INPUT TYPES
 enum menuitems
 {
 	newgame,
-#ifndef USE_MODERNMENU
+#ifndef USE_MODERN_OPTIONS
 	soundmenu,
 	control,
 #endif
 	loadgame,
 	savegame,
-#ifndef USE_MODERNMENU
+#ifndef USE_MODERN_OPTIONS
 	changeview,
 #else
 	options,

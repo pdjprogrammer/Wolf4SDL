@@ -54,7 +54,7 @@ unsigned tics;
 //
 // control info
 //
-#ifdef USE_MODERNCONTROLS
+#ifdef USE_MODERN_OPTIONS
 boolean mouseenabled, mousemovement, joystickenabled;
 #else
 boolean mouseenabled, joystickenabled;
@@ -362,7 +362,7 @@ void PollMouseMove(void)
 #endif
 
 	controlx += mousexmove * 10 / (13 - mouseadjustment);
-#ifdef USE_MODERNCONTROLS
+#ifdef USE_MODERN_OPTIONS
 	if (mousemovement)
 		controly += mouseymove * 20 / (13 - mouseadjustment);
 #else
