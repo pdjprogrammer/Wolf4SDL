@@ -36,6 +36,10 @@
 #define STR_OP_SND	"Sound Options"
 #define STR_OP_CTL	"Control Options"
 
+#define STR_OP_MOUSE	"Mouse Config"
+#define STR_OP_KEYBOARD	"Keyboard Config"
+#define STR_OP_JOYSTICK	"Joystick Config"
+
 #define STR_LOADING	"Loading"
 #define STR_SAVING	"Saving"
 

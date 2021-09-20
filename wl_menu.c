@@ -129,7 +129,7 @@ CP_itemtype SndMenu[] = {
 enum { CTL_MOUSEENABLE, CTL_JOYENABLE, CTL_JOY2BUTTONUNKNOWN, CTL_GAMEPADUNKONWN, CTL_MOUSESENS, CTL_CUSTOMIZE };
 #else
 #ifdef USE_MODERN_OPTIONS
-enum { CTL_MOUSEENABLE, CTL_MOUSESENS, CTL_MOUSEMOVEMENT, CTL_JOYENABLE, CTL_CUSTOMIZE };
+enum { CTL_MOUSEENABLE, CTL_JOYENABLE, CTL_MOUSEOPTIONS, CTL_KEYBOARDOPTIONS, CTL_JOYSTICKOPTIONS };
 #else
 enum { CTL_MOUSEENABLE, CTL_MOUSESENS, CTL_JOYENABLE, CTL_CUSTOMIZE };
 #endif
@@ -146,12 +146,18 @@ CP_itemtype CtlMenu[] = {
 	{1, "", CustomControls}
 #else
 	{0, STR_MOUSEEN, 0},
-	{0, STR_SENS, MouseSensitivity},	
-#ifdef USE_MODERN_OPTIONS
-	{0, STR_MOUSEMOVEMENT, 0},
-#endif
+
+#ifndef USE_MODERN_OPTIONS
+	{0, STR_SENS, MouseSensitivity},
 	{0, STR_JOYEN, 0},
 	{1, STR_CUSTOM, CustomControls}
+#else
+	{0, STR_JOYEN, 0},
+	{1, STR_OP_MOUSE, 0},
+	{1, STR_OP_KEYBOARD, 0},
+	{1, STR_OP_JOYSTICK, 0}
+#endif
+
 #endif
 };
 
@@ -1742,14 +1748,14 @@ CP_Control(int blank)
 			CusItems.curpos = -1;
 			ShootSnd();
 			break;
-#ifdef USE_MODERN_OPTIONS
-		case CTL_MOUSEMOVEMENT:
-			mousemovement ^= 1;
-			DrawCtlScreen();
-			CusItems.curpos = -1;
-			ShootSnd();
-			break;
-#endif
+			/*#ifdef USE_MODERN_OPTIONS
+					case CTL_MOUSEMOVEMENT:
+						mousemovement ^= 1;
+						DrawCtlScreen();
+						CusItems.curpos = -1;
+						ShootSnd();
+						break;
+			#endif*/
 
 
 		case CTL_JOYENABLE:
@@ -1759,12 +1765,16 @@ CP_Control(int blank)
 			ShootSnd();
 			break;
 
+#ifndef USE_MODERN_OPTIONS
 		case CTL_MOUSESENS:
 		case CTL_CUSTOMIZE:
 			DrawCtlScreen();
 			MenuFadeIn();
 			WaitKeyUp();
 			break;
+#endif // !USE_MODERN_OPTIONS
+
+
 		}
 	} while (which >= 0);
 
@@ -1954,19 +1964,26 @@ DrawCtlScreen(void)
 
 	if (MousePresent)
 	{
+#ifndef USE_MODERN_OPTIONS
 		CtlMenu[CTL_MOUSESENS].active = CtlMenu[CTL_MOUSEENABLE].active = 1;
-#ifdef USE_MODERN_OPTIONS
-		CtlMenu[CTL_MOUSEMOVEMENT].active = CtlMenu[CTL_MOUSEENABLE].active = 1;
-#endif		
-	}
+#else
+		CtlMenu[CTL_MOUSEENABLE].active = CtlMenu[CTL_MOUSEENABLE].active = 1;
+#endif // !USE_MODERN_OPTIONS
 
+
+		/*#ifdef USE_MODERN_OPTIONS
+				CtlMenu[CTL_MOUSEMOVEMENT].active = CtlMenu[CTL_MOUSEENABLE].active = 1;
+		#endif		*/
+	}
+#ifndef USE_MODERN_OPTIONS
 	CtlMenu[CTL_MOUSESENS].active = mouseenabled;
-#ifdef USE_MODERN_OPTIONS
-	CtlMenu[CTL_MOUSEMOVEMENT].active = mouseenabled;
-#endif	
+#endif // !USE_MODERN_OPTIONS
+
+	/*#ifdef USE_MODERN_OPTIONS
+		CtlMenu[CTL_MOUSEMOVEMENT].active = mouseenabled;
+	#endif	*/
 
 	DrawMenu(&CtlItems, CtlMenu);
-
 
 	x = CTL_X + CtlItems.indent - 24;
 	y = CTL_Y + 3;
@@ -1975,15 +1992,17 @@ DrawCtlScreen(void)
 	else
 		VWB_DrawPic(x, y, C_NOTSELECTEDPIC);
 
-	y = CTL_Y + 29;
 #ifdef USE_MODERN_OPTIONS
-	if (mouseenabled && mousemovement)
-		VWB_DrawPic(x, y, C_SELECTEDPIC);
-	else
-		VWB_DrawPic(x, y, C_NOTSELECTEDPIC);
-
-	y = CTL_Y + 42;
+	y = CTL_Y + 16;
+#else
+	y = CTL_Y + 29;
 #endif	
+	/*#ifdef USE_MODERN_OPTIONS
+		if (mouseenabled && mousemovement)
+			VWB_DrawPic(x, y, C_SELECTEDPIC);
+		else
+			VWB_DrawPic(x, y, C_NOTSELECTEDPIC);		
+	#endif	*/
 	if (joystickenabled)
 		VWB_DrawPic(x, y, C_SELECTEDPIC);
 	else
@@ -3678,31 +3697,30 @@ Confirm(const char* string)
 #ifdef SPANISH
 	} while (!Keyboard(sc_S) && !Keyboard(sc_N) && !Keyboard(sc_Escape));
 #else
-}
-	while (!Keyboard(sc_Y) && !Keyboard(sc_N) && !Keyboard(sc_Escape) && !ci.button0 && !ci.button1);
+	} while (!Keyboard(sc_Y) && !Keyboard(sc_N) && !Keyboard(sc_Escape) && !ci.button0 && !ci.button1);
 #endif
 
 #ifdef SPANISH
-if (Keyboard(sc_S) || ci.button0)
-{
-	xit = 1;
-	ShootSnd();
-}
+	if (Keyboard(sc_S) || ci.button0)
+	{
+		xit = 1;
+		ShootSnd();
+	}
 #else
-if (Keyboard(sc_Y) || ci.button0)
-{
-	xit = 1;
-	ShootSnd();
-}
+	if (Keyboard(sc_Y) || ci.button0)
+	{
+		xit = 1;
+		ShootSnd();
+	}
 #endif
 
-IN_ClearKeysDown();
-WaitKeyUp();
+	IN_ClearKeysDown();
+	WaitKeyUp();
 
-SD_PlaySound((soundnames)whichsnd[xit]);
+	SD_PlaySound((soundnames)whichsnd[xit]);
 
-return xit;
-			}
+	return xit;
+}
 
 #ifdef JAPAN
 ////////////////////////////////////////////////////////////////////
@@ -3797,7 +3815,7 @@ Message(const char* string)
 	SETFONTCOLOR(0, TEXTCOLOR);
 	US_Print(string);
 	VW_UpdateScreen();
-	}
+}
 
 ////////////////////////////////////////////////////////////////////
 //
@@ -4183,7 +4201,7 @@ CheckForEpisodes(void)
 		strcat(demoname, extension);
 		EpisodeSelect[1] =
 			EpisodeSelect[2] = EpisodeSelect[3] = EpisodeSelect[4] = EpisodeSelect[5] = 1;
-			}
+	}
 	else
 		Quit("NO JAPANESE WOLFENSTEIN 3-D DATA FILES to be found!");
 	strcpy(graphext, extension);
@@ -4290,4 +4308,4 @@ CheckForEpisodes(void)
 	strcat(endfilename, extension);
 #endif
 #endif
-	}
+}
