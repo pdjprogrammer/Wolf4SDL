@@ -2626,7 +2626,7 @@ DrawCustomMouseScreen(void)
 #endif
 
 	SETFONTCOLOR(TEXTCOLOR, BKGDCOLOR);
-	DrawMenu(&CusMouseItems, CusMouseMenu);
+	
 #ifdef SPANISH
 	PrintX = CST_START - 16;
 	US_Print(STR_CRUN);
@@ -2649,6 +2649,7 @@ DrawCustomMouseScreen(void)
 	DrawWindow(OPT_MOUSE_X - 8, OPT_MOUSE_Y - 5, OPT_MOUSE_W, OPT_MOUSE_H, BKGDCOLOR);
 	DrawMenuGun(&CusMouseItems);
 	//DrawCustMouse(0);
+	DrawMenu(&CusMouseItems, CusMouseMenu);
 	US_Print("\n");
 #endif
 	//
@@ -2882,12 +2883,12 @@ PrintCustMouse(int i)
 }
 
 void
-DrawCustMouse(int hilight)
+DrawCustMouse(int highlight)
 {
 	int i, color;
 
 	color = TEXTCOLOR;
-	if (hilight)
+	if (highlight)
 		color = HIGHLIGHT;
 	SETFONTCOLOR(color, BKGDCOLOR);
 

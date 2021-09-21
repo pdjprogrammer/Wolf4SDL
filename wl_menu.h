@@ -213,8 +213,6 @@ void PrintCustKeys(int i);
 
 void DrawOptScreen(void);
 
-
-
 void PrintLSEntry(int w, int color);
 void TrackWhichGame(int w);
 void DrawNewGameDiff(int w);
