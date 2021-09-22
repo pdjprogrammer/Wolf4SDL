@@ -95,10 +95,10 @@
 #define OPT_H   48
 #endif
 
-#define OPT_MOUSE_X   36
+#define OPT_MOUSE_X   26
 #define OPT_MOUSE_Y   64
-#define OPT_MOUSE_W   264
-#define OPT_MOUSE_H   118
+#define OPT_MOUSE_W   284
+#define OPT_MOUSE_H   100
 
 #define LSM_X   85
 #define LSM_Y   55
@@ -117,9 +117,18 @@
 
 #define CST_X           20
 #define CST_Y           48
-#define CST_START       60
+
+#ifndef USE_MODERN_OPTIONS
+#define CST_START 60
+#else
+#define CST_START 63
+#endif
+
 #define CST_SPC 60
 
+#define CST_SPC_X 14
+
+#define CTL_MOUSE_X 200
 
 //
 // TYPEDEFS
@@ -178,10 +187,7 @@ void DrawMenuGun(CP_iteminfo* iteminfo);
 void DrawStripes(int y);
 
 #ifdef USE_MODERN_OPTIONS
-void DefineMouseRunBtn(void);
-void DefineMouseOpenBtn(void);
-void DefineMouseFireBtn(void);
-void DefineMouseStrafeBtn(void);
+void DefineMouseBtns(int);
 #else
 void DefineMouseBtns(void);
 #endif
@@ -200,7 +206,7 @@ void DrawChangeView(int view);
 void DrawMouseSens(void);
 void DrawCtlScreen(void);
 void DrawCustomScreen(void);
-void DrawCustomMouseScreen(void);
+void DrawMouseCtlScreen(void);
 void DrawLSAction(int which);
 void DrawCustMouse(int hilight);
 void DrawCustJoy(int hilight);
@@ -234,7 +240,7 @@ int Controls(int);
 
 int MouseSensitivity(int);
 #ifdef USE_MODERN_OPTIONS
-int CustomMouseControls(int);
+int CP_MouseCtl(int);
 #else
 int CustomControls(int);
 #endif // USE_MODERN_OPTIONS
