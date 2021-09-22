@@ -120,20 +120,13 @@
 
 #ifndef USE_MODERN_OPTIONS
 #define CST_START 60
-#else
-#define CST_START 72
-#endif
-
-#ifndef USE_MODERN_OPTIONS
 #define CST_SPC 60
 #else
+#define CST_START 72
 #define CST_SPC 95
 #endif
 
-
-
 #define CST_SPC_Y 13
-
 #define CTL_MOUSE_X 180
 
 //
