@@ -235,7 +235,10 @@ void ReadConfig(void)
 
 		if (MousePresent) {
 			mouseenabled = true;
+#ifdef USE_MODERN_OPTIONS
 			mousemovement = true;
+#endif
+			
 		}
 			
 

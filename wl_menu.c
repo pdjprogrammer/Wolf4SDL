@@ -130,7 +130,7 @@ enum { CTL_MOUSEENABLE, CTL_JOYENABLE, CTL_JOY2BUTTONUNKNOWN, CTL_GAMEPADUNKONWN
 #else
 #ifdef USE_MODERN_OPTIONS
 enum { CTL_MOUSEENABLE, CTL_JOYENABLE, CTL_MOUSEOPTIONS, CTL_KEYBOARDOPTIONS, CTL_JOYSTICKOPTIONS };
-enum { CTL_RUN, CTL_OPEN, CTL_FIRE, CTL_STRAFE, CTL_PREVWPN, CTL_NEXTWPN, CTL_EMPTY, CTL_MOUSEMOVEMENT, CTL_MOUSESENS };
+enum { CTL_RUN, CTL_OPEN, CTL_FIRE, CTL_STRAFE, CTL_EMPTY, CTL_MOUSEMOVEMENT, CTL_MOUSESENS };
 #else
 enum { CTL_MOUSEENABLE, CTL_MOUSESENS, CTL_JOYENABLE, CTL_CUSTOMIZE };
 #endif
@@ -266,8 +266,6 @@ CP_itemtype CtlMouseMenu[] = {
 	{1, "Open", 0},
 	{1, "Fire", 0},
 	{1, "Strafe", 0},
-	{1, "Prev Wpn", 0},
-	{1, "Next Wpn", 0},
 	{0, "", 0},
 	{1, STR_MOUSEMOVEMENT, 0},
 	{1, STR_SENS, MouseSensitivity}
@@ -2301,8 +2299,8 @@ EnterCtrlData(int index, CustomCtrls* cust, void (*DrawRtn) (int), void (*PrintR
 			DrawWindow(x - 2, PrintY, CST_SPC, 11, TEXTCOLOR);
 			DrawOutline(x - 2, PrintY, CST_SPC, 11, 0, HIGHLIGHT);
 #else
-			DrawWindow(x - 2, CST_START + (CST_SPC_X * (index - 1)), CST_SPC, 11, TEXTCOLOR);
-			DrawOutline(x - 2, CST_START + (CST_SPC_X * (index - 1)), CST_SPC, 11, 0, HIGHLIGHT);
+			DrawWindow(x - 2, CST_START + (CST_SPC_Y * (index - 1)), CST_SPC, 11, TEXTCOLOR);
+			DrawOutline(x - 2, CST_START + (CST_SPC_Y * (index - 1)), CST_SPC, 11, 0, HIGHLIGHT);
 #endif
 
 			SETFONTCOLOR(0, TEXTCOLOR);
@@ -2629,9 +2627,9 @@ DrawMouseCtlScreen(void)
 	DrawMenuGun(&CusMouseItems);
 	
 	if (mousemovement)
-		VWB_DrawPic(56, 158, C_SELECTEDPIC);
+		VWB_DrawPic(56, 132, C_SELECTEDPIC);
 	else
-		VWB_DrawPic(56, 158, C_NOTSELECTEDPIC);
+		VWB_DrawPic(56, 132, C_NOTSELECTEDPIC);
 
 	DrawMenu(&CusMouseItems, CtlMouseMenu);
 	DrawCustMouse(0);
@@ -2866,7 +2864,7 @@ PrintCustMouse(int i)
 			PrintX = CST_START + CST_SPC * i;
 #else
 			PrintX = CTL_MOUSE_X;
-			PrintY = CST_START + (CST_SPC_X * i);
+			PrintY = CST_START + (CST_SPC_Y * i);
 #endif // !USE_MODERN_OPTIONS
 			US_Print(mbarray[j]);
 			break;
