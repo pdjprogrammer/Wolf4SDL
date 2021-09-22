@@ -96,7 +96,7 @@
 #endif
 
 #define OPT_MOUSE_X   26
-#define OPT_MOUSE_Y   64
+#define OPT_MOUSE_Y   72
 #define OPT_MOUSE_W   284
 #define OPT_MOUSE_H   100
 
@@ -121,10 +121,16 @@
 #ifndef USE_MODERN_OPTIONS
 #define CST_START 60
 #else
-#define CST_START 64
+#define CST_START 72
 #endif
 
+#ifndef USE_MODERN_OPTIONS
 #define CST_SPC 60
+#else
+#define CST_SPC 95
+#endif
+
+
 
 #define CST_SPC_Y 13
 

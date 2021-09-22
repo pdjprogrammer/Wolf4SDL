@@ -2073,7 +2073,7 @@ enum
 {
 	FIRE, STRAFE, RUN, OPEN
 };
-char mbarray[4][3] = { "b0", "b1", "b2", "b3" };
+char mbarray[4][11] = { "Left Btn", "Right Btn", "Middle Btn", "b3" };
 int8_t order[4] = { RUN, OPEN, FIRE, STRAFE };
 
 int
@@ -2627,9 +2627,9 @@ DrawMouseCtlScreen(void)
 	DrawMenuGun(&CusMouseItems);
 	
 	if (mousemovement)
-		VWB_DrawPic(56, 132, C_SELECTEDPIC);
+		VWB_DrawPic(56, OPT_MOUSE_Y + 68, C_SELECTEDPIC);
 	else
-		VWB_DrawPic(56, 132, C_NOTSELECTEDPIC);
+		VWB_DrawPic(56, OPT_MOUSE_Y + 68, C_NOTSELECTEDPIC);
 
 	DrawMenu(&CusMouseItems, CtlMouseMenu);
 	DrawCustMouse(0);
