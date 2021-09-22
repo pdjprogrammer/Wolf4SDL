@@ -198,9 +198,6 @@ void ReadConfig(void)
 
 		if (!MousePresent)
 			mouseenabled = false;
-#ifdef USE_MODERN_OPTIONS
-		mousemovement = false;
-#endif
 			
 		if (!IN_JoyPresent())
 			joystickenabled = false;
@@ -236,8 +233,11 @@ void ReadConfig(void)
 		else
 			sds = sds_Off;
 
-		if (MousePresent)
+		if (MousePresent) {
 			mouseenabled = true;
+			mousemovement = true;
+		}
+			
 
 		if (IN_JoyPresent())
 			joystickenabled = true;

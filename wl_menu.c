@@ -130,7 +130,7 @@ enum { CTL_MOUSEENABLE, CTL_JOYENABLE, CTL_JOY2BUTTONUNKNOWN, CTL_GAMEPADUNKONWN
 #else
 #ifdef USE_MODERN_OPTIONS
 enum { CTL_MOUSEENABLE, CTL_JOYENABLE, CTL_MOUSEOPTIONS, CTL_KEYBOARDOPTIONS, CTL_JOYSTICKOPTIONS };
-enum { CTL_RUN, CTL_OPEN, CTL_FIRE, CTL_STRAFE, CTL_EMPTY, CTL_MOUSEMOVEMENT, CTL_MOUSESENS };
+enum { CTL_RUN, CTL_OPEN, CTL_FIRE, CTL_STRAFE, CTL_PREVWPN, CTL_NEXTWPN, CTL_EMPTY, CTL_MOUSEMOVEMENT, CTL_MOUSESENS };
 #else
 enum { CTL_MOUSEENABLE, CTL_MOUSESENS, CTL_JOYENABLE, CTL_CUSTOMIZE };
 #endif
@@ -266,6 +266,8 @@ CP_itemtype CtlMouseMenu[] = {
 	{1, "Open", 0},
 	{1, "Fire", 0},
 	{1, "Strafe", 0},
+	{1, "Prev Wpn", 0},
+	{1, "Next Wpn", 0},
 	{0, "", 0},
 	{1, STR_MOUSEMOVEMENT, 0},
 	{1, STR_SENS, MouseSensitivity}
@@ -1976,6 +1978,8 @@ DrawCtlScreen(void)
 	}
 #ifndef USE_MODERN_OPTIONS
 	CtlMenu[CTL_MOUSESENS].active = mouseenabled;
+#else
+	CtlMenu[CTL_MOUSEOPTIONS].active = mouseenabled;
 #endif 
 
 	DrawMenu(&CtlItems, CtlMenu);
@@ -2088,25 +2092,24 @@ CP_MouseCtl(int blank)
 		switch (which)
 		{
 		case CTL_RUN:
-			DefineMouseBtns(++which);
-			DrawCustMouse(++which);
-			break;
-		case CTL_FIRE:
-			DefineMouseBtns(++which);
-			DrawCustMouse(++which);
+			DefineMouseRunBtn();
+			DrawCustMouse(1);
 			break;
 		case CTL_OPEN:
-			DefineMouseBtns(++which);
-			DrawCustMouse(++which);
+			DefineMouseOpenBtn();
+			DrawCustMouse(2);
+			break;
+		case CTL_FIRE:
+			DefineMouseFireBtn();
+			DrawCustMouse(3);
 			break;
 		case CTL_STRAFE:
-			DefineMouseBtns(++which);
-			DrawCustMouse(++which);
+			DefineMouseStrafeBtn();
+			DrawCustMouse(4);
 			break;
 		case CTL_MOUSEMOVEMENT:
 			mousemovement ^= 1;
 			DrawMouseCtlScreen();
-			CusItems.curpos = -1;
 			ShootSnd();
 			break;
 		default:
@@ -2176,10 +2179,28 @@ CustomControls(int blank)
 //
 // DEFINE THE MOUSE BUTTONS
 //
-void DefineMouseBtns(int which)
+void DefineMouseRunBtn(void)
 {
-	CustomCtrls mouseallowed = { 1, 1, 1, 1 };
-	EnterCtrlData(which, &mouseallowed, DrawCustMouse, PrintCustMouse, MOUSE);
+	CustomCtrls mouseallowed = { 1, 0, 0, 0 };
+	EnterCtrlData(1, &mouseallowed, DrawCustMouse, PrintCustMouse, MOUSE);
+}
+
+void DefineMouseOpenBtn(void)
+{
+	CustomCtrls mouseallowed = { 0, 1, 0, 0 };
+	EnterCtrlData(2, &mouseallowed, DrawCustMouse, PrintCustMouse, MOUSE);
+}
+
+void DefineMouseFireBtn(void)
+{
+	CustomCtrls mouseallowed = { 0, 0, 1, 0 };
+	EnterCtrlData(3, &mouseallowed, DrawCustMouse, PrintCustMouse, MOUSE);
+}
+
+void DefineMouseStrafeBtn(void)
+{
+	CustomCtrls mouseallowed = { 0, 0, 0, 1 };
+	EnterCtrlData(4, &mouseallowed, DrawCustMouse, PrintCustMouse, MOUSE);
 }
 #else
 void DefineMouseBtns(void)
@@ -2578,26 +2599,6 @@ DrawMouseCtlScreen(void)
 	int i;
 	int which;
 
-#ifdef JAPAN
-	VWB_DrawPic(0, 0, S_CUSTOMPIC);
-	fontnumber = 1;
-
-	PrintX = CST_START;
-	PrintY = CST_Y + 26;
-	DrawCustMouse(0);
-
-	PrintX = CST_START;
-	US_Print("\n\n\n");
-	DrawCustJoy(0);
-
-	PrintX = CST_START;
-	US_Print("\n\n\n");
-	DrawCustKeybd(0);
-
-	PrintX = CST_START;
-	US_Print("\n\n\n");
-	DrawCustKeys(0);
-#else
 	ClearMScreen();
 	WindowX = 0;
 	WindowW = 320;
@@ -2622,42 +2623,22 @@ DrawMouseCtlScreen(void)
 
 	SETFONTCOLOR(TEXTCOLOR, BKGDCOLOR);
 
-#ifdef SPANISH
-	PrintX = CST_START - 16;
-	US_Print(STR_CRUN);
-	PrintX = CST_START - 16 + CST_SPC * 1;
-	US_Print(STR_COPEN);
-	PrintX = CST_START - 16 + CST_SPC * 2;
-	US_Print(STR_CFIRE);
-	PrintX = CST_START - 16 + CST_SPC * 3;
-	US_Print(STR_CSTRAFE "\n");
-#else
-	/*PrintX = CST_START;
-	US_Print(STR_CRUN);
-	PrintX = CST_START + CST_SPC * 1;
-	US_Print(STR_COPEN);
-	PrintX = CST_START + CST_SPC * 2;
-	US_Print(STR_CFIRE);
-	PrintX = CST_START + CST_SPC * 3;
-	US_Print(STR_CSTRAFE "\n");*/
-#endif
+	//CtlMouseMenu[CTL_MOUSEMOVEMENT].active = CtlMouseMenu[CTL_MOUSEMOVEMENT].active = 1;
+
 	DrawWindow(OPT_MOUSE_X - 8, OPT_MOUSE_Y - 5, OPT_MOUSE_W, OPT_MOUSE_H, BKGDCOLOR);
 	DrawMenuGun(&CusMouseItems);
-
-	/*CtlMouseMenu[CTL_MOUSEMOVEMENT].active = CtlMenu[CTL_MOUSEENABLE].active = 1;
-	CtlMouseMenu[CTL_MOUSEMOVEMENT].active = mouseenabled;*/
-
+	
 	if (mousemovement)
-		VWB_DrawPic(56, 132, C_SELECTEDPIC);
+		VWB_DrawPic(56, 158, C_SELECTEDPIC);
 	else
-		VWB_DrawPic(56, 132, C_NOTSELECTEDPIC);
+		VWB_DrawPic(56, 158, C_NOTSELECTEDPIC);
 
 	DrawMenu(&CusMouseItems, CtlMouseMenu);
 	DrawCustMouse(0);
 
 	WaitKeyUp();
 	US_Print("\n");
-#endif
+
 	//
 	// PICK STARTING POINT IN MENU
 	//
@@ -2674,7 +2655,6 @@ DrawMouseCtlScreen(void)
 	MenuFadeIn();
 }
 #else
-
 
 ////////////////////////
 //
@@ -2915,7 +2895,7 @@ DrawCustMouse(int highlight)
 	PrintY = CST_Y + 13 * 2;
 #else
 	PrintX = CTL_MOUSE_X;
-#endif // !USE_MODERN_OPTIONS
+#endif
 
 	for (i = 0; i < 4; i++)
 		PrintCustMouse(i);

@@ -98,7 +98,7 @@
 #define OPT_MOUSE_X   26
 #define OPT_MOUSE_Y   64
 #define OPT_MOUSE_W   284
-#define OPT_MOUSE_H   100
+#define OPT_MOUSE_H   128
 
 #define LSM_X   85
 #define LSM_Y   55
@@ -121,7 +121,7 @@
 #ifndef USE_MODERN_OPTIONS
 #define CST_START 60
 #else
-#define CST_START 63
+#define CST_START 62
 #endif
 
 #define CST_SPC 60
@@ -187,7 +187,10 @@ void DrawMenuGun(CP_iteminfo* iteminfo);
 void DrawStripes(int y);
 
 #ifdef USE_MODERN_OPTIONS
-void DefineMouseBtns(int);
+void DefineMouseRunBtn(void);
+void DefineMouseOpenBtn(void);
+void DefineMouseFireBtn(void);
+void DefineMouseStrafeBtn(void);
 #else
 void DefineMouseBtns(void);
 #endif
