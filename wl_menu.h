@@ -212,6 +212,7 @@ void DrawCtlScreen(void);
 void DrawCustomScreen(void);
 void DrawMouseCtlScreen(void);
 void DrawKeyboardMoveCtlScreen(void);
+void DrawKeyboardActionCtlScreen(void);
 void DrawLSAction(int which);
 void DrawCustMouse(int hilight);
 void DrawCustJoy(int hilight);
@@ -247,6 +248,7 @@ int MouseSensitivity(int);
 #ifdef USE_MODERN_OPTIONS
 int CP_MouseCtl(int);
 int CP_KeyboardMoveCtl(int);
+int CP_KeyboardActionCtl(int);
 #else
 int CustomControls(int);
 #endif // USE_MODERN_OPTIONS

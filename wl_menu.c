@@ -130,8 +130,9 @@ enum { CTL_MOUSEENABLE, CTL_JOYENABLE, CTL_JOY2BUTTONUNKNOWN, CTL_GAMEPADUNKONWN
 #else
 #ifdef USE_MODERN_OPTIONS
 enum { CTL_MOUSEENABLE, CTL_JOYENABLE, CTL_MOUSEOPTIONS, CTL_KEYBOARDOPTIONS, CTL_JOYSTICKOPTIONS };
-enum { CTL_RUN, CTL_OPEN, CTL_FIRE, CTL_STRAFE, CTL_SPACE_MOUSE, CTL_MOUSEMOVEMENT, CTL_MOUSESENS };
+enum { CTL_MOUSE_RUN, CTL_MOUSE_OPEN, CTL_MOUSE_FIRE, CTL_MOUSE_STRAFE, CTL_SPACE_MOUSE, CTL_MOUSEMOVEMENT, CTL_MOUSESENS };
 enum { CTL_KB_MOVE_FWRD, CTL_KB_MOVE_BWRD, CTL_KB_MOVE_LEFT, CTL_KB_MOVE_RIGHT, CTL_SPACE_KB_MOVE, CTL_ACTIONKEYS };
+enum { CTL_KB_ACTION_RUN, CTL_KB_ACTION_OPEN, CTL_KB_ACTION_FIRE, CTL_KB_ACTION_STRAFE, CTL_SPACE_KB_ACTION, CTL_MOVEMENTKEYS };
 #else
 enum { CTL_MOUSEENABLE, CTL_MOUSESENS, CTL_JOYENABLE, CTL_CUSTOMIZE };
 #endif
@@ -272,6 +273,7 @@ CP_itemtype CtlMouseMenu[] = {
 	{1, STR_SENS, MouseSensitivity}
 };
 
+#ifdef USE_MODERN_OPTIONS
 CP_itemtype CtlKeyboardMoveMenu[] = {
 	{1, STR_FRWD, 0},
 	{1, STR_BKWD, 0},
@@ -280,8 +282,18 @@ CP_itemtype CtlKeyboardMoveMenu[] = {
 	{0, "Strafe Left", 0},
 	{0, "Strafe Right", 0},
 	{0, "", 0},
-	{1, "Action Keys", 0}
+	{1, "Action Keys", CP_KeyboardActionCtl}
 };
+
+CP_itemtype CtlKeyboardActionMenu[] = {
+	{1, STR_CRUN, 0},
+	{1, STR_COPEN, 0},
+	{1, STR_CFIRE, 0},
+	{1, STR_CSTRAFE, 0},
+	{0, "", 0},
+	{1, "Movement Keys", CP_KeyboardMoveCtl}
+};
+#endif
 
 CP_itemtype OptMenu[] = {
 #ifdef JAPAN
@@ -307,7 +319,10 @@ CP_itemtype OptMenu[] = {
 CP_iteminfo MainItems = { MENU_X, MENU_Y, lengthof(MainMenu), STARTITEM, 24 },
 OptItems = { OPT_X, OPT_Y, lengthof(OptMenu), 0, 32 },
 CusMouseItems = { OPT_MOUSE_X, OPT_MOUSE_Y, lengthof(CtlMouseMenu), 0, 54 },
+#ifdef USE_MODERN_OPTIONS
 CusKeyboardMoveItems = { OPT_MOUSE_X, OPT_MOUSE_Y, lengthof(CtlKeyboardMoveMenu), 0, 54 },
+CusKeyboardActionItems = { OPT_MOUSE_X, OPT_MOUSE_Y, lengthof(CtlKeyboardActionMenu), 0, 54 },
+#endif
 SndItems = { SM_X, SM_Y1, lengthof(SndMenu), 0, 52 },
 LSItems = { LSM_X, LSM_Y, lengthof(LSMenu), 0, 24 },
 CtlItems = { CTL_X, CTL_Y, lengthof(CtlMenu), -1, 56 },
@@ -1793,7 +1808,7 @@ CP_Control(int blank)
 	MenuFadeOut();
 
 	return 0;
-		}
+}
 
 ////////////////////////////////////////////////////////////////////
 //
@@ -1945,11 +1960,6 @@ MouseSensitivity(int blank)
 	WaitKeyUp();
 	MenuFadeOut();
 
-#ifdef USE_MODERN_OPTIONS
-	DrawMouseCtlScreen();
-	MenuFadeIn();
-#endif
-
 	return 0;
 }
 
@@ -2007,7 +2017,7 @@ DrawCtlScreen(void)
 #else
 	y = CTL_Y + 29;
 #endif	
-	
+
 	if (joystickenabled)
 		VWB_DrawPic(x, y, C_SELECTEDPIC);
 	else
@@ -2101,19 +2111,19 @@ int CP_MouseCtl(int blank)
 
 		switch (which)
 		{
-		case CTL_RUN:
+		case CTL_MOUSE_RUN:
 			DefineMouseRunBtn();
 			DrawCustMouse(1);
 			break;
-		case CTL_OPEN:
+		case CTL_MOUSE_OPEN:
 			DefineMouseOpenBtn();
 			DrawCustMouse(2);
 			break;
-		case CTL_FIRE:
+		case CTL_MOUSE_FIRE:
 			DefineMouseFireBtn();
 			DrawCustMouse(3);
 			break;
-		case CTL_STRAFE:
+		case CTL_MOUSE_STRAFE:
 			DefineMouseStrafeBtn();
 			DrawCustMouse(4);
 			break;
@@ -2328,6 +2338,45 @@ int CP_KeyboardMoveCtl(int blank)
 		}
 
 		DrawKeyboardMoveCtlScreen();
+
+	} while (which >= 0);
+
+	MenuFadeOut();
+	DrawCtlScreen();
+	MenuFadeIn();
+
+	return 0;
+}
+
+int CP_KeyboardActionCtl(int blank)
+{
+	int which;
+
+	DrawKeyboardActionCtlScreen();
+
+	do
+	{
+		which = HandleMenu(&CusKeyboardActionItems, &CtlKeyboardActionMenu[0], NULL);
+
+		switch (which)
+		{
+		case CTL_KB_ACTION_RUN:
+
+			break;
+		case CTL_KB_ACTION_OPEN:
+
+			break;
+		case CTL_KB_ACTION_FIRE:
+
+			break;
+		case CTL_KB_ACTION_STRAFE:
+
+			break;
+		default:
+			break;
+		}
+
+		DrawKeyboardActionCtlScreen();
 
 	} while (which >= 0);
 
@@ -2636,7 +2685,7 @@ FixupCustom(int w)
 		break;
 	case 8:
 		DrawCustKeys(1);
-}
+	}
 
 
 	if (lastwhich >= 0)
@@ -2666,11 +2715,11 @@ FixupCustom(int w)
 				break;
 			case 8:
 				DrawCustKeys(0);
+			}
 	}
-}
 
 	lastwhich = w;
-	}
+}
 
 #ifdef USE_MODERN_OPTIONS
 ////////////////////////
@@ -2708,7 +2757,7 @@ void DrawMouseCtlScreen(void)
 
 	DrawWindow(OPT_MOUSE_X - 8, OPT_MOUSE_Y - 5, OPT_MOUSE_W, OPT_MOUSE_H, BKGDCOLOR);
 	DrawMenuGun(&CusMouseItems);
-	
+
 	if (mousemovement)
 		VWB_DrawPic(56, OPT_MOUSE_Y + 68, C_SELECTEDPIC);
 	else
@@ -2786,6 +2835,64 @@ void DrawKeyboardMoveCtlScreen(void)
 			if (CtlKeyboardMoveMenu[i].active)
 			{
 				CusKeyboardMoveItems.curpos = i;
+				break;
+			}
+
+
+	VW_UpdateScreen();
+	MenuFadeIn();
+}
+
+////////////////////////
+//
+// DRAW KEYBOARD ACTION CONTROLS SCREEN
+//
+void DrawKeyboardActionCtlScreen(void)
+{
+	int i;
+	int which;
+
+	ClearMScreen();
+	WindowX = 0;
+	WindowW = 320;
+	VWB_DrawPic(112, 184, C_MOUSELBACKPIC);
+	DrawStripes(10);
+	VWB_DrawPic(80, 0, C_CUSTOMIZEPIC);
+
+	//
+	// MOUSE
+	//
+	SETFONTCOLOR(READCOLOR, BKGDCOLOR);
+	WindowX = 0;
+	WindowW = 320;
+
+#ifndef SPEAR
+	//PrintY = OPT_MOUSE_Y;
+	//US_CPrint("Mouse\n");
+#else
+	PrintY = CST_Y + 13;
+	VWB_DrawPic(128, 48, C_MOUSEPIC);
+#endif
+
+	SETFONTCOLOR(TEXTCOLOR, BKGDCOLOR);
+
+	DrawWindow(OPT_MOUSE_X - 8, OPT_MOUSE_Y - 5, OPT_MOUSE_W, OPT_KB_MOVE_H, BKGDCOLOR);
+	DrawMenuGun(&CusKeyboardActionItems);
+
+	DrawMenu(&CusKeyboardActionItems, CtlKeyboardActionMenu);
+	DrawCustKeybd(0);
+
+	WaitKeyUp();
+	US_Print("\n");
+
+	//
+	// PICK STARTING POINT IN MENU
+	//
+	if (CusKeyboardActionItems.curpos < 0)
+		for (i = 0; i < CusKeyboardActionItems.amount; i++)
+			if (CtlKeyboardActionMenu[i].active)
+			{
+				CusKeyboardActionItems.curpos = i;
 				break;
 			}
 
@@ -3083,7 +3190,12 @@ DrawCustJoy(int hilight)
 void
 PrintCustKeybd(int i)
 {
+#ifndef USE_MODERN_OPTIONS
 	PrintX = CST_START + CST_SPC * i;
+#else
+	PrintX = CTL_MOUSE_X;
+	PrintY = CST_START + (CST_SPC_Y * i);
+#endif
 	US_Print((const char*)IN_GetScanName(buttonscan[order[i]]));
 }
 
@@ -3098,7 +3210,12 @@ DrawCustKeybd(int hilight)
 		color = HIGHLIGHT;
 	SETFONTCOLOR(color, BKGDCOLOR);
 
+#ifndef USE_MODERN_OPTIONS
 	PrintY = CST_Y + 13 * 8;
+#else
+	PrintX = CTL_MOUSE_X;
+#endif
+
 	for (i = 0; i < 4; i++)
 		PrintCustKeybd(i);
 }
@@ -3112,7 +3229,7 @@ PrintCustKeys(int i)
 	PrintX = CTL_MOUSE_X;
 	PrintY = CST_START + (CST_SPC_Y * i);
 #endif
-	
+
 	US_Print((const char*)IN_GetScanName(dirscan[moveorder[i]]));
 }
 
@@ -4028,30 +4145,30 @@ Confirm(const char* string)
 #ifdef SPANISH
 	} while (!Keyboard(sc_S) && !Keyboard(sc_N) && !Keyboard(sc_Escape));
 #else
-} while (!Keyboard(sc_Y) && !Keyboard(sc_N) && !Keyboard(sc_Escape) && !ci.button0 && !ci.button1);
+	} while (!Keyboard(sc_Y) && !Keyboard(sc_N) && !Keyboard(sc_Escape) && !ci.button0 && !ci.button1);
 #endif
 
 #ifdef SPANISH
-if (Keyboard(sc_S) || ci.button0)
-{
-	xit = 1;
-	ShootSnd();
-}
+	if (Keyboard(sc_S) || ci.button0)
+	{
+		xit = 1;
+		ShootSnd();
+	}
 #else
-if (Keyboard(sc_Y) || ci.button0)
-{
-	xit = 1;
-	ShootSnd();
-}
+	if (Keyboard(sc_Y) || ci.button0)
+	{
+		xit = 1;
+		ShootSnd();
+	}
 #endif
 
-IN_ClearKeysDown();
-WaitKeyUp();
+	IN_ClearKeysDown();
+	WaitKeyUp();
 
-SD_PlaySound((soundnames)whichsnd[xit]);
+	SD_PlaySound((soundnames)whichsnd[xit]);
 
-return xit;
-	}
+	return xit;
+}
 
 #ifdef JAPAN
 ////////////////////////////////////////////////////////////////////
@@ -4512,7 +4629,7 @@ CheckForEpisodes(void)
 				Quit("The configuration directory \"%s\" could not be created.", configdir);
 			}
 		}
-			}
+	}
 
 	//
 	// JAPANESE VERSION
@@ -4639,4 +4756,4 @@ CheckForEpisodes(void)
 	strcat(endfilename, extension);
 #endif
 #endif
-	}
+}
