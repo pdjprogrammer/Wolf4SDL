@@ -95,12 +95,12 @@
 #define OPT_H   48
 #endif
 
-#define OPT_SCREEN_X   26
-#define OPT_SCREEN_Y   72
-#define OPT_SCREEN_W   284
-
+#define OPT_MOUSE_X   26
+#define OPT_MOUSE_Y   72
+#define OPT_MOUSE_W   284
 #define OPT_MOUSE_H   100
-#define OPT_KB_MOVE_H   112
+
+#define OPT_KB_MOVE_H   113
 
 #define LSM_X   85
 #define LSM_Y   55
@@ -124,7 +124,7 @@
 #define CST_START 60
 #define CST_SPC 60
 #else
-#define CST_START_MOUSE 72
+#define CST_START 72
 #define CST_SPC 95
 #endif
 
@@ -192,11 +192,6 @@ void DefineMouseRunBtn(void);
 void DefineMouseOpenBtn(void);
 void DefineMouseFireBtn(void);
 void DefineMouseStrafeBtn(void);
-
-void DefineKeyboardFwrdBtn(void);
-void DefineKeyboardBwrdBtn(void);
-void DefineKeyboardLeftBtn(void);
-void DefineKeyboardRightBtn(void);
 #else
 void DefineMouseBtns(void);
 #endif

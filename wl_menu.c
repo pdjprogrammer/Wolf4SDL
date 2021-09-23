@@ -306,8 +306,8 @@ CP_itemtype OptMenu[] = {
 // CP_iteminfo struct format: short x, y, amount, curpos, indent;
 CP_iteminfo MainItems = { MENU_X, MENU_Y, lengthof(MainMenu), STARTITEM, 24 },
 OptItems = { OPT_X, OPT_Y, lengthof(OptMenu), 0, 32 },
-CusMouseItems = { OPT_SCREEN_X, OPT_SCREEN_Y, lengthof(CtlMouseMenu), 0, 54 },
-CusKeyboardMoveItems = { OPT_SCREEN_X, OPT_SCREEN_Y, lengthof(CtlKeyboardMoveMenu), 0, 54 },
+CusMouseItems = { OPT_MOUSE_X, OPT_MOUSE_Y, lengthof(CtlMouseMenu), 0, 54 },
+CusKeyboardMoveItems = { OPT_MOUSE_X, OPT_MOUSE_Y, lengthof(CtlKeyboardMoveMenu), 0, 54 },
 SndItems = { SM_X, SM_Y1, lengthof(SndMenu), 0, 52 },
 LSItems = { LSM_X, LSM_Y, lengthof(LSMenu), 0, 24 },
 CtlItems = { CTL_X, CTL_Y, lengthof(CtlMenu), -1, 56 },
@@ -2383,8 +2383,8 @@ void EnterCtrlData(int index, CustomCtrls* cust, void (*DrawRtn) (int), void (*P
 			DrawWindow(x - 2, PrintY, CST_SPC, 11, TEXTCOLOR);
 			DrawOutline(x - 2, PrintY, CST_SPC, 11, 0, HIGHLIGHT);
 #else
-			DrawWindow(x - 2, CST_START_MOUSE + (CST_SPC_Y * (index - 1)), CST_SPC, 11, TEXTCOLOR);
-			DrawOutline(x - 2, CST_START_MOUSE + (CST_SPC_Y * (index - 1)), CST_SPC, 11, 0, HIGHLIGHT);
+			DrawWindow(x - 2, CST_START + (CST_SPC_Y * (index - 1)), CST_SPC, 11, TEXTCOLOR);
+			DrawOutline(x - 2, CST_START + (CST_SPC_Y * (index - 1)), CST_SPC, 11, 0, HIGHLIGHT);
 #endif
 
 			SETFONTCOLOR(0, TEXTCOLOR);
@@ -2706,15 +2706,13 @@ void DrawMouseCtlScreen(void)
 
 	SETFONTCOLOR(TEXTCOLOR, BKGDCOLOR);
 
-	//CtlMouseMenu[CTL_MOUSEMOVEMENT].active = CtlMouseMenu[CTL_MOUSEMOVEMENT].active = 1;
-
-	DrawWindow(OPT_SCREEN_X - 8, OPT_SCREEN_Y - 5, OPT_SCREEN_W, OPT_MOUSE_H, BKGDCOLOR);
+	DrawWindow(OPT_MOUSE_X - 8, OPT_MOUSE_Y - 5, OPT_MOUSE_W, OPT_MOUSE_H, BKGDCOLOR);
 	DrawMenuGun(&CusMouseItems);
 	
 	if (mousemovement)
-		VWB_DrawPic(56, OPT_SCREEN_Y + 68, C_SELECTEDPIC);
+		VWB_DrawPic(56, OPT_MOUSE_Y + 68, C_SELECTEDPIC);
 	else
-		VWB_DrawPic(56, OPT_SCREEN_Y + 68, C_NOTSELECTEDPIC);
+		VWB_DrawPic(56, OPT_MOUSE_Y + 68, C_NOTSELECTEDPIC);
 
 	DrawMenu(&CusMouseItems, CtlMouseMenu);
 	DrawCustMouse(0);
@@ -2771,7 +2769,7 @@ void DrawKeyboardMoveCtlScreen(void)
 
 	SETFONTCOLOR(TEXTCOLOR, BKGDCOLOR);
 
-	DrawWindow(OPT_SCREEN_X - 8, OPT_SCREEN_Y - 5, OPT_SCREEN_W, OPT_KB_MOVE_H, BKGDCOLOR);
+	DrawWindow(OPT_MOUSE_X - 8, OPT_MOUSE_Y - 5, OPT_MOUSE_W, OPT_KB_MOVE_H, BKGDCOLOR);
 	DrawMenuGun(&CusKeyboardMoveItems);
 
 	DrawMenu(&CusKeyboardMoveItems, CtlKeyboardMoveMenu);
@@ -3007,7 +3005,7 @@ PrintCustMouse(int i)
 			PrintX = CST_START + CST_SPC * i;
 #else
 			PrintX = CTL_MOUSE_X;
-			PrintY = CST_START_MOUSE + (CST_SPC_Y * i);
+			PrintY = CST_START + (CST_SPC_Y * i);
 #endif
 			US_Print(mbarray[j]);
 			break;
@@ -3051,7 +3049,7 @@ PrintCustJoy(int i)
 	{
 		if (order[i] == buttonjoy[j])
 		{
-			PrintX = CST_START_MOUSE + CST_SPC * i;
+			PrintX = CST_START + CST_SPC * i;
 			US_Print(mbarray[j]);
 			break;
 		}
@@ -3085,7 +3083,7 @@ DrawCustJoy(int hilight)
 void
 PrintCustKeybd(int i)
 {
-	PrintX = CST_START_MOUSE + CST_SPC * i;
+	PrintX = CST_START + CST_SPC * i;
 	US_Print((const char*)IN_GetScanName(buttonscan[order[i]]));
 }
 
@@ -3112,7 +3110,7 @@ PrintCustKeys(int i)
 	PrintX = CST_START + CST_SPC * i;
 #else
 	PrintX = CTL_MOUSE_X;
-	PrintY = CST_START_MOUSE + (CST_SPC_Y * i);
+	PrintY = CST_START + (CST_SPC_Y * i);
 #endif
 	
 	US_Print((const char*)IN_GetScanName(dirscan[moveorder[i]]));
@@ -3129,7 +3127,7 @@ DrawCustKeys(int hilight)
 	SETFONTCOLOR(color, BKGDCOLOR);
 
 #ifndef USE_MODERN_OPTIONS
-	PrintY = CST_Y + 13 * 2;
+	PrintY = CST_Y + 13 * 10;
 #else
 	PrintX = CTL_MOUSE_X;
 #endif
