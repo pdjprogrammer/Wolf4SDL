@@ -262,10 +262,10 @@ CP_itemtype CusMenu[] = {
 };
 
 CP_itemtype CtlMouseMenu[] = {
-	{1, "Run", 0},
-	{1, "Open", 0},
-	{1, "Fire", 0},
-	{1, "Strafe", 0},
+	{1, STR_CRUN, 0},
+	{1, STR_COPEN, 0},
+	{1, STR_CFIRE, 0},
+	{1, STR_CSTRAFE, 0},
 	{0, "", 0},
 	{1, STR_MOUSEMOVEMENT, 0},
 	{1, STR_SENS, MouseSensitivity}
@@ -284,7 +284,7 @@ CP_itemtype OptMenu[] = {
 	{1, STR_OP_CTL, CP_Control},
 #ifdef SHOW_GAME_OPTIONS
 	{1, STR_CV, CP_ChangeView},
-	{1, "Game Options", 0}
+	{1, STR_OP_GAME, 0}
 #else
 	{1, STR_CV, CP_ChangeView}
 #endif	

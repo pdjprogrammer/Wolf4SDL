@@ -35,6 +35,7 @@
 #define STR_OP	"Options"
 #define STR_OP_SND	"Sound Options"
 #define STR_OP_CTL	"Control Options"
+#define STR_OP_GAME	"Game Options"
 
 #define STR_OP_MOUSE	"Mouse Config"
 #define STR_OP_KEYBOARD	"Keyboard Config"
