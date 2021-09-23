@@ -130,7 +130,8 @@ enum { CTL_MOUSEENABLE, CTL_JOYENABLE, CTL_JOY2BUTTONUNKNOWN, CTL_GAMEPADUNKONWN
 #else
 #ifdef USE_MODERN_OPTIONS
 enum { CTL_MOUSEENABLE, CTL_JOYENABLE, CTL_MOUSEOPTIONS, CTL_KEYBOARDOPTIONS, CTL_JOYSTICKOPTIONS };
-enum { CTL_RUN, CTL_OPEN, CTL_FIRE, CTL_STRAFE, CTL_EMPTY, CTL_MOUSEMOVEMENT, CTL_MOUSESENS };
+enum { CTL_RUN, CTL_OPEN, CTL_FIRE, CTL_STRAFE, CTL_SPACE_MOUSE, CTL_MOUSEMOVEMENT, CTL_MOUSESENS };
+enum { CTL_KB_MOVE_FWRD, CTL_KB_MOVE_BWRD, CTL_KB_MOVE_LEFT, CTL_KB_MOVE_RIGHT, CTL_SPACE_KB_MOVE, CTL_ACTIONKEYS };
 #else
 enum { CTL_MOUSEENABLE, CTL_MOUSESENS, CTL_JOYENABLE, CTL_CUSTOMIZE };
 #endif
@@ -154,7 +155,7 @@ CP_itemtype CtlMenu[] = {
 #else
 	{0, STR_JOYEN, 0},
 	{1, STR_OP_MOUSE, CP_MouseCtl},
-	{1, STR_OP_KEYBOARD, 0},
+	{1, STR_OP_KEYBOARD, CP_KeyboardMoveCtl},
 	{1, STR_OP_JOYSTICK, 0}
 #endif
 
@@ -271,6 +272,17 @@ CP_itemtype CtlMouseMenu[] = {
 	{1, STR_SENS, MouseSensitivity}
 };
 
+CP_itemtype CtlKeyboardMoveMenu[] = {
+	{1, STR_FRWD, 0},
+	{1, STR_BKWD, 0},
+	{1, STR_LEFT, 0},
+	{1, STR_RIGHT, 0},
+	{0, "Strafe Left", 0},
+	{0, "Strafe Right", 0},
+	{0, "", 0},
+	{1, "Action Keys", 0}
+};
+
 CP_itemtype OptMenu[] = {
 #ifdef JAPAN
 	{0, "", 0},
@@ -294,7 +306,8 @@ CP_itemtype OptMenu[] = {
 // CP_iteminfo struct format: short x, y, amount, curpos, indent;
 CP_iteminfo MainItems = { MENU_X, MENU_Y, lengthof(MainMenu), STARTITEM, 24 },
 OptItems = { OPT_X, OPT_Y, lengthof(OptMenu), 0, 32 },
-CusMouseItems = { OPT_MOUSE_X, OPT_MOUSE_Y, lengthof(CtlMouseMenu), 0, 54 },
+CusMouseItems = { OPT_SCREEN_X, OPT_SCREEN_Y, lengthof(CtlMouseMenu), 0, 54 },
+CusKeyboardMoveItems = { OPT_SCREEN_X, OPT_SCREEN_Y, lengthof(CtlKeyboardMoveMenu), 0, 54 },
 SndItems = { SM_X, SM_Y1, lengthof(SndMenu), 0, 52 },
 LSItems = { LSM_X, LSM_Y, lengthof(LSMenu), 0, 24 },
 CtlItems = { CTL_X, CTL_Y, lengthof(CtlMenu), -1, 56 },
@@ -2076,8 +2089,7 @@ enum
 char mbarray[4][11] = { "Left Btn", "Right Btn", "Middle Btn", "b3" };
 int8_t order[4] = { RUN, OPEN, FIRE, STRAFE };
 
-int
-CP_MouseCtl(int blank)
+int CP_MouseCtl(int blank)
 {
 	int which;
 
@@ -2107,12 +2119,13 @@ CP_MouseCtl(int blank)
 			break;
 		case CTL_MOUSEMOVEMENT:
 			mousemovement ^= 1;
-			DrawMouseCtlScreen();
 			ShootSnd();
 			break;
 		default:
 			break;
 		}
+
+		DrawMouseCtlScreen();
 
 	} while (which >= 0);
 
@@ -2236,6 +2249,29 @@ DefineKeyBtns(void)
 //
 // DEFINE THE KEYBOARD BUTTONS
 //
+void DefineKeyboardFwrdBtn(void)
+{
+	CustomCtrls keyallowed = { 1, 0, 0, 0 };
+	EnterCtrlData(1, &keyallowed, DrawCustKeys, PrintCustKeys, KEYBOARDMOVE);
+}
+
+void DefineKeyboardBwrdBtn(void)
+{
+	CustomCtrls keyallowed = { 0, 1, 0, 0 };
+	EnterCtrlData(2, &keyallowed, DrawCustKeys, PrintCustKeys, KEYBOARDMOVE);
+}
+
+void DefineKeyboardLeftBtn(void)
+{
+	CustomCtrls keyallowed = { 0, 0, 1, 0 };
+	EnterCtrlData(3, &keyallowed, DrawCustKeys, PrintCustKeys, KEYBOARDMOVE);
+}
+
+void DefineKeyboardRightBtn(void)
+{
+	CustomCtrls keyallowed = { 0, 0, 0, 1 };
+	EnterCtrlData(4, &keyallowed, DrawCustKeys, PrintCustKeys, KEYBOARDMOVE);
+}
 void
 DefineKeyMove(void)
 {
@@ -2252,10 +2288,58 @@ enum
 {
 	FWRD, RIGHT, BKWD, LEFT
 };
+#ifdef USE_MODERN_OPTIONS
+int moveorder[4] = { FWRD, BKWD, LEFT, RIGHT };
+#else
 int moveorder[4] = { LEFT, RIGHT, FWRD, BKWD };
+#endif
 
-void
-EnterCtrlData(int index, CustomCtrls* cust, void (*DrawRtn) (int), void (*PrintRtn) (int),
+#ifdef USE_MODERN_OPTIONS
+int CP_KeyboardMoveCtl(int blank)
+{
+	int which;
+
+	DrawKeyboardMoveCtlScreen();
+
+	do
+	{
+		which = HandleMenu(&CusKeyboardMoveItems, &CtlKeyboardMoveMenu[0], NULL);
+
+		switch (which)
+		{
+		case CTL_KB_MOVE_FWRD:
+			DefineKeyboardFwrdBtn();
+			DrawCustKeys(1);
+			break;
+		case CTL_KB_MOVE_BWRD:
+			DefineKeyboardBwrdBtn();
+			DrawCustKeys(2);
+			break;
+		case CTL_KB_MOVE_LEFT:
+			DefineKeyboardLeftBtn();
+			DrawCustKeys(3);
+			break;
+		case CTL_KB_MOVE_RIGHT:
+			DefineKeyboardRightBtn();
+			DrawCustKeys(4);
+			break;
+		default:
+			break;
+		}
+
+		DrawKeyboardMoveCtlScreen();
+
+	} while (which >= 0);
+
+	MenuFadeOut();
+	DrawCtlScreen();
+	MenuFadeIn();
+
+	return 0;
+}
+#endif
+
+void EnterCtrlData(int index, CustomCtrls* cust, void (*DrawRtn) (int), void (*PrintRtn) (int),
 	int type)
 {
 	int j, z, exit, tick, redraw, which, x, picked, lastFlashTime;
@@ -2299,8 +2383,8 @@ EnterCtrlData(int index, CustomCtrls* cust, void (*DrawRtn) (int), void (*PrintR
 			DrawWindow(x - 2, PrintY, CST_SPC, 11, TEXTCOLOR);
 			DrawOutline(x - 2, PrintY, CST_SPC, 11, 0, HIGHLIGHT);
 #else
-			DrawWindow(x - 2, CST_START + (CST_SPC_Y * (index - 1)), CST_SPC, 11, TEXTCOLOR);
-			DrawOutline(x - 2, CST_START + (CST_SPC_Y * (index - 1)), CST_SPC, 11, 0, HIGHLIGHT);
+			DrawWindow(x - 2, CST_START_MOUSE + (CST_SPC_Y * (index - 1)), CST_SPC, 11, TEXTCOLOR);
+			DrawOutline(x - 2, CST_START_MOUSE + (CST_SPC_Y * (index - 1)), CST_SPC, 11, 0, HIGHLIGHT);
 #endif
 
 			SETFONTCOLOR(0, TEXTCOLOR);
@@ -2393,6 +2477,11 @@ EnterCtrlData(int index, CustomCtrls* cust, void (*DrawRtn) (int), void (*PrintR
 						picked = 1;
 						SD_PlaySound(SHOOTDOORSND);
 					}
+
+#ifdef USE_MODERN_OPTIONS
+					DrawMouseCtlScreen();
+#endif
+
 					break;
 
 				case JOYSTICK:
@@ -2460,9 +2549,6 @@ EnterCtrlData(int index, CustomCtrls* cust, void (*DrawRtn) (int), void (*PrintR
 			SETFONTCOLOR(TEXTCOLOR, BKGDCOLOR);
 			redraw = 1;
 			WaitKeyUp();
-#ifdef USE_MODERN_OPTIONS
-			DrawMouseCtlScreen();
-#endif
 			continue;
 		}
 
@@ -2509,7 +2595,7 @@ EnterCtrlData(int index, CustomCtrls* cust, void (*DrawRtn) (int), void (*PrintR
 	WaitKeyUp();
 
 #ifdef USE_MODERN_OPTIONS
-	DrawMouseCtlScreen();
+	//DrawMouseCtlScreen();
 #else
 	DrawWindow(5, PrintY - 1, 310, 13, BKGDCOLOR);
 #endif	
@@ -2589,10 +2675,9 @@ FixupCustom(int w)
 #ifdef USE_MODERN_OPTIONS
 ////////////////////////
 //
-// DRAW CUSTOMIZE MOUSE SCREEN
+// DRAW MOUSE CONTROLS SCREEN
 //
-void
-DrawMouseCtlScreen(void)
+void DrawMouseCtlScreen(void)
 {
 	int i;
 	int which;
@@ -2623,13 +2708,13 @@ DrawMouseCtlScreen(void)
 
 	//CtlMouseMenu[CTL_MOUSEMOVEMENT].active = CtlMouseMenu[CTL_MOUSEMOVEMENT].active = 1;
 
-	DrawWindow(OPT_MOUSE_X - 8, OPT_MOUSE_Y - 5, OPT_MOUSE_W, OPT_MOUSE_H, BKGDCOLOR);
+	DrawWindow(OPT_SCREEN_X - 8, OPT_SCREEN_Y - 5, OPT_SCREEN_W, OPT_MOUSE_H, BKGDCOLOR);
 	DrawMenuGun(&CusMouseItems);
 	
 	if (mousemovement)
-		VWB_DrawPic(56, OPT_MOUSE_Y + 68, C_SELECTEDPIC);
+		VWB_DrawPic(56, OPT_SCREEN_Y + 68, C_SELECTEDPIC);
 	else
-		VWB_DrawPic(56, OPT_MOUSE_Y + 68, C_NOTSELECTEDPIC);
+		VWB_DrawPic(56, OPT_SCREEN_Y + 68, C_NOTSELECTEDPIC);
 
 	DrawMenu(&CusMouseItems, CtlMouseMenu);
 	DrawCustMouse(0);
@@ -2645,6 +2730,64 @@ DrawMouseCtlScreen(void)
 			if (CtlMouseMenu[i].active)
 			{
 				CusMouseItems.curpos = i;
+				break;
+			}
+
+
+	VW_UpdateScreen();
+	MenuFadeIn();
+}
+
+////////////////////////
+//
+// DRAW KEYBOARD MOVE CONTROLS SCREEN
+//
+void DrawKeyboardMoveCtlScreen(void)
+{
+	int i;
+	int which;
+
+	ClearMScreen();
+	WindowX = 0;
+	WindowW = 320;
+	VWB_DrawPic(112, 184, C_MOUSELBACKPIC);
+	DrawStripes(10);
+	VWB_DrawPic(80, 0, C_CUSTOMIZEPIC);
+
+	//
+	// MOUSE
+	//
+	SETFONTCOLOR(READCOLOR, BKGDCOLOR);
+	WindowX = 0;
+	WindowW = 320;
+
+#ifndef SPEAR
+	//PrintY = OPT_MOUSE_Y;
+	//US_CPrint("Mouse\n");
+#else
+	PrintY = CST_Y + 13;
+	VWB_DrawPic(128, 48, C_MOUSEPIC);
+#endif
+
+	SETFONTCOLOR(TEXTCOLOR, BKGDCOLOR);
+
+	DrawWindow(OPT_SCREEN_X - 8, OPT_SCREEN_Y - 5, OPT_SCREEN_W, OPT_KB_MOVE_H, BKGDCOLOR);
+	DrawMenuGun(&CusKeyboardMoveItems);
+
+	DrawMenu(&CusKeyboardMoveItems, CtlKeyboardMoveMenu);
+	DrawCustKeys(0);
+
+	WaitKeyUp();
+	US_Print("\n");
+
+	//
+	// PICK STARTING POINT IN MENU
+	//
+	if (CusKeyboardMoveItems.curpos < 0)
+		for (i = 0; i < CusKeyboardMoveItems.amount; i++)
+			if (CtlKeyboardMoveMenu[i].active)
+			{
+				CusKeyboardMoveItems.curpos = i;
 				break;
 			}
 
@@ -2864,8 +3007,8 @@ PrintCustMouse(int i)
 			PrintX = CST_START + CST_SPC * i;
 #else
 			PrintX = CTL_MOUSE_X;
-			PrintY = CST_START + (CST_SPC_Y * i);
-#endif // !USE_MODERN_OPTIONS
+			PrintY = CST_START_MOUSE + (CST_SPC_Y * i);
+#endif
 			US_Print(mbarray[j]);
 			break;
 		}
@@ -2908,7 +3051,7 @@ PrintCustJoy(int i)
 	{
 		if (order[i] == buttonjoy[j])
 		{
-			PrintX = CST_START + CST_SPC * i;
+			PrintX = CST_START_MOUSE + CST_SPC * i;
 			US_Print(mbarray[j]);
 			break;
 		}
@@ -2942,7 +3085,7 @@ DrawCustJoy(int hilight)
 void
 PrintCustKeybd(int i)
 {
-	PrintX = CST_START + CST_SPC * i;
+	PrintX = CST_START_MOUSE + CST_SPC * i;
 	US_Print((const char*)IN_GetScanName(buttonscan[order[i]]));
 }
 
@@ -2965,7 +3108,13 @@ DrawCustKeybd(int hilight)
 void
 PrintCustKeys(int i)
 {
+#ifndef USE_MODERN_OPTIONS
 	PrintX = CST_START + CST_SPC * i;
+#else
+	PrintX = CTL_MOUSE_X;
+	PrintY = CST_START_MOUSE + (CST_SPC_Y * i);
+#endif
+	
 	US_Print((const char*)IN_GetScanName(dirscan[moveorder[i]]));
 }
 
@@ -2974,13 +3123,17 @@ DrawCustKeys(int hilight)
 {
 	int i, color;
 
-
 	color = TEXTCOLOR;
 	if (hilight)
 		color = HIGHLIGHT;
 	SETFONTCOLOR(color, BKGDCOLOR);
 
-	PrintY = CST_Y + 13 * 10;
+#ifndef USE_MODERN_OPTIONS
+	PrintY = CST_Y + 13 * 2;
+#else
+	PrintX = CTL_MOUSE_X;
+#endif
+
 	for (i = 0; i < 4; i++)
 		PrintCustKeys(i);
 }
