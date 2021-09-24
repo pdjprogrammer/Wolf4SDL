@@ -2244,12 +2244,34 @@ DefineJoyBtns(void)
 //
 // DEFINE THE KEYBOARD BUTTONS
 //
-void
-DefineKeyBtns(void)
+#ifdef USE_MODERN_OPTIONS
+void DefineKeyBtns(int value)
+{
+	CustomCtrls keyallowed;
+	int i;
+
+	--value;
+
+	for (i = 0; i < 4; i++)
+	{
+		if (i == value) {
+			keyallowed.allowed[i] = 1;
+}
+		else {
+			keyallowed.allowed[i] = 0;
+		}
+	}
+
+	++value;
+	EnterCtrlData(value, &keyallowed, DrawCustKeybd, PrintCustKeybd, KEYBOARDBTNS);
+}
+#else
+void DefineKeyBtns(void)
 {
 	CustomCtrls keyallowed = { 1, 1, 1, 1 };
 	EnterCtrlData(8, &keyallowed, DrawCustKeybd, PrintCustKeybd, KEYBOARDBTNS);
 }
+#endif
 
 ////////////////////////
 //
@@ -2357,16 +2379,20 @@ int CP_KeyboardActionCtl(int blank)
 		switch (which)
 		{
 		case CTL_KB_ACTION_RUN:
-
+			DefineKeyBtns(1);
+			DrawCustKeybd(1);
 			break;
 		case CTL_KB_ACTION_OPEN:
-
+			DefineKeyBtns(2);
+			DrawCustKeybd(2);
 			break;
 		case CTL_KB_ACTION_FIRE:
-
+			DefineKeyBtns(3);
+			DrawCustKeybd(3);
 			break;
 		case CTL_KB_ACTION_STRAFE:
-
+			DefineKeyBtns(4);
+			DrawCustKeybd(4);
 			break;
 		default:
 			break;
@@ -2881,7 +2907,6 @@ void DrawKeyboardActionCtlScreen(void)
 				CusKeyboardActionItems.curpos = i;
 				break;
 			}
-
 
 	VW_UpdateScreen();
 	MenuFadeIn();

@@ -190,13 +190,15 @@ void DrawStripes(int y);
 #ifdef USE_MODERN_OPTIONS
 void DefineMouseBtns(int);
 void DefineKeyMove(int);
+void DefineKeyBtns(int);
 #else
 void DefineMouseBtns(void);
 void DefineKeyMove(void);
+void DefineKeyBtns(void);
 #endif
 
 void DefineJoyBtns(void);
-void DefineKeyBtns(void);
+
 
 void EnterCtrlData(int index, CustomCtrls* cust, void (*DrawRtn)(int), void (*PrintRtn)(int), int type);
 
@@ -242,8 +244,8 @@ int CP_ViewScores(int);
 int  CP_EndGame(int);
 int  CP_CheckQuick(ScanCode scancode);
 int Controls(int);
-
 int MouseSensitivity(int);
+
 #ifdef USE_MODERN_OPTIONS
 int CP_MouseCtl(int);
 int CP_KeyboardMoveCtl(int);
@@ -252,12 +254,9 @@ int CP_KeyboardActionCtl(int);
 int CustomControls(int);
 #endif // USE_MODERN_OPTIONS
 
-
-
 void CheckForEpisodes(void);
 
 void FreeMusic(void);
-
 
 enum { MOUSE, JOYSTICK, KEYBOARDBTNS, KEYBOARDMOVE };        // FOR INPUT TYPES
 
