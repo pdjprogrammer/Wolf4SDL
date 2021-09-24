@@ -279,8 +279,8 @@ CP_itemtype CtlKeyboardMoveMenu[] = {
 	{1, STR_BKWD, 0},
 	{1, STR_LEFT, 0},
 	{1, STR_RIGHT, 0},
-	{0, "Strafe Left", 0},
-	{0, "Strafe Right", 0},
+	{0, "Strf Left", 0},
+	{0, "Strf Right", 0},
 	{0, "", 0},
 	{1, "Action Keys", CP_KeyboardActionCtl}
 };
@@ -1891,7 +1891,6 @@ DrawMouseSens(void)
 	MenuFadeIn();
 }
 
-
 ///////////////////////////
 //
 // ADJUST MOUSE SENSITIVITY
@@ -1963,7 +1962,6 @@ MouseSensitivity(int blank)
 	return 0;
 }
 
-
 ///////////////////////////
 //
 // DRAW CONTROL MENU SCREEN
@@ -2007,6 +2005,7 @@ DrawCtlScreen(void)
 
 	x = CTL_X + CtlItems.indent - 24;
 	y = CTL_Y + 3;
+
 	if (mouseenabled)
 		VWB_DrawPic(x, y, C_SELECTEDPIC);
 	else
@@ -2103,8 +2102,7 @@ int CP_MouseCtl(int blank)
 {
 	int which;
 
-	DrawMouseCtlScreen();
-	MenuFadeIn();
+	DrawMouseCtlScreen();	
 	WaitKeyUp();
 
 	do
@@ -2138,7 +2136,6 @@ int CP_MouseCtl(int blank)
 		}
 
 		DrawMouseCtlScreen();
-		MenuFadeIn();
 
 	} while (which >= 0);
 
@@ -2243,7 +2240,6 @@ DefineJoyBtns(void)
 	EnterCtrlData(5, &joyallowed, DrawCustJoy, PrintCustJoy, JOYSTICK);
 }
 
-
 ////////////////////////
 //
 // DEFINE THE KEYBOARD BUTTONS
@@ -2254,7 +2250,6 @@ DefineKeyBtns(void)
 	CustomCtrls keyallowed = { 1, 1, 1, 1 };
 	EnterCtrlData(8, &keyallowed, DrawCustKeybd, PrintCustKeybd, KEYBOARDBTNS);
 }
-
 
 ////////////////////////
 //
@@ -2308,8 +2303,7 @@ int CP_KeyboardMoveCtl(int blank)
 {
 	int which;
 
-	DrawKeyboardMoveCtlScreen();
-	MenuFadeIn();
+	DrawKeyboardMoveCtlScreen();	
 	WaitKeyUp();
 
 	do
@@ -2353,8 +2347,7 @@ int CP_KeyboardActionCtl(int blank)
 {
 	int which;
 
-	DrawKeyboardActionCtlScreen();
-	MenuFadeIn();
+	DrawKeyboardActionCtlScreen();	
 	WaitKeyUp();
 
 	do
@@ -2384,8 +2377,6 @@ int CP_KeyboardActionCtl(int blank)
 	} while (which >= 0);
 
 	MenuFadeOut();
-	DrawCtlScreen();
-	MenuFadeIn();
 
 	return 0;
 }
@@ -2529,11 +2520,6 @@ void EnterCtrlData(int index, CustomCtrls* cust, void (*DrawRtn) (int), void (*P
 						picked = 1;
 						SD_PlaySound(SHOOTDOORSND);
 					}
-
-#ifdef USE_MODERN_OPTIONS
-					DrawMouseCtlScreen();
-#endif
-
 					break;
 
 				case JOYSTICK:
@@ -2646,13 +2632,10 @@ void EnterCtrlData(int index, CustomCtrls* cust, void (*DrawRtn) (int), void (*P
 SD_PlaySound(ESCPRESSEDSND);
 WaitKeyUp();
 
-#ifdef USE_MODERN_OPTIONS
-//DrawMouseCtlScreen();
-#else
+#ifndef USE_MODERN_OPTIONS
 DrawWindow(5, PrintY - 1, 310, 13, BKGDCOLOR);
 #endif	
 }
-
 
 ////////////////////////
 //
@@ -2785,6 +2768,7 @@ void DrawMouseCtlScreen(void)
 
 
 	VW_UpdateScreen();
+	MenuFadeIn();
 }
 
 ////////////////////////
@@ -2842,6 +2826,7 @@ void DrawKeyboardMoveCtlScreen(void)
 
 
 	VW_UpdateScreen();
+	MenuFadeIn();
 }
 
 ////////////////////////
@@ -2899,6 +2884,7 @@ void DrawKeyboardActionCtlScreen(void)
 
 
 	VW_UpdateScreen();
+	MenuFadeIn();
 }
 #else
 
