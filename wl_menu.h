@@ -188,17 +188,16 @@ void DrawMenuGun(CP_iteminfo* iteminfo);
 void DrawStripes(int y);
 
 #ifdef USE_MODERN_OPTIONS
-void DefineMouseRunBtn(void);
-void DefineMouseOpenBtn(void);
-void DefineMouseFireBtn(void);
-void DefineMouseStrafeBtn(void);
+void DefineMouseBtns(int);
+void DefineKeyMove(int);
 #else
 void DefineMouseBtns(void);
+void DefineKeyMove(void);
 #endif
 
 void DefineJoyBtns(void);
 void DefineKeyBtns(void);
-void DefineKeyMove(void);
+
 void EnterCtrlData(int index, CustomCtrls* cust, void (*DrawRtn)(int), void (*PrintRtn)(int), int type);
 
 void DrawMainMenu(void);

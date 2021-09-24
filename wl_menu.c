@@ -2104,6 +2104,8 @@ int CP_MouseCtl(int blank)
 	int which;
 
 	DrawMouseCtlScreen();
+	MenuFadeIn();
+	WaitKeyUp();
 
 	do
 	{
@@ -2112,19 +2114,19 @@ int CP_MouseCtl(int blank)
 		switch (which)
 		{
 		case CTL_MOUSE_RUN:
-			DefineMouseRunBtn();
+			DefineMouseBtns(1);
 			DrawCustMouse(1);
 			break;
 		case CTL_MOUSE_OPEN:
-			DefineMouseOpenBtn();
+			DefineMouseBtns(2);
 			DrawCustMouse(2);
 			break;
 		case CTL_MOUSE_FIRE:
-			DefineMouseFireBtn();
+			DefineMouseBtns(3);
 			DrawCustMouse(3);
 			break;
 		case CTL_MOUSE_STRAFE:
-			DefineMouseStrafeBtn();
+			DefineMouseBtns(4);
 			DrawCustMouse(4);
 			break;
 		case CTL_MOUSEMOVEMENT:
@@ -2136,6 +2138,7 @@ int CP_MouseCtl(int blank)
 		}
 
 		DrawMouseCtlScreen();
+		MenuFadeIn();
 
 	} while (which >= 0);
 
@@ -2200,28 +2203,26 @@ CustomControls(int blank)
 //
 // DEFINE THE MOUSE BUTTONS
 //
-void DefineMouseRunBtn(void)
+void DefineMouseBtns(int value)
 {
-	CustomCtrls mouseallowed = { 1, 0, 0, 0 };
-	EnterCtrlData(1, &mouseallowed, DrawCustMouse, PrintCustMouse, MOUSE);
-}
+	CustomCtrls mouseallowed;
+	int i;
 
-void DefineMouseOpenBtn(void)
-{
-	CustomCtrls mouseallowed = { 0, 1, 0, 0 };
-	EnterCtrlData(2, &mouseallowed, DrawCustMouse, PrintCustMouse, MOUSE);
-}
+	--value;
 
-void DefineMouseFireBtn(void)
-{
-	CustomCtrls mouseallowed = { 0, 0, 1, 0 };
-	EnterCtrlData(3, &mouseallowed, DrawCustMouse, PrintCustMouse, MOUSE);
-}
+	for (i = 0; i < 4; i++)
+	{
+		if (i == value) {
+			mouseallowed.allowed[i] = 1;
+		}
+		else {
+			mouseallowed.allowed[i] = 0;
+		}
+	}
 
-void DefineMouseStrafeBtn(void)
-{
-	CustomCtrls mouseallowed = { 0, 0, 0, 1 };
-	EnterCtrlData(4, &mouseallowed, DrawCustMouse, PrintCustMouse, MOUSE);
+	++value;
+
+	EnterCtrlData(value, &mouseallowed, DrawCustMouse, PrintCustMouse, MOUSE);
 }
 #else
 void DefineMouseBtns(void)
@@ -2259,36 +2260,34 @@ DefineKeyBtns(void)
 //
 // DEFINE THE KEYBOARD BUTTONS
 //
-void DefineKeyboardFwrdBtn(void)
+#ifdef USE_MODERN_OPTIONS
+void DefineKeyMove(int value)
 {
-	CustomCtrls keyallowed = { 1, 0, 0, 0 };
-	EnterCtrlData(1, &keyallowed, DrawCustKeys, PrintCustKeys, KEYBOARDMOVE);
-}
+	CustomCtrls keyallowed;
+	int i;
 
-void DefineKeyboardBwrdBtn(void)
-{
-	CustomCtrls keyallowed = { 0, 1, 0, 0 };
-	EnterCtrlData(2, &keyallowed, DrawCustKeys, PrintCustKeys, KEYBOARDMOVE);
-}
+	--value;
 
-void DefineKeyboardLeftBtn(void)
-{
-	CustomCtrls keyallowed = { 0, 0, 1, 0 };
-	EnterCtrlData(3, &keyallowed, DrawCustKeys, PrintCustKeys, KEYBOARDMOVE);
-}
+	for (i = 0; i < 4; i++)
+	{
+		if (i == value) {
+			keyallowed.allowed[i] = 1;
+		}
+		else {
+			keyallowed.allowed[i] = 0;
+		}
+	}
 
-void DefineKeyboardRightBtn(void)
-{
-	CustomCtrls keyallowed = { 0, 0, 0, 1 };
-	EnterCtrlData(4, &keyallowed, DrawCustKeys, PrintCustKeys, KEYBOARDMOVE);
+	++value;
+	EnterCtrlData(value, &keyallowed, DrawCustKeys, PrintCustKeys, KEYBOARDMOVE);
 }
-void
-DefineKeyMove(void)
+#else
+void DefineKeyMove(void)
 {
 	CustomCtrls keyallowed = { 1, 1, 1, 1 };
 	EnterCtrlData(10, &keyallowed, DrawCustKeys, PrintCustKeys, KEYBOARDMOVE);
 }
-
+#endif
 
 ////////////////////////
 //
@@ -2310,6 +2309,8 @@ int CP_KeyboardMoveCtl(int blank)
 	int which;
 
 	DrawKeyboardMoveCtlScreen();
+	MenuFadeIn();
+	WaitKeyUp();
 
 	do
 	{
@@ -2318,19 +2319,19 @@ int CP_KeyboardMoveCtl(int blank)
 		switch (which)
 		{
 		case CTL_KB_MOVE_FWRD:
-			DefineKeyboardFwrdBtn();
+			DefineKeyMove(1);
 			DrawCustKeys(1);
 			break;
 		case CTL_KB_MOVE_BWRD:
-			DefineKeyboardBwrdBtn();
+			DefineKeyMove(2);
 			DrawCustKeys(2);
 			break;
 		case CTL_KB_MOVE_LEFT:
-			DefineKeyboardLeftBtn();
+			DefineKeyMove(3);
 			DrawCustKeys(3);
 			break;
 		case CTL_KB_MOVE_RIGHT:
-			DefineKeyboardRightBtn();
+			DefineKeyMove(4);
 			DrawCustKeys(4);
 			break;
 		default:
@@ -2353,6 +2354,8 @@ int CP_KeyboardActionCtl(int blank)
 	int which;
 
 	DrawKeyboardActionCtlScreen();
+	MenuFadeIn();
+	WaitKeyUp();
 
 	do
 	{
@@ -2638,15 +2641,15 @@ void EnterCtrlData(int index, CustomCtrls* cust, void (*DrawRtn) (int), void (*P
 		case dir_South:
 			exit = 1;
 		}
-	} while (!exit);
+} while (!exit);
 
-	SD_PlaySound(ESCPRESSEDSND);
-	WaitKeyUp();
+SD_PlaySound(ESCPRESSEDSND);
+WaitKeyUp();
 
 #ifdef USE_MODERN_OPTIONS
-	//DrawMouseCtlScreen();
+//DrawMouseCtlScreen();
 #else
-	DrawWindow(5, PrintY - 1, 310, 13, BKGDCOLOR);
+DrawWindow(5, PrintY - 1, 310, 13, BKGDCOLOR);
 #endif	
 }
 
@@ -2782,7 +2785,6 @@ void DrawMouseCtlScreen(void)
 
 
 	VW_UpdateScreen();
-	MenuFadeIn();
 }
 
 ////////////////////////
@@ -2840,7 +2842,6 @@ void DrawKeyboardMoveCtlScreen(void)
 
 
 	VW_UpdateScreen();
-	MenuFadeIn();
 }
 
 ////////////////////////
@@ -2898,7 +2899,6 @@ void DrawKeyboardActionCtlScreen(void)
 
 
 	VW_UpdateScreen();
-	MenuFadeIn();
 }
 #else
 
@@ -3094,7 +3094,7 @@ DrawCustomScreen(void)
 
 	VW_UpdateScreen();
 	MenuFadeIn();
-}
+			}
 
 #endif // USE_MODERN_OPTIONS
 
@@ -4068,7 +4068,7 @@ ReadAnyControl(ControlInfo* ci)
 			ci->button3 = false;
 			mouseactive = 1;
 		}
-	}
+}
 
 	if (joystickenabled && !mouseactive)
 	{
@@ -4145,29 +4145,29 @@ Confirm(const char* string)
 #ifdef SPANISH
 	} while (!Keyboard(sc_S) && !Keyboard(sc_N) && !Keyboard(sc_Escape));
 #else
-	} while (!Keyboard(sc_Y) && !Keyboard(sc_N) && !Keyboard(sc_Escape) && !ci.button0 && !ci.button1);
+} while (!Keyboard(sc_Y) && !Keyboard(sc_N) && !Keyboard(sc_Escape) && !ci.button0 && !ci.button1);
 #endif
 
 #ifdef SPANISH
-	if (Keyboard(sc_S) || ci.button0)
-	{
-		xit = 1;
-		ShootSnd();
-	}
+if (Keyboard(sc_S) || ci.button0)
+{
+	xit = 1;
+	ShootSnd();
+}
 #else
-	if (Keyboard(sc_Y) || ci.button0)
-	{
-		xit = 1;
-		ShootSnd();
-	}
+if (Keyboard(sc_Y) || ci.button0)
+{
+	xit = 1;
+	ShootSnd();
+}
 #endif
 
-	IN_ClearKeysDown();
-	WaitKeyUp();
+IN_ClearKeysDown();
+WaitKeyUp();
 
-	SD_PlaySound((soundnames)whichsnd[xit]);
+SD_PlaySound((soundnames)whichsnd[xit]);
 
-	return xit;
+return xit;
 }
 
 #ifdef JAPAN
@@ -4221,7 +4221,7 @@ GetYorN(int x, int y, int pic)
 	IN_ClearKeysDown();
 	SD_PlaySound(whichsnd[xit]);
 	return xit;
-}
+	}
 #endif
 
 
@@ -4649,7 +4649,7 @@ CheckForEpisodes(void)
 		strcat(demoname, extension);
 		EpisodeSelect[1] =
 			EpisodeSelect[2] = EpisodeSelect[3] = EpisodeSelect[4] = EpisodeSelect[5] = 1;
-	}
+		}
 	else
 		Quit("NO JAPANESE WOLFENSTEIN 3-D DATA FILES to be found!");
 	strcpy(graphext, extension);
@@ -4734,7 +4734,7 @@ CheckForEpisodes(void)
 	if (!stat("vswap.sdm", &statbuf))
 	{
 		strcpy(extension, "sdm");
-	}
+		}
 	else
 		Quit("NO SPEAR OF DESTINY DEMO DATA FILES TO BE FOUND!");
 	strcpy(graphext, "sdm");
@@ -4756,4 +4756,4 @@ CheckForEpisodes(void)
 	strcat(endfilename, extension);
 #endif
 #endif
-}
+	}
