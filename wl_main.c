@@ -159,6 +159,7 @@ void ReadConfig(void)
 		read(file, &mouseenabled, sizeof(mouseenabled));
 #ifdef USE_MODERN_OPTIONS
 		read(file, &mousemovement, sizeof(mousemovement));
+		read(file, &alwaysStrafe, sizeof(alwaysStrafe));
 #endif		
 		read(file, &joystickenabled, sizeof(joystickenabled));
 		boolean dummyJoypadEnabled;
@@ -193,12 +194,13 @@ void ReadConfig(void)
 		if (mouseenabled) mouseenabled = true;
 #ifdef USE_MODERN_OPTIONS
 		if (mousemovement) mousemovement = true;
+		if (alwaysStrafe) alwaysStrafe = true;
 #endif		
-		if (joystickenabled) joystickenabled = true;
+			if (joystickenabled) joystickenabled = true;
 
 		if (!MousePresent)
 			mouseenabled = false;
-			
+
 		if (!IN_JoyPresent())
 			joystickenabled = false;
 
@@ -238,9 +240,9 @@ void ReadConfig(void)
 #ifdef USE_MODERN_OPTIONS
 			mousemovement = true;
 #endif
-			
+
 		}
-			
+
 
 		if (IN_JoyPresent())
 			joystickenabled = true;
@@ -289,6 +291,7 @@ void WriteConfig(void)
 		write(file, &mouseenabled, sizeof(mouseenabled));
 #ifdef USE_MODERN_OPTIONS
 		write(file, &mousemovement, sizeof(mousemovement));
+		write(file, &alwaysStrafe, sizeof(alwaysStrafe));
 #endif		
 		write(file, &joystickenabled, sizeof(joystickenabled));
 		boolean dummyJoypadEnabled = false;

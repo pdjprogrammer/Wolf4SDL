@@ -55,7 +55,7 @@ unsigned tics;
 // control info
 //
 #ifdef USE_MODERN_OPTIONS
-boolean mouseenabled, mousemovement, joystickenabled;
+boolean mouseenabled, mousemovement, joystickenabled, alwaysStrafe;
 #else
 boolean mouseenabled, joystickenabled;
 

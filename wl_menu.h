@@ -100,7 +100,7 @@
 #define OPT_MOUSE_W   284
 #define OPT_MOUSE_H   100
 
-#define OPT_KB_MOVE_H   113
+#define OPT_KB_MOVE_H   100
 
 #define LSM_X   85
 #define LSM_Y   55
