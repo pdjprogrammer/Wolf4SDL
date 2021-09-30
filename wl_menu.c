@@ -1794,14 +1794,14 @@ CP_Control(int blank)
 			CusItems.curpos = -1;
 			ShootSnd();
 			break;
+#ifdef USE_MODERN_OPTIONS
 		case CTL_ALWAYSRUN:
 			alwaysRun ^= 1;
 			DrawCtlScreen();
 			CusItems.curpos = -1;
 			ShootSnd();
 			break;
-
-#ifndef USE_MODERN_OPTIONS
+#else
 		case CTL_MOUSESENS:
 		case CTL_CUSTOMIZE:
 			DrawCtlScreen();
@@ -2031,14 +2031,11 @@ DrawCtlScreen(void)
 
 #ifdef USE_MODERN_OPTIONS
 	y = CTL_Y + 29;
-#else
-	y = CTL_Y + 29;
-#endif	
-
 	if (alwaysRun)
 		VWB_DrawPic(x, y, C_SELECTEDPIC);
 	else
 		VWB_DrawPic(x, y, C_NOTSELECTEDPIC);
+#endif	
 
 	//
 	// PICK FIRST AVAILABLE SPOT
