@@ -159,6 +159,7 @@ void ReadConfig(void)
 		read(file, &mouseenabled, sizeof(mouseenabled));
 #ifdef USE_MODERN_OPTIONS
 		read(file, &mousemovement, sizeof(mousemovement));
+		read(file, &alwaysRun, sizeof(alwaysRun));
 		read(file, &alwaysStrafe, sizeof(alwaysStrafe));
 #endif		
 		read(file, &joystickenabled, sizeof(joystickenabled));
@@ -194,6 +195,7 @@ void ReadConfig(void)
 		if (mouseenabled) mouseenabled = true;
 #ifdef USE_MODERN_OPTIONS
 		if (mousemovement) mousemovement = true;
+		if (alwaysRun) alwaysRun = true;
 		if (alwaysStrafe) alwaysStrafe = true;
 #endif		
 			if (joystickenabled) joystickenabled = true;
@@ -291,6 +293,7 @@ void WriteConfig(void)
 		write(file, &mouseenabled, sizeof(mouseenabled));
 #ifdef USE_MODERN_OPTIONS
 		write(file, &mousemovement, sizeof(mousemovement));
+		write(file, &alwaysRun, sizeof(alwaysRun));
 		write(file, &alwaysStrafe, sizeof(alwaysStrafe));
 #endif		
 		write(file, &joystickenabled, sizeof(joystickenabled));

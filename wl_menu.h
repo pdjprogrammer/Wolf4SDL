@@ -73,11 +73,11 @@
 #ifdef JAPAN
 #define CTL_Y   70
 #else
-#define CTL_Y   86
+#define CTL_Y   72
 #endif
 #define CTL_W   284
 #ifdef USE_MODERN_OPTIONS
-#define CTL_H   75
+#define CTL_H   100
 #else
 #define CTL_H   60
 #endif
