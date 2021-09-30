@@ -325,7 +325,7 @@ void PollJoystickButtons(void)
 
 void PollKeyboardMove(void)
 {
-	int delta = buttonstate[bt_run] ? RUNMOVE * tics : BASEMOVE * tics;
+	int delta = buttonstate[bt_run] || alwaysRun ? RUNMOVE * tics : BASEMOVE * tics;
 
 	if (Keyboard(dirscan[di_north]))
 		controly -= delta;
