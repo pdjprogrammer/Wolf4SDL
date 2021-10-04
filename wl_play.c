@@ -88,6 +88,9 @@ void* demobuffer;
 // current user input
 //
 int controlx, controly;         // range from -100 to 100 per tic
+#ifdef USE_MODERN_OPTIONS
+int         controlh;              // range from -100 to 100
+#endif
 boolean buttonstate[NUMBUTTONS];
 
 int lastgamemusicoffset = 0;
@@ -314,7 +317,6 @@ void PollJoystickButtons(void)
 	}
 }
 
-
 /*
 ===================
 =
@@ -322,10 +324,10 @@ void PollJoystickButtons(void)
 =
 ===================
 */
-
+#ifndef USE_MODERN_OPTIONS
 void PollKeyboardMove(void)
 {
-	int delta = buttonstate[bt_run] || alwaysRun ? RUNMOVE * tics : BASEMOVE * tics;
+	int delta = buttonstate[bt_run] ? RUNMOVE * tics : BASEMOVE * tics;
 
 	if (Keyboard(dirscan[di_north]))
 		controly -= delta;
@@ -336,6 +338,43 @@ void PollKeyboardMove(void)
 	if (Keyboard(dirscan[di_east]))
 		controlx += delta;
 }
+#endif
+/*
+===================
+=
+= PollCustomKeyboardMove
+=
+===================
+*/
+#ifdef USE_MODERN_OPTIONS
+void PollCustomKeyboardMove(void)
+{
+	int delta = buttonstate[bt_run] || alwaysRun ? RUNMOVE * tics : BASEMOVE * tics;
+
+	if (Keyboard(dirscan[di_north])) {
+		controly = ((alwaysRun && buttonstate[bt_run]) || (!alwaysRun && !buttonstate[bt_run])) ? -BASEMOVE * tics : -RUNMOVE * tics;
+	}
+
+	if (Keyboard(dirscan[di_south])) {
+		controly = ((alwaysRun && buttonstate[bt_run]) || (!alwaysRun && !buttonstate[bt_run])) ? BASEMOVE * tics : RUNMOVE * tics;
+	}
+
+	if (Keyboard(dirscan[di_west])) {
+
+		if (alwaysStrafe || buttonstate[bt_strafe])
+			controlx = ((alwaysRun && buttonstate[bt_run]) || (!alwaysRun && !buttonstate[bt_run])) ? -BASEMOVE * tics : -RUNMOVE * tics;
+		else
+			controlh = (buttonstate[bt_run]) ? -RUNMOVE * tics : -BASEMOVE * tics;
+	}
+
+	if (Keyboard(dirscan[di_east])) {
+		if (alwaysStrafe || buttonstate[bt_strafe])
+			controlx = ((alwaysRun && buttonstate[bt_run]) || (!alwaysRun && !buttonstate[bt_run])) ? BASEMOVE * tics : RUNMOVE * tics;
+		else
+			controlh = (buttonstate[bt_run]) ? RUNMOVE * tics : BASEMOVE * tics;
+	}
+}
+#endif
 
 
 /*
@@ -364,10 +403,19 @@ void PollMouseMove(void)
 	controlx += mousexmove * 10 / (13 - mouseadjustment);
 #ifdef USE_MODERN_OPTIONS
 	if (mousemovement)
-		controly += mouseymove * 20 / (13 - mouseadjustment);
+		if (alwaysStrafe)
+		{
+			controlx += mousexmove * 10 / (13 - mouseadjustment);
+			controly += mouseymove * 20 / (13 - mouseadjustment);
+		}
+		else
+			controly += mouseymove * 20 / (13 - mouseadjustment);
+
+	controlh += (mousexmove << 4) / (13 - mouseadjustment);
 #else
 	controly += mouseymove * 20 / (13 - mouseadjustment);
 #endif
+	
 
 }
 
@@ -415,7 +463,7 @@ void PollJoystickMove(void)
 
 void PollControls(void)
 {
-	int max, min, i;
+	int max, min, rmax, rmin, i;
 	byte buttonbits;
 
 	IN_ProcessEvents();
@@ -442,6 +490,10 @@ void PollControls(void)
 
 	controlx = 0;
 	controly = 0;
+#ifdef USE_MODERN_OPTIONS
+	controlh = 0;
+#endif
+	
 	memcpy(buttonheld, buttonstate, sizeof(buttonstate));
 	memset(buttonstate, 0, sizeof(buttonstate));
 
@@ -459,12 +511,17 @@ void PollControls(void)
 
 		controlx = *demoptr++;
 		controly = *demoptr++;
-
+#ifdef USE_MODERN_OPTIONS
+		controlh = *demoptr++;
+#endif
 		if (demoptr == lastdemoptr)
 			playstate = ex_completed;   // demo is done
 
 		controlx *= (int)tics;
 		controly *= (int)tics;
+#ifdef USE_MODERN_OPTIONS
+		controlh *= (int)tics;
+#endif	
 
 		return;
 	}
@@ -484,7 +541,11 @@ void PollControls(void)
 	//
 	// get movements
 	//
+#ifdef USE_MODERN_OPTIONS
+	PollCustomKeyboardMove();
+#else
 	PollKeyboardMove();
+#endif	
 
 	if (mouseenabled && IN_IsInputGrabbed())
 		PollMouseMove();
@@ -497,6 +558,16 @@ void PollControls(void)
 	//
 	max = 100 * tics;
 	min = -max;
+	rmax = max << 4;
+	rmin = -rmax;
+
+#ifdef USE_MODERN_OPTIONS
+	if (controlh > rmax)
+		controlh = rmax;
+	else if (controlh < rmin)
+		controlh = rmin;
+#endif	
+
 	if (controlx > max)
 		controlx = max;
 	else if (controlx < min)
@@ -514,7 +585,9 @@ void PollControls(void)
 		//
 		controlx /= (int)tics;
 		controly /= (int)tics;
-
+#ifdef USE_MODERN_OPTIONS
+		controlh /= (int)tics;
+#endif
 		buttonbits = 0;
 
 		// TODO: Support 32-bit buttonbits
@@ -528,6 +601,9 @@ void PollControls(void)
 		*demoptr++ = buttonbits;
 		*demoptr++ = controlx;
 		*demoptr++ = controly;
+#ifdef USE_MODERN_OPTIONS
+		* demoptr++ = controlh;
+#endif
 
 		if (demoptr >= lastdemoptr - 8)
 			playstate = ex_completed;
@@ -535,6 +611,9 @@ void PollControls(void)
 		{
 			controlx *= (int)tics;
 			controly *= (int)tics;
+#ifdef USE_MODERN_OPTIONS
+			controlh *= (int)tics;
+#endif			
 		}
 	}
 }

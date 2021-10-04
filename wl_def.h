@@ -1010,10 +1010,8 @@ void    UpdateSoundLoc(void);
 =============================================================================
 */
 
-#define BASEMOVE    35
-#define RUNMOVE     70
-#define BASETURN    35
-#define RUNTURN     70
+#define BASEMOVE                35
+#define RUNMOVE                 70
 
 #define JOYSCALE    2
 
@@ -1065,6 +1063,9 @@ extern  int         viewsize;
 // current user input
 //
 extern  int         controlx, controly;              // range from -100 to 100
+#ifdef USE_MODERN_OPTIONS
+extern  int         controlh;              // range from -100 to 100
+#endif
 extern  boolean     buttonstate[NUMBUTTONS];
 
 extern  boolean     demorecord, demoplayback;
