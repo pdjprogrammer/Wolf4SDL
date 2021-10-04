@@ -106,6 +106,7 @@
     <ClCompile Include="id_vl.c" />
     <ClCompile Include="mame\fmopl.c" />
     <ClCompile Include="sdl_winmain.c" />
+    <ClCompile Include="sdl_wrap.c" />
     <ClCompile Include="signon.c" />
     <ClCompile Include="wl_act1.c" />
     <ClCompile Include="wl_act2.c" />

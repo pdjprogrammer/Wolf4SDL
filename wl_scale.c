@@ -123,6 +123,8 @@ void ScaleShape (int xcenter, int shapenum, int height, uint32_t flags)
         curshades = shadetable[0];
     else
         curshades = shadetable[GetShade(height)];
+#else
+    curshades = 0;
 #endif
 
     fracstep = FixedDiv(scale,TEXTURESIZE/2);
