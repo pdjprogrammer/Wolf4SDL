@@ -64,6 +64,7 @@ Makefile.win
 *.user
 /debug
 /release
+/libraries
 /.vs
 
 # VS Code Files & Folders #
