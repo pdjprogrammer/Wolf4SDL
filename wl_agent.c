@@ -160,6 +160,7 @@ void CheckWeaponChange(void)
 =
 =======================
 */
+#ifdef USE_MODERN_OPTIONS
 void ControlMovement(objtype* ob)
 {
 	int32_t oldx, oldy;
@@ -221,6 +222,100 @@ void ControlMovement(objtype* ob)
 		Thrust(angle, -controlx * MOVESCALE);     // move to right
 	}
 }
+#else
+void ControlMovement(objtype* ob)
+{
+	int32_t oldx, oldy;
+	int     angle;
+	int     angleunits;
+
+	thrustspeed = 0;
+
+	oldx = player->x;
+	oldy = player->y;
+
+	if (buttonstate[bt_strafeleft])
+	{
+		angle = ob->angle + ANGLES / 4;
+		if (angle >= ANGLES)
+			angle -= ANGLES;
+		if (buttonstate[bt_run])
+			Thrust(angle, RUNMOVE * MOVESCALE * tics);
+		else
+			Thrust(angle, BASEMOVE * MOVESCALE * tics);
+	}
+
+	if (buttonstate[bt_straferight])
+	{
+		angle = ob->angle - ANGLES / 4;
+		if (angle < 0)
+			angle += ANGLES;
+		if (buttonstate[bt_run])
+			Thrust(angle, RUNMOVE * MOVESCALE * tics);
+		else
+			Thrust(angle, BASEMOVE * MOVESCALE * tics);
+	}
+
+	//
+	// side to side move
+	//
+	if (buttonstate[bt_strafe])
+	{
+		//
+		// strafing
+		//
+		//
+		if (controlx > 0)
+		{
+			angle = ob->angle - ANGLES / 4;
+			if (angle < 0)
+				angle += ANGLES;
+			Thrust(angle, controlx * MOVESCALE);      // move to left
+		}
+		else if (controlx < 0)
+		{
+			angle = ob->angle + ANGLES / 4;
+			if (angle >= ANGLES)
+				angle -= ANGLES;
+			Thrust(angle, -controlx * MOVESCALE);     // move to right
+		}
+	}
+	else
+	{
+		//
+		// not strafing
+		//
+		anglefrac += controlx;
+		angleunits = anglefrac / ANGLESCALE;
+		anglefrac -= angleunits * ANGLESCALE;
+		ob->angle -= angleunits;
+
+		if (ob->angle >= ANGLES)
+			ob->angle -= ANGLES;
+		if (ob->angle < 0)
+			ob->angle += ANGLES;
+
+	}
+
+	//
+	// forward/backwards move
+	//
+	if (controly < 0)
+	{
+		Thrust(ob->angle, -controly * MOVESCALE); // move forwards
+	}
+	else if (controly > 0)
+	{
+		angle = ob->angle + ANGLES / 2;
+		if (angle >= ANGLES)
+			angle -= ANGLES;
+		Thrust(angle, controly * BACKMOVESCALE);          // move backwards
+	}
+
+	if (gamestate.victoryflag)              // watching the BJ actor
+		return;
+}
+#endif
 
 /*
 =============================================================================

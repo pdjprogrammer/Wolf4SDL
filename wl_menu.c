@@ -129,9 +129,9 @@ CP_itemtype SndMenu[] = {
 enum { CTL_MOUSEENABLE, CTL_JOYENABLE, CTL_JOY2BUTTONUNKNOWN, CTL_GAMEPADUNKONWN, CTL_MOUSESENS, CTL_CUSTOMIZE };
 #else
 #ifdef USE_MODERN_OPTIONS
-enum { CTL_MOUSEENABLE, CTL_JOYENABLE, CTL_ALWAYSRUN, CTL_OPTIONS_SPACE, CTL_MOUSEOPTIONS, CTL_KEYBOARDOPTIONS, CTL_JOYSTICKOPTIONS };
+enum { CTL_MOUSEENABLE, CTL_JOYENABLE, CTL_ALWAYSSTRAFE, CTL_ALWAYSRUN, CTL_OPTIONS_SPACE, CTL_MOUSEOPTIONS, CTL_KEYBOARDOPTIONS, CTL_JOYSTICKOPTIONS };
 enum { CTL_MOUSE_RUN, CTL_MOUSE_OPEN, CTL_MOUSE_FIRE, CTL_MOUSE_STRAFE, CTL_SPACE_MOUSE, CTL_MOUSEMOVEMENT, CTL_MOUSESENS };
-enum { CTL_KB_MOVE_FWRD, CTL_KB_MOVE_BWRD, CTL_KB_MOVE_LEFT, CTL_KB_MOVE_RIGHT, CTL_SPACE_KB_MOVE, CTL_ALWAYSSTRAFE, CTL_ACTIONKEYS };
+enum { CTL_KB_MOVE_FWRD, CTL_KB_MOVE_BWRD, CTL_KB_MOVE_LEFT, CTL_KB_MOVE_RIGHT, CTL_SPACE_KB_MOVE, CTL_ACTIONKEYS };
 enum { CTL_KB_ACTION_RUN, CTL_KB_ACTION_OPEN, CTL_KB_ACTION_FIRE, CTL_KB_ACTION_STRAFE, CTL_SPACE_KB_ACTION, CTL_MOVEMENTKEYS };
 #else
 enum { CTL_MOUSEENABLE, CTL_MOUSESENS, CTL_JOYENABLE, CTL_CUSTOMIZE };
@@ -155,6 +155,7 @@ CP_itemtype CtlMenu[] = {
 	{1, STR_CUSTOM, CustomControls}
 #else
 	{0, STR_JOYEN, 0},
+	{1, "Always Strafe", 0},
 	{1, "Always Run", 0},
 	{0, "", 0},
 	{1, STR_OP_MOUSE, CP_MouseCtl},
@@ -282,7 +283,6 @@ CP_itemtype CtlKeyboardMoveMenu[] = {
 	{1, STR_LEFT, 0},
 	{1, STR_RIGHT, 0},
 	{0, "", 0},
-	{1, "Always Strafe", 0},
 	{1, "Action Keys", CP_KeyboardActionCtl}
 };
 
@@ -1795,6 +1795,12 @@ CP_Control(int blank)
 			ShootSnd();
 			break;
 #ifdef USE_MODERN_OPTIONS
+		case CTL_ALWAYSSTRAFE:
+			alwaysStrafe ^= 1;
+			DrawCtlScreen();
+			CusItems.curpos = -1;
+			ShootSnd();
+			break;
 		case CTL_ALWAYSRUN:
 			alwaysRun ^= 1;
 			DrawCtlScreen();
@@ -2031,6 +2037,11 @@ DrawCtlScreen(void)
 
 #ifdef USE_MODERN_OPTIONS
 	y = CTL_Y + 29;
+	if (alwaysStrafe)
+		VWB_DrawPic(x, y, C_SELECTEDPIC);
+	else
+		VWB_DrawPic(x, y, C_NOTSELECTEDPIC);
+	y = CTL_Y + 42;
 	if (alwaysRun)
 		VWB_DrawPic(x, y, C_SELECTEDPIC);
 	else
@@ -2364,11 +2375,6 @@ int CP_KeyboardMoveCtl(int blank)
 		case CTL_KB_MOVE_RIGHT:
 			DefineKeyMove(4);
 			DrawCustKeys(4);
-			break;
-		case CTL_ALWAYSSTRAFE:
-			alwaysStrafe ^= 1;
-			ShootSnd();
-			break;
 			break;
 		default:
 			break;
@@ -2852,11 +2858,6 @@ void DrawKeyboardMoveCtlScreen(void)
 
 	DrawWindow(OPT_MOUSE_X - 8, OPT_MOUSE_Y - 5, OPT_MOUSE_W, OPT_KB_MOVE_H, BKGDCOLOR);
 	DrawMenuGun(&CusKeyboardMoveItems);
-
-	if (alwaysStrafe)
-		VWB_DrawPic(56, OPT_MOUSE_Y + 68, C_SELECTEDPIC);
-	else
-		VWB_DrawPic(56, OPT_MOUSE_Y + 68, C_NOTSELECTEDPIC);
 
 	DrawMenu(&CusKeyboardMoveItems, CtlKeyboardMoveMenu);
 	DrawCustKeys(0);

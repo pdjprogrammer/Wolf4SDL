@@ -77,7 +77,7 @@
 #endif
 #define CTL_W   284
 #ifdef USE_MODERN_OPTIONS
-#define CTL_H   100
+#define CTL_H   114
 #else
 #define CTL_H   60
 #endif
@@ -100,7 +100,7 @@
 #define OPT_MOUSE_W   284
 #define OPT_MOUSE_H   100
 
-#define OPT_KB_MOVE_H   100
+#define OPT_KB_MOVE_H   86
 
 #define LSM_X   85
 #define LSM_Y   55
