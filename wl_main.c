@@ -73,6 +73,7 @@ boolean startgame;
 boolean loadedgame;
 int     mouseadjustment;
 
+
 char    configdir[256] = "";
 char    configname[13] = "config.";
 
@@ -448,6 +449,7 @@ boolean SaveTheGame(FILE* file, int x, int y)
 	DiskFlopAnim(x, y);
 	fwrite(&nullobj, sizeof(nullobj), 1, file);
 
+	
 	DiskFlopAnim(x, y);
 	laststatobjnum = (word)(laststatobj - statobjlist);
 	fwrite(&laststatobjnum, sizeof(laststatobjnum), 1, file);
@@ -1894,6 +1896,10 @@ param_difficulty = 0;
 
 int main(int argc, char* argv[])
 {
+#ifdef _DEBUG
+	printf("\n");
+	printf("Wolfenstein 3D Starting...");
+#endif
 #if defined(_arch_dreamcast)
 	DC_Init();
 #else

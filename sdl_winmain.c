@@ -184,10 +184,12 @@ static void cleanup_output(void)
 #endif
 }
 
-//#if defined(_MSC_VER) && !defined(_WIN32_WCE)
-///* The VC++ compiler needs main defined */
-//#define console_main main
-//#endif
+#ifdef _DEBUG
+#if defined(_MSC_VER) && !defined(_WIN32_WCE)
+/* The VC++ compiler needs main defined */
+#define console_main main
+#endif
+#endif
 
 /* This is where execution begins [console apps] */
 int console_main(int argc, char *argv[])
