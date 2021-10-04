@@ -59,17 +59,12 @@ Makefile.win
 *.d
 *.wl6
 
-
-
-
-
 # VS Files & Folders #
 ##############
 *.user
 /debug
 /release
 /.vs
-/libraries
 
 # VS Code Files & Folders #
 ##############
