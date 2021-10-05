@@ -24,11 +24,13 @@
 		</Build>
 		<Compiler>
 			<Add option="-Dmain=SDL_main" />
+			<Add directory="libraries/mingw/include/SDL2" />
 		</Compiler>
 		<Linker>
 			<Add library="mingw32" />
-			<Add library="SDL" />
-			<Add library="SDL_mixer" />
+			<Add library="SDL2" />
+			<Add library="SDL2_mixer" />
+			<Add directory="libraries/mingw/lib/SDL2" />
 		</Linker>
 		<Unit filename="audiosod.h" />
 		<Unit filename="audiowl6.h" />
@@ -72,6 +74,10 @@
 		<Unit filename="sdl_winmain.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="sdl_wrap.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="sdl_wrap.h" />
 		<Unit filename="signon.c">
 			<Option compilerVar="CC" />
 		</Unit>

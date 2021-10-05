@@ -32,10 +32,11 @@
 #endif
 
 /* DEMOLITIONDERBY'S MODIFICATIONS START */
+
 #define NO_TIME_WASTE			// Disables the FadeIn and FadeOut delay, useful when debugging
 #define USE_MODERN_OPTIONS		// Enables Modern Control Scheme - Adds an option to disable Y Axis mouse movement and independant strafe keys -- ! DELETE CONFIG.WL6 AFTER CHANGING !
-#define SHOW_GAME_OPTIONS
-#define DISABLE_WALLSOUND		// Disables Wall hit and space bar sounds
+#define SHOW_GAME_OPTIONS		// Needs "USE_MODERN_OPTIONS" flag enabled.
+#define DISABLE_WALLSOUND		// Disables wall hit and space bar sounds
 
 /* DEMOLITIONDERBY'S MODIFICATIONS END */
 

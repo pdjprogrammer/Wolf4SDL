@@ -131,6 +131,7 @@ enum { CTL_MOUSEENABLE, CTL_JOYENABLE, CTL_JOY2BUTTONUNKNOWN, CTL_GAMEPADUNKONWN
 #ifdef USE_MODERN_OPTIONS
 enum { CTL_MOUSEENABLE, CTL_JOYENABLE, CTL_ALWAYSSTRAFE, CTL_ALWAYSRUN, CTL_OPTIONS_SPACE, CTL_MOUSEOPTIONS, CTL_KEYBOARDOPTIONS, CTL_JOYSTICKOPTIONS };
 enum { CTL_MOUSE_RUN, CTL_MOUSE_OPEN, CTL_MOUSE_FIRE, CTL_MOUSE_STRAFE, CTL_SPACE_MOUSE, CTL_MOUSEMOVEMENT, CTL_MOUSESENS };
+enum { CTL_JOYSTICK_RUN, CTL_JOYSTICK_OPEN, CTL_JOYSTICK_FIRE, CTL_JOYSTICK_STRAFE };
 enum { CTL_KB_MOVE_FWRD, CTL_KB_MOVE_BWRD, CTL_KB_MOVE_LEFT, CTL_KB_MOVE_RIGHT, CTL_SPACE_KB_MOVE, CTL_ACTIONKEYS };
 enum { CTL_KB_ACTION_RUN, CTL_KB_ACTION_OPEN, CTL_KB_ACTION_FIRE, CTL_KB_ACTION_STRAFE, CTL_SPACE_KB_ACTION, CTL_MOVEMENTKEYS };
 #else
@@ -160,7 +161,7 @@ CP_itemtype CtlMenu[] = {
 	{0, "", 0},
 	{1, STR_OP_MOUSE, CP_MouseCtl},
 	{1, STR_OP_KEYBOARD, CP_KeyboardMoveCtl},
-	{1, STR_OP_JOYSTICK, 0}
+	{1, STR_OP_JOYSTICK, CP_JoystickCtl}
 #endif
 
 #endif
@@ -294,6 +295,13 @@ CP_itemtype CtlKeyboardActionMenu[] = {
 	{0, "", 0},
 	{1, "Movement Keys", CP_KeyboardMoveCtl}
 };
+
+CP_itemtype CtlJoystickMenu[] = {
+	{1, STR_CRUN, 0},
+	{1, STR_COPEN, 0},
+	{1, STR_CFIRE, 0},
+	{1, STR_CSTRAFE, 0}
+};
 #endif
 
 CP_itemtype OptMenu[] = {
@@ -323,6 +331,7 @@ CusMouseItems = { OPT_MOUSE_X, OPT_MOUSE_Y, lengthof(CtlMouseMenu), 0, 54 },
 #ifdef USE_MODERN_OPTIONS
 CusKeyboardMoveItems = { OPT_MOUSE_X, OPT_MOUSE_Y, lengthof(CtlKeyboardMoveMenu), 0, 54 },
 CusKeyboardActionItems = { OPT_MOUSE_X, OPT_MOUSE_Y, lengthof(CtlKeyboardActionMenu), 0, 54 },
+CusJoystickItems = { OPT_MOUSE_X, OPT_MOUSE_Y, lengthof(CtlJoystickMenu), 0, 54 },
 #endif
 SndItems = { SM_X, SM_Y1, lengthof(SndMenu), 0, 52 },
 LSItems = { LSM_X, LSM_Y, lengthof(LSMenu), 0, 24 },
@@ -2121,7 +2130,7 @@ enum
 {
 	FIRE, STRAFE, RUN, OPEN
 };
-char mbarray[4][11] = { "Left Btn", "Right Btn", "Middle Btn", "b3" };
+char mbarray[4][11] = { "Left Btn", "Right Btn", "Middle Btn", "Top Btn" };
 int8_t order[4] = { RUN, OPEN, FIRE, STRAFE };
 
 int CP_MouseCtl(int blank)
@@ -2259,12 +2268,38 @@ void DefineMouseBtns(void)
 //
 // DEFINE THE JOYSTICK BUTTONS
 //
-void
-DefineJoyBtns(void)
+#ifdef USE_MODERN_OPTIONS
+void DefineJoyBtns(int value)
+{
+	CustomCtrls joyallowed;
+	int i;
+
+	--value;
+
+	for (i = 0; i < 4; i++)
+	{
+		if (i == value) {
+			joyallowed.allowed[i] = 1;
+}
+		else {
+			joyallowed.allowed[i] = 0;
+		}
+	}
+
+	++value;
+
+	EnterCtrlData(value, &joyallowed, DrawCustJoy, PrintCustJoy, JOYSTICK);
+	//CustomCtrls joyallowed = { 1, 1, 1, 1 };
+	//EnterCtrlData(5, &joyallowed, DrawCustJoy, PrintCustJoy, JOYSTICK);
+}
+#else
+void DefineJoyBtns(void)
 {
 	CustomCtrls joyallowed = { 1, 1, 1, 1 };
 	EnterCtrlData(5, &joyallowed, DrawCustJoy, PrintCustJoy, JOYSTICK);
 }
+#endif
+
 
 ////////////////////////
 //
@@ -2429,6 +2464,50 @@ int CP_KeyboardActionCtl(int blank)
 	} while (which >= 0);
 
 	MenuFadeOut();
+
+	return 0;
+}
+
+int CP_JoystickCtl(int blank)
+{
+	int which;
+
+	DrawJoystickScreen();
+	WaitKeyUp();
+
+	do
+	{
+		which = HandleMenu(&CusJoystickItems, &CtlJoystickMenu[0], NULL);
+
+		switch (which)
+		{
+		case CTL_JOYSTICK_RUN:
+			DefineJoyBtns(1);
+			DrawCustJoy(1);
+			break;
+		case CTL_JOYSTICK_OPEN:
+			DefineJoyBtns(2);
+			DrawCustJoy(2);
+			break;
+		case CTL_JOYSTICK_FIRE:
+			DefineJoyBtns(3);
+			DrawCustJoy(3);
+			break;
+		case CTL_JOYSTICK_STRAFE:
+			DefineJoyBtns(4);
+			DrawCustJoy(4);
+			break;
+		default:
+			break;
+		}
+
+		DrawJoystickScreen();
+
+	} while (which >= 0);
+
+	MenuFadeOut();
+	DrawCtlScreen();
+	MenuFadeIn();
 
 	return 0;
 }
@@ -2937,6 +3016,64 @@ void DrawKeyboardActionCtlScreen(void)
 	VW_UpdateScreen();
 	MenuFadeIn();
 }
+
+////////////////////////
+//
+// DRAW JOYSTICK SCREEN
+//
+void DrawJoystickScreen(void)
+{
+	int i;
+	int which;
+
+	ClearMScreen();
+	WindowX = 0;
+	WindowW = 320;
+	VWB_DrawPic(112, 184, C_MOUSELBACKPIC);
+	DrawStripes(10);
+	VWB_DrawPic(80, 0, C_CUSTOMIZEPIC);
+
+	//
+	// MOUSE
+	//
+	SETFONTCOLOR(READCOLOR, BKGDCOLOR);
+	WindowX = 0;
+	WindowW = 320;
+
+#ifndef SPEAR
+	//PrintY = OPT_MOUSE_Y;
+	//US_CPrint("Mouse\n");
+#else
+	PrintY = CST_Y + 13;
+	VWB_DrawPic(128, 48, C_MOUSEPIC);
+#endif
+
+	SETFONTCOLOR(TEXTCOLOR, BKGDCOLOR);
+
+	DrawWindow(OPT_MOUSE_X - 8, OPT_MOUSE_Y - 5, OPT_MOUSE_W, OPT_MOUSE_H, BKGDCOLOR);
+	DrawMenuGun(&CusJoystickItems);
+
+	DrawMenu(&CusJoystickItems, CtlJoystickMenu);
+	DrawCustJoy(0);
+
+	WaitKeyUp();
+	US_Print("\n");
+
+	//
+	// PICK STARTING POINT IN MENU
+	//
+	if (CusJoystickItems.curpos < 0)
+		for (i = 0; i < CusJoystickItems.amount; i++)
+			if (CtlJoystickMenu[i].active)
+			{
+				CusJoystickItems.curpos = i;
+				break;
+			}
+
+
+	VW_UpdateScreen();
+	MenuFadeIn();
+}
 #else
 
 ////////////////////////
@@ -3193,7 +3330,13 @@ PrintCustJoy(int i)
 	{
 		if (order[i] == buttonjoy[j])
 		{
+#ifndef USE_MODERN_OPTIONS
 			PrintX = CST_START + CST_SPC * i;
+#else
+			PrintX = CTL_MOUSE_X;
+			PrintY = CST_START + (CST_SPC_Y * i);
+#endif
+			//PrintX = CST_START + CST_SPC * i;
 			US_Print(mbarray[j]);
 			break;
 		}
@@ -3218,7 +3361,12 @@ DrawCustJoy(int hilight)
 	else
 		CusMenu[3].active = 1;
 
+#ifndef USE_MODERN_OPTIONS
 	PrintY = CST_Y + 13 * 5;
+#else
+	PrintX = CTL_MOUSE_X;
+#endif
+
 	for (i = 0; i < 4; i++)
 		PrintCustJoy(i);
 }

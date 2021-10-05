@@ -191,14 +191,13 @@ void DrawStripes(int y);
 void DefineMouseBtns(int);
 void DefineKeyMove(int);
 void DefineKeyBtns(int);
+void DefineJoyBtns(int);
 #else
 void DefineMouseBtns(void);
 void DefineKeyMove(void);
 void DefineKeyBtns(void);
-#endif
-
 void DefineJoyBtns(void);
-
+#endif
 
 void EnterCtrlData(int index, CustomCtrls* cust, void (*DrawRtn)(int), void (*PrintRtn)(int), int type);
 
@@ -225,6 +224,7 @@ void PrintCustKeybd(int i);
 void PrintCustKeys(int i);
 
 void DrawOptScreen(void);
+void DrawJoystickScreen(void);
 
 void PrintLSEntry(int w, int color);
 void TrackWhichGame(int w);
@@ -250,9 +250,10 @@ int MouseSensitivity(int);
 int CP_MouseCtl(int);
 int CP_KeyboardMoveCtl(int);
 int CP_KeyboardActionCtl(int);
+int CP_JoystickCtl(int);
 #else
 int CustomControls(int);
-#endif // USE_MODERN_OPTIONS
+#endif
 
 void CheckForEpisodes(void);
 
