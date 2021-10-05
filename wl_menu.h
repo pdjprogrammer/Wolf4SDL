@@ -69,17 +69,19 @@
 #define SM_Y3   SM_Y2+5*13
 #define SM_H3   3*13-7
 
-#define CTL_X   24
 #ifdef JAPAN
 #define CTL_Y   70
 #else
 #define CTL_Y   72
 #endif
-#define CTL_W   284
 #ifdef USE_MODERN_OPTIONS
+#define CTL_X   43
 #define CTL_H   114
+#define CTL_W   250
 #else
+#define CTL_X   24
 #define CTL_H   60
+#define CTL_W   284
 #endif
 
 #define OPT_X   64
@@ -89,18 +91,12 @@
 #define OPT_Y   86
 #endif
 #define OPT_W   200
+
 #ifdef SHOW_GAME_OPTIONS
 #define OPT_H   62
 #else
 #define OPT_H   48
 #endif
-
-#define OPT_MOUSE_X   26
-#define OPT_MOUSE_Y   72
-#define OPT_MOUSE_W   284
-#define OPT_MOUSE_H   100
-
-#define OPT_KB_MOVE_H   86
 
 #define LSM_X   85
 #define LSM_Y   55
@@ -128,8 +124,26 @@
 #define CST_SPC 95
 #endif
 
+#ifdef USE_MODERN_OPTIONS
+#define OPT_MOUSE_X   26
+#define OPT_MOUSE_Y   72
+#define OPT_MOUSE_W   284
+#define OPT_MOUSE_H   100
+
+#define OPT_KEYBOARD_X   41
+#define OPT_KEYBOARD_Y   72
+#define OPT_KEYBOARD_W   250
+#define OPT_KEYBOARD_H   87
+
+#define OPT_JOYSTICK_X   41
+#define OPT_JOYSTICK_Y   72
+#define OPT_JOYSTICK_W   250
+#define OPT_JOYSTICK_H   63
+
 #define CST_SPC_Y 13
 #define CTL_MOUSE_X 180
+#endif
+
 
 //
 // TYPEDEFS
@@ -187,16 +201,16 @@ void EraseGun(CP_iteminfo* item_i, CP_itemtype* items, int x, int y, int which);
 void DrawMenuGun(CP_iteminfo* iteminfo);
 void DrawStripes(int y);
 
-#ifdef USE_MODERN_OPTIONS
-void DefineMouseBtns(int);
-void DefineKeyMove(int);
-void DefineKeyBtns(int);
-void DefineJoyBtns(int);
-#else
+#ifndef USE_MODERN_OPTIONS
 void DefineMouseBtns(void);
 void DefineKeyMove(void);
 void DefineKeyBtns(void);
 void DefineJoyBtns(void);
+#else
+void DefineMouseBtns(int);
+void DefineKeyMove(int);
+void DefineKeyBtns(int);
+void DefineJoyBtns(int);
 #endif
 
 void EnterCtrlData(int index, CustomCtrls* cust, void (*DrawRtn)(int), void (*PrintRtn)(int), int type);
@@ -246,13 +260,13 @@ int  CP_CheckQuick(ScanCode scancode);
 int Controls(int);
 int MouseSensitivity(int);
 
-#ifdef USE_MODERN_OPTIONS
+#ifndef USE_MODERN_OPTIONS
+int CustomControls(int);
+#else
 int CP_MouseCtl(int);
 int CP_KeyboardMoveCtl(int);
 int CP_KeyboardActionCtl(int);
 int CP_JoystickCtl(int);
-#else
-int CustomControls(int);
 #endif
 
 void CheckForEpisodes(void);

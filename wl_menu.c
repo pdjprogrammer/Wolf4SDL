@@ -131,9 +131,9 @@ enum { CTL_MOUSEENABLE, CTL_JOYENABLE, CTL_JOY2BUTTONUNKNOWN, CTL_GAMEPADUNKONWN
 #ifdef USE_MODERN_OPTIONS
 enum { CTL_MOUSEENABLE, CTL_JOYENABLE, CTL_ALWAYSSTRAFE, CTL_ALWAYSRUN, CTL_OPTIONS_SPACE, CTL_MOUSEOPTIONS, CTL_KEYBOARDOPTIONS, CTL_JOYSTICKOPTIONS };
 enum { CTL_MOUSE_RUN, CTL_MOUSE_OPEN, CTL_MOUSE_FIRE, CTL_MOUSE_STRAFE, CTL_SPACE_MOUSE, CTL_MOUSEMOVEMENT, CTL_MOUSESENS };
-enum { CTL_JOYSTICK_RUN, CTL_JOYSTICK_OPEN, CTL_JOYSTICK_FIRE, CTL_JOYSTICK_STRAFE };
 enum { CTL_KB_MOVE_FWRD, CTL_KB_MOVE_BWRD, CTL_KB_MOVE_LEFT, CTL_KB_MOVE_RIGHT, CTL_SPACE_KB_MOVE, CTL_ACTIONKEYS };
 enum { CTL_KB_ACTION_RUN, CTL_KB_ACTION_OPEN, CTL_KB_ACTION_FIRE, CTL_KB_ACTION_STRAFE, CTL_SPACE_KB_ACTION, CTL_MOVEMENTKEYS };
+enum { CTL_JOYSTICK_RUN, CTL_JOYSTICK_OPEN, CTL_JOYSTICK_FIRE, CTL_JOYSTICK_STRAFE };
 #else
 enum { CTL_MOUSEENABLE, CTL_MOUSESENS, CTL_JOYENABLE, CTL_CUSTOMIZE };
 #endif
@@ -327,11 +327,12 @@ CP_itemtype OptMenu[] = {
 // CP_iteminfo struct format: short x, y, amount, curpos, indent;
 CP_iteminfo MainItems = { MENU_X, MENU_Y, lengthof(MainMenu), STARTITEM, 24 },
 OptItems = { OPT_X, OPT_Y, lengthof(OptMenu), 0, 32 },
-CusMouseItems = { OPT_MOUSE_X, OPT_MOUSE_Y, lengthof(CtlMouseMenu), 0, 54 },
+
 #ifdef USE_MODERN_OPTIONS
-CusKeyboardMoveItems = { OPT_MOUSE_X, OPT_MOUSE_Y, lengthof(CtlKeyboardMoveMenu), 0, 54 },
-CusKeyboardActionItems = { OPT_MOUSE_X, OPT_MOUSE_Y, lengthof(CtlKeyboardActionMenu), 0, 54 },
-CusJoystickItems = { OPT_MOUSE_X, OPT_MOUSE_Y, lengthof(CtlJoystickMenu), 0, 54 },
+CusMouseItems = { OPT_MOUSE_X, OPT_MOUSE_Y, lengthof(CtlMouseMenu), 0, 54 },
+CusKeyboardMoveItems = { OPT_KEYBOARD_X, OPT_KEYBOARD_Y, lengthof(CtlKeyboardMoveMenu), 0, 54 },
+CusKeyboardActionItems = { OPT_KEYBOARD_X, OPT_KEYBOARD_Y, lengthof(CtlKeyboardActionMenu), 0, 54 },
+CusJoystickItems = { OPT_JOYSTICK_X, OPT_JOYSTICK_Y, lengthof(CtlJoystickMenu), 0, 54 },
 #endif
 SndItems = { SM_X, SM_Y1, lengthof(SndMenu), 0, 52 },
 LSItems = { LSM_X, LSM_Y, lengthof(LSMenu), 0, 24 },
@@ -1988,8 +1989,7 @@ MouseSensitivity(int blank)
 //
 // DRAW CONTROL MENU SCREEN
 //
-void
-DrawCtlScreen(void)
+void DrawCtlScreen(void)
 {
 	int i, x, y;
 
@@ -2050,6 +2050,7 @@ DrawCtlScreen(void)
 		VWB_DrawPic(x, y, C_SELECTEDPIC);
 	else
 		VWB_DrawPic(x, y, C_NOTSELECTEDPIC);
+
 	y = CTL_Y + 42;
 	if (alwaysRun)
 		VWB_DrawPic(x, y, C_SELECTEDPIC);
@@ -2289,8 +2290,6 @@ void DefineJoyBtns(int value)
 	++value;
 
 	EnterCtrlData(value, &joyallowed, DrawCustJoy, PrintCustJoy, JOYSTICK);
-	//CustomCtrls joyallowed = { 1, 1, 1, 1 };
-	//EnterCtrlData(5, &joyallowed, DrawCustJoy, PrintCustJoy, JOYSTICK);
 }
 #else
 void DefineJoyBtns(void)
@@ -2467,6 +2466,14 @@ int CP_KeyboardActionCtl(int blank)
 
 	return 0;
 }
+
+////////////////////////////////////////////////////////////////////
+//
+// CUSTOMIZE JOYSTICK CONTROLS
+//
+////////////////////////////////////////////////////////////////////
+
+char jbarray[4][11] = { "AB Down", "AB Right", "AB Left", "AB Top" };
 
 int CP_JoystickCtl(int blank)
 {
@@ -2685,7 +2692,7 @@ void EnterCtrlData(int index, CustomCtrls* cust, void (*DrawRtn) (int), void (*P
 					{
 						buttonscan[order[which]] = LastScan;
 						picked = 1;
-						ShootSnd();
+						SD_PlaySound(SHOOTDOORSND);
 						IN_ClearKeysDown();
 					}
 					break;
@@ -2695,7 +2702,7 @@ void EnterCtrlData(int index, CustomCtrls* cust, void (*DrawRtn) (int), void (*P
 					{
 						dirscan[moveorder[which]] = LastScan;
 						picked = 1;
-						ShootSnd();
+						SD_PlaySound(SHOOTDOORSND);
 						IN_ClearKeysDown();
 					}
 					break;
@@ -2935,7 +2942,7 @@ void DrawKeyboardMoveCtlScreen(void)
 
 	SETFONTCOLOR(TEXTCOLOR, BKGDCOLOR);
 
-	DrawWindow(OPT_MOUSE_X - 8, OPT_MOUSE_Y - 5, OPT_MOUSE_W, OPT_KB_MOVE_H, BKGDCOLOR);
+	DrawWindow(OPT_KEYBOARD_X - 8, OPT_KEYBOARD_Y - 5, OPT_KEYBOARD_W, OPT_KEYBOARD_H, BKGDCOLOR);
 	DrawMenuGun(&CusKeyboardMoveItems);
 
 	DrawMenu(&CusKeyboardMoveItems, CtlKeyboardMoveMenu);
@@ -2993,7 +3000,7 @@ void DrawKeyboardActionCtlScreen(void)
 
 	SETFONTCOLOR(TEXTCOLOR, BKGDCOLOR);
 
-	DrawWindow(OPT_MOUSE_X - 8, OPT_MOUSE_Y - 5, OPT_MOUSE_W, OPT_KB_MOVE_H, BKGDCOLOR);
+	DrawWindow(OPT_KEYBOARD_X - 8, OPT_KEYBOARD_Y- 5, OPT_KEYBOARD_W, OPT_KEYBOARD_H, BKGDCOLOR);
 	DrawMenuGun(&CusKeyboardActionItems);
 
 	DrawMenu(&CusKeyboardActionItems, CtlKeyboardActionMenu);
@@ -3050,7 +3057,7 @@ void DrawJoystickScreen(void)
 
 	SETFONTCOLOR(TEXTCOLOR, BKGDCOLOR);
 
-	DrawWindow(OPT_MOUSE_X - 8, OPT_MOUSE_Y - 5, OPT_MOUSE_W, OPT_MOUSE_H, BKGDCOLOR);
+	DrawWindow(OPT_JOYSTICK_X - 8, OPT_JOYSTICK_Y - 5, OPT_JOYSTICK_W, OPT_JOYSTICK_H, BKGDCOLOR);
 	DrawMenuGun(&CusJoystickItems);
 
 	DrawMenu(&CusJoystickItems, CtlJoystickMenu);
@@ -3332,12 +3339,12 @@ PrintCustJoy(int i)
 		{
 #ifndef USE_MODERN_OPTIONS
 			PrintX = CST_START + CST_SPC * i;
+			US_Print(mbarray[j]);
 #else
 			PrintX = CTL_MOUSE_X;
 			PrintY = CST_START + (CST_SPC_Y * i);
+			US_Print(jbarray[j]);
 #endif
-			//PrintX = CST_START + CST_SPC * i;
-			US_Print(mbarray[j]);
 			break;
 		}
 	}
