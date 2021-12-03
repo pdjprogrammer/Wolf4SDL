@@ -400,17 +400,16 @@ void PollMouseMove(void)
 	SDL_GetRelativeMouseState(&mousexmove, &mouseymove);
 #endif
 
-
 #ifdef USE_MODERN_OPTIONS
 	if (mousemovement) {
 		if (!buttonstate[bt_strafe]) {
-			//WORKING
 			controlx = 0;
 			controly += mouseymove * 20 / (13 - mouseadjustment);
 			controlh += (mousexmove << 4) / (13 - mouseadjustment);
 		}
 		else {
-
+			controlx += mousexmove * 10 / (13 - mouseadjustment);
+			controly += mouseymove * 20 / (13 - mouseadjustment);
 		}		
 	}
 	else {
@@ -418,15 +417,13 @@ void PollMouseMove(void)
 			controlh += (mousexmove << 4) / (13 - mouseadjustment);
 		}
 		else {
-
+			controlx += mousexmove * 10 / (13 - mouseadjustment);
 		}
 	}
-
 #else
-
+	controlx += mousexmove * 10 / (13 - mouseadjustment);
+	controly += mouseymove * 20 / (13 - mouseadjustment);
 #endif
-
-
 }
 
 
