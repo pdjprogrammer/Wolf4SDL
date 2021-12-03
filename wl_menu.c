@@ -2138,7 +2138,7 @@ int CP_MouseCtl(int blank)
 {
 	int which;
 
-	DrawMouseCtlScreen();	
+	DrawMouseCtlScreen();
 	WaitKeyUp();
 
 	do
@@ -2281,7 +2281,7 @@ void DefineJoyBtns(int value)
 	{
 		if (i == value) {
 			joyallowed.allowed[i] = 1;
-}
+		}
 		else {
 			joyallowed.allowed[i] = 0;
 		}
@@ -2316,7 +2316,7 @@ void DefineKeyBtns(int value)
 	{
 		if (i == value) {
 			keyallowed.allowed[i] = 1;
-}
+		}
 		else {
 			keyallowed.allowed[i] = 0;
 		}
@@ -2385,7 +2385,7 @@ int CP_KeyboardMoveCtl(int blank)
 {
 	int which;
 
-	DrawKeyboardMoveCtlScreen();	
+	DrawKeyboardMoveCtlScreen();
 	WaitKeyUp();
 
 	do
@@ -2411,14 +2411,15 @@ int CP_KeyboardMoveCtl(int blank)
 			DrawCustKeys(4);
 			break;
 		default:
+			which = -1;
 			break;
 		}
 
-		DrawKeyboardMoveCtlScreen();
+		if (which != -1)
+			DrawKeyboardMoveCtlScreen();
 
 	} while (which >= 0);
 
-	MenuFadeOut();
 	DrawCtlScreen();
 	MenuFadeIn();
 
@@ -2429,7 +2430,7 @@ int CP_KeyboardActionCtl(int blank)
 {
 	int which;
 
-	DrawKeyboardActionCtlScreen();	
+	DrawKeyboardActionCtlScreen();
 	WaitKeyUp();
 
 	do
@@ -2455,14 +2456,17 @@ int CP_KeyboardActionCtl(int blank)
 			DrawCustKeybd(4);
 			break;
 		default:
+			which = -1;
 			break;
 		}
 
-		DrawKeyboardActionCtlScreen();
+		if (which != -1)
+			DrawKeyboardActionCtlScreen();
 
 	} while (which >= 0);
 
-	MenuFadeOut();
+	DrawCtlScreen();
+	MenuFadeIn();
 
 	return 0;
 }
@@ -2765,13 +2769,13 @@ void EnterCtrlData(int index, CustomCtrls* cust, void (*DrawRtn) (int), void (*P
 		case dir_South:
 			exit = 1;
 		}
-} while (!exit);
+	} while (!exit);
 
-SD_PlaySound(ESCPRESSEDSND);
-WaitKeyUp();
+	SD_PlaySound(ESCPRESSEDSND);
+	WaitKeyUp();
 
 #ifndef USE_MODERN_OPTIONS
-DrawWindow(5, PrintY - 1, 310, 13, BKGDCOLOR);
+	DrawWindow(5, PrintY - 1, 310, 13, BKGDCOLOR);
 #endif	
 }
 
@@ -3000,7 +3004,7 @@ void DrawKeyboardActionCtlScreen(void)
 
 	SETFONTCOLOR(TEXTCOLOR, BKGDCOLOR);
 
-	DrawWindow(OPT_KEYBOARD_X - 8, OPT_KEYBOARD_Y- 5, OPT_KEYBOARD_W, OPT_KEYBOARD_H, BKGDCOLOR);
+	DrawWindow(OPT_KEYBOARD_X - 8, OPT_KEYBOARD_Y - 5, OPT_KEYBOARD_W, OPT_KEYBOARD_H, BKGDCOLOR);
 	DrawMenuGun(&CusKeyboardActionItems);
 
 	DrawMenu(&CusKeyboardActionItems, CtlKeyboardActionMenu);
@@ -3275,7 +3279,7 @@ DrawCustomScreen(void)
 
 	VW_UpdateScreen();
 	MenuFadeIn();
-			}
+}
 
 #endif // USE_MODERN_OPTIONS
 
@@ -3796,7 +3800,7 @@ void SetupSaveGames()
 		}
 #endif
 	}
-}
+	}
 
 ////////////////////////////////////////////////////////////////////
 //
@@ -4260,7 +4264,7 @@ ReadAnyControl(ControlInfo* ci)
 			ci->button3 = false;
 			mouseactive = 1;
 		}
-}
+	}
 
 	if (joystickenabled && !mouseactive)
 	{
@@ -4413,7 +4417,7 @@ GetYorN(int x, int y, int pic)
 	IN_ClearKeysDown();
 	SD_PlaySound(whichsnd[xit]);
 	return xit;
-	}
+}
 #endif
 
 
@@ -4819,9 +4823,9 @@ CheckForEpisodes(void)
 #endif
 			{
 				Quit("The configuration directory \"%s\" could not be created.", configdir);
-			}
 		}
 	}
+}
 
 	//
 	// JAPANESE VERSION
@@ -4841,7 +4845,7 @@ CheckForEpisodes(void)
 		strcat(demoname, extension);
 		EpisodeSelect[1] =
 			EpisodeSelect[2] = EpisodeSelect[3] = EpisodeSelect[4] = EpisodeSelect[5] = 1;
-		}
+	}
 	else
 		Quit("NO JAPANESE WOLFENSTEIN 3-D DATA FILES to be found!");
 	strcpy(graphext, extension);
@@ -4926,7 +4930,7 @@ CheckForEpisodes(void)
 	if (!stat("vswap.sdm", &statbuf))
 	{
 		strcpy(extension, "sdm");
-		}
+	}
 	else
 		Quit("NO SPEAR OF DESTINY DEMO DATA FILES TO BE FOUND!");
 	strcpy(graphext, "sdm");
@@ -4948,4 +4952,4 @@ CheckForEpisodes(void)
 	strcat(endfilename, extension);
 #endif
 #endif
-	}
+}
