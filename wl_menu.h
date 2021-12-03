@@ -133,7 +133,7 @@
 #define OPT_KEYBOARD_X   41
 #define OPT_KEYBOARD_Y   72
 #define OPT_KEYBOARD_W   250
-#define OPT_KEYBOARD_H   87
+#define OPT_KEYBOARD_H   100
 
 #define OPT_JOYSTICK_X   41
 #define OPT_JOYSTICK_Y   72

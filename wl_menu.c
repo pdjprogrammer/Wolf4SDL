@@ -129,9 +129,9 @@ CP_itemtype SndMenu[] = {
 enum { CTL_MOUSEENABLE, CTL_JOYENABLE, CTL_JOY2BUTTONUNKNOWN, CTL_GAMEPADUNKONWN, CTL_MOUSESENS, CTL_CUSTOMIZE };
 #else
 #ifdef USE_MODERN_OPTIONS
-enum { CTL_MOUSEENABLE, CTL_JOYENABLE, CTL_ALWAYSSTRAFE, CTL_ALWAYSRUN, CTL_OPTIONS_SPACE, CTL_MOUSEOPTIONS, CTL_KEYBOARDOPTIONS, CTL_JOYSTICKOPTIONS };
+enum { CTL_MOUSEENABLE, CTL_JOYENABLE, CTL_ALWAYSRUN, CTL_OPTIONS_SPACE, CTL_MOUSEOPTIONS, CTL_KEYBOARDOPTIONS, CTL_JOYSTICKOPTIONS };
 enum { CTL_MOUSE_RUN, CTL_MOUSE_OPEN, CTL_MOUSE_FIRE, CTL_MOUSE_STRAFE, CTL_SPACE_MOUSE, CTL_MOUSEMOVEMENT, CTL_MOUSESENS };
-enum { CTL_KB_MOVE_FWRD, CTL_KB_MOVE_BWRD, CTL_KB_MOVE_LEFT, CTL_KB_MOVE_RIGHT, CTL_SPACE_KB_MOVE, CTL_ACTIONKEYS };
+enum { CTL_KB_MOVE_FWRD, CTL_KB_MOVE_BWRD, CTL_KB_MOVE_LEFT, CTL_KB_MOVE_RIGHT, CTL_SPACE_KB_MOVE, CTL_ALWAYSSTRAFE, CTL_ACTIONKEYS };
 enum { CTL_KB_ACTION_RUN, CTL_KB_ACTION_OPEN, CTL_KB_ACTION_FIRE, CTL_KB_ACTION_STRAFE, CTL_SPACE_KB_ACTION, CTL_MOVEMENTKEYS };
 enum { CTL_JOYSTICK_RUN, CTL_JOYSTICK_OPEN, CTL_JOYSTICK_FIRE, CTL_JOYSTICK_STRAFE };
 #else
@@ -156,12 +156,12 @@ CP_itemtype CtlMenu[] = {
 	{1, STR_CUSTOM, CustomControls}
 #else
 	{0, STR_JOYEN, 0},
-	{1, "Always Strafe", 0},
-	{1, "Always Run", 0},
+	{1, STR_ALWAYS_RUN, 0},
 	{0, "", 0},
 	{1, STR_OP_MOUSE, CP_MouseCtl},
 	{1, STR_OP_KEYBOARD, CP_KeyboardMoveCtl},
-	{1, STR_OP_JOYSTICK, CP_JoystickCtl}
+	{1, STR_OP_JOYSTICK, CP_JoystickCtl},
+	{1, STR_ADVANCED_CONTROLS, 1}
 #endif
 
 #endif
@@ -284,7 +284,8 @@ CP_itemtype CtlKeyboardMoveMenu[] = {
 	{1, STR_LEFT, 0},
 	{1, STR_RIGHT, 0},
 	{0, "", 0},
-	{1, "Action Keys", CP_KeyboardActionCtl}
+	{1, STR_ALWAYS_STRAFE_KB, 0},
+	{1, STR_ACTION_KEYS, CP_KeyboardActionCtl}
 };
 
 CP_itemtype CtlKeyboardActionMenu[] = {
@@ -293,7 +294,7 @@ CP_itemtype CtlKeyboardActionMenu[] = {
 	{1, STR_CFIRE, 0},
 	{1, STR_CSTRAFE, 0},
 	{0, "", 0},
-	{1, "Movement Keys", CP_KeyboardMoveCtl}
+	{1, STR_MOVEMENT_KEYS, CP_KeyboardMoveCtl}
 };
 
 CP_itemtype CtlJoystickMenu[] = {
@@ -1805,12 +1806,12 @@ CP_Control(int blank)
 			ShootSnd();
 			break;
 #ifdef USE_MODERN_OPTIONS
-		case CTL_ALWAYSSTRAFE:
+		/*case CTL_ALWAYSSTRAFE:
 			alwaysStrafe ^= 1;
 			DrawCtlScreen();
 			CusItems.curpos = -1;
 			ShootSnd();
-			break;
+			break;*/
 		case CTL_ALWAYSRUN:
 			alwaysRun ^= 1;
 			DrawCtlScreen();
@@ -2021,6 +2022,7 @@ void DrawCtlScreen(void)
 	CtlMenu[CTL_MOUSESENS].active = mouseenabled;
 #else
 	CtlMenu[CTL_MOUSEOPTIONS].active = mouseenabled;
+	CtlMenu[CTL_JOYSTICKOPTIONS].active = joystickenabled;
 #endif 
 
 	DrawMenu(&CtlItems, CtlMenu);
@@ -2037,8 +2039,7 @@ void DrawCtlScreen(void)
 	y = CTL_Y + 16;
 #else
 	y = CTL_Y + 29;
-#endif	
-
+#endif
 	if (joystickenabled)
 		VWB_DrawPic(x, y, C_SELECTEDPIC);
 	else
@@ -2046,12 +2047,12 @@ void DrawCtlScreen(void)
 
 #ifdef USE_MODERN_OPTIONS
 	y = CTL_Y + 29;
-	if (alwaysStrafe)
+	/*if (alwaysStrafe)
 		VWB_DrawPic(x, y, C_SELECTEDPIC);
 	else
 		VWB_DrawPic(x, y, C_NOTSELECTEDPIC);
 
-	y = CTL_Y + 42;
+	y = CTL_Y + 42;*/
 	if (alwaysRun)
 		VWB_DrawPic(x, y, C_SELECTEDPIC);
 	else
@@ -2409,6 +2410,12 @@ int CP_KeyboardMoveCtl(int blank)
 		case CTL_KB_MOVE_RIGHT:
 			DefineKeyMove(4);
 			DrawCustKeys(4);
+			break;
+		case CTL_ALWAYSSTRAFE:
+			alwaysStrafe ^= 1;
+			DrawKeyboardMoveCtlScreen();
+			CusItems.curpos = -1;
+			ShootSnd();
 			break;
 		default:
 			which = -1;
@@ -2949,6 +2956,13 @@ void DrawKeyboardMoveCtlScreen(void)
 	DrawWindow(OPT_KEYBOARD_X - 8, OPT_KEYBOARD_Y - 5, OPT_KEYBOARD_W, OPT_KEYBOARD_H, BKGDCOLOR);
 	DrawMenuGun(&CusKeyboardMoveItems);
 
+	int x = 72;
+
+	if (alwaysStrafe)
+		VWB_DrawPic(x, OPT_KEYBOARD_H + 40, C_SELECTEDPIC);
+	else
+		VWB_DrawPic(x, OPT_KEYBOARD_H + 40, C_NOTSELECTEDPIC);
+
 	DrawMenu(&CusKeyboardMoveItems, CtlKeyboardMoveMenu);
 	DrawCustKeys(0);
 
@@ -3004,7 +3018,7 @@ void DrawKeyboardActionCtlScreen(void)
 
 	SETFONTCOLOR(TEXTCOLOR, BKGDCOLOR);
 
-	DrawWindow(OPT_KEYBOARD_X - 8, OPT_KEYBOARD_Y - 5, OPT_KEYBOARD_W, OPT_KEYBOARD_H, BKGDCOLOR);
+	DrawWindow(OPT_KEYBOARD_X - 8, OPT_KEYBOARD_Y - 5, OPT_KEYBOARD_W, OPT_KEYBOARD_H - 13, BKGDCOLOR);
 	DrawMenuGun(&CusKeyboardActionItems);
 
 	DrawMenu(&CusKeyboardActionItems, CtlKeyboardActionMenu);
@@ -3330,7 +3344,7 @@ DrawCustMouse(int highlight)
 
 	for (i = 0; i < 4; i++)
 		PrintCustMouse(i);
-}
+	}
 
 void
 PrintCustJoy(int i)
@@ -3351,7 +3365,7 @@ PrintCustJoy(int i)
 #endif
 			break;
 		}
-	}
+}
 }
 
 void
@@ -3380,7 +3394,7 @@ DrawCustJoy(int hilight)
 
 	for (i = 0; i < 4; i++)
 		PrintCustJoy(i);
-}
+	}
 
 
 void
@@ -3797,10 +3811,10 @@ void SetupSaveGames()
 #ifdef _arch_dreamcast
 			// Remove unpacked version of file
 			fs_unlink(name);
-		}
+			}
 #endif
-	}
-	}
+		}
+}
 
 ////////////////////////////////////////////////////////////////////
 //
@@ -4264,7 +4278,7 @@ ReadAnyControl(ControlInfo* ci)
 			ci->button3 = false;
 			mouseactive = 1;
 		}
-	}
+}
 
 	if (joystickenabled && !mouseactive)
 	{
@@ -4339,7 +4353,7 @@ Confirm(const char* string)
 		else SDL_Delay(5);
 
 #ifdef SPANISH
-	} while (!Keyboard(sc_S) && !Keyboard(sc_N) && !Keyboard(sc_Escape));
+		} while (!Keyboard(sc_S) && !Keyboard(sc_N) && !Keyboard(sc_Escape));
 #else
 } while (!Keyboard(sc_Y) && !Keyboard(sc_N) && !Keyboard(sc_Escape) && !ci.button0 && !ci.button1);
 #endif
@@ -4417,7 +4431,7 @@ GetYorN(int x, int y, int pic)
 	IN_ClearKeysDown();
 	SD_PlaySound(whichsnd[xit]);
 	return xit;
-}
+	}
 #endif
 
 
@@ -4823,7 +4837,7 @@ CheckForEpisodes(void)
 #endif
 			{
 				Quit("The configuration directory \"%s\" could not be created.", configdir);
-		}
+			}
 	}
 }
 

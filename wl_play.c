@@ -360,7 +360,6 @@ void PollCustomKeyboardMove(void)
 	}
 
 	if (Keyboard(dirscan[di_west])) {
-
 		if (alwaysStrafe || buttonstate[bt_strafe])
 			controlx = ((alwaysRun && buttonstate[bt_run]) || (!alwaysRun && !buttonstate[bt_run])) ? -BASEMOVE * tics : -RUNMOVE * tics;
 		else
@@ -407,16 +406,17 @@ void PollMouseMove(void)
 			controly += mouseymove * 20 / (13 - mouseadjustment);
 			controlh += (mousexmove << 4) / (13 - mouseadjustment);
 		}
-		else {
+		else if (buttonstate[bt_strafe])
+		{
 			controlx += mousexmove * 10 / (13 - mouseadjustment);
 			controly += mouseymove * 20 / (13 - mouseadjustment);
-		}		
+		}
 	}
 	else {
 		if (!buttonstate[bt_strafe]) {
 			controlh += (mousexmove << 4) / (13 - mouseadjustment);
 		}
-		else {
+		else if (buttonstate[bt_strafe]) {
 			controlx += mousexmove * 10 / (13 - mouseadjustment);
 		}
 	}
@@ -690,7 +690,7 @@ void CheckKeys(void)
 		DrawPlayBorderSides();
 		IN_ClearKeysDown();
 		return;
-}
+	}
 #endif
 
 
@@ -1428,7 +1428,7 @@ void PlayLoop(void)
 			if (viewsize != 21)
 				StatusDrawFace(BJWAITING1PIC + (US_RndT() & 1));
 			facecount = 0;
-	}
+		}
 #endif
 
 		gamestate.TimeCount += tics;
