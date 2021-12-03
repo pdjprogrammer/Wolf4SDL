@@ -400,22 +400,32 @@ void PollMouseMove(void)
 	SDL_GetRelativeMouseState(&mousexmove, &mouseymove);
 #endif
 
-	controlx += mousexmove * 10 / (13 - mouseadjustment);
-#ifdef USE_MODERN_OPTIONS
-	if (mousemovement)
-		if (alwaysStrafe)
-		{
-			controlx += mousexmove * 10 / (13 - mouseadjustment);
-			controly += mouseymove * 20 / (13 - mouseadjustment);
-		}
-		else
-			controly += mouseymove * 20 / (13 - mouseadjustment);
 
-	controlh += (mousexmove << 4) / (13 - mouseadjustment);
+#ifdef USE_MODERN_OPTIONS
+	if (mousemovement) {
+		if (!buttonstate[bt_strafe]) {
+			//WORKING
+			controlx = 0;
+			controly += mouseymove * 20 / (13 - mouseadjustment);
+			controlh += (mousexmove << 4) / (13 - mouseadjustment);
+		}
+		else {
+
+		}		
+	}
+	else {
+		if (!buttonstate[bt_strafe]) {
+			controlh += (mousexmove << 4) / (13 - mouseadjustment);
+		}
+		else {
+
+		}
+	}
+
 #else
-	controly += mouseymove * 20 / (13 - mouseadjustment);
+
 #endif
-	
+
 
 }
 
@@ -493,7 +503,7 @@ void PollControls(void)
 #ifdef USE_MODERN_OPTIONS
 	controlh = 0;
 #endif
-	
+
 	memcpy(buttonheld, buttonstate, sizeof(buttonstate));
 	memset(buttonstate, 0, sizeof(buttonstate));
 
@@ -683,7 +693,7 @@ void CheckKeys(void)
 		DrawPlayBorderSides();
 		IN_ClearKeysDown();
 		return;
-	}
+}
 #endif
 
 
@@ -1421,7 +1431,7 @@ void PlayLoop(void)
 			if (viewsize != 21)
 				StatusDrawFace(BJWAITING1PIC + (US_RndT() & 1));
 			facecount = 0;
-		}
+	}
 #endif
 
 		gamestate.TimeCount += tics;
