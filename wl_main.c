@@ -159,7 +159,7 @@ void ReadConfig(void)
 
 		read(file, &mouseenabled, sizeof(mouseenabled));
 #ifdef USE_MODERN_OPTIONS
-		read(file, &mousemovement, sizeof(mousemovement));
+		read(file, &mouseYAxis, sizeof(mouseYAxis));
 		read(file, &alwaysRun, sizeof(alwaysRun));
 		read(file, &alwaysStrafe, sizeof(alwaysStrafe));
 #endif		
@@ -195,7 +195,7 @@ void ReadConfig(void)
 
 		if (mouseenabled) mouseenabled = true;
 #ifdef USE_MODERN_OPTIONS
-		if (mousemovement) mousemovement = true;
+		if (mouseYAxis) mouseYAxis = true;
 		if (alwaysRun) alwaysRun = true;
 		if (alwaysStrafe) alwaysStrafe = true;
 #endif		
@@ -241,9 +241,8 @@ void ReadConfig(void)
 		if (MousePresent) {
 			mouseenabled = true;
 #ifdef USE_MODERN_OPTIONS
-			mousemovement = true;
+			mouseYAxis = true;
 #endif
-
 		}
 
 
@@ -293,7 +292,7 @@ void WriteConfig(void)
 
 		write(file, &mouseenabled, sizeof(mouseenabled));
 #ifdef USE_MODERN_OPTIONS
-		write(file, &mousemovement, sizeof(mousemovement));
+		write(file, &mouseYAxis, sizeof(mouseYAxis));
 		write(file, &alwaysRun, sizeof(alwaysRun));
 		write(file, &alwaysStrafe, sizeof(alwaysStrafe));
 #endif		

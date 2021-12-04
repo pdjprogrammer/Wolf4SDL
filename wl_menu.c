@@ -2165,7 +2165,7 @@ int CP_MouseCtl(int blank)
 			DrawCustMouse(4);
 			break;
 		case CTL_MOUSEMOVEMENT:
-			mousemovement ^= 1;
+			mouseYAxis ^= 1;
 			ShootSnd();
 			break;
 		default:
@@ -2893,7 +2893,7 @@ void DrawMouseCtlScreen(void)
 	DrawWindow(OPT_MOUSE_X - 8, OPT_MOUSE_Y - 5, OPT_MOUSE_W, OPT_MOUSE_H, BKGDCOLOR);
 	DrawMenuGun(&CusMouseItems);
 
-	if (mousemovement)
+	if (mouseYAxis)
 		VWB_DrawPic(56, OPT_MOUSE_Y + 68, C_SELECTEDPIC);
 	else
 		VWB_DrawPic(56, OPT_MOUSE_Y + 68, C_NOTSELECTEDPIC);

@@ -55,7 +55,7 @@ unsigned tics;
 // control info
 //
 #ifdef USE_MODERN_OPTIONS
-boolean mouseenabled, mousemovement, joystickenabled, alwaysRun, alwaysStrafe;
+boolean mouseenabled, mouseYAxis, joystickenabled, alwaysRun, alwaysStrafe;
 #else
 boolean mouseenabled, joystickenabled;
 
@@ -400,25 +400,20 @@ void PollMouseMove(void)
 #endif
 
 #ifdef USE_MODERN_OPTIONS
-	if (mousemovement) {
-		if (!buttonstate[bt_strafe]) {
-			controlx = 0;
-			controly += mouseymove * 20 / (13 - mouseadjustment);
-			controlh += (mousexmove << 4) / (13 - mouseadjustment);
-		}
-		else if (buttonstate[bt_strafe])
-		{
-			controlx += mousexmove * 10 / (13 - mouseadjustment);
-			controly += mouseymove * 20 / (13 - mouseadjustment);
-		}
+	if (mouseYAxis) {
+		controly += mouseymove * 20 / (13 - mouseadjustment);
+	}
+
+	if (!buttonstate[bt_strafe]) {
+		controlh += (mousexmove << 4) / (13 - mouseadjustment);
 	}
 	else {
-		if (!buttonstate[bt_strafe]) {
-			controlh += (mousexmove << 4) / (13 - mouseadjustment);
-		}
-		else if (buttonstate[bt_strafe]) {
-			controlx += mousexmove * 10 / (13 - mouseadjustment);
-		}
+		controlx += mousexmove * 10 / (13 - mouseadjustment);
+	}
+
+	if (alwaysStrafe && !buttonstate[bt_strafe]) {
+		controlx += mousexmove * 10 / (13 - mouseadjustment);
+		controlh += (mousexmove << 4) / (13 - mouseadjustment);
 	}
 #else
 	controlx += mousexmove * 10 / (13 - mouseadjustment);
