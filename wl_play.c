@@ -61,7 +61,7 @@ boolean mouseenabled, joystickenabled;
 
 #endif
 
-int dirscan[4] = { sc_UpArrow, sc_RightArrow, sc_DownArrow, sc_LeftArrow };
+int dirscan[6] = { sc_UpArrow, sc_RightArrow, sc_DownArrow, sc_LeftArrow, sc_StrafeLeft, sc_StrafeRight };
 int buttonscan[NUMBUTTONS] = { sc_Control, sc_Alt, sc_LShift, sc_Space, sc_1, sc_2, sc_3, sc_4 };
 int buttonmouse[4] = { bt_attack, bt_strafe, bt_use, bt_nobutton };
 int buttonjoy[32] = {
@@ -371,6 +371,16 @@ void PollCustomKeyboardMove(void)
 			controlx = ((alwaysRun && buttonstate[bt_run]) || (!alwaysRun && !buttonstate[bt_run])) ? BASEMOVE * tics : RUNMOVE * tics;
 		else
 			controlh = (buttonstate[bt_run]) ? RUNMOVE * tics : BASEMOVE * tics;
+	}
+
+	if (Keyboard(dirscan[di_st_east]))
+	{
+		controlx = ((alwaysRun && buttonstate[bt_run]) || (!alwaysRun && !buttonstate[bt_run])) ? -BASEMOVE * tics : -RUNMOVE * tics;
+	}
+
+	if (Keyboard(dirscan[di_st_west]))
+	{
+		controlx = ((alwaysRun && buttonstate[bt_run]) || (!alwaysRun && !buttonstate[bt_run])) ? BASEMOVE * tics : RUNMOVE * tics;
 	}
 }
 #endif

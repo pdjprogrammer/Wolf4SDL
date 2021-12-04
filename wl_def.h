@@ -618,7 +618,9 @@ typedef enum {
 	di_north,
 	di_east,
 	di_south,
-	di_west
+	di_west,
+	di_st_east,
+	di_st_west
 } controldir_t;
 
 typedef enum {
@@ -1050,7 +1052,7 @@ extern  boolean     mouseenabled, mouseYAxis, joystickenabled, alwaysRun, always
 extern  boolean     mouseenabled, joystickenabled;
 #endif
 
-extern  int         dirscan[4];
+extern  int         dirscan[6];
 extern  int         buttonscan[NUMBUTTONS];
 extern  int         buttonmouse[4];
 extern  int         buttonjoy[32];

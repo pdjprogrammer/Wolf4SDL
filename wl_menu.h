@@ -130,6 +130,14 @@
 #define OPT_MOUSE_W   284
 #define OPT_MOUSE_H   100
 
+#define OPT_KB_MOVE_KEYS_X 190
+#define OPT_KB_MOVE_KEYS_Y 58
+
+#define OPT_KEYBOARD_MOVE_X   41
+#define OPT_KEYBOARD_MOVE_Y   54
+#define OPT_KEYBOARD_MOVE_W   250
+#define OPT_KEYBOARD_MOVE_H   126
+
 #define OPT_KEYBOARD_X   41
 #define OPT_KEYBOARD_Y   72
 #define OPT_KEYBOARD_W   250
@@ -159,7 +167,7 @@ typedef struct {
 } CP_itemtype;
 
 typedef struct {
-	short allowed[4];
+	short allowed[6];
 } CustomCtrls;
 
 extern CP_itemtype MainMenu[];

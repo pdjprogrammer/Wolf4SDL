@@ -94,6 +94,8 @@
 #define	STR_RIGHT					"Right"
 #define	STR_FRWD					"Frwd"
 #define	STR_BKWD					"Bkwrd"
+#define STR_STF_LEFT				"Strafe L"
+#define STR_STF_RIGHT				"Strafe R"
 #define	STR_THINK					"Thinking"
 
 #define STR_SIZE1					"Use arrows to size"

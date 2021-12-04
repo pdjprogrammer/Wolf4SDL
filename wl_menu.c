@@ -131,7 +131,7 @@ enum { CTL_MOUSEENABLE, CTL_JOYENABLE, CTL_JOY2BUTTONUNKNOWN, CTL_GAMEPADUNKONWN
 #ifdef USE_MODERN_OPTIONS
 enum { CTL_MOUSEENABLE, CTL_JOYENABLE, CTL_ALWAYSRUN, CTL_OPTIONS_SPACE, CTL_MOUSEOPTIONS, CTL_KEYBOARDOPTIONS, CTL_JOYSTICKOPTIONS };
 enum { CTL_MOUSE_RUN, CTL_MOUSE_OPEN, CTL_MOUSE_FIRE, CTL_MOUSE_STRAFE, CTL_SPACE_MOUSE, CTL_MOUSEMOVEMENT, CTL_MOUSESENS };
-enum { CTL_KB_MOVE_FWRD, CTL_KB_MOVE_BWRD, CTL_KB_MOVE_LEFT, CTL_KB_MOVE_RIGHT, CTL_SPACE_KB_MOVE, CTL_ALWAYSSTRAFE, CTL_ACTIONKEYS };
+enum { CTL_KB_MOVE_FWRD, CTL_KB_MOVE_BWRD, CTL_KB_MOVE_LEFT, CTL_KB_MOVE_RIGHT, CTL_KB_STRAFE_LEFT, CTL_KB_STRAFE_RIGHT, CTL_SPACE_KB_MOVE, CTL_ALWAYSSTRAFE, CTL_ACTIONKEYS };
 enum { CTL_KB_ACTION_RUN, CTL_KB_ACTION_OPEN, CTL_KB_ACTION_FIRE, CTL_KB_ACTION_STRAFE, CTL_SPACE_KB_ACTION, CTL_MOVEMENTKEYS };
 enum { CTL_JOYSTICK_RUN, CTL_JOYSTICK_OPEN, CTL_JOYSTICK_FIRE, CTL_JOYSTICK_STRAFE };
 #else
@@ -161,7 +161,7 @@ CP_itemtype CtlMenu[] = {
 	{1, STR_OP_MOUSE, CP_MouseCtl},
 	{1, STR_OP_KEYBOARD, CP_KeyboardMoveCtl},
 	{1, STR_OP_JOYSTICK, CP_JoystickCtl},
-	{1, STR_ADVANCED_CONTROLS, 1}
+	{1, STR_ADVANCED_CONTROLS, 0}
 #endif
 
 #endif
@@ -283,6 +283,8 @@ CP_itemtype CtlKeyboardMoveMenu[] = {
 	{1, STR_BKWD, 0},
 	{1, STR_LEFT, 0},
 	{1, STR_RIGHT, 0},
+	{1, STR_STF_LEFT, 0},
+	{1, STR_STF_RIGHT, 0},
 	{0, "", 0},
 	{1, STR_ALWAYS_STRAFE_KB, 0},
 	{1, STR_ACTION_KEYS, CP_KeyboardActionCtl}
@@ -331,7 +333,7 @@ OptItems = { OPT_X, OPT_Y, lengthof(OptMenu), 0, 32 },
 
 #ifdef USE_MODERN_OPTIONS
 CusMouseItems = { OPT_MOUSE_X, OPT_MOUSE_Y, lengthof(CtlMouseMenu), 0, 54 },
-CusKeyboardMoveItems = { OPT_KEYBOARD_X, OPT_KEYBOARD_Y, lengthof(CtlKeyboardMoveMenu), 0, 54 },
+CusKeyboardMoveItems = { OPT_KEYBOARD_MOVE_X, OPT_KEYBOARD_MOVE_Y + 4, lengthof(CtlKeyboardMoveMenu), 0, 54 },
 CusKeyboardActionItems = { OPT_KEYBOARD_X, OPT_KEYBOARD_Y, lengthof(CtlKeyboardActionMenu), 0, 54 },
 CusJoystickItems = { OPT_JOYSTICK_X, OPT_JOYSTICK_Y, lengthof(CtlJoystickMenu), 0, 54 },
 #endif
@@ -1806,12 +1808,12 @@ CP_Control(int blank)
 			ShootSnd();
 			break;
 #ifdef USE_MODERN_OPTIONS
-		/*case CTL_ALWAYSSTRAFE:
-			alwaysStrafe ^= 1;
-			DrawCtlScreen();
-			CusItems.curpos = -1;
-			ShootSnd();
-			break;*/
+			/*case CTL_ALWAYSSTRAFE:
+				alwaysStrafe ^= 1;
+				DrawCtlScreen();
+				CusItems.curpos = -1;
+				ShootSnd();
+				break;*/
 		case CTL_ALWAYSRUN:
 			alwaysRun ^= 1;
 			DrawCtlScreen();
@@ -2076,6 +2078,7 @@ void DrawCtlScreen(void)
 
 	DrawMenuGun(&CtlItems);
 	VW_UpdateScreen();
+	MenuFadeIn();
 }
 
 ///////////////////////////
@@ -2313,7 +2316,7 @@ void DefineKeyBtns(int value)
 
 	--value;
 
-	for (i = 0; i < 4; i++)
+	for (i = 0; i < 6; i++)
 	{
 		if (i == value) {
 			keyallowed.allowed[i] = 1;
@@ -2346,7 +2349,7 @@ void DefineKeyMove(int value)
 
 	--value;
 
-	for (i = 0; i < 4; i++)
+	for (i = 0; i < 6; i++)
 	{
 		if (i == value) {
 			keyallowed.allowed[i] = 1;
@@ -2373,10 +2376,10 @@ void DefineKeyMove(void)
 //
 enum
 {
-	FWRD, RIGHT, BKWD, LEFT
+	FWRD, RIGHT, BKWD, LEFT, STF_LEFT, STF_RIGHT
 };
 #ifdef USE_MODERN_OPTIONS
-int moveorder[4] = { FWRD, BKWD, LEFT, RIGHT };
+int moveorder[6] = { FWRD, BKWD, LEFT, RIGHT, STF_LEFT, STF_RIGHT };
 #else
 int moveorder[4] = { LEFT, RIGHT, FWRD, BKWD };
 #endif
@@ -2411,6 +2414,14 @@ int CP_KeyboardMoveCtl(int blank)
 			DefineKeyMove(4);
 			DrawCustKeys(4);
 			break;
+		case CTL_KB_STRAFE_LEFT:
+			DefineKeyMove(5);
+			DrawCustKeys(5);
+			break;
+		case CTL_KB_STRAFE_RIGHT:
+			DefineKeyMove(6);
+			DrawCustKeys(6);
+			break;
 		case CTL_ALWAYSSTRAFE:
 			alwaysStrafe ^= 1;
 			DrawKeyboardMoveCtlScreen();
@@ -2427,8 +2438,9 @@ int CP_KeyboardMoveCtl(int blank)
 
 	} while (which >= 0);
 
+	MenuFadeOut();
 	DrawCtlScreen();
-	MenuFadeIn();
+	//MenuFadeIn();
 
 	return 0;
 }
@@ -2472,8 +2484,9 @@ int CP_KeyboardActionCtl(int blank)
 
 	} while (which >= 0);
 
+	MenuFadeOut();
 	DrawCtlScreen();
-	MenuFadeIn();
+	//MenuFadeIn();
 
 	return 0;
 }
@@ -2531,12 +2544,10 @@ int CP_JoystickCtl(int blank)
 }
 #endif
 
-void EnterCtrlData(int index, CustomCtrls* cust, void (*DrawRtn) (int), void (*PrintRtn) (int),
-	int type)
+void EnterCtrlData(int index, CustomCtrls* cust, void (*DrawRtn) (int), void (*PrintRtn) (int), int type)
 {
 	int j, z, exit, tick, redraw, which, x, picked, lastFlashTime;
 	ControlInfo ci;
-
 
 	ShootSnd();
 
@@ -2550,7 +2561,7 @@ void EnterCtrlData(int index, CustomCtrls* cust, void (*DrawRtn) (int), void (*P
 	//
 	// FIND FIRST SPOT IN ALLOWED ARRAY
 	//
-	for (j = 0; j < 4; j++)
+	for (j = 0; j < 6; j++)
 		if (cust->allowed[j])
 		{
 			which = j;
@@ -2561,8 +2572,6 @@ void EnterCtrlData(int index, CustomCtrls* cust, void (*DrawRtn) (int), void (*P
 	{
 		if (redraw)
 		{
-
-
 #ifndef USE_MODERN_OPTIONS
 			x = CST_START + CST_SPC * which;
 			DrawWindow(5, PrintY - 1, 310, 13, BKGDCOLOR);
@@ -2578,7 +2587,6 @@ void EnterCtrlData(int index, CustomCtrls* cust, void (*DrawRtn) (int), void (*P
 			DrawWindow(x - 2, CST_START + (CST_SPC_Y * (index - 1)), CST_SPC, 11, TEXTCOLOR);
 			DrawOutline(x - 2, CST_START + (CST_SPC_Y * (index - 1)), CST_SPC, 11, 0, HIGHLIGHT);
 #endif
-
 			SETFONTCOLOR(0, TEXTCOLOR);
 			PrintRtn(which);
 			PrintX = x;
@@ -2701,6 +2709,10 @@ void EnterCtrlData(int index, CustomCtrls* cust, void (*DrawRtn) (int), void (*P
 				case KEYBOARDBTNS:
 					if (LastScan && LastScan != sc_Escape)
 					{
+						for (size_t i = 0; i < 4; i++)
+							if (buttonscan[order[i]] == LastScan)
+								buttonscan[order[i]] = sc_None;
+
 						buttonscan[order[which]] = LastScan;
 						picked = 1;
 						SD_PlaySound(SHOOTDOORSND);
@@ -2711,7 +2723,12 @@ void EnterCtrlData(int index, CustomCtrls* cust, void (*DrawRtn) (int), void (*P
 				case KEYBOARDMOVE:
 					if (LastScan && LastScan != sc_Escape)
 					{
+						for (size_t i = 0; i < 6; i++)
+							if (dirscan[moveorder[i]] == LastScan)
+								dirscan[moveorder[i]] = sc_None;
+
 						dirscan[moveorder[which]] = LastScan;
+						
 						picked = 1;
 						SD_PlaySound(SHOOTDOORSND);
 						IN_ClearKeysDown();
@@ -2854,7 +2871,7 @@ FixupCustom(int w)
 	}
 
 	lastwhich = w;
-}
+	}
 
 #ifdef USE_MODERN_OPTIONS
 ////////////////////////
@@ -2953,15 +2970,13 @@ void DrawKeyboardMoveCtlScreen(void)
 
 	SETFONTCOLOR(TEXTCOLOR, BKGDCOLOR);
 
-	DrawWindow(OPT_KEYBOARD_X - 8, OPT_KEYBOARD_Y - 5, OPT_KEYBOARD_W, OPT_KEYBOARD_H, BKGDCOLOR);
+	DrawWindow(OPT_KEYBOARD_MOVE_X - 8, OPT_KEYBOARD_MOVE_Y, OPT_KEYBOARD_MOVE_W, OPT_KEYBOARD_MOVE_H, BKGDCOLOR);
 	DrawMenuGun(&CusKeyboardMoveItems);
 
-	int x = 72;
-
 	if (alwaysStrafe)
-		VWB_DrawPic(x, OPT_KEYBOARD_H + 40, C_SELECTEDPIC);
+		VWB_DrawPic(OPT_KEYBOARD_MOVE_X + 31, OPT_KEYBOARD_MOVE_H + 26, C_SELECTEDPIC);
 	else
-		VWB_DrawPic(x, OPT_KEYBOARD_H + 40, C_NOTSELECTEDPIC);
+		VWB_DrawPic(OPT_KEYBOARD_MOVE_X + 31, OPT_KEYBOARD_MOVE_H + 26, C_NOTSELECTEDPIC);
 
 	DrawMenu(&CusKeyboardMoveItems, CtlKeyboardMoveMenu);
 	DrawCustKeys(0);
@@ -3344,7 +3359,7 @@ DrawCustMouse(int highlight)
 
 	for (i = 0; i < 4; i++)
 		PrintCustMouse(i);
-	}
+}
 
 void
 PrintCustJoy(int i)
@@ -3365,7 +3380,7 @@ PrintCustJoy(int i)
 #endif
 			break;
 		}
-}
+	}
 }
 
 void
@@ -3394,7 +3409,7 @@ DrawCustJoy(int hilight)
 
 	for (i = 0; i < 4; i++)
 		PrintCustJoy(i);
-	}
+}
 
 
 void
@@ -3414,7 +3429,6 @@ DrawCustKeybd(int hilight)
 {
 	int i, color;
 
-
 	color = TEXTCOLOR;
 	if (hilight)
 		color = HIGHLIGHT;
@@ -3428,7 +3442,7 @@ DrawCustKeybd(int hilight)
 
 	for (i = 0; i < 4; i++)
 		PrintCustKeybd(i);
-}
+	}
 
 void
 PrintCustKeys(int i)
@@ -3436,10 +3450,9 @@ PrintCustKeys(int i)
 #ifndef USE_MODERN_OPTIONS
 	PrintX = CST_START + CST_SPC * i;
 #else
-	PrintX = CTL_MOUSE_X;
-	PrintY = CST_START + (CST_SPC_Y * i);
+	PrintX = OPT_KB_MOVE_KEYS_X;
+	PrintY = OPT_KB_MOVE_KEYS_Y + (CST_SPC_Y * i);
 #endif
-
 	US_Print((const char*)IN_GetScanName(dirscan[moveorder[i]]));
 }
 
@@ -3458,8 +3471,7 @@ DrawCustKeys(int hilight)
 #else
 	PrintX = CTL_MOUSE_X;
 #endif
-
-	for (i = 0; i < 4; i++)
+	for (i = 0; i < 6; i++)
 		PrintCustKeys(i);
 }
 
@@ -3599,7 +3611,7 @@ CP_Quit(int blank)
 		SD_StopSound();
 		MenuFadeOut();
 		Quit(NULL);
-	}
+}
 
 	DrawMainMenu();
 	return 0;
@@ -3807,13 +3819,13 @@ void SetupSaveGames()
 				read(handle, temp, 32);
 				close(handle);
 				strcpy(&SaveGameNames[i][0], temp);
-			}
+		}
 #ifdef _arch_dreamcast
 			// Remove unpacked version of file
 			fs_unlink(name);
-			}
+	}
 #endif
-		}
+}
 }
 
 ////////////////////////////////////////////////////////////////////
@@ -4278,7 +4290,7 @@ ReadAnyControl(ControlInfo* ci)
 			ci->button3 = false;
 			mouseactive = 1;
 		}
-}
+	}
 
 	if (joystickenabled && !mouseactive)
 	{
@@ -4353,7 +4365,7 @@ Confirm(const char* string)
 		else SDL_Delay(5);
 
 #ifdef SPANISH
-		} while (!Keyboard(sc_S) && !Keyboard(sc_N) && !Keyboard(sc_Escape));
+	} while (!Keyboard(sc_S) && !Keyboard(sc_N) && !Keyboard(sc_Escape));
 #else
 } while (!Keyboard(sc_Y) && !Keyboard(sc_N) && !Keyboard(sc_Escape) && !ci.button0 && !ci.button1);
 #endif
@@ -4431,7 +4443,7 @@ GetYorN(int x, int y, int pic)
 	IN_ClearKeysDown();
 	SD_PlaySound(whichsnd[xit]);
 	return xit;
-	}
+}
 #endif
 
 
@@ -4966,4 +4978,4 @@ CheckForEpisodes(void)
 	strcat(endfilename, extension);
 #endif
 #endif
-}
+	}
