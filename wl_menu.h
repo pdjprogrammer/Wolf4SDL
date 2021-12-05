@@ -76,7 +76,11 @@
 #endif
 #ifdef USE_MODERN_OPTIONS
 #define CTL_X   43
+#ifdef SHOW_ADVANCED_CONTROLS
 #define CTL_H   114
+#else
+#define CTL_H   100
+#endif
 #define CTL_W   250
 #else
 #define CTL_X   24
@@ -167,7 +171,11 @@ typedef struct {
 } CP_itemtype;
 
 typedef struct {
+#ifdef USE_MODERN_OPTIONS
 	short allowed[6];
+#else
+	short allowed[4];
+#endif
 } CustomCtrls;
 
 extern CP_itemtype MainMenu[];

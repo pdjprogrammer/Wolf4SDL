@@ -50,8 +50,10 @@ typedef	int		ScanCode;
 #define	sc_DownArrow	SDLK_DOWN
 #define	sc_LeftArrow	SDLK_LEFT
 #define	sc_RightArrow	SDLK_RIGHT
+#ifdef USE_MODERN_CONTROLS
 #define sc_StrafeLeft	SDLK_a
 #define sc_StrafeRight	SDLK_d
+#endif
 #define	sc_Insert		SDLK_INSERT
 #define	sc_Delete		SDLK_DELETE
 #define	sc_Home			SDLK_HOME

@@ -1052,7 +1052,11 @@ extern  boolean     mouseenabled, mouseYAxis, joystickenabled, alwaysRun;
 extern  boolean     mouseenabled, joystickenabled;
 #endif
 
+#ifdef USE_CUSTOM_CONTROLS
 extern  int         dirscan[6];
+#else
+extern  int         dirscan[4];
+#endif
 extern  int         buttonscan[NUMBUTTONS];
 extern  int         buttonmouse[4];
 extern  int         buttonjoy[32];

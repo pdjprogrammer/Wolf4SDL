@@ -61,7 +61,12 @@ boolean mouseenabled, joystickenabled;
 
 #endif
 
+#ifdef USE_MODERN_CONTROLS
 int dirscan[6] = { sc_UpArrow, sc_RightArrow, sc_DownArrow, sc_LeftArrow, sc_StrafeLeft, sc_StrafeRight };
+#else
+int dirscan[4] = { sc_UpArrow, sc_RightArrow, sc_DownArrow, sc_LeftArrow };
+#endif
+
 int buttonscan[NUMBUTTONS] = { sc_Control, sc_Alt, sc_LShift, sc_Space, sc_1, sc_2, sc_3, sc_4 };
 int buttonmouse[4] = { bt_attack, bt_strafe, bt_use, bt_nobutton };
 int buttonjoy[32] = {

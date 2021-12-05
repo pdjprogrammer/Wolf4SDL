@@ -161,7 +161,10 @@ CP_itemtype CtlMenu[] = {
 	{1, STR_OP_MOUSE, CP_MouseCtl},
 	{1, STR_OP_KEYBOARD, CP_KeyboardMoveCtl},
 	{1, STR_OP_JOYSTICK, CP_JoystickCtl},
+#ifdef SHOW_ADVANCED_CONTROLS
 	{1, STR_ADVANCED_CONTROLS, 0}
+#endif
+
 #endif
 
 #endif
@@ -2258,7 +2261,7 @@ void DefineMouseBtns(int value)
 void DefineMouseBtns(void)
 {
 	CustomCtrls mouseallowed = { 0, 1, 1, 1 };
-	EnterCtrlData(2, &mouseallowed, DrawCustMouse, PrintCustMouse, MOUSE);
+	EnterCtrlData(2, &mouseallowed, DrawCustMouse, PrintCustMouse, MOUSE, false);
 }
 #endif
 
@@ -2292,7 +2295,7 @@ void DefineJoyBtns(int value)
 void DefineJoyBtns(void)
 {
 	CustomCtrls joyallowed = { 1, 1, 1, 1 };
-	EnterCtrlData(5, &joyallowed, DrawCustJoy, PrintCustJoy, JOYSTICK);
+	EnterCtrlData(5, &joyallowed, DrawCustJoy, PrintCustJoy, JOYSTICK, false);
 }
 #endif
 
@@ -2326,7 +2329,7 @@ void DefineKeyBtns(int value)
 void DefineKeyBtns(void)
 {
 	CustomCtrls keyallowed = { 1, 1, 1, 1 };
-	EnterCtrlData(8, &keyallowed, DrawCustKeybd, PrintCustKeybd, KEYBOARDBTNS);
+	EnterCtrlData(8, &keyallowed, DrawCustKeybd, PrintCustKeybd, KEYBOARDBTNS, false);
 }
 #endif
 
@@ -2359,7 +2362,7 @@ void DefineKeyMove(int value)
 void DefineKeyMove(void)
 {
 	CustomCtrls keyallowed = { 1, 1, 1, 1 };
-	EnterCtrlData(10, &keyallowed, DrawCustKeys, PrintCustKeys, KEYBOARDMOVE);
+	EnterCtrlData(10, &keyallowed, DrawCustKeys, PrintCustKeys, KEYBOARDMOVE, false);
 }
 #endif
 
@@ -2533,13 +2536,18 @@ int CP_JoystickCtl(int blank)
 
 void EnterCtrlData(int index, CustomCtrls* cust, void (*DrawRtn) (int), void (*PrintRtn) (int), int type, bool keyboardMoveControls)
 {
-	int j, z, exit, tick, redraw, which, x, y, picked, lastFlashTime, w;
+	int j, z, exit, tick, redraw, which, x, y, picked, lastFlashTime;
 	ControlInfo ci;
+
+	int w = 0;
+	int amount = 4;
 
 	ShootSnd();
 
 #ifndef USE_MODERN_OPTIONS
 	PrintY = CST_Y + 13 * index;
+#else
+	amount = 6;
 #endif
 
 	IN_ClearKeysDown();
@@ -2548,7 +2556,7 @@ void EnterCtrlData(int index, CustomCtrls* cust, void (*DrawRtn) (int), void (*P
 	//
 	// FIND FIRST SPOT IN ALLOWED ARRAY
 	//
-	for (j = 0; j < 6; j++)
+	for (j = 0; j < amount; j++)
 		if (cust->allowed[j])
 		{
 			which = j;
@@ -2565,7 +2573,7 @@ void EnterCtrlData(int index, CustomCtrls* cust, void (*DrawRtn) (int), void (*P
 #else
 			if (!keyboardMoveControls) {
 				x = CTL_MOUSE_X;
-				y = CST_START;			
+				y = CST_START;
 				w = CST_SPC;
 			}
 			else {
@@ -2627,6 +2635,9 @@ void EnterCtrlData(int index, CustomCtrls* cust, void (*DrawRtn) (int), void (*P
 					switch (tick)
 					{
 					case 0:
+#ifndef USE_MODERN_CONTROLS
+						w = CST_SPC;
+#endif
 						VWB_Bar(x, PrintY + 1, w - 2, 10, TEXTCOLOR);
 						break;
 					case 1:
@@ -2705,6 +2716,7 @@ void EnterCtrlData(int index, CustomCtrls* cust, void (*DrawRtn) (int), void (*P
 				case KEYBOARDBTNS:
 					if (LastScan && LastScan != sc_Escape)
 					{
+#ifdef USE_MODERN_OPTIONS
 						for (size_t i = 0; i < 4; i++)
 							if (buttonscan[order[i]] == LastScan)
 								buttonscan[order[i]] = bt_nobutton;
@@ -2712,19 +2724,22 @@ void EnterCtrlData(int index, CustomCtrls* cust, void (*DrawRtn) (int), void (*P
 						for (size_t i = 0; i < 6; i++)
 							if (dirscan[moveorder[i]] == LastScan)
 								dirscan[moveorder[i]] = bt_nobutton;
-
+#endif
 						buttonscan[order[which]] = LastScan;
 						picked = 1;
 						SD_PlaySound(SHOOTDOORSND);
 						IN_ClearKeysDown();
 
+#ifdef USE_MODERN_OPTIONS
 						exit = 1;
+#endif
 					}
 					break;
 
 				case KEYBOARDMOVE:
 					if (LastScan && LastScan != sc_Escape)
 					{
+#ifdef USE_MODERN_OPTIONS
 						for (size_t i = 0; i < 4; i++)
 							if (buttonscan[order[i]] == LastScan)
 								buttonscan[order[i]] = bt_nobutton;
@@ -2732,13 +2747,15 @@ void EnterCtrlData(int index, CustomCtrls* cust, void (*DrawRtn) (int), void (*P
 						for (size_t i = 0; i < 6; i++)
 							if (dirscan[moveorder[i]] == LastScan)
 								dirscan[moveorder[i]] = bt_nobutton;
-
+#endif
 						dirscan[moveorder[which]] = LastScan;
 						picked = 1;
 						SD_PlaySound(SHOOTDOORSND);
 						IN_ClearKeysDown();
 
+#ifdef USE_MODERN_OPTIONS
 						exit = 1;
+#endif
 					}
 					break;
 				}
@@ -3361,7 +3378,7 @@ DrawCustMouse(int highlight)
 
 	for (i = 0; i < 4; i++)
 		PrintCustMouse(i);
-	}
+}
 
 void
 PrintCustJoy(int i)
@@ -3382,7 +3399,7 @@ PrintCustJoy(int i)
 #endif
 			break;
 		}
-}
+	}
 }
 
 void
@@ -3411,7 +3428,7 @@ DrawCustJoy(int hilight)
 
 	for (i = 0; i < 4; i++)
 		PrintCustJoy(i);
-	}
+}
 
 
 void
@@ -3468,12 +3485,16 @@ DrawCustKeys(int hilight)
 		color = HIGHLIGHT;
 	SETFONTCOLOR(color, BKGDCOLOR);
 
+	int amount = 4;
+
 #ifndef USE_MODERN_OPTIONS
 	PrintY = CST_Y + 13 * 10;
+
 #else
 	PrintX = CTL_MOUSE_X;
+	amount = 6;
 #endif
-	for (i = 0; i < 6; i++)
+	for (i = 0; i < amount; i++)
 		PrintCustKeys(i);
 }
 
@@ -3825,9 +3846,9 @@ void SetupSaveGames()
 #ifdef _arch_dreamcast
 			// Remove unpacked version of file
 			fs_unlink(name);
-			}
-#endif
 		}
+#endif
+	}
 }
 
 ////////////////////////////////////////////////////////////////////
@@ -4292,7 +4313,7 @@ ReadAnyControl(ControlInfo* ci)
 			ci->button3 = false;
 			mouseactive = 1;
 		}
-}
+	}
 
 	if (joystickenabled && !mouseactive)
 	{
@@ -4367,31 +4388,31 @@ Confirm(const char* string)
 		else SDL_Delay(5);
 
 #ifdef SPANISH
-		} while (!Keyboard(sc_S) && !Keyboard(sc_N) && !Keyboard(sc_Escape));
+	} while (!Keyboard(sc_S) && !Keyboard(sc_N) && !Keyboard(sc_Escape));
 #else
-} while (!Keyboard(sc_Y) && !Keyboard(sc_N) && !Keyboard(sc_Escape) && !ci.button0 && !ci.button1);
+	} while (!Keyboard(sc_Y) && !Keyboard(sc_N) && !Keyboard(sc_Escape) && !ci.button0 && !ci.button1);
 #endif
 
 #ifdef SPANISH
-if (Keyboard(sc_S) || ci.button0)
-{
-	xit = 1;
-	ShootSnd();
-}
+	if (Keyboard(sc_S) || ci.button0)
+	{
+		xit = 1;
+		ShootSnd();
+	}
 #else
-if (Keyboard(sc_Y) || ci.button0)
-{
-	xit = 1;
-	ShootSnd();
-}
+	if (Keyboard(sc_Y) || ci.button0)
+	{
+		xit = 1;
+		ShootSnd();
+	}
 #endif
 
-IN_ClearKeysDown();
-WaitKeyUp();
+	IN_ClearKeysDown();
+	WaitKeyUp();
 
-SD_PlaySound((soundnames)whichsnd[xit]);
+	SD_PlaySound((soundnames)whichsnd[xit]);
 
-return xit;
+	return xit;
 }
 
 #ifdef JAPAN
@@ -4445,7 +4466,7 @@ GetYorN(int x, int y, int pic)
 	IN_ClearKeysDown();
 	SD_PlaySound(whichsnd[xit]);
 	return xit;
-	}
+}
 #endif
 
 
@@ -4852,8 +4873,8 @@ CheckForEpisodes(void)
 			{
 				Quit("The configuration directory \"%s\" could not be created.", configdir);
 			}
+		}
 	}
-}
 
 	//
 	// JAPANESE VERSION
@@ -4980,4 +5001,4 @@ CheckForEpisodes(void)
 	strcat(endfilename, extension);
 #endif
 #endif
-	}
+}
