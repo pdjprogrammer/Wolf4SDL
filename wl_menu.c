@@ -2135,7 +2135,7 @@ enum
 {
 	FIRE, STRAFE, RUN, OPEN
 };
-char mbarray[4][11] = { "Left Btn", "Right Btn", "Middle Btn", "Top Btn" };
+char mbarray[4][11] = { "Left Bt", "Right Bt", "Middle Bt", "Top Bt" };
 int8_t order[4] = { RUN, OPEN, FIRE, STRAFE };
 
 int CP_MouseCtl(int blank)
@@ -2259,7 +2259,7 @@ void DefineMouseBtns(int value)
 
 	++value;
 
-	EnterCtrlData(value, &mouseallowed, DrawCustMouse, PrintCustMouse, MOUSE);
+	EnterCtrlData(value, &mouseallowed, DrawCustMouse, PrintCustMouse, MOUSE, false);
 }
 #else
 void DefineMouseBtns(void)
@@ -2293,7 +2293,7 @@ void DefineJoyBtns(int value)
 
 	++value;
 
-	EnterCtrlData(value, &joyallowed, DrawCustJoy, PrintCustJoy, JOYSTICK);
+	EnterCtrlData(value, &joyallowed, DrawCustJoy, PrintCustJoy, JOYSTICK, false);
 }
 #else
 void DefineJoyBtns(void)
@@ -2327,7 +2327,7 @@ void DefineKeyBtns(int value)
 	}
 
 	++value;
-	EnterCtrlData(value, &keyallowed, DrawCustKeybd, PrintCustKeybd, KEYBOARDBTNS);
+	EnterCtrlData(value, &keyallowed, DrawCustKeybd, PrintCustKeybd, KEYBOARDBTNS, false);
 }
 #else
 void DefineKeyBtns(void)
@@ -2360,7 +2360,7 @@ void DefineKeyMove(int value)
 	}
 
 	++value;
-	EnterCtrlData(value, &keyallowed, DrawCustKeys, PrintCustKeys, KEYBOARDMOVE);
+	EnterCtrlData(value, &keyallowed, DrawCustKeys, PrintCustKeys, KEYBOARDMOVE, true);
 }
 #else
 void DefineKeyMove(void)
@@ -2424,7 +2424,6 @@ int CP_KeyboardMoveCtl(int blank)
 			break;
 		case CTL_ALWAYSSTRAFE:
 			alwaysStrafe ^= 1;
-			DrawKeyboardMoveCtlScreen();
 			CusItems.curpos = -1;
 			ShootSnd();
 			break;
@@ -2438,7 +2437,7 @@ int CP_KeyboardMoveCtl(int blank)
 
 	} while (which >= 0);
 
-	MenuFadeOut();
+	//MenuFadeOut();
 	DrawCtlScreen();
 	//MenuFadeIn();
 
@@ -2484,7 +2483,7 @@ int CP_KeyboardActionCtl(int blank)
 
 	} while (which >= 0);
 
-	MenuFadeOut();
+	//MenuFadeOut();
 	DrawCtlScreen();
 	//MenuFadeIn();
 
@@ -2544,9 +2543,9 @@ int CP_JoystickCtl(int blank)
 }
 #endif
 
-void EnterCtrlData(int index, CustomCtrls* cust, void (*DrawRtn) (int), void (*PrintRtn) (int), int type)
+void EnterCtrlData(int index, CustomCtrls* cust, void (*DrawRtn) (int), void (*PrintRtn) (int), int type, bool keyboardMoveControls)
 {
-	int j, z, exit, tick, redraw, which, x, picked, lastFlashTime;
+	int j, z, exit, tick, redraw, which, x, y, picked, lastFlashTime, w;
 	ControlInfo ci;
 
 	ShootSnd();
@@ -2576,7 +2575,16 @@ void EnterCtrlData(int index, CustomCtrls* cust, void (*DrawRtn) (int), void (*P
 			x = CST_START + CST_SPC * which;
 			DrawWindow(5, PrintY - 1, 310, 13, BKGDCOLOR);
 #else
-			x = CTL_MOUSE_X;
+			if (!keyboardMoveControls) {
+				x = CTL_MOUSE_X;
+				y = CST_START;			
+				w = CST_SPC;
+			}
+			else {
+				x = CTL_MOUSE_X + 10;
+				y = CST_START - 14;
+				w = 80;
+			}
 #endif
 			DrawRtn(1);
 
@@ -2584,8 +2592,8 @@ void EnterCtrlData(int index, CustomCtrls* cust, void (*DrawRtn) (int), void (*P
 			DrawWindow(x - 2, PrintY, CST_SPC, 11, TEXTCOLOR);
 			DrawOutline(x - 2, PrintY, CST_SPC, 11, 0, HIGHLIGHT);
 #else
-			DrawWindow(x - 2, CST_START + (CST_SPC_Y * (index - 1)), CST_SPC, 11, TEXTCOLOR);
-			DrawOutline(x - 2, CST_START + (CST_SPC_Y * (index - 1)), CST_SPC, 11, 0, HIGHLIGHT);
+			DrawWindow(x - 2, y + (CST_SPC_Y * (index - 1)), w, 11, TEXTCOLOR);
+			DrawOutline(x - 2, y + (CST_SPC_Y * (index - 1)), w, 11, 0, HIGHLIGHT);
 #endif
 			SETFONTCOLOR(0, TEXTCOLOR);
 			PrintRtn(which);
@@ -2631,7 +2639,7 @@ void EnterCtrlData(int index, CustomCtrls* cust, void (*DrawRtn) (int), void (*P
 					switch (tick)
 					{
 					case 0:
-						VWB_Bar(x, PrintY + 1, CST_SPC - 2, 10, TEXTCOLOR);
+						VWB_Bar(x, PrintY + 1, w - 2, 10, TEXTCOLOR);
 						break;
 					case 1:
 						PrintX = x;
@@ -2711,27 +2719,38 @@ void EnterCtrlData(int index, CustomCtrls* cust, void (*DrawRtn) (int), void (*P
 					{
 						for (size_t i = 0; i < 4; i++)
 							if (buttonscan[order[i]] == LastScan)
-								buttonscan[order[i]] = sc_None;
+								buttonscan[order[i]] = bt_nobutton;
+
+						for (size_t i = 0; i < 6; i++)
+							if (dirscan[moveorder[i]] == LastScan)
+								dirscan[moveorder[i]] = bt_nobutton;
 
 						buttonscan[order[which]] = LastScan;
 						picked = 1;
 						SD_PlaySound(SHOOTDOORSND);
 						IN_ClearKeysDown();
+
+						exit = 1;
 					}
 					break;
 
 				case KEYBOARDMOVE:
 					if (LastScan && LastScan != sc_Escape)
 					{
+						for (size_t i = 0; i < 4; i++)
+							if (buttonscan[order[i]] == LastScan)
+								buttonscan[order[i]] = bt_nobutton;
+
 						for (size_t i = 0; i < 6; i++)
 							if (dirscan[moveorder[i]] == LastScan)
-								dirscan[moveorder[i]] = sc_None;
+								dirscan[moveorder[i]] = bt_nobutton;
 
 						dirscan[moveorder[which]] = LastScan;
-						
 						picked = 1;
 						SD_PlaySound(SHOOTDOORSND);
 						IN_ClearKeysDown();
+
+						exit = 1;
 					}
 					break;
 				}
@@ -2871,7 +2890,7 @@ FixupCustom(int w)
 	}
 
 	lastwhich = w;
-	}
+}
 
 #ifdef USE_MODERN_OPTIONS
 ////////////////////////
@@ -3359,7 +3378,7 @@ DrawCustMouse(int highlight)
 
 	for (i = 0; i < 4; i++)
 		PrintCustMouse(i);
-}
+	}
 
 void
 PrintCustJoy(int i)
@@ -3380,7 +3399,7 @@ PrintCustJoy(int i)
 #endif
 			break;
 		}
-	}
+}
 }
 
 void
@@ -3409,7 +3428,7 @@ DrawCustJoy(int hilight)
 
 	for (i = 0; i < 4; i++)
 		PrintCustJoy(i);
-}
+	}
 
 
 void
@@ -3442,7 +3461,7 @@ DrawCustKeybd(int hilight)
 
 	for (i = 0; i < 4; i++)
 		PrintCustKeybd(i);
-	}
+}
 
 void
 PrintCustKeys(int i)
@@ -3611,7 +3630,7 @@ CP_Quit(int blank)
 		SD_StopSound();
 		MenuFadeOut();
 		Quit(NULL);
-}
+	}
 
 	DrawMainMenu();
 	return 0;
@@ -3819,13 +3838,13 @@ void SetupSaveGames()
 				read(handle, temp, 32);
 				close(handle);
 				strcpy(&SaveGameNames[i][0], temp);
-		}
+			}
 #ifdef _arch_dreamcast
 			// Remove unpacked version of file
 			fs_unlink(name);
-	}
+			}
 #endif
-}
+		}
 }
 
 ////////////////////////////////////////////////////////////////////
@@ -4290,7 +4309,7 @@ ReadAnyControl(ControlInfo* ci)
 			ci->button3 = false;
 			mouseactive = 1;
 		}
-	}
+}
 
 	if (joystickenabled && !mouseactive)
 	{
@@ -4365,7 +4384,7 @@ Confirm(const char* string)
 		else SDL_Delay(5);
 
 #ifdef SPANISH
-	} while (!Keyboard(sc_S) && !Keyboard(sc_N) && !Keyboard(sc_Escape));
+		} while (!Keyboard(sc_S) && !Keyboard(sc_N) && !Keyboard(sc_Escape));
 #else
 } while (!Keyboard(sc_Y) && !Keyboard(sc_N) && !Keyboard(sc_Escape) && !ci.button0 && !ci.button1);
 #endif
@@ -4443,7 +4462,7 @@ GetYorN(int x, int y, int pic)
 	IN_ClearKeysDown();
 	SD_PlaySound(whichsnd[xit]);
 	return xit;
-}
+	}
 #endif
 
 
