@@ -144,12 +144,12 @@
 
 #ifdef SHOW_ADVANCED_CONTROLS
 #define OPT_ADV_X   41
-#define OPT_ADV_Y   61
+#define OPT_ADV_Y   50
 #define OPT_ADV_W   250
-#define OPT_ADV_H   112
+#define OPT_ADV_H   138
 
 #define OPT_ADV_TEXT_X 41
-#define OPT_ADV_TEXT_Y 65
+#define OPT_ADV_TEXT_Y 55
 
 #define OPT_ADV_RIGHT_TEXT_X 190
 #endif
@@ -168,7 +168,6 @@
 #define CTL_MOUSE_X 180
 #endif
 
-
 //
 // TYPEDEFS
 //
@@ -184,7 +183,7 @@ typedef struct {
 
 typedef struct {
 #ifdef USE_MODERN_OPTIONS
-	short allowed[8];
+	short allowed[10];
 #else
 	short allowed[4];
 #endif
@@ -192,6 +191,13 @@ typedef struct {
 
 extern CP_itemtype MainMenu[];
 extern CP_iteminfo MainItems;
+
+#ifdef SHOW_ADVANCED_CONTROLS
+extern const int MAX_ADVANCED_CONTROLS;
+extern const int ADV_CTL_ARRAY_RANGE_START;
+extern const int ADV_CTL_ARRAY_RANGE_END;
+#endif // SHOW_ADVANCED_CONTROLS
+
 
 //
 // FUNCTION PROTOTYPES

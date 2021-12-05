@@ -25,6 +25,10 @@ extern int lastgamemusicoffset;
 int  CP_ReadThis(int);
 void SetTextColor(CP_itemtype* items, int hlight);
 
+const int MAX_ADVANCED_CONTROLS = 10;
+const int ADV_CTL_ARRAY_RANGE_START = 18;
+const int ADV_CTL_ARRAY_RANGE_END = 28;
+
 #ifdef SPEAR
 #define STARTITEM       newgame
 
@@ -134,7 +138,7 @@ enum { CTL_MOUSE_RUN, CTL_MOUSE_OPEN, CTL_MOUSE_FIRE, CTL_MOUSE_STRAFE, CTL_SPAC
 enum { CTL_KB_MOVE_FWRD, CTL_KB_MOVE_BWRD, CTL_KB_MOVE_LEFT, CTL_KB_MOVE_RIGHT, CTL_KB_STRAFE_LEFT, CTL_KB_STRAFE_RIGHT, CTL_SPACE_KB_MOVE, CTL_ACTIONKEYS };
 enum { CTL_KB_ACTION_RUN, CTL_KB_ACTION_OPEN, CTL_KB_ACTION_FIRE, CTL_KB_ACTION_STRAFE, CTL_SPACE_KB_ACTION, CTL_MOVEMENTKEYS };
 enum { CTL_JOYSTICK_RUN, CTL_JOYSTICK_OPEN, CTL_JOYSTICK_FIRE, CTL_JOYSTICK_STRAFE };
-enum { CTL_ADV_1, CTL_ADV_2, CTL_ADV_3, CTL_ADV_4, CTL_ADV_5, CTL_ADV_6, CTL_ADV_7, CTL_ADV_8 };
+enum { CTL_ADV_1, CTL_ADV_2, CTL_ADV_3, CTL_ADV_4, CTL_ADV_5, CTL_ADV_6, CTL_ADV_7, CTL_ADV_8, CTL_ADV_9, CTL_ADV_10 };
 #else
 enum { CTL_MOUSEENABLE, CTL_MOUSESENS, CTL_JOYENABLE, CTL_CUSTOMIZE };
 #endif
@@ -316,7 +320,9 @@ CP_itemtype CtlAdvancedMenu[] = {
 	{1, "Adv 5", 0},
 	{1, "Adv 6", 0},
 	{1, "Adv 7", 0},
-	{1, "Adv 8", 0}
+	{1, "Adv 8", 0},
+	{1, "Adv 9", 0},
+	{1, "Adv 10", 0}
 };
 #endif
 #endif
@@ -2450,9 +2456,9 @@ int CP_KeyboardMoveCtl(int blank)
 #ifdef SHOW_ADVANCED_CONTROLS
 enum
 {
-	ADV1, ADV2, ADV3, ADV4, ADV5, ADV6, ADV7, ADV8
+	ADV_CTL_1, ADV_CTL_2, ADV_CTL_3, ADV_CTL_4, ADV_CTL_5, ADV_CTL_6, ADV_CTL_7, ADV_CTL_8, ADV_CTL_9, ADV_CTL_10
 };
-int8_t advorder[8] = { ADV1, ADV2, ADV3, ADV4, ADV5, ADV6, ADV7, ADV8 };
+int8_t advorder[10] = { ADV_CTL_1, ADV_CTL_2, ADV_CTL_3, ADV_CTL_4, ADV_CTL_5, ADV_CTL_6, ADV_CTL_7, ADV_CTL_8, ADV_CTL_9, ADV_CTL_10 };
 
 void DefineAdvancedCtl(int value)
 {
@@ -2461,7 +2467,7 @@ void DefineAdvancedCtl(int value)
 
 	--value;
 
-	for (i = 0; i < 8; i++)
+	for (i = 0; i < MAX_ADVANCED_CONTROLS; i++)
 	{
 		if (i == value) {
 			keyallowed.allowed[i] = 1;
@@ -2567,6 +2573,14 @@ int CP_AdvancedCtl(int blank)
 			DefineAdvancedCtl(8);
 			DrawAdvancedCtlKeys(8);
 			break;
+		case CTL_ADV_9:
+			DefineAdvancedCtl(9);
+			DrawAdvancedCtlKeys(9);
+			break;
+		case CTL_ADV_10:
+			DefineAdvancedCtl(10);
+			DrawAdvancedCtlKeys(10);
+			break;
 		default:
 			which = -1;
 			break;
@@ -2644,7 +2658,7 @@ void EnterCtrlData(int index, CustomCtrls* cust, void (*DrawRtn) (int), void (*P
 
 	int start = 0;
 	int amount = 6;
-	int amountIndex = 0;
+	int arrayIndex = 0;
 
 	int w = 0;
 
@@ -2655,9 +2669,9 @@ void EnterCtrlData(int index, CustomCtrls* cust, void (*DrawRtn) (int), void (*P
 	PrintY = CST_Y + 13 * index;
 #else	
 	if (advControls) {
-		start = 18;
-		amount = 26;
-}
+		start = ADV_CTL_ARRAY_RANGE_START;
+		amount = ADV_CTL_ARRAY_RANGE_END;
+	}
 	else if (keyboardMoveControls) {
 		start = 0;
 		amount = 8;
@@ -2675,13 +2689,12 @@ void EnterCtrlData(int index, CustomCtrls* cust, void (*DrawRtn) (int), void (*P
 	// FIND FIRST SPOT IN ALLOWED ARRAY
 	//
 	for (j = start; j < amount; j++) {
-		if (cust->allowed[amountIndex])
+		if (cust->allowed[arrayIndex])
 		{
-			which = j;
+			which = arrayIndex;
 			break;
 		}
-
-		amountIndex++;
+		arrayIndex++;
 	}
 
 	do
@@ -2762,10 +2775,9 @@ void EnterCtrlData(int index, CustomCtrls* cust, void (*DrawRtn) (int), void (*P
 					{
 					case 0:
 #ifndef USE_MODERN_OPTIONS
-						w = CST_SPC;						
+						w = CST_SPC;
 #endif
-						// ISSUE with advanced controls
-						VWB_Bar(x, 50 + 1, w - 2, 10, TEXTCOLOR);
+						VWB_Bar(x, PrintY + 1, w - 2, 10, TEXTCOLOR);
 						break;
 					case 1:
 						PrintX = x;
@@ -2852,9 +2864,11 @@ void EnterCtrlData(int index, CustomCtrls* cust, void (*DrawRtn) (int), void (*P
 							if (dirscan[moveorder[i]] == LastScan)
 								dirscan[moveorder[i]] = bt_nobutton;
 
-						/*for (size_t i = 0; i < 8; i++)
-							if (advancedcontrols[advorder[i]] == LastScan)
-								advancedcontrols[advorder[i]] = bt_nobutton;*/
+#ifdef SHOW_ADVANCED_CONTROLS
+						for (size_t i = 0; i < MAX_ADVANCED_CONTROLS; i++)
+							if (buttonscan[18 + advorder[i]] == LastScan)
+								buttonscan[18 + advorder[i]] = bt_nobutton;
+#endif
 #endif
 						buttonscan[order[which]] = LastScan;
 						picked = 1;
@@ -2877,10 +2891,12 @@ void EnterCtrlData(int index, CustomCtrls* cust, void (*DrawRtn) (int), void (*P
 						for (size_t i = 0; i < 6; i++)
 							if (dirscan[moveorder[i]] == LastScan)
 								dirscan[moveorder[i]] = bt_nobutton;
+#ifdef SHOW_ADVANCED_CONTROLS
+						for (size_t i = 0; i < MAX_ADVANCED_CONTROLS; i++)
+							if (buttonscan[18 + advorder[i]] == LastScan)
+								buttonscan[18 + advorder[i]] = bt_nobutton;
+#endif
 
-						/*for (size_t i = 0; i < 8; i++)
-							if (advancedcontrols[advorder[i]] == LastScan)
-								advancedcontrols[advorder[i]] = bt_nobutton;*/
 #endif
 						dirscan[moveorder[which]] = LastScan;
 						picked = 1;
@@ -2896,7 +2912,7 @@ void EnterCtrlData(int index, CustomCtrls* cust, void (*DrawRtn) (int), void (*P
 				case ADVANCED:
 					if (LastScan && LastScan != sc_Escape)
 					{
-						/*for (size_t i = 0; i < 4; i++)
+						for (size_t i = 0; i < 4; i++)
 							if (buttonscan[order[i]] == LastScan)
 								buttonscan[order[i]] = bt_nobutton;
 
@@ -2904,9 +2920,9 @@ void EnterCtrlData(int index, CustomCtrls* cust, void (*DrawRtn) (int), void (*P
 							if (dirscan[moveorder[i]] == LastScan)
 								dirscan[moveorder[i]] = bt_nobutton;
 
-						for (size_t i = 0; i < 8; i++)
-							if (advancedcontrols[advorder[i]] == LastScan)
-								advancedcontrols[advorder[i]] = bt_nobutton;*/
+						for (size_t i = 0; i < MAX_ADVANCED_CONTROLS; i++)
+							if (buttonscan[18 + advorder[i]] == LastScan)
+								buttonscan[18 + advorder[i]] = bt_nobutton;
 
 						buttonscan[18 + advorder[which]] = LastScan;
 
@@ -2985,7 +3001,7 @@ void EnterCtrlData(int index, CustomCtrls* cust, void (*DrawRtn) (int), void (*P
 #ifndef USE_MODERN_OPTIONS
 	DrawWindow(5, PrintY - 1, 310, 13, BKGDCOLOR);
 #endif	
-	}
+}
 
 ////////////////////////
 //
@@ -3021,7 +3037,7 @@ FixupCustom(int w)
 		break;
 	case 8:
 		DrawCustKeys(1);
-}
+	}
 
 
 	if (lastwhich >= 0)
@@ -3051,11 +3067,11 @@ FixupCustom(int w)
 				break;
 			case 8:
 				DrawCustKeys(0);
+			}
 	}
-}
 
 	lastwhich = w;
-	}
+}
 
 #ifdef USE_MODERN_OPTIONS
 ////////////////////////
@@ -3741,7 +3757,7 @@ void DrawAdvancedCtlKeys(int hilight)
 
 	PrintX = CTL_MOUSE_X;
 
-	for (i = 0; i < 8; i++)
+	for (i = 0; i < MAX_ADVANCED_CONTROLS; i++)
 		PrintAdvancedCtlKeys(i);
 }
 
@@ -4640,30 +4656,30 @@ Confirm(const char* string)
 #ifdef SPANISH
 	} while (!Keyboard(sc_S) && !Keyboard(sc_N) && !Keyboard(sc_Escape));
 #else
-} while (!Keyboard(sc_Y) && !Keyboard(sc_N) && !Keyboard(sc_Escape) && !ci.button0 && !ci.button1);
+	} while (!Keyboard(sc_Y) && !Keyboard(sc_N) && !Keyboard(sc_Escape) && !ci.button0 && !ci.button1);
 #endif
 
 #ifdef SPANISH
-if (Keyboard(sc_S) || ci.button0)
-{
-	xit = 1;
-	ShootSnd();
-}
+	if (Keyboard(sc_S) || ci.button0)
+	{
+		xit = 1;
+		ShootSnd();
+	}
 #else
-if (Keyboard(sc_Y) || ci.button0)
-{
-	xit = 1;
-	ShootSnd();
-}
+	if (Keyboard(sc_Y) || ci.button0)
+	{
+		xit = 1;
+		ShootSnd();
+	}
 #endif
 
-IN_ClearKeysDown();
-WaitKeyUp();
+	IN_ClearKeysDown();
+	WaitKeyUp();
 
-SD_PlaySound((soundnames)whichsnd[xit]);
+	SD_PlaySound((soundnames)whichsnd[xit]);
 
-return xit;
-	}
+	return xit;
+}
 
 #ifdef JAPAN
 ////////////////////////////////////////////////////////////////////
@@ -5006,6 +5022,36 @@ IN_GetScanName(ScanCode scan)
 		return "Alt";
 	case(SDLK_PRINTSCREEN):
 		return "PrtSc";
+	case(SDLK_KP_0):
+		return "KP 0";
+	case(SDLK_KP_1):
+		return "KP 1";
+	case(SDLK_KP_2):
+		return "KP 2";
+	case(SDLK_KP_3):
+		return "KP 3";
+	case(SDLK_KP_4):
+		return "KP 4";
+	case(SDLK_KP_5):
+		return "KP 5";
+	case(SDLK_KP_6):
+		return "KP 6";
+	case(SDLK_KP_7):
+		return "KP 7";
+	case(SDLK_KP_8):
+		return "KP 8";
+	case(SDLK_KP_9):
+		return "KP 9";
+	case(SDLK_KP_DIVIDE):
+		return "KP /";
+	case(SDLK_KP_MULTIPLY):
+		return "KP *";
+	case(SDLK_KP_MINUS):
+		return "KP -";
+	case(SDLK_KP_PLUS):
+		return "KP +";
+	case(SDLK_KP_PERIOD):
+		return "KP .";
 	default:
 		return "?";
 	}
@@ -5124,7 +5170,7 @@ CheckForEpisodes(void)
 				Quit("The configuration directory \"%s\" could not be created.", configdir);
 			}
 		}
-			}
+	}
 
 	//
 	// JAPANESE VERSION
@@ -5251,4 +5297,4 @@ CheckForEpisodes(void)
 	strcat(endfilename, extension);
 #endif
 #endif
-	}
+}

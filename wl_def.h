@@ -244,6 +244,10 @@ typedef uint8_t tiletype;
 #define MAXTIMERS 4
 
 
+#define DEF_MAX_ADVANCED_CONTROLS = 10
+
+
+
 // object flag values
 
 typedef enum
@@ -850,6 +854,8 @@ enum
 	bt_adv_6,
 	bt_adv_7,
 	bt_adv_8,
+	bt_adv_9,
+	bt_adv_10,
 	NUMBUTTONS
 };
 
@@ -1094,7 +1100,7 @@ extern  int         buttonscan[NUMBUTTONS];
 extern  int         buttonmouse[4];
 extern  int         buttonjoy[32];
 
-extern  int         advancedcontrols[8];
+extern  int         advancedcontrols[10];
 
 extern  boolean     buttonheld[NUMBUTTONS];
 
