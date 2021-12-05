@@ -75,3 +75,8 @@ void VL_MemToScreenScaledCoord2  (byte *source, int origwidth, int origheight, i
 void VL_MemToScreen (byte *source, int width, int height, int x, int y);
 
 #endif
+
+extern int picHorizAdjust;
+extern int picVertAdjust;
+extern int printHorizAdjust;
+extern int printVertAdjust;

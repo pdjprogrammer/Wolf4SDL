@@ -29,6 +29,8 @@ byte     *vbuf;
 
 int32_t    lasttimecount;
 int32_t    frameon;
+int   messagetime = 0; // WSJ's message feature
+int   messagecolor = 0x35;
 boolean fpscounter;
 
 int fps_frames=0, fps_time=0, fps=0;
@@ -61,6 +63,11 @@ int     CalcRotate (objtype *ob);
 void    DrawScaleds (void);
 void    CalcTics (void);
 void    ThreeDRefresh (void);
+
+// WSJ's message feature
+void   GetMessage(char* lastmessage);
+void   DrawMessage(void);
+void    DrawRatios(void);
 
 #ifdef USE_SKYWALLPARALLAX
 void    ScaleSkyPost();
@@ -1667,6 +1674,9 @@ void ThreeDRefresh (void)
 
     DrawPlayerWeapon ();    // draw player's hands
 
+    if (messagetime > 0) // WSJ's message feature
+        DrawMessage();
+
     if(Keyboard(sc_Tab) && viewsize == 21 && gamestate.weapon != -1)
         ShowActStatus();
 
@@ -1714,4 +1724,176 @@ void ThreeDRefresh (void)
         }
     }
 #endif
+}
+
+//
+// In-game messages | WSJ's routine
+//
+/*
+========================
+=
+= GetMessage
+=
+= gets ingame messages
+=
+========================
+*/
+
+void GetMessage(char* lastmessage, int color)
+{
+    messagetime = 150; // time for message to display
+    messagecolor = color;
+    strcpy(gamestate.message, lastmessage);
+}
+
+/*
+========================
+=
+= DrawMessage
+=
+= displays ingame messages
+=
+========================
+*/
+
+void DrawMessage(void)
+{
+    fontnumber = 0;
+    // shadow
+    SETFONTCOLOR(0x0, 0x0);
+    SETPRINTXY(msgPrintX + 1, msgPrintY + 1);
+    US_Print(gamestate.message);
+
+    SETFONTCOLOR(messagecolor, 0x0);
+    SETPRINTXY(msgPrintX, msgPrintY);
+    US_Print(gamestate.message);
+
+    if (messagetime <= 0)
+        DrawPlayBorderSides();
+    else
+        messagetime -= tics;
+}
+
+/*
+========================
+=
+= GetTimer
+=
+= gets ingame messages
+=
+========================
+*/
+
+void GetTimer(int seconds, int eventtype)
+{
+    if (gamestate.activetimers > MAXTIMERS) return;
+
+    // Find if a timer for the event exists
+    for (int t = 0; t < gamestate.activetimers; t++) {
+        if (gamestate.timers[t].type == eventtype) {
+            gamestate.timers[t].tics += seconds * 70;
+            return;
+        }
+    }
+
+    // Timer doesn't already exist for event
+    gamestate.timers[gamestate.activetimers].tics = seconds * 70;       // increment the correct timer
+    gamestate.timers[gamestate.activetimers].type = eventtype;
+
+    //switch (eventtype) { // set the color based on event type
+    //case T_LEVEL:
+    //    gamestate.timers[gamestate.activetimers].color = LVL_TMR_CLR;
+    //    lastsec = (gamestate.timers[gamestate.activetimers].tics / 70) % 60;
+    //    break;
+    //case T_GOD:
+    //    gamestate.timers[gamestate.activetimers].color = GOD_TMR_CLR;
+    //    break;
+    //case T_FURY:
+    //    gamestate.timers[gamestate.activetimers].color = FUR_TMR_CLR;
+    //    break;
+    //}
+    gamestate.activetimers++;                   // increase the number of active timers
+}
+
+/*
+========================
+=
+= DrawMessage
+=
+= displays ingame messages
+=
+========================
+*/
+int lastsec = -1;
+
+void DrawTimer(void)
+{
+    for (int x = 0; x < gamestate.activetimers; x++) {
+        // Calculate timer values (tics -> min/sec)
+        if (gamestate.timers[x].tics <= 0) { // a timer is done
+            gamestate.activetimers--;
+
+            for (int t = x; t < gamestate.activetimers; t++) { // shift the relatively new timers up
+                gamestate.timers[t].tics = gamestate.timers[t + 1].tics;
+                gamestate.timers[t].color = gamestate.timers[t + 1].color;
+                gamestate.timers[t].type = gamestate.timers[t + 1].type;
+            }
+        }
+
+        if (gamestate.timers[x].tics <= 0) return;
+
+        int sec = gamestate.timers[x].tics / 70;
+        int min = sec / 60;
+        int yOffset = (x << 3) + x;
+        sec %= 60;
+
+        // Give 1000 pts/sec for timed levels (level timer always in first spot if it is set)
+        if (x == 0 && (levelinfo.timerMin > 0 || levelinfo.timerSec > 0) && lastsec != sec) {
+            GivePoints(1000);
+            lastsec = sec;
+        }
+
+        // Draw timer shadow
+        fontnumber = 0;
+        SETFONTCOLOR(0x0, 0x0); // set the color{
+        SETPRINTXY(timerPrintX + 1, timerPrintY + yOffset + 1);
+        US_PrintUnsignedTimer(min); US_Print(":"); US_PrintUnsignedTimer(sec); // print message
+
+        // Draw timer
+        SETFONTCOLOR(gamestate.timers[x].color, 0x0); // set the color
+        SETPRINTXY(timerPrintX, timerPrintY + yOffset);
+        US_PrintUnsignedTimer(min); US_Print(":"); US_PrintUnsignedTimer(sec);  // print message
+
+        if (gamestate.timers[x].tics > 0)
+            gamestate.timers[x].tics -= tics;
+    }
+}
+
+void DrawRatios(void) {
+    char ratiobuf[32];
+    fontnumber = 0;
+
+    sprintf(ratiobuf, "T: %lu / %lu", gamestate.treasurecount, gamestate.treasuretotal);
+    SETFONTCOLOR(0x0, 0x0);
+    SETPRINTXY(ratioPrintX + 1, ratioPrintY + 1);
+    US_Print(ratiobuf);
+    SETFONTCOLOR(0x10, 0x0);
+    SETPRINTXY(ratioPrintX, ratioPrintY);
+    US_Print(ratiobuf);
+
+    sprintf(ratiobuf, "S: %lu / %lu", gamestate.secretcount, gamestate.secrettotal);
+    SETFONTCOLOR(0x0, 0x0);
+    SETPRINTXY(ratioPrintX + 1, ratioPrintY - 9);
+    US_Print(ratiobuf);
+    SETFONTCOLOR(0x10, 0x0);
+    SETPRINTXY(ratioPrintX, ratioPrintY - 10);
+    US_Print(ratiobuf);
+
+    sprintf(ratiobuf, "K: %lu / %lu", gamestate.killcount, gamestate.killtotal);
+    SETFONTCOLOR(0x0, 0x0);
+    SETPRINTXY(ratioPrintX + 1, ratioPrintY - 19);
+    US_Print(ratiobuf);
+    SETFONTCOLOR(0x10, 0x0);
+    SETPRINTXY(ratioPrintX, ratioPrintY - 20);
+    US_Print(ratiobuf);
 }

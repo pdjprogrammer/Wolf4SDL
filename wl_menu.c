@@ -2540,14 +2540,14 @@ void EnterCtrlData(int index, CustomCtrls* cust, void (*DrawRtn) (int), void (*P
 	ControlInfo ci;
 
 	int w = 0;
-	int amount = 4;
 
 	ShootSnd();
 
 #ifndef USE_MODERN_OPTIONS
+	int amount = 4;
 	PrintY = CST_Y + 13 * index;
 #else
-	amount = 6;
+	int amount = 6;
 #endif
 
 	IN_ClearKeysDown();
@@ -2729,7 +2729,6 @@ void EnterCtrlData(int index, CustomCtrls* cust, void (*DrawRtn) (int), void (*P
 						picked = 1;
 						SD_PlaySound(SHOOTDOORSND);
 						IN_ClearKeysDown();
-
 #ifdef USE_MODERN_OPTIONS
 						exit = 1;
 #endif
@@ -2752,7 +2751,6 @@ void EnterCtrlData(int index, CustomCtrls* cust, void (*DrawRtn) (int), void (*P
 						picked = 1;
 						SD_PlaySound(SHOOTDOORSND);
 						IN_ClearKeysDown();
-
 #ifdef USE_MODERN_OPTIONS
 						exit = 1;
 #endif

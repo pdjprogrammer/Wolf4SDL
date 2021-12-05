@@ -29,6 +29,7 @@
 
 boolean         ingame,fizzlein;
 gametype        gamestate;
+levelinfo_t     levelinfo;
 byte            bordercol=VIEWCOLOR;        // color of the Change View/Ingame border
 
 #ifdef SPEAR

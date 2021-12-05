@@ -182,6 +182,36 @@ US_PrintUnsigned(longword n)
 	US_Print(buffer);
 }
 
+void
+US_PrintUnsignedPadded(longword n, int pad)
+{
+	char	buffer[32];
+	switch (pad) {
+	case 2:
+		sprintf(buffer, "%2lu", n);
+		break;
+	case 3:
+		sprintf(buffer, "%3lu", n);
+		break;
+	case 6:
+		sprintf(buffer, "%6lu", n);
+		break;
+	default:
+		sprintf(buffer, "%3lu", n);
+		break;
+	}
+
+	US_Print(buffer);
+}
+
+void US_PrintUnsignedTimer(longword n) {
+	char    buffer[32];
+	sprintf(buffer, "%02u", n);
+
+	US_Print(buffer);
+}
+
+
 ///////////////////////////////////////////////////////////////////////////
 //
 //	US_PrintSigned() - Prints a signed long

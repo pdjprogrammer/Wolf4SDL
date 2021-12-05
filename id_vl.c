@@ -73,6 +73,11 @@ SDL_Color gamepal[]={
 #endif
 };
 
+int picHorizAdjust;
+int picVertAdjust;
+int printHorizAdjust;
+int printVertAdjust;
+
 CASSERT(lengthof(gamepal) == 256)
 
 //===========================================================================
@@ -206,6 +211,9 @@ void VL_SetVGAPlaneMode (void)
 
     scaleFactor = screenWidth/320;
     if(screenHeight/200 < scaleFactor) scaleFactor = screenHeight/200;
+
+    printHorizAdjust = picHorizAdjust / scaleFactor;
+    printVertAdjust = picVertAdjust / scaleFactor;
 
     ylookup = SafeMalloc(screenHeight * sizeof(*ylookup));
     pixelangle = SafeMalloc(screenWidth * sizeof(*pixelangle));

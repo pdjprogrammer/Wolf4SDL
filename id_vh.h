@@ -41,6 +41,7 @@ extern	int             fontnumber;
 extern	int             px,py;
 
 #define SETFONTCOLOR(f,b) fontcolor=f;backcolor=b;
+#define SETPRINTXY(x,y) PrintX=(x);PrintY=(y)
 
 //
 // mode independant routines

@@ -241,6 +241,8 @@ typedef uint8_t tiletype;
 
 #define STARTAMMO       8
 
+#define MAXTIMERS 4
+
 
 // object flag values
 
@@ -869,6 +871,12 @@ enum
 // gamestate structure
 //
 //---------------
+// Kyle: Multiple Timers
+typedef struct {
+	short type;
+	int color;
+	int32_t tics;
+} timer_t;
 
 typedef struct
 {
@@ -884,13 +892,24 @@ typedef struct
 	short       faceframe;
 	short       attackframe, attackcount, weaponframe;
 
+	// handles multiple timers
+	byte        activetimers;
+	timer_t     timers[4];
+
 	short       episode, secretcount, treasurecount, killcount,
 		secrettotal, treasuretotal, killtotal;
 	int32_t     TimeCount;
 	int32_t     killx, killy;
 	boolean     victoryflag;            // set during victory animations
+	char        message[40];
 } gametype;
 
+typedef struct {
+	short timerMin;
+	short timerSec;
+} levelinfo_t;
+
+extern levelinfo_t levelinfo;
 
 typedef enum
 {
@@ -926,6 +945,13 @@ extern  int      viewwidth;
 extern  int      viewheight;
 extern  short    centerx, centery;
 extern  int      shootdelta;
+
+extern  int      msgPrintX;
+extern  int      msgPrintY;
+extern  int      timerPrintX;
+extern  int      timerPrintY;
+extern  int      ratioPrintX;
+extern  int      ratioPrintY;
 
 extern  int      dirangle[9];
 
@@ -1052,7 +1078,7 @@ extern  boolean     mouseenabled, mouseYAxis, joystickenabled, alwaysRun;
 extern  boolean     mouseenabled, joystickenabled;
 #endif
 
-#ifdef USE_CUSTOM_CONTROLS
+#ifdef USE_MODERN_OPTIONS
 extern  int         dirscan[6];
 #else
 extern  int         dirscan[4];
@@ -1134,6 +1160,9 @@ void ViewMap(void);
 =============================================================================
 */
 
+#define DEF_MSG_CLR 0x10
+#define SPC_MSG_CLR 0x45
+
 extern  byte* vbuf;
 
 extern  int32_t lasttimecount;
@@ -1166,6 +1195,13 @@ extern  short   midangle;
 
 extern  word    horizwall[MAXWALLTILES], vertwall[MAXWALLTILES];
 
+extern  int messagetime;
+void   GetMessage(char* lastmessage, int color); // WSJ's message feature
+void   DrawMessage(void);
+void    GetTimer(int seconds, int eventtype);
+void    DrawTimer(void);
+extern  int lastsec;
+extern  boolean fs_drawflag;
 
 void    ScalePost(void);
 void    ThreeDRefresh(void);

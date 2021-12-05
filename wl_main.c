@@ -66,6 +66,13 @@ int      shootdelta;           // pixels away from centerx a target can be
 fixed    scale;
 int32_t  heightnumerator;
 
+int      msgPrintX;
+int      msgPrintY;
+int      timerPrintX;
+int      timerPrintY;
+int      ratioPrintX;
+int      ratioPrintY;
+
 
 void    Quit(const char* error, ...);
 
@@ -1314,6 +1321,26 @@ boolean SetViewSize(unsigned width, unsigned height)
 	centerx = viewwidth / 2 - 1;
 	centery = viewheight / 2;
 	shootdelta = viewwidth / 10;
+
+	if (viewsize == 21) {
+		msgPrintX = ratioPrintX = 3;
+		msgPrintY = 3;
+
+		timerPrintX = 284 + printHorizAdjust;
+		timerPrintY = 3;
+
+		ratioPrintY = 146 + printVertAdjust;
+	}
+	else {
+		msgPrintX = ratioPrintX = (screenWidth - viewwidth) / (scaleFactor << 1) + 2;
+		msgPrintY = ((screenHeight - (scaleFactor * STATUSLINES) - viewheight) / (scaleFactor << 1)) + 2;
+
+		timerPrintX = (screenWidth + viewwidth) / (scaleFactor << 1) - 36;
+		timerPrintY = ((screenHeight - (scaleFactor * STATUSLINES) - viewheight) / (scaleFactor << 1)) + 1;
+
+		ratioPrintY = ((screenHeight - (scaleFactor * STATUSLINES) + viewheight) / (scaleFactor << 1)) - 10;
+	}
+
 	if ((unsigned)viewheight == screenHeight)
 		viewscreenx = viewscreeny = screenofs = 0;
 	else

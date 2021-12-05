@@ -83,6 +83,8 @@ void			US_Printf(const char *formatStr, ...);
 void			US_CPrintf(const char *formatStr, ...);
 
 void			US_PrintUnsigned(longword n);
+void			US_PrintUnsignedPadded(longword n, int pad);
+void			US_PrintUnsignedTimer(longword n);
 void			US_PrintSigned(int32_t n);
 void			US_StartCursor(void),
 				US_ShutCursor(void);
