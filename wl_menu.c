@@ -2635,7 +2635,7 @@ void EnterCtrlData(int index, CustomCtrls* cust, void (*DrawRtn) (int), void (*P
 					switch (tick)
 					{
 					case 0:
-#ifndef USE_MODERN_CONTROLS
+#ifndef USE_MODERN_OPTIONS
 						w = CST_SPC;
 #endif
 						VWB_Bar(x, PrintY + 1, w - 2, 10, TEXTCOLOR);
