@@ -67,7 +67,12 @@ int dirscan[6] = { sc_UpArrow, sc_RightArrow, sc_DownArrow, sc_LeftArrow, sc_Str
 int dirscan[4] = { sc_UpArrow, sc_RightArrow, sc_DownArrow, sc_LeftArrow };
 #endif
 
+#ifdef SHOW_ADVANCED_CONTROLS
+int buttonscan[NUMBUTTONS] = { sc_Control, sc_Alt, sc_LShift, sc_Space, sc_1, sc_2, sc_3, sc_4, sc_None, sc_None, sc_Escape, sc_None, sc_None, sc_None, sc_None, sc_None, sc_None, sc_None, sc_Adv_1, sc_Adv_2 };
+#else
 int buttonscan[NUMBUTTONS] = { sc_Control, sc_Alt, sc_LShift, sc_Space, sc_1, sc_2, sc_3, sc_4 };
+#endif
+
 int buttonmouse[4] = { bt_attack, bt_strafe, bt_use, bt_nobutton };
 int buttonjoy[32] = {
 #ifdef _arch_dreamcast
@@ -80,6 +85,7 @@ int buttonjoy[32] = {
 	bt_nobutton, bt_nobutton, bt_nobutton, bt_nobutton, bt_nobutton, bt_nobutton, bt_nobutton, bt_nobutton,
 	bt_nobutton, bt_nobutton, bt_nobutton, bt_nobutton, bt_nobutton, bt_nobutton, bt_nobutton, bt_nobutton
 };
+int advancedcontrols[8] = { bt_adv_1, bt_adv_2, bt_adv_3, bt_adv_4, bt_adv_5, bt_adv_6, bt_adv_7, bt_adv_8 };
 
 int viewsize;
 
@@ -356,13 +362,11 @@ void PollCustomKeyboardMove(void)
 {
 	int delta = buttonstate[bt_run] || alwaysRun ? RUNMOVE * tics : BASEMOVE * tics;
 
-	if (Keyboard(dirscan[di_north])) {
+	if (Keyboard(dirscan[di_north]))
 		controly = ((alwaysRun && buttonstate[bt_run]) || (!alwaysRun && !buttonstate[bt_run])) ? -BASEMOVE * tics : -RUNMOVE * tics;
-	}
 
-	if (Keyboard(dirscan[di_south])) {
+	if (Keyboard(dirscan[di_south]))
 		controly = ((alwaysRun && buttonstate[bt_run]) || (!alwaysRun && !buttonstate[bt_run])) ? BASEMOVE * tics : RUNMOVE * tics;
-	}
 
 	if (Keyboard(dirscan[di_west])) {
 		if (buttonstate[bt_strafe])
@@ -379,14 +383,45 @@ void PollCustomKeyboardMove(void)
 	}
 
 	if (Keyboard(dirscan[di_st_east]))
-	{
 		controlx = ((alwaysRun && buttonstate[bt_run]) || (!alwaysRun && !buttonstate[bt_run])) ? -BASEMOVE * tics : -RUNMOVE * tics;
-	}
 
 	if (Keyboard(dirscan[di_st_west]))
-	{
 		controlx = ((alwaysRun && buttonstate[bt_run]) || (!alwaysRun && !buttonstate[bt_run])) ? BASEMOVE * tics : RUNMOVE * tics;
-	}
+}
+
+/*
+===================
+=
+= PollAdvancedControls
+=
+===================
+*/
+void PollAdvancedControls(void) {
+
+	if (buttonstate[bt_adv_1])
+		GetMessage("Adv Ctl 1", DEF_MSG_CLR);
+
+	if (Keyboard(buttonscan[bt_adv_2]))
+		GetMessage("Adv Ctl 2", DEF_MSG_CLR);
+
+	if (Keyboard(buttonscan[bt_adv_3]))
+		GetMessage("Adv Ctl 3", DEF_MSG_CLR);
+
+	if (Keyboard(buttonscan[bt_adv_4]))
+		GetMessage("Adv Ctl 4", DEF_MSG_CLR);
+
+	if (Keyboard(buttonscan[bt_adv_5]))
+		GetMessage("Adv Ctl 5", DEF_MSG_CLR);
+
+	if (Keyboard(buttonscan[bt_adv_6]))
+		GetMessage("Adv Ctl 6", DEF_MSG_CLR);
+
+	if (Keyboard(buttonscan[bt_adv_7]))
+		GetMessage("Adv Ctl 7", DEF_MSG_CLR);
+
+	if (Keyboard(buttonscan[bt_adv_8]))
+		GetMessage("Adv Ctl 8", DEF_MSG_CLR);
+		
 }
 #endif
 
@@ -415,21 +450,13 @@ void PollMouseMove(void)
 #endif
 
 #ifdef USE_MODERN_OPTIONS
-	if (mouseYAxis) {
+	if (mouseYAxis)
 		controly += mouseymove * 20 / (13 - mouseadjustment);
-	}
 
-	if (!buttonstate[bt_strafe]) {
+	if (!buttonstate[bt_strafe])
 		controlh += (mousexmove << 4) / (13 - mouseadjustment);
-	}
-	else {
+	else
 		controlx += mousexmove * 10 / (13 - mouseadjustment);
-	}
-
-	/*if (alwaysStrafe && !buttonstate[bt_strafe]) {
-		controlx += mousexmove * 10 / (13 - mouseadjustment);
-		controlh += (mousexmove << 4) / (13 - mouseadjustment);
-	}*/
 #else
 	controlx += mousexmove * 10 / (13 - mouseadjustment);
 	controly += mouseymove * 20 / (13 - mouseadjustment);
@@ -549,6 +576,10 @@ void PollControls(void)
 	//
 	PollKeyboardButtons();
 
+#ifdef SHOW_ADVANCED_CONTROLS
+	PollAdvancedControls();
+#endif	
+
 	if (mouseenabled && IN_IsInputGrabbed())
 		PollMouseButtons();
 
@@ -635,11 +666,7 @@ void PollControls(void)
 	}
 }
 
-
-
 //==========================================================================
-
-
 
 ///////////////////////////////////////////////////////////////////////////
 //

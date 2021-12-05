@@ -118,11 +118,13 @@ void CheckWeaponChange(void)
 
 	if (buttonstate[bt_nextweapon] && !buttonheld[bt_nextweapon])
 	{
+		GetMessage("Pressed Next Weapon", DEF_MSG_CLR);
 		newWeapon = gamestate.weapon + 1;
 		if (newWeapon > gamestate.bestweapon) newWeapon = 0;
 	}
 	else if (buttonstate[bt_prevweapon] && !buttonheld[bt_prevweapon])
 	{
+		GetMessage("Pressed Previous Weapon", DEF_MSG_CLR);
 		newWeapon = gamestate.weapon - 1;
 		if (newWeapon < 0) newWeapon = gamestate.bestweapon;
 	}

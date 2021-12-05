@@ -842,7 +842,14 @@ enum
 	bt_movebackward,
 	bt_turnleft,
 	bt_turnright,
-
+	bt_adv_1,
+	bt_adv_2,
+	bt_adv_3,
+	bt_adv_4,
+	bt_adv_5,
+	bt_adv_6,
+	bt_adv_7,
+	bt_adv_8,
 	NUMBUTTONS
 };
 
@@ -1086,6 +1093,8 @@ extern  int         dirscan[4];
 extern  int         buttonscan[NUMBUTTONS];
 extern  int         buttonmouse[4];
 extern  int         buttonjoy[32];
+
+extern  int         advancedcontrols[8];
 
 extern  boolean     buttonheld[NUMBUTTONS];
 

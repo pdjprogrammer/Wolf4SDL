@@ -142,6 +142,18 @@
 #define OPT_KEYBOARD_MOVE_W   250
 #define OPT_KEYBOARD_MOVE_H   112
 
+#ifdef SHOW_ADVANCED_CONTROLS
+#define OPT_ADV_X   41
+#define OPT_ADV_Y   61
+#define OPT_ADV_W   250
+#define OPT_ADV_H   112
+
+#define OPT_ADV_TEXT_X 41
+#define OPT_ADV_TEXT_Y 65
+
+#define OPT_ADV_RIGHT_TEXT_X 190
+#endif
+
 #define OPT_KEYBOARD_X   41
 #define OPT_KEYBOARD_Y   72
 #define OPT_KEYBOARD_W   250
@@ -172,7 +184,7 @@ typedef struct {
 
 typedef struct {
 #ifdef USE_MODERN_OPTIONS
-	short allowed[6];
+	short allowed[8];
 #else
 	short allowed[4];
 #endif
@@ -243,15 +255,18 @@ void DrawCustomScreen(void);
 void DrawMouseCtlScreen(void);
 void DrawKeyboardMoveCtlScreen(void);
 void DrawKeyboardActionCtlScreen(void);
+void DrawAdvancedCtlScreen(void);
 void DrawLSAction(int which);
 void DrawCustMouse(int hilight);
 void DrawCustJoy(int hilight);
 void DrawCustKeybd(int hilight);
 void DrawCustKeys(int hilight);
+void DrawAdvancedCtlKeys(int hilight);
 void PrintCustMouse(int i);
 void PrintCustJoy(int i);
 void PrintCustKeybd(int i);
 void PrintCustKeys(int i);
+void PrintAdvancedCtlKeys(int i);
 
 void DrawOptScreen(void);
 void DrawJoystickScreen(void);
@@ -283,13 +298,14 @@ int CP_MouseCtl(int);
 int CP_KeyboardMoveCtl(int);
 int CP_KeyboardActionCtl(int);
 int CP_JoystickCtl(int);
+int CP_AdvancedCtl(int);
 #endif
 
 void CheckForEpisodes(void);
 
 void FreeMusic(void);
 
-enum { MOUSE, JOYSTICK, KEYBOARDBTNS, KEYBOARDMOVE };        // FOR INPUT TYPES
+enum { MOUSE, JOYSTICK, KEYBOARDBTNS, KEYBOARDMOVE, ADVANCED };        // FOR INPUT TYPES
 
 enum menuitems
 {

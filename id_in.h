@@ -53,6 +53,9 @@ typedef	int		ScanCode;
 #ifdef USE_MODERN_OPTIONS
 #define sc_StrafeLeft	SDLK_a
 #define sc_StrafeRight	SDLK_d
+
+#define sc_Adv_1		SDLK_LEFTBRACKET
+#define sc_Adv_2		SDLK_RIGHTBRACKET
 #endif
 #define	sc_Insert		SDLK_INSERT
 #define	sc_Delete		SDLK_DELETE
