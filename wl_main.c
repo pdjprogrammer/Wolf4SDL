@@ -161,7 +161,6 @@ void ReadConfig(void)
 #ifdef USE_MODERN_OPTIONS
 		read(file, &mouseYAxis, sizeof(mouseYAxis));
 		read(file, &alwaysRun, sizeof(alwaysRun));
-		read(file, &alwaysStrafe, sizeof(alwaysStrafe));
 #endif		
 		read(file, &joystickenabled, sizeof(joystickenabled));
 		boolean dummyJoypadEnabled;
@@ -197,7 +196,6 @@ void ReadConfig(void)
 #ifdef USE_MODERN_OPTIONS
 		if (mouseYAxis) mouseYAxis = true;
 		if (alwaysRun) alwaysRun = true;
-		if (alwaysStrafe) alwaysStrafe = true;
 #endif		
 			if (joystickenabled) joystickenabled = true;
 
@@ -294,7 +292,6 @@ void WriteConfig(void)
 #ifdef USE_MODERN_OPTIONS
 		write(file, &mouseYAxis, sizeof(mouseYAxis));
 		write(file, &alwaysRun, sizeof(alwaysRun));
-		write(file, &alwaysStrafe, sizeof(alwaysStrafe));
 #endif		
 		write(file, &joystickenabled, sizeof(joystickenabled));
 		boolean dummyJoypadEnabled = false;

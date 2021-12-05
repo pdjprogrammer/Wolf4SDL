@@ -42,8 +42,6 @@
 #define STR_OP_JOYSTICK				"Joystick Controls"
 
 #define STR_ALWAYS_RUN				"Always Run"
-#define STR_ALWAYS_STRAFE_KB		"Always Strafe"
-#define STR_ALWAYS_STRAFE_MOUSE		"Mouse Strafe Only"
 
 #define	STR_SENS					"Mouse Sensitivity"
 #define	STR_MOUSEMOVEMENT			"Enable Mouse Y Axis"

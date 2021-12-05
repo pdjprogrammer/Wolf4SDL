@@ -1047,7 +1047,7 @@ extern  int         lastgamemusicoffset;
 // control info
 //
 #ifdef USE_MODERN_OPTIONS
-extern  boolean     mouseenabled, mouseYAxis, joystickenabled, alwaysRun, alwaysStrafe;
+extern  boolean     mouseenabled, mouseYAxis, joystickenabled, alwaysRun;
 #else
 extern  boolean     mouseenabled, joystickenabled;
 #endif

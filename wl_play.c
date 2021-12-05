@@ -55,7 +55,7 @@ unsigned tics;
 // control info
 //
 #ifdef USE_MODERN_OPTIONS
-boolean mouseenabled, mouseYAxis, joystickenabled, alwaysRun, alwaysStrafe;
+boolean mouseenabled, mouseYAxis, joystickenabled, alwaysRun;
 #else
 boolean mouseenabled, joystickenabled;
 
@@ -360,14 +360,14 @@ void PollCustomKeyboardMove(void)
 	}
 
 	if (Keyboard(dirscan[di_west])) {
-		if (alwaysStrafe || buttonstate[bt_strafe])
+		if (buttonstate[bt_strafe])
 			controlx = ((alwaysRun && buttonstate[bt_run]) || (!alwaysRun && !buttonstate[bt_run])) ? -BASEMOVE * tics : -RUNMOVE * tics;
 		else
 			controlh = (buttonstate[bt_run]) ? -RUNMOVE * tics : -BASEMOVE * tics;
 	}
 
 	if (Keyboard(dirscan[di_east])) {
-		if (alwaysStrafe || buttonstate[bt_strafe])
+		if (buttonstate[bt_strafe])
 			controlx = ((alwaysRun && buttonstate[bt_run]) || (!alwaysRun && !buttonstate[bt_run])) ? BASEMOVE * tics : RUNMOVE * tics;
 		else
 			controlh = (buttonstate[bt_run]) ? RUNMOVE * tics : BASEMOVE * tics;
@@ -421,10 +421,10 @@ void PollMouseMove(void)
 		controlx += mousexmove * 10 / (13 - mouseadjustment);
 	}
 
-	if (alwaysStrafe && !buttonstate[bt_strafe]) {
+	/*if (alwaysStrafe && !buttonstate[bt_strafe]) {
 		controlx += mousexmove * 10 / (13 - mouseadjustment);
 		controlh += (mousexmove << 4) / (13 - mouseadjustment);
-	}
+	}*/
 #else
 	controlx += mousexmove * 10 / (13 - mouseadjustment);
 	controly += mouseymove * 20 / (13 - mouseadjustment);
