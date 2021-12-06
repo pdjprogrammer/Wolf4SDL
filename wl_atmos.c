@@ -12,26 +12,115 @@ uint32_t rainpos;
 
 typedef struct
 {
-    fixed x,y,z;
+    fixed x, y, z;
 } point3d_t;
 
 #define MAXPOINTS 400
 point3d_t points[MAXPOINTS];
 
 byte moon[100] =
-{
-     0,  0, 27, 18, 15, 16, 19, 29,  0,  0,
-     0, 22, 16, 15, 15, 16, 16, 18, 24,  0,
-    27, 17, 15, 17, 16, 16, 17, 17, 18, 29,
-    18, 15, 15, 15, 16, 16, 17, 17, 18, 20,
-    16, 15, 15, 16, 16, 17, 17, 18, 19, 21,
-    16, 15, 17, 20, 18, 17, 18, 18, 20, 22,
-    19, 16, 18, 19, 17, 17, 18, 19, 22, 24,
-    28, 19, 17, 17, 17, 18, 19, 21, 25, 31,
-     0, 23, 18, 19, 18, 20, 22, 24, 28,  0,
-     0,  0, 28, 21, 20, 22, 28, 30,  0,  0,
+    {
+        0,
+        0,
+        27,
+        18,
+        15,
+        16,
+        19,
+        29,
+        0,
+        0,
+        0,
+        22,
+        16,
+        15,
+        15,
+        16,
+        16,
+        18,
+        24,
+        0,
+        27,
+        17,
+        15,
+        17,
+        16,
+        16,
+        17,
+        17,
+        18,
+        29,
+        18,
+        15,
+        15,
+        15,
+        16,
+        16,
+        17,
+        17,
+        18,
+        20,
+        16,
+        15,
+        15,
+        16,
+        16,
+        17,
+        17,
+        18,
+        19,
+        21,
+        16,
+        15,
+        17,
+        20,
+        18,
+        17,
+        18,
+        18,
+        20,
+        22,
+        19,
+        16,
+        18,
+        19,
+        17,
+        17,
+        18,
+        19,
+        22,
+        24,
+        28,
+        19,
+        17,
+        17,
+        17,
+        18,
+        19,
+        21,
+        25,
+        31,
+        0,
+        23,
+        18,
+        19,
+        18,
+        20,
+        22,
+        24,
+        28,
+        0,
+        0,
+        0,
+        28,
+        21,
+        20,
+        22,
+        28,
+        30,
+        0,
+        0,
 };
-
 
 /*
 ====================
@@ -41,10 +130,10 @@ byte moon[100] =
 ====================
 */
 
-void Init3DPoints (void)
+void Init3DPoints(void)
 {
-    int       i,j;
-    float     length;
+    int i, j;
+    float length;
     point3d_t *pt;
 
     for (i = 0; i < MAXPOINTS; i++)
@@ -78,20 +167,20 @@ void Init3DPoints (void)
 ====================
 */
 
-void DrawStarSky (void)
+void DrawStarSky(void)
 {
-    int       i,j;
+    int i, j;
     point3d_t *pt;
-    byte      *dest;
-    byte      shade;
-    int16_t   stopx,starty,stopy;
-    fixed     x,y,z;
-    fixed     xx,yy;
-    
+    byte *dest;
+    byte shade;
+    int16_t stopx, starty, stopy;
+    fixed x, y, z;
+    fixed xx, yy;
+
     dest = vbuf;
-    
+
     for (i = 0; i < centery; i++, dest += bufferPitch)
-        memset (dest,0,viewwidth);
+        memset(dest, 0, viewwidth);
 
     for (i = 0; i < MAXPOINTS; i++)
     {
@@ -125,17 +214,17 @@ void DrawStarSky (void)
     xx = ((x / z) * scaleFactor) + (centerx + 1);
     yy = centery - (((centery - (centery >> 3)) << 22) / z);
 
-    if (xx > (scaleFactor * -10) && xx < viewwidth) 
-    { 
+    if (xx > (scaleFactor * -10) && xx < viewwidth)
+    {
         stopx = 10 * scaleFactor;
         starty = 0;
         stopy = 10 * scaleFactor;
-        i = 0; 
+        i = 0;
 
         if (xx < 0)
-            i = -xx; 
+            i = -xx;
         if (xx >= viewwidth - (10 * scaleFactor))
-            stopx = viewwidth - xx; 
+            stopx = viewwidth - xx;
 
         if (yy < 0)
             starty = -yy;
@@ -144,12 +233,12 @@ void DrawStarSky (void)
 
         while (i < stopx)
         {
-            for (j = starty; j < stopy; j++) 
+            for (j = starty; j < stopy; j++)
                 vbuf[ylookup[yy + j] + xx + i] = moon[((j / scaleFactor) * 10) + (i / scaleFactor)];
 
             i++;
         }
-    } 
+    }
 }
 
 #endif
@@ -164,21 +253,21 @@ void DrawStarSky (void)
 ====================
 */
 
-void DrawRain (void)
+void DrawRain(void)
 {
 #if defined(USE_FLOORCEILINGTEX) && defined(FIXRAINSNOWLEAKS)
-    byte      tilex,tiley;
-    int16_t   prestep;
-    fixed     basedist,stepscale;
-    fixed     xfrac,yfrac;
-    fixed     xstep,ystep;
+    byte tilex, tiley;
+    int16_t prestep;
+    fixed basedist, stepscale;
+    fixed xfrac, yfrac;
+    fixed xstep, ystep;
 #endif
 
-    int       i;
+    int i;
     point3d_t *pt;
-    byte      shade;
-    int32_t   ax,az,x,y,z,xx,yy,height,actheight;
-    fixed     px,pz;
+    byte shade;
+    int32_t ax, az, x, y, z, xx, yy, height, actheight;
+    fixed px, pz;
 
     px = (player->y + FixedMul(0x7900, viewsin)) >> 6;
     pz = (player->x - FixedMul(0x7900, viewcos)) >> 6;
@@ -227,14 +316,14 @@ void DrawRain (void)
             // NOTE: This sometimes goes over the map edges
             //
             prestep = centerx - xx + 1;
-            basedist = FixedDiv(scale,(height >> 3) + 1) >> 1;
+            basedist = FixedDiv(scale, (height >> 3) + 1) >> 1;
             stepscale = basedist / scale;
 
-            xstep = FixedMul(stepscale,viewsin);
-            ystep = -FixedMul(stepscale,viewcos);
+            xstep = FixedMul(stepscale, viewsin);
+            ystep = -FixedMul(stepscale, viewcos);
 
-            xfrac = (viewx + FixedMul(basedist,viewcos)) - (xstep * prestep);
-            yfrac = -(viewy - FixedMul(basedist,viewsin)) - (ystep * prestep);
+            xfrac = (viewx + FixedMul(basedist, viewcos)) - (xstep * prestep);
+            yfrac = -(viewy - FixedMul(basedist, viewsin)) - (ystep * prestep);
 
             tilex = (xfrac >> TILESHIFT) & (mapwidth - 1);
             tiley = ~(yfrac >> TILESHIFT) & (mapheight - 1);
@@ -242,7 +331,7 @@ void DrawRain (void)
             //
             // is there a ceiling tile?
             //
-            if (MAPSPOT(tilex,tiley, 2) >> 8)
+            if (MAPSPOT(tilex, tiley, 2) >> 8)
                 continue;
 #endif
 
@@ -267,25 +356,25 @@ void DrawRain (void)
 ====================
 */
 
-void DrawSnow (void)
+void DrawSnow(void)
 {
 #if defined(USE_FLOORCEILINGTEX) && defined(FIXRAINSNOWLEAKS)
-    byte      tilex,tiley;
-    int16_t   prestep;
-    fixed     basedist,stepscale;
-    fixed     xfrac,yfrac;
-    fixed     xstep,ystep;
+    byte tilex, tiley;
+    int16_t prestep;
+    fixed basedist, stepscale;
+    fixed xfrac, yfrac;
+    fixed xstep, ystep;
 #endif
 
-    int       i;
+    int i;
     point3d_t *pt;
-    byte      shade;
-    int32_t   ax,az,x,y,z,xx,yy,height,actheight;
-    fixed     px,pz;
-    
+    byte shade;
+    int32_t ax, az, x, y, z, xx, yy, height, actheight;
+    fixed px, pz;
+
     px = (player->y + FixedMul(0x7900, viewsin)) >> 6;
     pz = (player->x - FixedMul(0x7900, viewcos)) >> 6;
-    
+
     rainpos -= tics * 256;
 
     for (i = 0; i < MAXPOINTS; i++)
@@ -330,14 +419,14 @@ void DrawSnow (void)
             // NOTE: This sometimes goes over the map edges
             //
             prestep = centerx - xx + 1;
-            basedist = FixedDiv(scale,(height >> 3) + 1) >> 1;
+            basedist = FixedDiv(scale, (height >> 3) + 1) >> 1;
             stepscale = basedist / scale;
 
-            xstep = FixedMul(stepscale,viewsin);
-            ystep = -FixedMul(stepscale,viewcos);
+            xstep = FixedMul(stepscale, viewsin);
+            ystep = -FixedMul(stepscale, viewcos);
 
-            xfrac = (viewx + FixedMul(basedist,viewcos)) - (xstep * prestep);
-            yfrac = -(viewy - FixedMul(basedist,viewsin)) - (ystep * prestep);
+            xfrac = (viewx + FixedMul(basedist, viewcos)) - (xstep * prestep);
+            yfrac = -(viewy - FixedMul(basedist, viewsin)) - (ystep * prestep);
 
             tilex = (xfrac >> TILESHIFT) & (mapwidth - 1);
             tiley = ~(yfrac >> TILESHIFT) & (mapheight - 1);
@@ -345,7 +434,7 @@ void DrawSnow (void)
             //
             // is there a ceiling tile?
             //
-            if (MAPSPOT(tilex,tiley,2) >> 8)
+            if (MAPSPOT(tilex, tiley, 2) >> 8)
                 continue;
 #endif
 

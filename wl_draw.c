@@ -15,7 +15,7 @@
 =============================================================================
 */
 
-#define ACTORSIZE       0x4000
+#define ACTORSIZE 0x4000
 
 /*
 =============================================================================
@@ -25,15 +25,15 @@
 =============================================================================
 */
 
-byte     *vbuf;
+byte *vbuf;
 
-int32_t    lasttimecount;
-int32_t    frameon;
-int   messagetime = 0; // WSJ's message feature
-int   messagecolor = 0x35;
+int32_t lasttimecount;
+int32_t frameon;
+int messagetime = 0; // WSJ's message feature
+int messagecolor = 0x35;
 boolean fpscounter;
 
-int fps_frames=0, fps_time=0, fps=0;
+int fps_frames = 0, fps_time = 0, fps = 0;
 
 #if defined(USE_FLOORCEILINGTEX) || defined(USE_CLOUDSKY)
 int16_t *spanstart;
@@ -45,66 +45,65 @@ int16_t *wallheight;
 // math tables
 //
 short *pixelangle;
-int32_t finetangent[FINEANGLES/4];
-fixed sintable[ANGLES+ANGLES/4];
-fixed *costable = sintable+(ANGLES/4);
+int32_t finetangent[FINEANGLES / 4];
+fixed sintable[ANGLES + ANGLES / 4];
+fixed *costable = sintable + (ANGLES / 4);
 
 //
 // refresh variables
 //
-fixed   viewx,viewy;                    // the focal point
-short   viewangle;
-fixed   viewsin,viewcos;
+fixed viewx, viewy; // the focal point
+short viewangle;
+fixed viewsin, viewcos;
 
-void    TransformActor (objtype *ob);
-void    BuildTables (void);
-void    ClearScreen (void);
-int     CalcRotate (objtype *ob);
-void    DrawScaleds (void);
-void    CalcTics (void);
-void    ThreeDRefresh (void);
+void TransformActor(objtype *ob);
+void BuildTables(void);
+void ClearScreen(void);
+int CalcRotate(objtype *ob);
+void DrawScaleds(void);
+void CalcTics(void);
+void ThreeDRefresh(void);
 
 // WSJ's message feature
-void   GetMessage(char* lastmessage);
-void   DrawMessage(void);
-void    DrawRatios(void);
+void GetMessage(char *lastmessage);
+void DrawMessage(void);
+void DrawRatios(void);
 
 #ifdef USE_SKYWALLPARALLAX
-void    ScaleSkyPost();
+void ScaleSkyPost();
 #endif
 
-int     postx;
-byte    *postsource;
+int postx;
+byte *postsource;
 #ifdef USE_SKYWALLPARALLAX
-byte    *postsourcesky;
+byte *postsourcesky;
 #endif
 
 //
 // wall optimization variables
 //
-int     lastside;               // true for vertical
-word    lasttilehit;
-int     lasttexture;
+int lastside; // true for vertical
+word lasttilehit;
+int lasttexture;
 
 //
 // ray tracing variables
 //
-short    focaltx,focalty;
-longword xpartialup,xpartialdown,ypartialup,ypartialdown;
+short focaltx, focalty;
+longword xpartialup, xpartialdown, ypartialup, ypartialdown;
 
-short   midangle;
+short midangle;
 
-word    tilehit;
-int     pixx;
+word tilehit;
+int pixx;
 
-short   xtile,ytile;
-short   xtilestep,ytilestep;
-fixed   xintercept,yintercept;
-fixed   xinttile,yinttile;
-word    texdelta;
+short xtile, ytile;
+short xtilestep, ytilestep;
+fixed xintercept, yintercept;
+fixed xinttile, yinttile;
+word texdelta;
 
-word    horizwall[MAXWALLTILES],vertwall[MAXWALLTILES];
-
+word horizwall[MAXWALLTILES], vertwall[MAXWALLTILES];
 
 /*
 ============================================================================
@@ -133,54 +132,53 @@ word    horizwall[MAXWALLTILES],vertwall[MAXWALLTILES];
 ========================
 */
 
-
 //
 // transform actor
 //
-void TransformActor (objtype *ob)
+void TransformActor(objtype *ob)
 {
-    fixed gx,gy,gxt,gyt,nx,ny;
+    fixed gx, gy, gxt, gyt, nx, ny;
 
-//
-// translate point to view centered coordinates
-//
-    gx = ob->x-viewx;
-    gy = ob->y-viewy;
+    //
+    // translate point to view centered coordinates
+    //
+    gx = ob->x - viewx;
+    gy = ob->y - viewy;
 
-//
-// calculate newx
-//
-    gxt = FixedMul(gx,viewcos);
-    gyt = FixedMul(gy,viewsin);
-    nx = gxt-gyt-ACTORSIZE;         // fudge the shape forward a bit, because
-                                    // the midpoint could put parts of the shape
-                                    // into an adjacent wall
+    //
+    // calculate newx
+    //
+    gxt = FixedMul(gx, viewcos);
+    gyt = FixedMul(gy, viewsin);
+    nx = gxt - gyt - ACTORSIZE; // fudge the shape forward a bit, because
+                                // the midpoint could put parts of the shape
+                                // into an adjacent wall
 
-//
-// calculate newy
-//
-    gxt = FixedMul(gx,viewsin);
-    gyt = FixedMul(gy,viewcos);
-    ny = gyt+gxt;
+    //
+    // calculate newy
+    //
+    gxt = FixedMul(gx, viewsin);
+    gyt = FixedMul(gy, viewcos);
+    ny = gyt + gxt;
 
-//
-// calculate perspective ratio
-//
+    //
+    // calculate perspective ratio
+    //
     ob->transx = nx;
     ob->transy = ny;
 
-    if (nx<MINDIST)                 // too close, don't overflow the divide
+    if (nx < MINDIST) // too close, don't overflow the divide
     {
         ob->viewheight = 0;
         return;
     }
 
-    ob->viewx = (word)(centerx + ny*scale/nx);
+    ob->viewx = (word)(centerx + ny * scale / nx);
 
-//
-// calculate height (heightnumerator/(nx>>8))
-//
-    ob->viewheight = (word)(heightnumerator/(nx>>8));
+    //
+    // calculate height (heightnumerator/(nx>>8))
+    //
+    ob->viewheight = (word)(heightnumerator / (nx >> 8));
 }
 
 //==========================================================================
@@ -206,46 +204,45 @@ void TransformActor (objtype *ob)
 ========================
 */
 
-boolean TransformTile (int tx, int ty, short *dispx, short *dispheight)
+boolean TransformTile(int tx, int ty, short *dispx, short *dispheight)
 {
-    fixed gx,gy,gxt,gyt,nx,ny;
+    fixed gx, gy, gxt, gyt, nx, ny;
 
-//
-// translate point to view centered coordinates
-//
-    gx = ((int32_t)tx<<TILESHIFT)+0x8000-viewx;
-    gy = ((int32_t)ty<<TILESHIFT)+0x8000-viewy;
+    //
+    // translate point to view centered coordinates
+    //
+    gx = ((int32_t)tx << TILESHIFT) + 0x8000 - viewx;
+    gy = ((int32_t)ty << TILESHIFT) + 0x8000 - viewy;
 
-//
-// calculate newx
-//
-    gxt = FixedMul(gx,viewcos);
-    gyt = FixedMul(gy,viewsin);
-    nx = gxt-gyt-0x2000;            // 0x2000 is size of object
+    //
+    // calculate newx
+    //
+    gxt = FixedMul(gx, viewcos);
+    gyt = FixedMul(gy, viewsin);
+    nx = gxt - gyt - 0x2000; // 0x2000 is size of object
 
-//
-// calculate newy
-//
-    gxt = FixedMul(gx,viewsin);
-    gyt = FixedMul(gy,viewcos);
-    ny = gyt+gxt;
+    //
+    // calculate newy
+    //
+    gxt = FixedMul(gx, viewsin);
+    gyt = FixedMul(gy, viewcos);
+    ny = gyt + gxt;
 
-
-//
-// calculate height / perspective ratio
-//
-    if (nx<MINDIST)                 // too close, don't overflow the divide
+    //
+    // calculate height / perspective ratio
+    //
+    if (nx < MINDIST) // too close, don't overflow the divide
         *dispheight = 0;
     else
     {
-        *dispx = (short)(centerx + ny*scale/nx);
-        *dispheight = (short)(heightnumerator/(nx>>8));
+        *dispx = (short)(centerx + ny * scale / nx);
+        *dispheight = (short)(heightnumerator / (nx >> 8));
     }
 
-//
-// see if it should be grabbed
-//
-    if (nx<TILEGLOBAL && ny>-TILEGLOBAL/2 && ny<TILEGLOBAL/2)
+    //
+    // see if it should be grabbed
+    //
+    if (nx < TILEGLOBAL && ny > -TILEGLOBAL / 2 && ny < TILEGLOBAL / 2)
         return true;
     else
         return false;
@@ -263,22 +260,22 @@ boolean TransformTile (int tx, int ty, short *dispx, short *dispheight)
 ====================
 */
 
-int16_t CalcHeight (void)
+int16_t CalcHeight(void)
 {
     int16_t height;
-    fixed   gx,gy,gxt,gyt,nx,ny;
+    fixed gx, gy, gxt, gyt, nx, ny;
 
-//
-// translate point to view centered coordinates
-//
+    //
+    // translate point to view centered coordinates
+    //
     gx = xintercept - viewx;
     gy = yintercept - viewy;
 
-//
-// calculate nx
-//
-    gxt = FixedMul(gx,viewcos);
-    gyt = FixedMul(gy,viewsin);
+    //
+    // calculate nx
+    //
+    gxt = FixedMul(gx, viewcos);
+    gyt = FixedMul(gy, viewsin);
     nx = gxt - gyt;
 
 //
@@ -294,7 +291,7 @@ int16_t CalcHeight (void)
         height = 0;
 #else
     if (nx < MINDIST)
-        nx = MINDIST;             // don't let divide overflow
+        nx = MINDIST; // don't let divide overflow
 
     height = (int16_t)(heightnumerator / (nx >> 8));
 #endif
@@ -312,7 +309,7 @@ int16_t CalcHeight (void)
 ===================
 */
 
-void ScalePost (void)
+void ScalePost(void)
 {
     int ywcount, yoffs, yw, yd, yendoffs;
     byte col;
@@ -330,26 +327,29 @@ void ScalePost (void)
 #endif
 
     ywcount = yd = wallheight[postx] >> 3;
-    if(yd <= 0) yd = 100;
+    if (yd <= 0)
+        yd = 100;
 
     yoffs = (centery - ywcount) * bufferPitch;
-    if(yoffs < 0) yoffs = 0;
+    if (yoffs < 0)
+        yoffs = 0;
     yoffs += postx;
 
     yendoffs = centery + ywcount - 1;
-    yw=TEXTURESIZE-1;
+    yw = TEXTURESIZE - 1;
 
-    while(yendoffs >= viewheight)
+    while (yendoffs >= viewheight)
     {
-        ywcount -= TEXTURESIZE/2;
-        while(ywcount <= 0)
+        ywcount -= TEXTURESIZE / 2;
+        while (ywcount <= 0)
         {
             ywcount += yd;
             yw--;
         }
         yendoffs--;
     }
-    if(yw < 0) return;
+    if (yw < 0)
+        return;
 
 #ifdef USE_SHADING
     col = curshades[postsource[yw]];
@@ -357,19 +357,19 @@ void ScalePost (void)
     col = postsource[yw];
 #endif
     yendoffs = yendoffs * bufferPitch + postx;
-    while(yoffs <= yendoffs)
+    while (yoffs <= yendoffs)
     {
         vbuf[yendoffs] = col;
-        ywcount -= TEXTURESIZE/2;
-        if(ywcount <= 0)
+        ywcount -= TEXTURESIZE / 2;
+        if (ywcount <= 0)
         {
             do
             {
                 ywcount += yd;
                 yw--;
-            }
-            while(ywcount <= 0);
-            if(yw < 0) break;
+            } while (ywcount <= 0);
+            if (yw < 0)
+                break;
 #ifdef USE_SHADING
             col = curshades[postsource[yw]];
 #else
@@ -381,7 +381,7 @@ void ScalePost (void)
 }
 
 #ifdef USE_SKYWALLPARALLAX
-void ScaleSkyPost (void)
+void ScaleSkyPost(void)
 {
     int ywcount, yoffs, yendoffs, texoffs;
     byte col;
@@ -393,7 +393,8 @@ void ScaleSkyPost (void)
     midy = (viewheight / 2) - 1;
 
     yoffs = midy * bufferPitch;
-    if(yoffs < 0) yoffs = 0;
+    if (yoffs < 0)
+        yoffs = 0;
     yoffs += postx;
 
     yendoffs = midy + (ywcount * 2) - 1;
@@ -402,16 +403,16 @@ void ScaleSkyPost (void)
         yendoffs = viewheight - 1;
 
     int curang = pixelangle[postx] + midangle;
-    if(curang < 0)
+    if (curang < 0)
         curang += FINEANGLES;
-    else if(curang >= FINEANGLES)
+    else if (curang >= FINEANGLES)
         curang -= FINEANGLES;
     int xtex = curang * USE_SKYWALLPARALLAX * TEXTURESIZE / FINEANGLES;
     texoffs = TEXTUREMASK - ((xtex & (TEXTURESIZE - 1)) << TEXTURESHIFT);
 
     y = yendoffs;
     yendoffs = yendoffs * bufferPitch + postx;
-    while(yoffs <= yendoffs)
+    while (yoffs <= yendoffs)
     {
         vbuf[yendoffs] = postsourcesky[texoffs + (y * TEXTURESIZE) / skyheight];
         yendoffs -= bufferPitch;
@@ -431,7 +432,7 @@ void ScaleSkyPost (void)
 ====================
 */
 
-void HitVertWall (void)
+void HitVertWall(void)
 {
     int wallpic;
     int texture;
@@ -470,22 +471,21 @@ void HitVertWall (void)
             // check for adjacent doors
             //
             if (tilemap[xtile - xtilestep][yinttile] & BIT_DOOR)
-                wallpic = DOORWALL+3;
+                wallpic = DOORWALL + 3;
             else
                 wallpic = vertwall[tilehit & ~BIT_WALL];
         }
         else
             wallpic = vertwall[tilehit];
-    
+
         postsource = PM_GetPage(wallpic) + texture;
 #ifdef USE_SKYWALLPARALLAX
         postsourcesky = postsource - texture;
 #endif
     }
 
-    ScalePost ();
+    ScalePost();
 }
-
 
 /*
 ====================
@@ -498,7 +498,7 @@ void HitVertWall (void)
 ====================
 */
 
-void HitHorizWall (void)
+void HitHorizWall(void)
 {
     int wallpic;
     int texture;
@@ -542,14 +542,14 @@ void HitHorizWall (void)
         }
         else
             wallpic = horizwall[tilehit];
-    
+
         postsource = PM_GetPage(wallpic) + texture;
 #ifdef USE_SKYWALLPARALLAX
         postsourcesky = postsource - texture;
 #endif
     }
 
-    ScalePost ();
+    ScalePost();
 }
 
 //==========================================================================
@@ -562,7 +562,7 @@ void HitHorizWall (void)
 ====================
 */
 
-void HitHorizDoor (void)
+void HitHorizDoor(void)
 {
     int doorpage;
     int doornum;
@@ -592,26 +592,26 @@ void HitHorizDoor (void)
 
         switch (doorobjlist[doornum].lock)
         {
-            case dr_normal:
-                doorpage = DOORWALL;
-                break;
+        case dr_normal:
+            doorpage = DOORWALL;
+            break;
 
-            case dr_lock1:
-            case dr_lock2:
-            case dr_lock3:
-            case dr_lock4:
-                doorpage = DOORWALL + 6;
-                break;
+        case dr_lock1:
+        case dr_lock2:
+        case dr_lock3:
+        case dr_lock4:
+            doorpage = DOORWALL + 6;
+            break;
 
-            case dr_elevator:
-                doorpage = DOORWALL + 4;
-                break;
+        case dr_elevator:
+            doorpage = DOORWALL + 4;
+            break;
         }
 
         postsource = PM_GetPage(doorpage) + texture;
     }
 
-    ScalePost ();
+    ScalePost();
 }
 
 //==========================================================================
@@ -624,7 +624,7 @@ void HitHorizDoor (void)
 ====================
 */
 
-void HitVertDoor (void)
+void HitVertDoor(void)
 {
     int doorpage;
     int doornum;
@@ -654,43 +654,43 @@ void HitVertDoor (void)
 
         switch (doorobjlist[doornum].lock)
         {
-            case dr_normal:
-                doorpage = DOORWALL + 1;
-                break;
+        case dr_normal:
+            doorpage = DOORWALL + 1;
+            break;
 
-            case dr_lock1:
-            case dr_lock2:
-            case dr_lock3:
-            case dr_lock4:
-                doorpage = DOORWALL + 7;
-                break;
+        case dr_lock1:
+        case dr_lock2:
+        case dr_lock3:
+        case dr_lock4:
+            doorpage = DOORWALL + 7;
+            break;
 
-            case dr_elevator:
-                doorpage = DOORWALL + 5;
-                break;
+        case dr_elevator:
+            doorpage = DOORWALL + 5;
+            break;
         }
-    
+
         postsource = PM_GetPage(doorpage) + texture;
     }
 
-    ScalePost ();
+    ScalePost();
 }
 
 //==========================================================================
 
-byte vgaCeiling[]=
-{
+byte vgaCeiling[] =
+    {
 #ifndef SPEAR
- 0x1d,0x1d,0x1d,0x1d,0x1d,0x1d,0x1d,0x1d,0x1d,0xbf,
- 0x4e,0x4e,0x4e,0x1d,0x8d,0x4e,0x1d,0x2d,0x1d,0x8d,
- 0x1d,0x1d,0x1d,0x1d,0x1d,0x2d,0xdd,0x1d,0x1d,0x98,
+        0x1d, 0x1d, 0x1d, 0x1d, 0x1d, 0x1d, 0x1d, 0x1d, 0x1d, 0xbf,
+        0x4e, 0x4e, 0x4e, 0x1d, 0x8d, 0x4e, 0x1d, 0x2d, 0x1d, 0x8d,
+        0x1d, 0x1d, 0x1d, 0x1d, 0x1d, 0x2d, 0xdd, 0x1d, 0x1d, 0x98,
 
- 0x1d,0x9d,0x2d,0xdd,0xdd,0x9d,0x2d,0x4d,0x1d,0xdd,
- 0x7d,0x1d,0x2d,0x2d,0xdd,0xd7,0x1d,0x1d,0x1d,0x2d,
- 0x1d,0x1d,0x1d,0x1d,0xdd,0xdd,0x7d,0xdd,0xdd,0xdd
+        0x1d, 0x9d, 0x2d, 0xdd, 0xdd, 0x9d, 0x2d, 0x4d, 0x1d, 0xdd,
+        0x7d, 0x1d, 0x2d, 0x2d, 0xdd, 0xd7, 0x1d, 0x1d, 0x1d, 0x2d,
+        0x1d, 0x1d, 0x1d, 0x1d, 0xdd, 0xdd, 0x7d, 0xdd, 0xdd, 0xdd
 #else
- 0x6f,0x4f,0x1d,0xde,0xdf,0x2e,0x7f,0x9e,0xae,0x7f,
- 0x1d,0xde,0xdf,0xde,0xdf,0xde,0xe1,0xdc,0x2e,0x1d,0xdc
+        0x6f, 0x4f, 0x1d, 0xde, 0xdf, 0x2e, 0x7f, 0x9e, 0xae, 0x7f,
+        0x1d, 0xde, 0xdf, 0xde, 0xdf, 0xde, 0xe1, 0xdc, 0x2e, 0x1d, 0xdc
 #endif
 };
 
@@ -702,21 +702,21 @@ byte vgaCeiling[]=
 =====================
 */
 
-void VGAClearScreen (void)
+void VGAClearScreen(void)
 {
-    byte ceiling=vgaCeiling[gamestate.episode*10+gamestate.mapon];
+    byte ceiling = vgaCeiling[gamestate.episode * 10 + gamestate.mapon];
 
     int y;
     byte *dest = vbuf;
 #ifdef USE_SHADING
-    for(y = 0; y < viewheight / 2; y++, dest += bufferPitch)
+    for (y = 0; y < viewheight / 2; y++, dest += bufferPitch)
         memset(dest, shadetable[GetShade((viewheight / 2 - y) << 3)][ceiling], viewwidth);
-    for(; y < viewheight; y++, dest += bufferPitch)
+    for (; y < viewheight; y++, dest += bufferPitch)
         memset(dest, shadetable[GetShade((y - viewheight / 2) << 3)][0x19], viewwidth);
 #else
-    for(y = 0; y < viewheight / 2; y++, dest += bufferPitch)
+    for (y = 0; y < viewheight / 2; y++, dest += bufferPitch)
         memset(dest, ceiling, viewwidth);
-    for(; y < viewheight; y++, dest += bufferPitch)
+    for (; y < viewheight; y++, dest += bufferPitch)
         memset(dest, 0x19, viewwidth);
 #endif
 }
@@ -731,7 +731,7 @@ void VGAClearScreen (void)
 =====================
 */
 
-int CalcRotate (objtype *ob)
+int CalcRotate(objtype *ob)
 {
     int angle, viewangle;
 
@@ -739,29 +739,27 @@ int CalcRotate (objtype *ob)
     // but it is close enough with only eight rotations
 
 #ifdef FIXCALCROTATE
-    viewangle = (int)( player->angle + (centerx - ob->viewx) / (8 * viewwidth / 320.0) );
+    viewangle = (int)(player->angle + (centerx - ob->viewx) / (8 * viewwidth / 320.0));
 #else
-    viewangle = player->angle + (centerx - ob->viewx)/8;
+    viewangle = player->angle + (centerx - ob->viewx) / 8;
 #endif
 
-
     if (ob->obclass == rocketobj || ob->obclass == hrocketobj)
-        angle = (viewangle-180) - ob->angle;
+        angle = (viewangle - 180) - ob->angle;
     else
-        angle = (viewangle-180) - dirangle[ob->dir];
+        angle = (viewangle - 180) - dirangle[ob->dir];
 
-    angle+=ANGLES/16;
-    while (angle>=ANGLES)
-        angle-=ANGLES;
-    while (angle<0)
-        angle+=ANGLES;
+    angle += ANGLES / 16;
+    while (angle >= ANGLES)
+        angle -= ANGLES;
+    while (angle < 0)
+        angle += ANGLES;
 
-    if (ob->state->rotate == 2)             // 2 rotation pain frame
+    if (ob->state->rotate == 2) // 2 rotation pain frame
         return 0;               // pain with shooting frame bugfix
 
-    return angle/(ANGLES/8);
+    return angle / (ANGLES / 8);
 }
-
 
 /*
 =====================
@@ -777,74 +775,75 @@ int CalcRotate (objtype *ob)
 
 typedef struct
 {
-    short      viewx,
-               viewheight,
-               shapenum;
-    short      flags;          // this must be changed to uint32_t, when you
-                               // you need more than 16-flags for drawing
+    short viewx,
+        viewheight,
+        shapenum;
+    short flags; // this must be changed to uint32_t, when you
+                 // you need more than 16-flags for drawing
 #ifdef USE_DIR3DSPR
     statobj_t *transsprite;
 #endif
 } visobj_t;
 
 visobj_t vislist[MAXVISABLE];
-visobj_t *visptr,*visstep,*farthest;
+visobj_t *visptr, *visstep, *farthest;
 
-void DrawScaleds (void)
+void DrawScaleds(void)
 {
-    int      i,least,numvisable,height;
-    byte     *visspot;
+    int i, least, numvisable, height;
+    byte *visspot;
     tiletype *tilespot;
     unsigned spotloc;
 
     statobj_t *statptr;
-    objtype   *obj;
+    objtype *obj;
 
     visptr = &vislist[0];
 
-//
-// place static objects
-//
-    for (statptr = &statobjlist[0] ; statptr !=laststatobj ; statptr++)
+    //
+    // place static objects
+    //
+    for (statptr = &statobjlist[0]; statptr != laststatobj; statptr++)
     {
         if ((visptr->shapenum = statptr->shapenum) == -1)
-            continue;                                               // object has been deleted
+            continue; // object has been deleted
 
         if (!*statptr->visspot)
-            continue;                                               // not visable
+            continue; // not visable
 
-        if (TransformTile (statptr->tilex,statptr->tiley,
-            &visptr->viewx,&visptr->viewheight) && statptr->flags & FL_BONUS)
+        if (TransformTile(statptr->tilex, statptr->tiley,
+                          &visptr->viewx, &visptr->viewheight) &&
+            statptr->flags & FL_BONUS)
         {
-            GetBonus (statptr);
-            if(statptr->shapenum == -1)
-                continue;                                           // object has been taken
+            GetBonus(statptr);
+            if (statptr->shapenum == -1)
+                continue; // object has been taken
         }
 
         if (!visptr->viewheight)
-            continue;                                               // to close to the object
+            continue; // to close to the object
 
 #ifdef USE_DIR3DSPR
-        if(statptr->flags & FL_DIR_MASK)
-            visptr->transsprite=statptr;
+        if (statptr->flags & FL_DIR_MASK)
+            visptr->transsprite = statptr;
         else
-            visptr->transsprite=NULL;
+            visptr->transsprite = NULL;
 #endif
 
-        if (visptr < &vislist[MAXVISABLE-1])    // don't let it overflow
+        if (visptr < &vislist[MAXVISABLE - 1]) // don't let it overflow
         {
-            visptr->flags = (short) statptr->flags;
+            visptr->flags = (short)statptr->flags;
             visptr++;
         }
     }
 
-//
-// place active objects
-//
-    for (obj = player->next;obj;obj=obj->next)
+    //
+    // place active objects
+    //
+    for (obj = player->next; obj; obj = obj->next)
     {
-        if ((visptr->shapenum = obj->state->shapenum)==0)
-            continue;                                               // no shape
+        if ((visptr->shapenum = obj->state->shapenum) == 0)
+            continue; // no shape
 
         visspot = &spotvis[obj->tilex][obj->tiley];
         tilespot = &tilemap[obj->tilex][obj->tiley];
@@ -852,32 +851,24 @@ void DrawScaleds (void)
         //
         // could be in any of the nine surrounding tiles
         //
-        if (*visspot
-            || ( *(visspot-1) && !*(tilespot-1) )
-            || ( *(visspot+1) && !*(tilespot+1) )
-            || ( *(visspot-(MAPSIZE+1)) && !*(tilespot-(MAPSIZE+1)) )
-            || ( *(visspot-(MAPSIZE)) && !*(tilespot-(MAPSIZE)) )
-            || ( *(visspot-(MAPSIZE-1)) && !*(tilespot-(MAPSIZE-1)) )
-            || ( *(visspot+(MAPSIZE+1)) && !*(tilespot+(MAPSIZE+1)) )
-            || ( *(visspot+(MAPSIZE)) && !*(tilespot+(MAPSIZE)) )
-            || ( *(visspot+(MAPSIZE-1)) && !*(tilespot+(MAPSIZE-1)) ) )
+        if (*visspot || (*(visspot - 1) && !*(tilespot - 1)) || (*(visspot + 1) && !*(tilespot + 1)) || (*(visspot - (MAPSIZE + 1)) && !*(tilespot - (MAPSIZE + 1))) || (*(visspot - (MAPSIZE)) && !*(tilespot - (MAPSIZE))) || (*(visspot - (MAPSIZE - 1)) && !*(tilespot - (MAPSIZE - 1))) || (*(visspot + (MAPSIZE + 1)) && !*(tilespot + (MAPSIZE + 1))) || (*(visspot + (MAPSIZE)) && !*(tilespot + (MAPSIZE))) || (*(visspot + (MAPSIZE - 1)) && !*(tilespot + (MAPSIZE - 1))))
         {
             obj->active = ac_yes;
-            TransformActor (obj);
+            TransformActor(obj);
             if (!obj->viewheight)
-                continue;                                               // too close or far away
+                continue; // too close or far away
 
             visptr->viewx = obj->viewx;
             visptr->viewheight = obj->viewheight;
             if (visptr->shapenum == -1)
-                visptr->shapenum = obj->temp1;  // special shape
+                visptr->shapenum = obj->temp1; // special shape
 
             if (obj->state->rotate)
-                visptr->shapenum += CalcRotate (obj);
+                visptr->shapenum += CalcRotate(obj);
 
-            if (visptr < &vislist[MAXVISABLE-1])    // don't let it overflow
+            if (visptr < &vislist[MAXVISABLE - 1]) // don't let it overflow
             {
-                visptr->flags = (short) obj->flags;
+                visptr->flags = (short)obj->flags;
 #ifdef USE_DIR3DSPR
                 visptr->transsprite = NULL;
 #endif
@@ -889,18 +880,18 @@ void DrawScaleds (void)
             obj->flags &= ~FL_VISABLE;
     }
 
-//
-// draw from back to front
-//
-    numvisable = (int) (visptr-&vislist[0]);
+    //
+    // draw from back to front
+    //
+    numvisable = (int)(visptr - &vislist[0]);
 
     if (!numvisable)
-        return;                                                                 // no visable objects
+        return; // no visable objects
 
-    for (i = 0; i<numvisable; i++)
+    for (i = 0; i < numvisable; i++)
     {
         least = 32000;
-        for (visstep=&vislist[0] ; visstep<visptr ; visstep++)
+        for (visstep = &vislist[0]; visstep < visptr; visstep++)
         {
             height = visstep->viewheight;
             if (height < least)
@@ -936,9 +927,9 @@ void DrawScaleds (void)
 */
 
 int weaponscale[NUMWEAPONS] = {SPR_KNIFEREADY, SPR_PISTOLREADY,
-    SPR_MACHINEGUNREADY, SPR_CHAINREADY};
+                               SPR_MACHINEGUNREADY, SPR_CHAINREADY};
 
-void DrawPlayerWeapon (void)
+void DrawPlayerWeapon(void)
 {
     int shapenum;
 
@@ -946,8 +937,8 @@ void DrawPlayerWeapon (void)
     if (gamestate.victoryflag)
     {
 #ifndef APOGEE_1_0
-        if (player->state == &s_deathcam && (GetTimeCount()&32) )
-            SimpleScaleShape(viewwidth/2,SPR_DEATHCAM,viewheight+1);
+        if (player->state == &s_deathcam && (GetTimeCount() & 32))
+            SimpleScaleShape(viewwidth / 2, SPR_DEATHCAM, viewheight + 1);
 #endif
         return;
     }
@@ -955,17 +946,15 @@ void DrawPlayerWeapon (void)
 
     if (gamestate.weapon != -1)
     {
-        shapenum = weaponscale[gamestate.weapon]+gamestate.weaponframe;
-        SimpleScaleShape(viewwidth/2,shapenum,viewheight+1);
+        shapenum = weaponscale[gamestate.weapon] + gamestate.weaponframe;
+        SimpleScaleShape(viewwidth / 2, shapenum, viewheight + 1);
     }
 
     if (demorecord || demoplayback)
-        SimpleScaleShape(viewwidth/2,SPR_DEMO,viewheight+1);
+        SimpleScaleShape(viewwidth / 2, SPR_DEMO, viewheight + 1);
 }
 
-
 //==========================================================================
-
 
 /*
 =====================
@@ -975,17 +964,17 @@ void DrawPlayerWeapon (void)
 =====================
 */
 
-void CalcTics (void)
+void CalcTics(void)
 {
-//
-// calculate tics since last refresh for adaptive timing
-//
-    if (lasttimecount > (int32_t) GetTimeCount())
-        lasttimecount = GetTimeCount();    // if the game was paused a LONG time
+    //
+    // calculate tics since last refresh for adaptive timing
+    //
+    if (lasttimecount > (int32_t)GetTimeCount())
+        lasttimecount = GetTimeCount(); // if the game was paused a LONG time
 
     uint32_t curtime = SDL_GetTicks();
     tics = (curtime * 7) / 100 - lasttimecount;
-    if(!tics)
+    if (!tics)
     {
         // wait until end of current tic
         SDL_Delay(((lasttimecount + 1) * 100) / 7 - curtime);
@@ -994,13 +983,11 @@ void CalcTics (void)
 
     lasttimecount += tics;
 
-    if (tics>MAXTICS)
+    if (tics > MAXTICS)
         tics = MAXTICS;
 }
 
-
 //==========================================================================
-
 
 /*
 =====================
@@ -1017,32 +1004,32 @@ void CalcTics (void)
 =====================
 */
 
-void WallRefresh (void)
+void WallRefresh(void)
 {
-    int16_t   angle;
-    int32_t   xstep,ystep;
-    fixed     xinttemp,yinttemp;                            // holds temporary intercept position
-    longword  xpartial,ypartial;
+    int16_t angle;
+    int32_t xstep, ystep;
+    fixed xinttemp, yinttemp; // holds temporary intercept position
+    longword xpartial, ypartial;
     doorobj_t *door;
-    int       pwallposnorm,pwallposinv,pwallposi;           // holds modified pwallpos
-    bool      passdoor;
+    int pwallposnorm, pwallposinv, pwallposi; // holds modified pwallpos
+    bool passdoor;
 
     for (pixx = 0; pixx < viewwidth; pixx++)
     {
         //
         // setup to trace a ray through pixx view pixel
         //
-        angle = midangle + pixelangle[pixx];                // delta for this pixel
+        angle = midangle + pixelangle[pixx]; // delta for this pixel
 
-        if (angle < 0)                                      // -90 - -1 degree arc
-            angle += ANG360;                                // -90 is the same as 270
-        if (angle >= ANG360)                                // 360-449 degree arc
-            angle -= ANG360;                                // -449 is the same as 89
+        if (angle < 0)       // -90 - -1 degree arc
+            angle += ANG360; // -90 is the same as 270
+        if (angle >= ANG360) // 360-449 degree arc
+            angle -= ANG360; // -449 is the same as 89
 
         //
         // setup xstep/ystep based on angle
         //
-        if (angle < ANG90)                                  // 0-89 degree arc
+        if (angle < ANG90) // 0-89 degree arc
         {
             xtilestep = 1;
             ytilestep = -1;
@@ -1051,7 +1038,7 @@ void WallRefresh (void)
             xpartial = xpartialup;
             ypartial = ypartialdown;
         }
-        else if (angle < ANG180)                            // 90-179 degree arc
+        else if (angle < ANG180) // 90-179 degree arc
         {
             xtilestep = -1;
             ytilestep = -1;
@@ -1060,7 +1047,7 @@ void WallRefresh (void)
             xpartial = xpartialdown;
             ypartial = ypartialdown;
         }
-        else if (angle < ANG270)                            // 180-269 degree arc
+        else if (angle < ANG270) // 180-269 degree arc
         {
             xtilestep = -1;
             ytilestep = 1;
@@ -1069,7 +1056,7 @@ void WallRefresh (void)
             xpartial = xpartialdown;
             ypartial = ypartialup;
         }
-        else if (angle < ANG360)                            // 270-359 degree arc
+        else if (angle < ANG360) // 270-359 degree arc
         {
             xtilestep = 1;
             ytilestep = 1;
@@ -1082,11 +1069,11 @@ void WallRefresh (void)
         //
         // initialise variables for intersection testing
         //
-        yintercept = FixedMul(ystep,xpartial) + viewy;
+        yintercept = FixedMul(ystep, xpartial) + viewy;
         yinttile = yintercept >> TILESHIFT;
         xtile = focaltx + xtilestep;
 
-        xintercept = FixedMul(xstep,ypartial) + viewx;
+        xintercept = FixedMul(xstep, ypartial) + viewx;
         xinttile = xintercept >> TILESHIFT;
         ytile = focalty + ytilestep;
 
@@ -1141,11 +1128,11 @@ void WallRefresh (void)
             }
         }
 
-//
-// trace along this angle until we hit a wall
-//
-// CORE LOOP!
-//
+        //
+        // trace along this angle until we hit a wall
+        //
+        // CORE LOOP!
+        //
         while (1)
         {
             //
@@ -1153,7 +1140,7 @@ void WallRefresh (void)
             //
             if ((ytilestep == -1 && yinttile <= ytile) || (ytilestep == 1 && yinttile >= ytile))
                 goto horizentry;
-vertentry:
+        vertentry:
 #ifdef REVEALMAP
             mapseen[xtile][yinttile] = true;
 #endif
@@ -1168,7 +1155,7 @@ vertentry:
                 tilehit = lasttilehit;
 
                 if (tilehit & BIT_DOOR)
-                    passdoor = false;                        // don't let the trace continue if it's a door
+                    passdoor = false; // don't let the trace continue if it's a door
             }
             else
             {
@@ -1189,9 +1176,9 @@ vertentry:
                     door = &doorobjlist[tilehit & ~BIT_DOOR];
 
                     if (door->action == dr_open)
-                        goto passvert;                       // door is open, continue tracing
+                        goto passvert; // door is open, continue tracing
 
-                    yinttemp = yintercept + (ystep >> 1);    // add halfstep to current intercept position
+                    yinttemp = yintercept + (ystep >> 1); // add halfstep to current intercept position
 
                     //
                     // midpoint is outside tile, so it hit the side of the wall before a door
@@ -1210,7 +1197,7 @@ vertentry:
                     }
 
                     yintercept = yinttemp;
-                    xintercept = ((fixed)xtile << TILESHIFT) + (TILEGLOBAL/2);
+                    xintercept = ((fixed)xtile << TILESHIFT) + (TILEGLOBAL / 2);
 
                     HitVertDoor();
                 }
@@ -1232,8 +1219,7 @@ vertentry:
                             pwallposinv = 64 - pwallpos;
                         }
 
-                        if (pwalldir == di_east && xtile == pwallx && yinttile == pwally
-                         || pwalldir == di_west && !(xtile == pwallx && yinttile == pwally))
+                        if (pwalldir == di_east && xtile == pwallx && yinttile == pwally || pwalldir == di_west && !(xtile == pwallx && yinttile == pwally))
                         {
                             yinttemp = yintercept + ((ystep * pwallposnorm) >> 6);
 
@@ -1269,13 +1255,11 @@ vertentry:
                         else
                             pwallposi = pwallpos;
 
-                        if (pwalldir == di_south && (word)yintercept < (pwallposi << 10)
-                         || pwalldir == di_north && (word)yintercept > (pwallposi << 10))
+                        if (pwalldir == di_south && (word)yintercept < (pwallposi << 10) || pwalldir == di_north && (word)yintercept > (pwallposi << 10))
                         {
                             if (xtile == pwallx && yinttile == pwally)
                             {
-                                if (pwalldir == di_south && (int32_t)((word)yintercept) + ystep < (pwallposi << 10)
-                                 || pwalldir == di_north && (int32_t)((word)yintercept) + ystep > (pwallposi << 10))
+                                if (pwalldir == di_south && (int32_t)((word)yintercept) + ystep < (pwallposi << 10) || pwalldir == di_north && (int32_t)((word)yintercept) + ystep > (pwallposi << 10))
                                     goto passvert;
 
                                 //
@@ -1313,8 +1297,7 @@ vertentry:
                             }
                             else
                             {
-                                if (pwalldir == di_south && (int32_t)((word)yintercept) + ystep > (pwallposi << 10)
-                                 || pwalldir == di_north && (int32_t)((word)yintercept) + ystep < (pwallposi << 10))
+                                if (pwalldir == di_south && (int32_t)((word)yintercept) + ystep > (pwallposi << 10) || pwalldir == di_north && (int32_t)((word)yintercept) + ystep < (pwallposi << 10))
                                     goto passvert;
 
                                 //
@@ -1344,7 +1327,7 @@ vertentry:
                 break;
             }
 
-passvert:
+        passvert:
             //
             // mark the tile as visible and setup for next step
             //
@@ -1364,7 +1347,7 @@ passvert:
             if ((xtilestep == -1 && xinttile <= xtile) || (xtilestep == 1 && xinttile >= xtile))
                 goto vertentry;
 
-horizentry:
+        horizentry:
 #ifdef REVEALMAP
             mapseen[xinttile][ytile] = true;
 #endif
@@ -1379,7 +1362,7 @@ horizentry:
                 tilehit = lasttilehit;
 
                 if (tilehit & BIT_DOOR)
-                    passdoor = false;                        // don't let the trace continue if it's a door
+                    passdoor = false; // don't let the trace continue if it's a door
             }
             else
             {
@@ -1400,9 +1383,9 @@ horizentry:
                     door = &doorobjlist[tilehit & ~BIT_DOOR];
 
                     if (door->action == dr_open)
-                        goto passhoriz;                      // door is open, continue tracing
+                        goto passhoriz; // door is open, continue tracing
 
-                    xinttemp = xintercept + (xstep >> 1);    // add half step to current intercept position
+                    xinttemp = xintercept + (xstep >> 1); // add half step to current intercept position
 
                     //
                     // midpoint is outside tile, so it hit the side of the wall before a door
@@ -1421,7 +1404,7 @@ horizentry:
                     }
 
                     xintercept = xinttemp;
-                    yintercept = ((fixed)ytile << TILESHIFT) + (TILEGLOBAL/2);
+                    yintercept = ((fixed)ytile << TILESHIFT) + (TILEGLOBAL / 2);
 
                     HitHorizDoor();
                 }
@@ -1443,8 +1426,7 @@ horizentry:
                             pwallposinv = 64 - pwallpos;
                         }
 
-                        if (pwalldir == di_south && xinttile == pwallx && ytile == pwally
-                         || pwalldir == di_north && !(xinttile == pwallx && ytile == pwally))
+                        if (pwalldir == di_south && xinttile == pwallx && ytile == pwally || pwalldir == di_north && !(xinttile == pwallx && ytile == pwally))
                         {
                             xinttemp = xintercept + ((xstep * pwallposnorm) >> 6);
 
@@ -1480,13 +1462,11 @@ horizentry:
                         else
                             pwallposi = pwallpos;
 
-                        if (pwalldir == di_east && (word)xintercept < (pwallposi << 10)
-                         || pwalldir == di_west && (word)xintercept > (pwallposi << 10))
+                        if (pwalldir == di_east && (word)xintercept < (pwallposi << 10) || pwalldir == di_west && (word)xintercept > (pwallposi << 10))
                         {
                             if (xinttile == pwallx && ytile == pwally)
                             {
-                                if (pwalldir == di_east && (int32_t)((word)xintercept) + xstep < (pwallposi << 10)
-                                 || pwalldir == di_west && (int32_t)((word)xintercept) + xstep > (pwallposi << 10))
+                                if (pwalldir == di_east && (int32_t)((word)xintercept) + xstep < (pwallposi << 10) || pwalldir == di_west && (int32_t)((word)xintercept) + xstep > (pwallposi << 10))
                                     goto passhoriz;
 
                                 //
@@ -1525,8 +1505,7 @@ horizentry:
                             }
                             else
                             {
-                                if (pwalldir == di_east && (int32_t)((word)xintercept) + xstep > (pwallposi << 10)
-                                 || pwalldir == di_west && (int32_t)((word)xintercept) + xstep < (pwallposi << 10))
+                                if (pwalldir == di_east && (int32_t)((word)xintercept) + xstep > (pwallposi << 10) || pwalldir == di_west && (int32_t)((word)xintercept) + xstep < (pwallposi << 10))
                                     goto passhoriz;
 
                                 //
@@ -1557,7 +1536,7 @@ horizentry:
                 break;
             }
 
-passhoriz:
+        passhoriz:
             //
             // mark the tile as visible and setup for next step
             //
@@ -1569,7 +1548,6 @@ passhoriz:
     }
 }
 
-
 /*
 ====================
 =
@@ -1578,7 +1556,7 @@ passhoriz:
 ====================
 */
 
-void Setup3DView (void)
+void Setup3DView(void)
 {
     viewangle = player->angle;
     midangle = viewangle * (FINEANGLES / ANGLES);
@@ -1586,18 +1564,18 @@ void Setup3DView (void)
     viewsin = sintable[viewangle];
     viewcos = costable[viewangle];
 
-    viewx = player->x - FixedMul(focallength,viewcos);
-    viewy = player->y + FixedMul(focallength,viewsin);
+    viewx = player->x - FixedMul(focallength, viewcos);
+    viewy = player->y + FixedMul(focallength, viewsin);
 
-    focaltx = (short)(viewx>>TILESHIFT);
-    focalty = (short)(viewy>>TILESHIFT);
+    focaltx = (short)(viewx >> TILESHIFT);
+    focalty = (short)(viewy >> TILESHIFT);
 
-    xpartialdown = viewx&(TILEGLOBAL-1);
-    xpartialup = TILEGLOBAL-xpartialdown;
-    ypartialdown = viewy&(TILEGLOBAL-1);
-    ypartialup = TILEGLOBAL-ypartialdown;
+    xpartialdown = viewx & (TILEGLOBAL - 1);
+    xpartialup = TILEGLOBAL - xpartialdown;
+    ypartialdown = viewy & (TILEGLOBAL - 1);
+    ypartialup = TILEGLOBAL - ypartialdown;
 
-    lastside = -1;                  // no optimization on the first post
+    lastside = -1; // no optimization on the first post
 }
 
 //==========================================================================
@@ -1610,89 +1588,90 @@ void Setup3DView (void)
 ========================
 */
 
-void ThreeDRefresh (void)
+void ThreeDRefresh(void)
 {
-//
-// clear out the traced array
-//
-    memset(spotvis,0,MAPAREA);
-#ifdef PLAYDEMOLIKEORIGINAL      // ADDEDFIX 30 - Chris
+    //
+    // clear out the traced array
+    //
+    memset(spotvis, 0, MAPAREA);
+#ifdef PLAYDEMOLIKEORIGINAL // ADDEDFIX 30 - Chris
     if (DEMOCOND_SDL)
 #endif
-    if (!tilemap[player->tilex][player->tiley] ||
-         tilemap[player->tilex][player->tiley] & BIT_DOOR)
-    spotvis[player->tilex][player->tiley] = true;       // Detect all sprites over player fix
+        if (!tilemap[player->tilex][player->tiley] ||
+            tilemap[player->tilex][player->tiley] & BIT_DOOR)
+            spotvis[player->tilex][player->tiley] = true; // Detect all sprites over player fix
 #ifdef REVEALMAP
     mapseen[player->tilex][player->tiley] = true;
 #endif
 
     vbuf = VL_LockSurface(screenBuffer);
-    if(vbuf == NULL) return;
+    if (vbuf == NULL)
+        return;
 
     vbuf += screenofs;
 
-    Setup3DView ();
+    Setup3DView();
 
-//
-// follow the walls from there to the right, drawing as we go
-//
-    VGAClearScreen ();
+    //
+    // follow the walls from there to the right, drawing as we go
+    //
+    VGAClearScreen();
 #if defined(USE_FEATUREFLAGS) && defined(USE_STARSKY)
-    if(GetFeatureFlags() & FF_STARSKY)
+    if (GetFeatureFlags() & FF_STARSKY)
         DrawStarSky();
 #endif
 
-    WallRefresh ();
+    WallRefresh();
 
 #if defined(USE_FEATUREFLAGS) && defined(USE_PARALLAX)
-    if(GetFeatureFlags() & FF_PARALLAXSKY)
+    if (GetFeatureFlags() & FF_PARALLAXSKY)
         DrawParallax();
 #endif
 
 #if defined(USE_FEATUREFLAGS) && defined(USE_CLOUDSKY)
-    if(GetFeatureFlags() & FF_CLOUDSKY)
-        DrawCloudPlanes ();
+    if (GetFeatureFlags() & FF_CLOUDSKY)
+        DrawCloudPlanes();
 #endif
 
 #ifdef USE_FLOORCEILINGTEX
-    DrawPlanes ();
+    DrawPlanes();
 #endif
 
-//
-// draw all the scaled images
-//
-    DrawScaleds();                  // draw scaled stuff
+    //
+    // draw all the scaled images
+    //
+    DrawScaleds(); // draw scaled stuff
 
 #if defined(USE_FEATUREFLAGS) && defined(USE_RAIN)
-    if(GetFeatureFlags() & FF_RAIN)
+    if (GetFeatureFlags() & FF_RAIN)
         DrawRain();
 #endif
 #if defined(USE_FEATUREFLAGS) && defined(USE_SNOW)
-    if(GetFeatureFlags() & FF_SNOW)
+    if (GetFeatureFlags() & FF_SNOW)
         DrawSnow();
 #endif
 
-    DrawPlayerWeapon ();    // draw player's hands
+    DrawPlayerWeapon(); // draw player's hands
 
     if (messagetime > 0) // WSJ's message feature
         DrawMessage();
 
-    if(Keyboard(sc_Tab) && viewsize == 21 && gamestate.weapon != -1)
+    if (Keyboard(sc_Tab) && viewsize == 21 && gamestate.weapon != -1)
         ShowActStatus();
 
     VL_UnlockSurface(screenBuffer);
     vbuf = NULL;
 
-//
-// show screen and time last cycle
-//
+    //
+    // show screen and time last cycle
+    //
 
     if (fizzlein)
     {
         FizzleFade(screenBuffer, 0, 0, screenWidth, screenHeight, 20, false);
         fizzlein = false;
 
-        lasttimecount = GetTimeCount();          // don't make a big tic count
+        lasttimecount = GetTimeCount(); // don't make a big tic count
     }
     else
     {
@@ -1700,27 +1679,28 @@ void ThreeDRefresh (void)
         if (fpscounter)
         {
             fontnumber = 0;
-            SETFONTCOLOR(7,127);
-            PrintX=4; PrintY=1;
-            VWB_Bar(0,0,50,10,bordercol);
+            SETFONTCOLOR(7, 127);
+            PrintX = 4;
+            PrintY = 1;
+            VWB_Bar(0, 0, 50, 10, bordercol);
             US_PrintSigned(fps);
             US_Print(" fps");
         }
 #endif
-        VW_UpdateScreen ();
+        VW_UpdateScreen();
     }
 
 #ifndef REMDEBUG
     if (fpscounter)
     {
         fps_frames++;
-        fps_time+=tics;
+        fps_time += tics;
 
-        if(fps_time>35)
+        if (fps_time > 35)
         {
-            fps_time-=35;
-            fps=fps_frames<<1;
-            fps_frames=0;
+            fps_time -= 35;
+            fps = fps_frames << 1;
+            fps_frames = 0;
         }
     }
 #endif
@@ -1739,7 +1719,7 @@ void ThreeDRefresh (void)
 ========================
 */
 
-void GetMessage(char* lastmessage, int color)
+void GetMessage(char *lastmessage, int color)
 {
     messagetime = 150; // time for message to display
     messagecolor = color;
@@ -1786,18 +1766,21 @@ void DrawMessage(void)
 
 void GetTimer(int seconds, int eventtype)
 {
-    if (gamestate.activetimers > MAXTIMERS) return;
+    if (gamestate.activetimers > MAXTIMERS)
+        return;
 
     // Find if a timer for the event exists
-    for (int t = 0; t < gamestate.activetimers; t++) {
-        if (gamestate.timers[t].type == eventtype) {
+    for (int t = 0; t < gamestate.activetimers; t++)
+    {
+        if (gamestate.timers[t].type == eventtype)
+        {
             gamestate.timers[t].tics += seconds * 70;
             return;
         }
     }
 
     // Timer doesn't already exist for event
-    gamestate.timers[gamestate.activetimers].tics = seconds * 70;       // increment the correct timer
+    gamestate.timers[gamestate.activetimers].tics = seconds * 70; // increment the correct timer
     gamestate.timers[gamestate.activetimers].type = eventtype;
 
     //switch (eventtype) { // set the color based on event type
@@ -1812,7 +1795,7 @@ void GetTimer(int seconds, int eventtype)
     //    gamestate.timers[gamestate.activetimers].color = FUR_TMR_CLR;
     //    break;
     //}
-    gamestate.activetimers++;                   // increase the number of active timers
+    gamestate.activetimers++; // increase the number of active timers
 }
 
 /*
@@ -1828,19 +1811,23 @@ int lastsec = -1;
 
 void DrawTimer(void)
 {
-    for (int x = 0; x < gamestate.activetimers; x++) {
+    for (int x = 0; x < gamestate.activetimers; x++)
+    {
         // Calculate timer values (tics -> min/sec)
-        if (gamestate.timers[x].tics <= 0) { // a timer is done
+        if (gamestate.timers[x].tics <= 0)
+        { // a timer is done
             gamestate.activetimers--;
 
-            for (int t = x; t < gamestate.activetimers; t++) { // shift the relatively new timers up
+            for (int t = x; t < gamestate.activetimers; t++)
+            { // shift the relatively new timers up
                 gamestate.timers[t].tics = gamestate.timers[t + 1].tics;
                 gamestate.timers[t].color = gamestate.timers[t + 1].color;
                 gamestate.timers[t].type = gamestate.timers[t + 1].type;
             }
         }
 
-        if (gamestate.timers[x].tics <= 0) return;
+        if (gamestate.timers[x].tics <= 0)
+            return;
 
         int sec = gamestate.timers[x].tics / 70;
         int min = sec / 60;
@@ -1848,7 +1835,8 @@ void DrawTimer(void)
         sec %= 60;
 
         // Give 1000 pts/sec for timed levels (level timer always in first spot if it is set)
-        if (x == 0 && (levelinfo.timerMin > 0 || levelinfo.timerSec > 0) && lastsec != sec) {
+        if (x == 0 && (levelinfo.timerMin > 0 || levelinfo.timerSec > 0) && lastsec != sec)
+        {
             GivePoints(1000);
             lastsec = sec;
         }
@@ -1857,19 +1845,24 @@ void DrawTimer(void)
         fontnumber = 0;
         SETFONTCOLOR(0x0, 0x0); // set the color{
         SETPRINTXY(timerPrintX + 1, timerPrintY + yOffset + 1);
-        US_PrintUnsignedTimer(min); US_Print(":"); US_PrintUnsignedTimer(sec); // print message
+        US_PrintUnsignedTimer(min);
+        US_Print(":");
+        US_PrintUnsignedTimer(sec); // print message
 
         // Draw timer
         SETFONTCOLOR(gamestate.timers[x].color, 0x0); // set the color
         SETPRINTXY(timerPrintX, timerPrintY + yOffset);
-        US_PrintUnsignedTimer(min); US_Print(":"); US_PrintUnsignedTimer(sec);  // print message
+        US_PrintUnsignedTimer(min);
+        US_Print(":");
+        US_PrintUnsignedTimer(sec); // print message
 
         if (gamestate.timers[x].tics > 0)
             gamestate.timers[x].tics -= tics;
     }
 }
 
-void DrawRatios(void) {
+void DrawRatios(void)
+{
     char ratiobuf[32];
     fontnumber = 0;
 

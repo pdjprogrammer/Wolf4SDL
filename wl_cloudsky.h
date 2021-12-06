@@ -5,16 +5,15 @@
 
 typedef struct
 {
-    byte    length;
+    byte length;
     int16_t startAndDir;
 } colormapentry_t;
 
 typedef struct
 {
-    byte            numColors;
+    byte numColors;
     colormapentry_t *entries;
 } colormap_t;
-
 
 /*
 =============================================================================
@@ -43,18 +42,18 @@ typedef struct
     uint32_t seed;
     uint16_t speed;
     uint16_t angle;
-    byte     colorMapIndex;
+    byte colorMapIndex;
 } cloudsky_t;
 
 extern cloudsky_t *curSky;
 extern colormap_t colorMaps[];
-extern const int  numColorMaps;
+extern const int numColorMaps;
 
-void InitSky (void);
-void DrawCloudPlanes (void);
+void InitSky(void);
+void DrawCloudPlanes(void);
 
 #ifndef USE_FEATUREFLAGS
-int  GetCloudSkyDefID (void);
+int GetCloudSkyDefID(void);
 #endif
 
 #endif

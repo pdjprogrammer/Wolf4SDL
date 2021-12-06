@@ -7,7 +7,6 @@
 #include "wl_def.h"
 #include "wl_cloudsky.h"
 
-
 /*
 =============================================================================
 
@@ -15,7 +14,6 @@
 
 =============================================================================
 */
-
 
 /*
 ==================================
@@ -47,13 +45,18 @@
 ====================================================================================
 */
 
-colormapentry_t colmapents_1[] = { { 16, -31 }, { 16, 136 }, };
-colormapentry_t colmapents_2[] = { { 16, -31 }, };
+colormapentry_t colmapents_1[] = {
+    {16, -31},
+    {16, 136},
+};
+colormapentry_t colmapents_2[] = {
+    {16, -31},
+};
 
 colormap_t colorMaps[] =
-{
-    { 32, colmapents_1 },
-    { 16, colmapents_2 },
+    {
+        {32, colmapents_1},
+        {16, colmapents_2},
 };
 
 const int numColorMaps = lengthof(colorMaps);
@@ -64,28 +67,28 @@ const int numColorMaps = lengthof(colorMaps);
 // Each entry consists of seed, speed, angle and colorMapIndex
 //
 cloudsky_t cloudSkys[] =
-{
-    { 626,   800,  20,  0 },
-    { 1234,  650,  60,  1 },
-    { 0,     700,  120, 0 },
-    { 0,     0,    0,   0 },
-    { 11243, 750,  310, 0 },
-    { 32141, 750,  87,  0 },
-    { 12124, 750,  64,  0 },
-    { 55543, 500,  240, 0 },
-    { 65535, 200,  54,  1 },
-    { 4,     1200, 290, 0 },
+    {
+        {626, 800, 20, 0},
+        {1234, 650, 60, 1},
+        {0, 700, 120, 0},
+        {0, 0, 0, 0},
+        {11243, 750, 310, 0},
+        {32141, 750, 87, 0},
+        {12124, 750, 64, 0},
+        {55543, 500, 240, 0},
+        {65535, 200, 54, 1},
+        {4, 1200, 290, 0},
 };
 
-byte       skyc[65536L];
+byte skyc[65536L];
 
-fixed      cloudx,cloudy;
+fixed cloudx, cloudy;
 cloudsky_t *curSky;
 
 #ifdef USE_FEATUREFLAGS
 
 // The lower left tile of every map determines the used cloud sky definition from cloudSkys.
-int GetCloudSkyDefID (void)
+int GetCloudSkyDefID(void)
 {
     int skyID = ffDataBottomLeft;
 
@@ -96,23 +99,45 @@ int GetCloudSkyDefID (void)
 
 #else
 
-int GetCloudSkyDefID (void)
+int GetCloudSkyDefID(void)
 {
     int skyID;
 
-    switch(gamestate.episode * 10 + gamestate.mapon)
+    switch (gamestate.episode * 10 + gamestate.mapon)
     {
-        case  0: skyID =  0; break;
-        case  1: skyID =  1; break;
-        case  2: skyID =  2; break;
-        case  3: skyID =  3; break;
-        case  4: skyID =  4; break;
-        case  5: skyID =  5; break;
-        case  6: skyID =  6; break;
-        case  7: skyID =  7; break;
-        case  8: skyID =  8; break;
-        case  9: skyID =  9; break;
-        default: skyID =  9; break;
+    case 0:
+        skyID = 0;
+        break;
+    case 1:
+        skyID = 1;
+        break;
+    case 2:
+        skyID = 2;
+        break;
+    case 3:
+        skyID = 3;
+        break;
+    case 4:
+        skyID = 4;
+        break;
+    case 5:
+        skyID = 5;
+        break;
+    case 6:
+        skyID = 6;
+        break;
+    case 7:
+        skyID = 7;
+        break;
+    case 8:
+        skyID = 8;
+        break;
+    case 9:
+        skyID = 9;
+        break;
+    default:
+        skyID = 9;
+        break;
     }
 
     assert(skyID >= 0 && skyID < lengthof(cloudSkys));
@@ -122,48 +147,45 @@ int GetCloudSkyDefID (void)
 
 #endif
 
-void SplitS(unsigned size,unsigned x1,unsigned y1,unsigned x2,unsigned y2)
+void SplitS(unsigned size, unsigned x1, unsigned y1, unsigned x2, unsigned y2)
 {
     //
     // I don't even want to touch this abomination... O_o
     //
-   if(size==1) return;
-   if(!skyc[((x1+size/2)*256+y1)])
-   {
-      skyc[((x1+size/2)*256+y1)]=(byte)(((int)skyc[(x1*256+y1)]
-            +(int)skyc[((x2&0xff)*256+y1)])/2)+rand()%(size*2)-size;
-      if(!skyc[((x1+size/2)*256+y1)]) skyc[((x1+size/2)*256+y1)]=1;
-   }
-   if(!skyc[((x1+size/2)*256+(y2&0xff))])
-   {
-      skyc[((x1+size/2)*256+(y2&0xff))]=(byte)(((int)skyc[(x1*256+(y2&0xff))]
-            +(int)skyc[((x2&0xff)*256+(y2&0xff))])/2)+rand()%(size*2)-size;
-      if(!skyc[((x1+size/2)*256+(y2&0xff))])
-         skyc[((x1+size/2)*256+(y2&0xff))]=1;
-   }
-   if(!skyc[(x1*256+y1+size/2)])
-   {
-      skyc[(x1*256+y1+size/2)]=(byte)(((int)skyc[(x1*256+y1)]
-            +(int)skyc[(x1*256+(y2&0xff))])/2)+rand()%(size*2)-size;
-      if(!skyc[(x1*256+y1+size/2)]) skyc[(x1*256+y1+size/2)]=1;
-   }
-   if(!skyc[((x2&0xff)*256+y1+size/2)])
-   {
-      skyc[((x2&0xff)*256+y1+size/2)]=(byte)(((int)skyc[((x2&0xff)*256+y1)]
-            +(int)skyc[((x2&0xff)*256+(y2&0xff))])/2)+rand()%(size*2)-size;
-      if(!skyc[((x2&0xff)*256+y1+size/2)]) skyc[((x2&0xff)*256+y1+size/2)]=1;
-   }
+    if (size == 1)
+        return;
+    if (!skyc[((x1 + size / 2) * 256 + y1)])
+    {
+        skyc[((x1 + size / 2) * 256 + y1)] = (byte)(((int)skyc[(x1 * 256 + y1)] + (int)skyc[((x2 & 0xff) * 256 + y1)]) / 2) + rand() % (size * 2) - size;
+        if (!skyc[((x1 + size / 2) * 256 + y1)])
+            skyc[((x1 + size / 2) * 256 + y1)] = 1;
+    }
+    if (!skyc[((x1 + size / 2) * 256 + (y2 & 0xff))])
+    {
+        skyc[((x1 + size / 2) * 256 + (y2 & 0xff))] = (byte)(((int)skyc[(x1 * 256 + (y2 & 0xff))] + (int)skyc[((x2 & 0xff) * 256 + (y2 & 0xff))]) / 2) + rand() % (size * 2) - size;
+        if (!skyc[((x1 + size / 2) * 256 + (y2 & 0xff))])
+            skyc[((x1 + size / 2) * 256 + (y2 & 0xff))] = 1;
+    }
+    if (!skyc[(x1 * 256 + y1 + size / 2)])
+    {
+        skyc[(x1 * 256 + y1 + size / 2)] = (byte)(((int)skyc[(x1 * 256 + y1)] + (int)skyc[(x1 * 256 + (y2 & 0xff))]) / 2) + rand() % (size * 2) - size;
+        if (!skyc[(x1 * 256 + y1 + size / 2)])
+            skyc[(x1 * 256 + y1 + size / 2)] = 1;
+    }
+    if (!skyc[((x2 & 0xff) * 256 + y1 + size / 2)])
+    {
+        skyc[((x2 & 0xff) * 256 + y1 + size / 2)] = (byte)(((int)skyc[((x2 & 0xff) * 256 + y1)] + (int)skyc[((x2 & 0xff) * 256 + (y2 & 0xff))]) / 2) + rand() % (size * 2) - size;
+        if (!skyc[((x2 & 0xff) * 256 + y1 + size / 2)])
+            skyc[((x2 & 0xff) * 256 + y1 + size / 2)] = 1;
+    }
 
-   skyc[((x1+size/2)*256+y1+size/2)]=(byte)(((int)skyc[(x1*256+y1)]
-         +(int)skyc[((x2&0xff)*256+y1)]+(int)skyc[(x1*256+(y2&0xff))]
-         +(int)skyc[((x2&0xff)*256+(y2&0xff))])/4)+rand()%(size*2)-size;
+    skyc[((x1 + size / 2) * 256 + y1 + size / 2)] = (byte)(((int)skyc[(x1 * 256 + y1)] + (int)skyc[((x2 & 0xff) * 256 + y1)] + (int)skyc[(x1 * 256 + (y2 & 0xff))] + (int)skyc[((x2 & 0xff) * 256 + (y2 & 0xff))]) / 4) + rand() % (size * 2) - size;
 
-   SplitS(size/2,x1,y1+size/2,x1+size/2,y2);
-   SplitS(size/2,x1+size/2,y1,x2,y1+size/2);
-   SplitS(size/2,x1+size/2,y1+size/2,x2,y2);
-   SplitS(size/2,x1,y1,x1+size/2,y1+size/2);
+    SplitS(size / 2, x1, y1 + size / 2, x1 + size / 2, y2);
+    SplitS(size / 2, x1 + size / 2, y1, x2, y1 + size / 2);
+    SplitS(size / 2, x1 + size / 2, y1 + size / 2, x2, y2);
+    SplitS(size / 2, x1, y1, x1 + size / 2, y1 + size / 2);
 }
-
 
 /*
 ====================
@@ -175,30 +197,30 @@ void SplitS(unsigned size,unsigned x1,unsigned y1,unsigned x2,unsigned y2)
 ====================
 */
 
-void InitSky (void)
+void InitSky(void)
 {
     colormapentry_t *curEntry;
-    colormap_t      *curMap;
-    byte            colormap[256];
-    int             i,j,k,m,n,calcedCols;
-    int             cloudskyid = GetCloudSkyDefID();
-    int16_t         index;
-    int32_t         value;
+    colormap_t *curMap;
+    byte colormap[256];
+    int i, j, k, m, n, calcedCols;
+    int cloudskyid = GetCloudSkyDefID();
+    int16_t index;
+    int32_t value;
 
-    if(cloudskyid >= lengthof(cloudSkys))
+    if (cloudskyid >= lengthof(cloudSkys))
         Quit("Illegal cloud sky id: %u", cloudskyid);
 
     curSky = &cloudSkys[cloudskyid];
 
-    cloudx = cloudy = 0;                             // reset cloud position
-    memset (skyc,0,sizeof(skyc));
+    cloudx = cloudy = 0; // reset cloud position
+    memset(skyc, 0, sizeof(skyc));
     // funny water texture if used instead of memset ;D
     // for (i = 0; i < 65536; i++)
     //     skyc[i] = rand() % 32 * 8;
 
-    srand (curSky->seed);
+    srand(curSky->seed);
     skyc[0] = rand() % 256;
-    SplitS (256,0,0,256,256);
+    SplitS(256, 0, 0, 256, 256);
 
     //
     // smooth the clouds a bit
@@ -231,7 +253,7 @@ void InitSky (void)
     //     skyc[i] = skyc[i + 256] = skyc[i + 512] = i;
 
     if (curSky->colorMapIndex >= numColorMaps)
-        Quit ("Illegal colorMapIndex for cloud sky def %u: %u",cloudskyid,curSky->colorMapIndex);
+        Quit("Illegal colorMapIndex for cloud sky def %u: %u", cloudskyid, curSky->colorMapIndex);
 
     curMap = &colorMaps[curSky->colorMapIndex];
     curEntry = curMap->entries;
@@ -243,7 +265,7 @@ void InitSky (void)
             for (i = 0, index = -curEntry->startAndDir; i < curEntry->length; i++, index--)
             {
                 if (index < 0)
-                    index = 0;                       // don't go below the first color
+                    index = 0; // don't go below the first color
 
                 colormap[calcedCols++] = index;
             }
@@ -253,7 +275,7 @@ void InitSky (void)
             for (i = 0, index = curEntry->startAndDir; i < curEntry->length; i++, index++)
             {
                 if (index > 255)
-                    index = 255;                     // don't go above the last color
+                    index = 255; // don't go above the last color
 
                 colormap[calcedCols++] = index;
             }
@@ -267,7 +289,6 @@ void InitSky (void)
     }
 }
 
-
 /*
 ===================
 =
@@ -278,32 +299,32 @@ void InitSky (void)
 ===================
 */
 
-void DrawCloudSpan (int16_t x1, int16_t x2, int16_t height)
+void DrawCloudSpan(int16_t x1, int16_t x2, int16_t height)
 {
-    byte     *dest;
-    word     texture;
-    int16_t  count,prestep;
-    fixed    basedist;
-    fixed    stepscale;
-    fixed    xfrac,yfrac;
-    fixed    xstep,ystep;
+    byte *dest;
+    word texture;
+    int16_t count, prestep;
+    fixed basedist;
+    fixed stepscale;
+    fixed xfrac, yfrac;
+    fixed xstep, ystep;
 
     count = x2 - x1;
 
     if (!count)
-        return;                                             // nothing to draw
+        return; // nothing to draw
 
     dest = vbuf + ylookup[centery - 1 - height] + x1;
 
     prestep = centerx - x1 + 1;
-    basedist = FixedDiv(scale,height) << 2;                 // distance to row projection
+    basedist = FixedDiv(scale, height) << 2; // distance to row projection
     stepscale = basedist / scale;
 
-    xstep = FixedMul(stepscale,viewsin);
-    ystep = -FixedMul(stepscale,viewcos);
+    xstep = FixedMul(stepscale, viewsin);
+    ystep = -FixedMul(stepscale, viewcos);
 
-    xfrac = (viewx + FixedMul(basedist,viewcos) + cloudx) - (xstep * prestep);
-    yfrac = -(viewy - FixedMul(basedist,viewsin) - cloudy) - (ystep * prestep);
+    xfrac = (viewx + FixedMul(basedist, viewcos) + cloudx) - (xstep * prestep);
+    yfrac = -(viewy - FixedMul(basedist, viewsin) - cloudy) - (ystep * prestep);
 
     while (count--)
     {
@@ -316,7 +337,6 @@ void DrawCloudSpan (int16_t x1, int16_t x2, int16_t height)
     }
 }
 
-
 /*
 ===================
 =
@@ -325,20 +345,20 @@ void DrawCloudSpan (int16_t x1, int16_t x2, int16_t height)
 ===================
 */
 
-void DrawCloudPlanes (void)
+void DrawCloudPlanes(void)
 {
-    int     x,y;
-    int16_t	height;
+    int x, y;
+    int16_t height;
     int32_t speed;
 
     speed = curSky->speed * tics;
 
-    cloudx += FixedMul(speed,sintable[curSky->angle]);
-    cloudy -= FixedMul(speed,costable[curSky->angle]);
+    cloudx += FixedMul(speed, sintable[curSky->angle]);
+    cloudy -= FixedMul(speed, costable[curSky->angle]);
 
-//
-// loop over all columns
-//
+    //
+    // loop over all columns
+    //
     y = centery;
 
     for (x = 0; x < viewwidth; x++)
@@ -364,7 +384,7 @@ void DrawCloudPlanes (void)
             while (y < height)
             {
                 if (y > 0)
-                    DrawCloudSpan (spanstart[y],x,y);
+                    DrawCloudSpan(spanstart[y], x, y);
 
                 y++;
             }
@@ -379,7 +399,7 @@ void DrawCloudPlanes (void)
     while (y < height)
     {
         if (y > 0)
-            DrawCloudSpan (spanstart[y],viewwidth,y);
+            DrawCloudSpan(spanstart[y], viewwidth, y);
 
         y++;
     }

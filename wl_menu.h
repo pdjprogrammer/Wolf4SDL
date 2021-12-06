@@ -6,119 +6,118 @@
 
 #ifdef SPEAR
 
-#define BORDCOLOR       0x99
-#define BORD2COLOR      0x93
-#define DEACTIVE        0x9b
-#define BKGDCOLOR       0x9d
+#define BORDCOLOR 0x99
+#define BORD2COLOR 0x93
+#define DEACTIVE 0x9b
+#define BKGDCOLOR 0x9d
 //#define STRIPE                0x9c
 
-#define MenuFadeOut()   VL_FadeOut(0,255,0,0,51,10)
+#define MenuFadeOut() VL_FadeOut(0, 255, 0, 0, 51, 10)
 
 #else
 
-#define BORDCOLOR       0x29
-#define BORD2COLOR      0x23
-#define DEACTIVE        0x2b
-#define BKGDCOLOR       0x2d
-#define STRIPE          0x2c
+#define BORDCOLOR 0x29
+#define BORD2COLOR 0x23
+#define DEACTIVE 0x2b
+#define BKGDCOLOR 0x2d
+#define STRIPE 0x2c
 
-#define MenuFadeOut()   VL_FadeOut(0,255,43,0,0,10)
+#define MenuFadeOut() VL_FadeOut(0, 255, 43, 0, 0, 10)
 
 #endif
 
-#define READCOLOR       0x4a
-#define READHCOLOR      0x47
-#define VIEWCOLOR       0x7f
-#define TEXTCOLOR       0x17
-#define HIGHLIGHT       0x13
-#define MenuFadeIn()    VL_FadeIn(0,255,gamepal,10)
+#define READCOLOR 0x4a
+#define READHCOLOR 0x47
+#define VIEWCOLOR 0x7f
+#define TEXTCOLOR 0x17
+#define HIGHLIGHT 0x13
+#define MenuFadeIn() VL_FadeIn(0, 255, gamepal, 10)
 
-
-#define MENUSONG        WONDERIN_MUS
+#define MENUSONG WONDERIN_MUS
 
 #ifndef SPEAR
-#define INTROSONG       NAZI_NOR_MUS
+#define INTROSONG NAZI_NOR_MUS
 #else
-#define INTROSONG       XTOWER2_MUS
+#define INTROSONG XTOWER2_MUS
 #endif
 
-#define SENSITIVE       60
-#define CENTERX         ((int) screenWidth / 2)
-#define CENTERY         ((int) screenHeight / 2)
+#define SENSITIVE 60
+#define CENTERX ((int)screenWidth / 2)
+#define CENTERY ((int)screenHeight / 2)
 
-#define MENU_X  76
-#define MENU_Y  55
-#define MENU_W  178
+#define MENU_X 76
+#define MENU_Y 55
+#define MENU_W 178
 #ifndef SPEAR
 #ifndef GOODTIMES
-#define MENU_H  13*10+6
+#define MENU_H 13 * 10 + 6
 #else
-#define MENU_H  13*9+6
+#define MENU_H 13 * 9 + 6
 #endif
 #else
-#define MENU_H  13*9+6
+#define MENU_H 13 * 9 + 6
 #endif
 
-#define SM_X    48
-#define SM_W    250
+#define SM_X 48
+#define SM_W 250
 
-#define SM_Y1   20
-#define SM_H1   4*13-7
-#define SM_Y2   SM_Y1+5*13
-#define SM_H2   4*13-7
-#define SM_Y3   SM_Y2+5*13
-#define SM_H3   3*13-7
+#define SM_Y1 20
+#define SM_H1 4 * 13 - 7
+#define SM_Y2 SM_Y1 + 5 * 13
+#define SM_H2 4 * 13 - 7
+#define SM_Y3 SM_Y2 + 5 * 13
+#define SM_H3 3 * 13 - 7
 
 #ifdef JAPAN
-#define CTL_Y   70
+#define CTL_Y 70
 #else
-#define CTL_Y   72
+#define CTL_Y 72
 #endif
 #ifdef USE_MODERN_OPTIONS
-#define CTL_X   43
+#define CTL_X 43
 #ifdef SHOW_CUSTOM_CONTROLS
-#define CTL_H   114
+#define CTL_H 114
 #else
-#define CTL_H   100
+#define CTL_H 100
 #endif
-#define CTL_W   250
+#define CTL_W 250
 #else
-#define CTL_X   24
-#define CTL_H   60
-#define CTL_W   284
+#define CTL_X 24
+#define CTL_H 60
+#define CTL_W 284
 #endif
 
-#define OPT_X   64
+#define OPT_X 64
 #ifdef JAPAN
-#define OPT_Y   70
+#define OPT_Y 70
 #else
-#define OPT_Y   86
+#define OPT_Y 86
 #endif
-#define OPT_W   200
+#define OPT_W 200
 
 #ifdef SHOW_GAME_OPTIONS
-#define OPT_H   62
+#define OPT_H 62
 #else
-#define OPT_H   48
+#define OPT_H 48
 #endif
 
-#define LSM_X   85
-#define LSM_Y   55
-#define LSM_W   175
-#define LSM_H   10*13+10
+#define LSM_X 85
+#define LSM_Y 55
+#define LSM_W 175
+#define LSM_H 10 * 13 + 10
 
-#define NM_X    50
-#define NM_Y    100
-#define NM_W    225
-#define NM_H    13*4+15
+#define NM_X 50
+#define NM_Y 100
+#define NM_W 225
+#define NM_H 13 * 4 + 15
 
-#define NE_X    10
-#define NE_Y    23
-#define NE_W    320-NE_X*2
-#define NE_H    200-NE_Y*2
+#define NE_X 10
+#define NE_Y 23
+#define NE_W 320 - NE_X * 2
+#define NE_H 200 - NE_Y * 2
 
-#define CST_X           20
-#define CST_Y           48
+#define CST_X 20
+#define CST_Y 48
 
 #ifndef USE_MODERN_OPTIONS
 #define CST_START 60
@@ -129,24 +128,24 @@
 #endif
 
 #ifdef USE_MODERN_OPTIONS
-#define OPT_MOUSE_X   26
-#define OPT_MOUSE_Y   72
-#define OPT_MOUSE_W   284
-#define OPT_MOUSE_H   100
+#define OPT_MOUSE_X 26
+#define OPT_MOUSE_Y 72
+#define OPT_MOUSE_W 284
+#define OPT_MOUSE_H 100
 
 #define OPT_KB_MOVE_KEYS_X 190
 #define OPT_KB_MOVE_KEYS_Y 65
 
-#define OPT_KEYBOARD_MOVE_X   41
-#define OPT_KEYBOARD_MOVE_Y   61
-#define OPT_KEYBOARD_MOVE_W   250
-#define OPT_KEYBOARD_MOVE_H   112
+#define OPT_KEYBOARD_MOVE_X 41
+#define OPT_KEYBOARD_MOVE_Y 61
+#define OPT_KEYBOARD_MOVE_W 250
+#define OPT_KEYBOARD_MOVE_H 112
 
 #ifdef SHOW_CUSTOM_CONTROLS
-#define CUS_CTL_X   26
-#define CUS_CTL_Y   50
-#define CUS_CTL_W   280
-#define CUS_CTL_H   138
+#define CUS_CTL_X 26
+#define CUS_CTL_Y 50
+#define CUS_CTL_W 280
+#define CUS_CTL_H 138
 
 #define CUS_CTL_TEXT_X 25
 #define CUS_CTL_TEXT_Y 55
@@ -154,15 +153,15 @@
 #define CUS_CTL_RIGHT_TEXT_X 200
 #endif
 
-#define OPT_KEYBOARD_X   41
-#define OPT_KEYBOARD_Y   72
-#define OPT_KEYBOARD_W   250
-#define OPT_KEYBOARD_H   100
+#define OPT_KEYBOARD_X 41
+#define OPT_KEYBOARD_Y 72
+#define OPT_KEYBOARD_W 250
+#define OPT_KEYBOARD_H 100
 
-#define OPT_JOYSTICK_X   41
-#define OPT_JOYSTICK_Y   72
-#define OPT_JOYSTICK_W   250
-#define OPT_JOYSTICK_H   63
+#define OPT_JOYSTICK_X 41
+#define OPT_JOYSTICK_Y 72
+#define OPT_JOYSTICK_W 250
+#define OPT_JOYSTICK_H 63
 
 #define CST_SPC_Y 13
 #define CTL_MOUSE_X 180
@@ -171,17 +170,20 @@
 //
 // TYPEDEFS
 //
-typedef struct {
+typedef struct
+{
 	short x, y, amount, curpos, indent;
 } CP_iteminfo;
 
-typedef struct {
+typedef struct
+{
 	short active;
 	char string[36];
 	int (*routine)(int temp1);
 } CP_itemtype;
 
-typedef struct {
+typedef struct
+{
 #ifdef USE_MODERN_OPTIONS
 	short allowed[10];
 #else
@@ -210,28 +212,28 @@ void SetupControlPanel(void);
 void SetupSaveGames();
 void CleanupControlPanel(void);
 
-void DrawMenu(CP_iteminfo* item_i, CP_itemtype* items);
-int  HandleMenu(CP_iteminfo* item_i,
-	CP_itemtype* items,
-	void (*routine)(int w));
+void DrawMenu(CP_iteminfo *item_i, CP_itemtype *items);
+int HandleMenu(CP_iteminfo *item_i,
+			   CP_itemtype *items,
+			   void (*routine)(int w));
 void ClearMScreen(void);
 void DrawWindow(int x, int y, int w, int h, int wcolor);
 void DrawOutline(int x, int y, int w, int h, int color1, int color2);
 void WaitKeyUp(void);
-void ReadAnyControl(ControlInfo* ci);
+void ReadAnyControl(ControlInfo *ci);
 void TicDelay(int count);
 int StartCPMusic(int song);
-int  Confirm(const char* string);
-void Message(const char* string);
+int Confirm(const char *string);
+void Message(const char *string);
 void CheckPause(void);
 void ShootSnd(void);
 void CheckSecretMissions(void);
 void BossKey(void);
 
-void DrawGun(CP_iteminfo* item_i, CP_itemtype* items, int x, int* y, int which, int basey, void (*routine)(int w));
+void DrawGun(CP_iteminfo *item_i, CP_itemtype *items, int x, int *y, int which, int basey, void (*routine)(int w));
 void DrawHalfStep(int x, int y);
-void EraseGun(CP_iteminfo* item_i, CP_itemtype* items, int x, int y, int which);
-void DrawMenuGun(CP_iteminfo* iteminfo);
+void EraseGun(CP_iteminfo *item_i, CP_itemtype *items, int x, int y, int which);
+void DrawMenuGun(CP_iteminfo *iteminfo);
 void DrawStripes(int y);
 #ifndef USE_MODERN_OPTIONS
 void DefineMouseBtns(void);
@@ -245,7 +247,7 @@ void DefineKeyBtns(int);
 void DefineJoyBtns(int);
 #endif
 
-void EnterCtrlData(int index, CustomCtrls* cust, void (*DrawRtn)(int), void (*PrintRtn)(int), int type);
+void EnterCtrlData(int index, CustomCtrls *cust, void (*DrawRtn)(int), void (*PrintRtn)(int), int type);
 
 void DrawMainMenu(void);
 void DrawSoundMenu(void);
@@ -287,16 +289,16 @@ void FixupCustom(int w);
 
 int CP_NewGame(int);
 int CP_Sound(int);
-int  CP_LoadGame(int quick);
-int  CP_SaveGame(int quick);
+int CP_LoadGame(int quick);
+int CP_SaveGame(int quick);
 int CP_Options(int);
 int CP_Control(int);
 int CP_ChangeView(int);
 int CP_ExitOptions(int);
 int CP_Quit(int);
 int CP_ViewScores(int);
-int  CP_EndGame(int);
-int  CP_CheckQuick(ScanCode scancode);
+int CP_EndGame(int);
+int CP_CheckQuick(ScanCode scancode);
 int Controls(int);
 int MouseSensitivity(int);
 #ifdef USE_MODERN_OPTIONS
@@ -315,7 +317,14 @@ void CheckForEpisodes(void);
 
 void FreeMusic(void);
 
-enum { MOUSE, JOYSTICK, KEYBOARDBTNS, KEYBOARDMOVE, CUSTOMCTL };        // FOR INPUT TYPES
+enum
+{
+	MOUSE,
+	JOYSTICK,
+	KEYBOARDBTNS,
+	KEYBOARDMOVE,
+	CUSTOMCTL
+}; // FOR INPUT TYPES
 
 enum menuitems
 {
@@ -345,14 +354,15 @@ enum menuitems
 //
 // WL_INTER
 //
-typedef struct {
+typedef struct
+{
 	int kill, secret, treasure;
 	int32_t time;
 } LRstruct;
 
 extern LRstruct LevelRatios[];
 
-void Write(int x, int y, const char* string);
+void Write(int x, int y, const char *string);
 void NonShareware(void);
 int GetYorN(int x, int y, int pic);
 
