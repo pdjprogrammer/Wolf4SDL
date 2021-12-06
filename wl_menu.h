@@ -141,6 +141,21 @@
 #define OPT_KEYBOARD_MOVE_W 250
 #define OPT_KEYBOARD_MOVE_H 112
 
+#define OPT_KEYBOARD_ACTION_X 41
+#define OPT_KEYBOARD_ACTION_Y 72
+#define OPT_KEYBOARD_ACTION_W 250
+#define OPT_KEYBOARD_ACTION_H 112
+
+#define OPT_KEYBOARD_MORE_ACTION_X 41
+#define OPT_KEYBOARD_MORE_ACTION_Y 60
+#define OPT_KEYBOARD_MORE_ACTION_W 250
+#define OPT_KEYBOARD_MORE_ACTION_H 140
+
+#define OPT_KEYBOARD_MORE_ACTION_TEXT_X 25
+#define OPT_KEYBOARD_MORE_ACTION_TEXT_Y 60
+
+#define OPT_KEYBOARD_MORE_ACTION_RIGHT_TEXT_X 200
+
 #ifdef SHOW_CUSTOM_CONTROLS
 #define CUS_CTL_X 26
 #define CUS_CTL_Y 50
@@ -152,11 +167,6 @@
 
 #define CUS_CTL_RIGHT_TEXT_X 200
 #endif
-
-#define OPT_KEYBOARD_X 41
-#define OPT_KEYBOARD_Y 72
-#define OPT_KEYBOARD_W 250
-#define OPT_KEYBOARD_H 100
 
 #define OPT_JOYSTICK_X 41
 #define OPT_JOYSTICK_Y 72
@@ -247,7 +257,7 @@ void DefineKeyBtns(int);
 void DefineJoyBtns(int);
 #endif
 
-void EnterCtrlData(int index, CustomCtrls *cust, void (*DrawRtn)(int), void (*PrintRtn)(int), int type, bool keyboardMoveControls, bool advControls);
+void EnterCtrlData(int index, CustomCtrls *cust, void (*DrawRtn)(int), void (*PrintRtn)(int), int type);
 
 void DrawMainMenu(void);
 void DrawSoundMenu(void);
@@ -262,6 +272,8 @@ void DrawMouseCtlScreen(void);
 #ifdef USE_MODERN_OPTIONS
 void DrawKeyboardMoveCtlScreen(void);
 void DrawKeyboardActionCtlScreen(void);
+void DrawKeyboardMoreActionCtlScreen(void);
+
 #ifdef SHOW_CUSTOM_CONTROLS
 void DrawCustomCtlScreen(void);
 #endif
@@ -271,13 +283,18 @@ void DrawLSAction(int which);
 void DrawCustMouse(int hilight);
 void DrawCustJoy(int hilight);
 void DrawCustKeybd(int hilight);
-void DrawCustKeys(int hilight);
-void DrawCustomCtlKeys(int hilight);
 void PrintCustMouse(int i);
 void PrintCustJoy(int i);
 void PrintCustKeybd(int i);
-void PrintCustKeys(int i);
+
+void DrawMoreActionsKeys(int hilight);
+void PrintMoreActionsKeys(int i);
+
+void DrawCustomCtlKeys(int hilight);
 void PrintCustomCtlKeys(int i);
+
+void DrawCustKeys(int hilight);
+void PrintCustKeys(int i);
 
 void DrawOptScreen(void);
 void DrawJoystickScreen(void);
@@ -305,6 +322,7 @@ int MouseSensitivity(int);
 int CP_MouseCtl(int);
 int CP_KeyboardMoveCtl(int);
 int CP_KeyboardActionCtl(int);
+int CP_KeyboardMoreActionCtl(int);
 int CP_JoystickCtl(int);
 #ifdef SHOW_CUSTOM_CONTROLS
 int CP_CustomCtl(int);
@@ -323,7 +341,8 @@ enum
 	JOYSTICK,
 	KEYBOARDBTNS,
 	KEYBOARDMOVE,
-	CUSTOMCTL
+	KEYBOARDMOREACTIONS,
+	CUSTOMCONTROLS
 }; // FOR INPUT TYPES
 
 enum menuitems

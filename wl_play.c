@@ -67,7 +67,7 @@ int dirscan[4] = {sc_UpArrow, sc_RightArrow, sc_DownArrow, sc_LeftArrow};
 #endif
 
 #ifdef SHOW_CUSTOM_CONTROLS
-int buttonscan[NUMBUTTONS] = {sc_Control, sc_Alt, sc_LShift, sc_Space, sc_1, sc_2, sc_3, sc_4, sc_RightBracket, sc_LeftBracket, sc_Escape, sc_None, sc_None, sc_None, sc_None, sc_None, sc_None, sc_None, sc_CusCtl_1, sc_CusCtl_2, sc_CusCtl_3, sc_CusCtl_4, sc_CusCtl_5, sc_CusCtl_6, sc_CusCtl_7, sc_CusCtl_8, sc_CusCtl_9, sc_CusCtl_10};
+int buttonscan[NUMBUTTONS] = {sc_Control, sc_Alt, sc_LShift, sc_Space, sc_1, sc_2, sc_3, sc_4, sc_RightBracket, sc_LeftBracket, sc_Tab, sc_Escape, sc_None, sc_None, sc_None, sc_None, sc_None, sc_None, sc_CusCtl_1, sc_CusCtl_2, sc_CusCtl_3, sc_CusCtl_4, sc_CusCtl_5, sc_CusCtl_6, sc_CusCtl_7, sc_CusCtl_8, sc_CusCtl_9, sc_CusCtl_10};
 int customControls[10] = {bt_cus_ctl_1, bt_cus_ctl_2, bt_cus_ctl_3, bt_cus_ctl_4, bt_cus_ctl_5, bt_cus_ctl_6, bt_cus_ctl_7, bt_cus_ctl_8, bt_cus_ctl_9, bt_cus_ctl_10};
 #else
 int buttonscan[NUMBUTTONS] = {sc_Control, sc_Alt, sc_LShift, sc_Space, sc_1, sc_2, sc_3, sc_4};
@@ -420,6 +420,10 @@ void PollCustomControls(void)
 
 	if (Keyboard(buttonscan[bt_cus_ctl_10]))
 		GetMessage("Adv Ctl 10", DEF_MSG_CLR);
+
+
+	if (Keyboard(buttonscan[bt_automap]))
+		GetMessage("Automap Pressed", DEF_MSG_CLR);
 }
 #endif
 #endif

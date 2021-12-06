@@ -1220,6 +1220,7 @@ enum
 	bt_readychaingun,
 	bt_prevweapon,
 	bt_nextweapon,
+	bt_automap,
 	bt_esc,
 	bt_pause,
 	bt_strafeleft,
