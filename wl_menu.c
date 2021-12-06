@@ -464,7 +464,7 @@ CP_itemtype OptMenu[] = {
 #ifdef USE_MODERN_OPTIONS
 #ifdef SHOW_GAME_OPTIONS
     {1, STR_CV, CP_ChangeView},
-    {1, STR_OP_GAME, 0}    
+    {1, STR_OP_GAME, 0}
 #else
     {1, STR_CV, CP_ChangeView}
 #endif
@@ -2406,7 +2406,7 @@ void DefineJoyBtns(int value)
 
     ++value;
 
-    EnterCtrlData(value, &joyallowed, DrawCustJoy, PrintCustJoy, JOYSTICK, -1);
+    EnterCtrlData(value, &joyallowed, DrawCustJoy, PrintCustJoy, JOYSTICK);
 }
 
 #else
@@ -2800,7 +2800,7 @@ void DefineCustomCtl(int value)
     }
 
     ++value;
-    EnterCtrlData(value, &keyallowed, DrawCustomCtlKeys, PrintCustomCtlKeys, CUSTOMCONTROLS, false, true);
+    EnterCtrlData(value, &keyallowed, DrawCustomCtlKeys, PrintCustomCtlKeys, CUSTOMCONTROLS);
 }
 
 int CP_CustomCtl(int blank)
@@ -2893,7 +2893,7 @@ void EnterCtrlData(int index, CustomCtrls *cust, void (*DrawRtn)(int), void (*Pr
     amount = 4;
     PrintY = CST_Y + 13 * index;
 #else
-    switch (type) {    
+    switch (type) {
     case KEYBOARDMOVE:
         start = 0;
         amount = 8;
@@ -2902,7 +2902,7 @@ void EnterCtrlData(int index, CustomCtrls *cust, void (*DrawRtn)(int), void (*Pr
         start = 5;
         amount = 12;
         break;
-#ifdef SHOW_CUSTOM_CONTROLS 
+#ifdef SHOW_CUSTOM_CONTROLS
     case CUSTOMCONTROLS:
         start = CUS_CTL_ARRAY_RANGE_START;
         amount = CUS_CTL_ARRAY_RANGE_END;
