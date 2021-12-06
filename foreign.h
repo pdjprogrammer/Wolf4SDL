@@ -32,24 +32,42 @@
 #define	STR_BD						"Back to Demo"
 #define STR_QT						"Quit"
 
+#ifdef USE_MODERN_OPTIONS
 #define STR_OP						"Options"
+#define STR_OP_GAME					"Game Options"
 #define STR_OP_SND					"Sound Options"
 #define STR_OP_CTL					"Control Options"
-#define STR_OP_GAME					"Game Options"
 
 #define STR_OP_MOUSE				"Mouse Controls"
 #define STR_OP_KEYBOARD				"Keyboard Controls"
 #define STR_OP_JOYSTICK				"Joystick Controls"
 
 #define STR_ALWAYS_RUN				"Always Run"
-
 #define	STR_SENS					"Mouse Sensitivity"
 #define	STR_MOUSEMOVEMENT			"Enable Mouse Y Axis"
 #define	STR_CUSTOM					"Customize controls"
 
 #define STR_ACTION_KEYS				"Action Keys"
 #define STR_MOVEMENT_KEYS			"Movement Keys"
+
+#define STR_STF_LEFT				"Strafe L"
+#define STR_STF_RIGHT				"Strafe R"
+
+#ifdef SHOW_ADVANCED_CONTROLS
 #define STR_ADVANCED_CONTROLS		"Advanced Controls"
+
+#define STR_ADV_CTL_1				"Cus Ctl 1"
+#define STR_ADV_CTL_2				"Cus Ctl 2"
+#define STR_ADV_CTL_3				"Cus Ctl 3"
+#define STR_ADV_CTL_4				"Cus Ctl 4"
+#define STR_ADV_CTL_5				"Cus Ctl 5"
+#define STR_ADV_CTL_6				"Cus Ctl 6"
+#define STR_ADV_CTL_7				"Cus Ctl 7"
+#define STR_ADV_CTL_8				"Cus Ctl 8"
+#define STR_ADV_CTL_9				"Cus Ctl 9"
+#define STR_ADV_CTL_10				"Cus Ctl 10"
+#endif
+#endif
 
 #define STR_LOADING					"Loading"
 #define STR_SAVING					"Saving"
@@ -88,12 +106,11 @@
 #define STR_CFIRE					"Fire"
 #define STR_CSTRAFE					"Strafe"
 
-#define	STR_LEFT					"Left"
-#define	STR_RIGHT					"Right"
-#define	STR_FRWD					"Frwd"
-#define	STR_BKWD					"Bkwrd"
-#define STR_STF_LEFT				"Strafe L"
-#define STR_STF_RIGHT				"Strafe R"
+#define	STR_LEFT					"Left" //Todo DemolitionDerby - revert to original string
+#define	STR_RIGHT					"Right" //Todo DemolitionDerby - revert to original string
+#define	STR_FRWD					"Frwd" //Todo DemolitionDerby - revert to original string
+#define	STR_BKWD					"Bkwrd" //Todo DemolitionDerby - revert to original string
+
 #define	STR_THINK					"Thinking"
 
 #define STR_SIZE1					"Use arrows to size"

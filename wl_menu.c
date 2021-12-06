@@ -26,8 +26,8 @@ int  CP_ReadThis(int);
 void SetTextColor(CP_itemtype* items, int hlight);
 
 const int MAX_ADVANCED_CONTROLS = 10;
-const int ADV_CTL_ARRAY_RANGE_START = 18;
-const int ADV_CTL_ARRAY_RANGE_END = 28;
+const int ADV_CTL_ARRAY_RANGE_START = 19;
+const int ADV_CTL_ARRAY_RANGE_END = 29;
 
 #ifdef SPEAR
 #define STARTITEM       newgame
@@ -138,7 +138,9 @@ enum { CTL_MOUSE_RUN, CTL_MOUSE_OPEN, CTL_MOUSE_FIRE, CTL_MOUSE_STRAFE, CTL_SPAC
 enum { CTL_KB_MOVE_FWRD, CTL_KB_MOVE_BWRD, CTL_KB_MOVE_LEFT, CTL_KB_MOVE_RIGHT, CTL_KB_STRAFE_LEFT, CTL_KB_STRAFE_RIGHT, CTL_SPACE_KB_MOVE, CTL_ACTIONKEYS };
 enum { CTL_KB_ACTION_RUN, CTL_KB_ACTION_OPEN, CTL_KB_ACTION_FIRE, CTL_KB_ACTION_STRAFE, CTL_SPACE_KB_ACTION, CTL_MOVEMENTKEYS };
 enum { CTL_JOYSTICK_RUN, CTL_JOYSTICK_OPEN, CTL_JOYSTICK_FIRE, CTL_JOYSTICK_STRAFE };
+#ifdef SHOW_ADVANCED_CONTROLS
 enum { CTL_ADV_1, CTL_ADV_2, CTL_ADV_3, CTL_ADV_4, CTL_ADV_5, CTL_ADV_6, CTL_ADV_7, CTL_ADV_8, CTL_ADV_9, CTL_ADV_10 };
+#endif
 #else
 enum { CTL_MOUSEENABLE, CTL_MOUSESENS, CTL_JOYENABLE, CTL_CUSTOMIZE };
 #endif
@@ -313,16 +315,16 @@ CP_itemtype CtlJoystickMenu[] = {
 
 #ifdef SHOW_ADVANCED_CONTROLS
 CP_itemtype CtlAdvancedMenu[] = {
-	{1, "Adv 1", 0},
-	{1, "Adv 2", 0},
-	{1, "Adv 3", 0},
-	{1, "Adv 4", 0},
-	{1, "Adv 5", 0},
-	{1, "Adv 6", 0},
-	{1, "Adv 7", 0},
-	{1, "Adv 8", 0},
-	{1, "Adv 9", 0},
-	{1, "Adv 10", 0}
+	{1, STR_ADV_CTL_1, 0},
+	{1, STR_ADV_CTL_2, 0},
+	{1, STR_ADV_CTL_3, 0},
+	{1, STR_ADV_CTL_4, 0},
+	{1, STR_ADV_CTL_5, 0},
+	{1, STR_ADV_CTL_6, 0},
+	{1, STR_ADV_CTL_7, 0},
+	{1, STR_ADV_CTL_8, 0},
+	{1, STR_ADV_CTL_9, 0},
+	{1, STR_ADV_CTL_10, 0}
 };
 #endif
 #endif
@@ -356,7 +358,9 @@ CusMouseItems = { OPT_MOUSE_X, OPT_MOUSE_Y, lengthof(CtlMouseMenu), 0, 54 },
 CusKeyboardMoveItems = { OPT_KEYBOARD_MOVE_X, OPT_KEYBOARD_MOVE_Y + 4, lengthof(CtlKeyboardMoveMenu), 0, 54 },
 CusKeyboardActionItems = { OPT_KEYBOARD_X, OPT_KEYBOARD_Y, lengthof(CtlKeyboardActionMenu), 0, 54 },
 CusJoystickItems = { OPT_JOYSTICK_X, OPT_JOYSTICK_Y, lengthof(CtlJoystickMenu), 0, 54 },
+#ifdef SHOW_ADVANCED_CONTROLS
 CusAdvancedCtlItems = { OPT_ADV_TEXT_X, OPT_ADV_TEXT_Y, lengthof(CtlAdvancedMenu), 0, 54 },
+#endif
 #endif
 SndItems = { SM_X, SM_Y1, lengthof(SndMenu), 0, 52 },
 LSItems = { LSM_X, LSM_Y, lengthof(LSMenu), 0, 24 },
@@ -2064,12 +2068,7 @@ void DrawCtlScreen(void)
 
 #ifdef USE_MODERN_OPTIONS
 	y = CTL_Y + 29;
-	/*if (alwaysStrafe)
-		VWB_DrawPic(x, y, C_SELECTEDPIC);
-	else
-		VWB_DrawPic(x, y, C_NOTSELECTEDPIC);
 
-	y = CTL_Y + 42;*/
 	if (alwaysRun)
 		VWB_DrawPic(x, y, C_SELECTEDPIC);
 	else
@@ -2388,14 +2387,13 @@ void DefineKeyMove(void)
 //
 // ENTER CONTROL DATA FOR ANY TYPE OF CONTROL
 //
-enum
-{
-	FWRD, RIGHT, BKWD, LEFT, STF_LEFT, STF_RIGHT
-};
+
 #ifdef USE_MODERN_OPTIONS
+enum { FWRD, RIGHT, BKWD, LEFT, STF_LEFT, STF_RIGHT };
 int moveorder[6] = { FWRD, BKWD, LEFT, RIGHT, STF_LEFT, STF_RIGHT };
 #else
 int moveorder[4] = { LEFT, RIGHT, FWRD, BKWD };
+enum { LEFT, RIGHT, FWRD, BKWD };
 #endif
 
 #ifdef USE_MODERN_OPTIONS
@@ -2453,35 +2451,6 @@ int CP_KeyboardMoveCtl(int blank)
 	return 0;
 }
 
-#ifdef SHOW_ADVANCED_CONTROLS
-enum
-{
-	ADV_CTL_1, ADV_CTL_2, ADV_CTL_3, ADV_CTL_4, ADV_CTL_5, ADV_CTL_6, ADV_CTL_7, ADV_CTL_8, ADV_CTL_9, ADV_CTL_10
-};
-int8_t advorder[10] = { ADV_CTL_1, ADV_CTL_2, ADV_CTL_3, ADV_CTL_4, ADV_CTL_5, ADV_CTL_6, ADV_CTL_7, ADV_CTL_8, ADV_CTL_9, ADV_CTL_10 };
-
-void DefineAdvancedCtl(int value)
-{
-	CustomCtrls keyallowed;
-	int i;
-
-	--value;
-
-	for (i = 0; i < MAX_ADVANCED_CONTROLS; i++)
-	{
-		if (i == value) {
-			keyallowed.allowed[i] = 1;
-		}
-		else {
-			keyallowed.allowed[i] = 0;
-		}
-	}
-
-	++value;
-	EnterCtrlData(value, &keyallowed, DrawAdvancedCtlKeys, PrintAdvancedCtlKeys, ADVANCED, false, true);
-}
-#endif
-
 int CP_KeyboardActionCtl(int blank)
 {
 	int which;
@@ -2526,6 +2495,86 @@ int CP_KeyboardActionCtl(int blank)
 	//MenuFadeIn();
 
 	return 0;
+}
+
+////////////////////////////////////////////////////////////////////
+//
+// CUSTOMIZE JOYSTICK CONTROLS
+//
+////////////////////////////////////////////////////////////////////
+
+char jbarray[4][11] = { "AB Down", "AB Right", "AB Left", "AB Top" };
+
+int CP_JoystickCtl(int blank)
+{
+	int which;
+
+	DrawJoystickScreen();
+	WaitKeyUp();
+
+	do
+	{
+		which = HandleMenu(&CusJoystickItems, &CtlJoystickMenu[0], NULL);
+
+		switch (which)
+		{
+		case CTL_JOYSTICK_RUN:
+			DefineJoyBtns(1);
+			DrawCustJoy(1);
+			break;
+		case CTL_JOYSTICK_OPEN:
+			DefineJoyBtns(2);
+			DrawCustJoy(2);
+			break;
+		case CTL_JOYSTICK_FIRE:
+			DefineJoyBtns(3);
+			DrawCustJoy(3);
+			break;
+		case CTL_JOYSTICK_STRAFE:
+			DefineJoyBtns(4);
+			DrawCustJoy(4);
+			break;
+		default:
+			break;
+		}
+
+		DrawJoystickScreen();
+
+	} while (which >= 0);
+
+	MenuFadeOut();
+	DrawCtlScreen();
+	MenuFadeIn();
+
+	return 0;
+}
+
+#ifdef SHOW_ADVANCED_CONTROLS
+enum
+{
+	ADV_CTL_1, ADV_CTL_2, ADV_CTL_3, ADV_CTL_4, ADV_CTL_5, ADV_CTL_6, ADV_CTL_7, ADV_CTL_8, ADV_CTL_9, ADV_CTL_10
+};
+int8_t advorder[10] = { ADV_CTL_1, ADV_CTL_2, ADV_CTL_3, ADV_CTL_4, ADV_CTL_5, ADV_CTL_6, ADV_CTL_7, ADV_CTL_8, ADV_CTL_9, ADV_CTL_10 };
+
+void DefineAdvancedCtl(int value)
+{
+	CustomCtrls keyallowed;
+	int i;
+
+	--value;
+
+	for (i = 0; i < MAX_ADVANCED_CONTROLS; i++)
+	{
+		if (i == value) {
+			keyallowed.allowed[i] = 1;
+		}
+		else {
+			keyallowed.allowed[i] = 0;
+		}
+	}
+
+	++value;
+	EnterCtrlData(value, &keyallowed, DrawAdvancedCtlKeys, PrintAdvancedCtlKeys, ADVANCED, false, true);
 }
 
 int CP_AdvancedCtl(int blank)
@@ -2597,58 +2646,7 @@ int CP_AdvancedCtl(int blank)
 
 	return 0;
 }
-
-////////////////////////////////////////////////////////////////////
-//
-// CUSTOMIZE JOYSTICK CONTROLS
-//
-////////////////////////////////////////////////////////////////////
-
-char jbarray[4][11] = { "AB Down", "AB Right", "AB Left", "AB Top" };
-
-int CP_JoystickCtl(int blank)
-{
-	int which;
-
-	DrawJoystickScreen();
-	WaitKeyUp();
-
-	do
-	{
-		which = HandleMenu(&CusJoystickItems, &CtlJoystickMenu[0], NULL);
-
-		switch (which)
-		{
-		case CTL_JOYSTICK_RUN:
-			DefineJoyBtns(1);
-			DrawCustJoy(1);
-			break;
-		case CTL_JOYSTICK_OPEN:
-			DefineJoyBtns(2);
-			DrawCustJoy(2);
-			break;
-		case CTL_JOYSTICK_FIRE:
-			DefineJoyBtns(3);
-			DrawCustJoy(3);
-			break;
-		case CTL_JOYSTICK_STRAFE:
-			DefineJoyBtns(4);
-			DrawCustJoy(4);
-			break;
-		default:
-			break;
-		}
-
-		DrawJoystickScreen();
-
-	} while (which >= 0);
-
-	MenuFadeOut();
-	DrawCtlScreen();
-	MenuFadeIn();
-
-	return 0;
-}
+#endif
 #endif
 
 void EnterCtrlData(int index, CustomCtrls* cust, void (*DrawRtn) (int), void (*PrintRtn) (int), int type, bool keyboardMoveControls, bool advControls)
@@ -2667,12 +2665,8 @@ void EnterCtrlData(int index, CustomCtrls* cust, void (*DrawRtn) (int), void (*P
 #ifndef USE_MODERN_OPTIONS
 	int amount = 4;
 	PrintY = CST_Y + 13 * index;
-#else	
-	if (advControls) {
-		start = ADV_CTL_ARRAY_RANGE_START;
-		amount = ADV_CTL_ARRAY_RANGE_END;
-	}
-	else if (keyboardMoveControls) {
+#else
+	if (keyboardMoveControls) {
 		start = 0;
 		amount = 8;
 	}
@@ -2680,8 +2674,13 @@ void EnterCtrlData(int index, CustomCtrls* cust, void (*DrawRtn) (int), void (*P
 		start = 0;
 		amount = 6;
 	}
+#ifdef SHOW_ADVANCED_CONTROLS
+	if (advControls) {
+		start = ADV_CTL_ARRAY_RANGE_START;
+		amount = ADV_CTL_ARRAY_RANGE_END;
+	}
 #endif
-
+#endif
 	IN_ClearKeysDown();
 	exit = 0;
 	redraw = 1;
@@ -2705,14 +2704,9 @@ void EnterCtrlData(int index, CustomCtrls* cust, void (*DrawRtn) (int), void (*P
 			x = CST_START + CST_SPC * which;
 			DrawWindow(5, PrintY - 1, 310, 13, BKGDCOLOR);
 #else
-			if (keyboardMoveControls && !advControls) {
+			if (keyboardMoveControls) {
 				x = CTL_MOUSE_X + 10;
 				y = OPT_KB_MOVE_KEYS_Y;
-				w = 80;
-			}
-			else if (advControls && !keyboardMoveControls) {
-				x = CTL_MOUSE_X + 10;
-				y = OPT_ADV_TEXT_Y;
 				w = 80;
 			}
 			else {
@@ -2720,6 +2714,13 @@ void EnterCtrlData(int index, CustomCtrls* cust, void (*DrawRtn) (int), void (*P
 				y = CST_START;
 				w = CST_SPC;
 			}
+#ifdef SHOW_ADVANCED_CONTROLS
+			if (advControls) {
+				x = OPT_ADV_RIGHT_TEXT_X;
+				y = OPT_ADV_TEXT_Y;
+				w = 75;
+			}
+#endif
 #endif
 			DrawRtn(1);
 
@@ -3610,7 +3611,6 @@ DrawCustMouse(int highlight)
 #else
 	PrintX = CTL_MOUSE_X;
 #endif
-
 	for (i = 0; i < 4; i++)
 		PrintCustMouse(i);
 }
@@ -3721,28 +3721,23 @@ DrawCustKeys(int hilight)
 
 	int amount = 4;
 
-#ifndef USE_MODERN_OPTIONS
-	PrintY = CST_Y + 13 * 10;
-
-#else
+#ifdef USE_MODERN_OPTIONS
 	PrintX = CTL_MOUSE_X;
 	amount = 6;
+#else
+	PrintY = CST_Y + 13 * 10;	
 #endif
 	for (i = 0; i < amount; i++)
 		PrintCustKeys(i);
 }
 
+#ifdef USE_MODERN_OPTIONS
 #ifdef SHOW_ADVANCED_CONTROLS
-
 void PrintAdvancedCtlKeys(int i)
 {
-#ifndef USE_MODERN_OPTIONS
-	PrintX = CST_START + CST_SPC * i;
-#else
 	PrintX = OPT_ADV_RIGHT_TEXT_X;
 	PrintY = CST_START + (CST_SPC_Y * i);
 	PrintY = OPT_ADV_TEXT_Y + (CST_SPC_Y * i);
-#endif
 	US_Print((const char*)IN_GetScanName(buttonscan[18 + advorder[i]]));
 }
 
@@ -3760,10 +3755,8 @@ void DrawAdvancedCtlKeys(int hilight)
 	for (i = 0; i < MAX_ADVANCED_CONTROLS; i++)
 		PrintAdvancedCtlKeys(i);
 }
-
 #endif
-
-
+#endif
 
 ////////////////////////////////////////////////////////////////////
 //
@@ -4142,7 +4135,6 @@ HandleMenu(CP_iteminfo* item_i, CP_itemtype* items, void (*routine) (int w))
 	int i, x, y, basey, exit, which, shape;
 	int32_t lastBlinkTime, timer;
 	ControlInfo ci;
-
 
 	which = item_i->curpos;
 	x = item_i->x & -8;
@@ -4656,30 +4648,30 @@ Confirm(const char* string)
 #ifdef SPANISH
 	} while (!Keyboard(sc_S) && !Keyboard(sc_N) && !Keyboard(sc_Escape));
 #else
-	} while (!Keyboard(sc_Y) && !Keyboard(sc_N) && !Keyboard(sc_Escape) && !ci.button0 && !ci.button1);
+} while (!Keyboard(sc_Y) && !Keyboard(sc_N) && !Keyboard(sc_Escape) && !ci.button0 && !ci.button1);
 #endif
 
 #ifdef SPANISH
-	if (Keyboard(sc_S) || ci.button0)
-	{
-		xit = 1;
-		ShootSnd();
-	}
+if (Keyboard(sc_S) || ci.button0)
+{
+	xit = 1;
+	ShootSnd();
+}
 #else
-	if (Keyboard(sc_Y) || ci.button0)
-	{
-		xit = 1;
-		ShootSnd();
-	}
+if (Keyboard(sc_Y) || ci.button0)
+{
+	xit = 1;
+	ShootSnd();
+}
 #endif
 
-	IN_ClearKeysDown();
-	WaitKeyUp();
+IN_ClearKeysDown();
+WaitKeyUp();
 
-	SD_PlaySound((soundnames)whichsnd[xit]);
+SD_PlaySound((soundnames)whichsnd[xit]);
 
-	return xit;
-}
+return xit;
+	}
 
 #ifdef JAPAN
 ////////////////////////////////////////////////////////////////////
@@ -5169,8 +5161,8 @@ CheckForEpisodes(void)
 			{
 				Quit("The configuration directory \"%s\" could not be created.", configdir);
 			}
+			}
 		}
-	}
 
 	//
 	// JAPANESE VERSION
@@ -5297,4 +5289,4 @@ CheckForEpisodes(void)
 	strcat(endfilename, extension);
 #endif
 #endif
-}
+	}

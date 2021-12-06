@@ -389,6 +389,7 @@ void PollCustomKeyboardMove(void)
 		controlx = ((alwaysRun && buttonstate[bt_run]) || (!alwaysRun && !buttonstate[bt_run])) ? BASEMOVE * tics : RUNMOVE * tics;
 }
 
+#ifdef SHOW_ADVANCED_CONTROLS
 /*
 ===================
 =
@@ -427,8 +428,9 @@ void PollAdvancedControls(void) {
 
 	if (Keyboard(buttonscan[bt_adv_10]))
 		GetMessage("Adv Ctl 10", DEF_MSG_CLR);
-		
+
 }
+#endif
 #endif
 
 
@@ -582,8 +584,10 @@ void PollControls(void)
 	//
 	PollKeyboardButtons();
 
+#ifdef USE_MODERN_OPTIONS
 #ifdef SHOW_ADVANCED_CONTROLS
 	PollAdvancedControls();
+#endif
 #endif	
 
 	if (mouseenabled && IN_IsInputGrabbed())

@@ -53,7 +53,7 @@ typedef	int		ScanCode;
 #ifdef USE_MODERN_OPTIONS
 #define sc_StrafeLeft	SDLK_a
 #define sc_StrafeRight	SDLK_d
-
+#ifdef SHOW_ADVANCED_CONTROLS
 #define sc_Adv_1		SDLK_KP_0
 #define sc_Adv_2		SDLK_KP_1
 #define sc_Adv_3		SDLK_KP_2
@@ -64,12 +64,7 @@ typedef	int		ScanCode;
 #define sc_Adv_8		SDLK_KP_7
 #define sc_Adv_9		SDLK_KP_8
 #define sc_Adv_10		SDLK_KP_9
-
-//#define sc_KP_PLUS			SDLK_KP_PLUS
-//#define sc_KP_MINUS			SDLK_KP_MINUS
-//#define sc_KP_DIVIDE			SDLK_KP_DIVIDE
-//#define sc_KP_COMMA			SDLK_KP_COMMA
-
+#endif
 #endif
 #define	sc_Insert		SDLK_INSERT
 #define	sc_Delete		SDLK_DELETE

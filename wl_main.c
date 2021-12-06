@@ -87,7 +87,8 @@ char    configname[13] = "config.";
 //
 // Command line parameter variables
 //
-boolean param_debugmode = false;
+//TODO DemolitionDerby - REVERT BACK TO FALSE
+boolean param_debugmode = true;
 boolean param_nowait = false;
 int     param_difficulty = 1;           // default is "normal"
 int     param_tedlevel = -1;            // default is not to start a level
@@ -205,7 +206,7 @@ void ReadConfig(void)
 		if (mouseYAxis) mouseYAxis = true;
 		if (alwaysRun) alwaysRun = true;
 #endif		
-			if (joystickenabled) joystickenabled = true;
+		if (joystickenabled) joystickenabled = true;
 
 		if (!MousePresent)
 			mouseenabled = false;
@@ -250,7 +251,6 @@ void ReadConfig(void)
 			mouseYAxis = true;
 #endif
 		}
-
 
 		if (IN_JoyPresent())
 			joystickenabled = true;
@@ -323,7 +323,7 @@ void WriteConfig(void)
 #ifdef _arch_dreamcast
 	DC_SaveToVMU(configname, NULL);
 #endif
-	}
+}
 
 
 //===========================================================================
@@ -454,7 +454,7 @@ boolean SaveTheGame(FILE* file, int x, int y)
 	DiskFlopAnim(x, y);
 	fwrite(&nullobj, sizeof(nullobj), 1, file);
 
-	
+
 	DiskFlopAnim(x, y);
 	laststatobjnum = (word)(laststatobj - statobjlist);
 	fwrite(&laststatobjnum, sizeof(laststatobjnum), 1, file);
@@ -1247,7 +1247,7 @@ static void InitGame()
 		/*        memcpy((byte *)0xb8000,screen+7+7*160,17*160);
 				gotoxy (1,23);*/
 		exit(1);
-}
+	}
 #endif
 
 
@@ -1442,7 +1442,7 @@ void Quit(const char* errorStr, ...)
 #ifdef NOTYET
 			SetTextCursor(0, 2);
 #endif
-	}
+		}
 		exit(1);
 	}
 

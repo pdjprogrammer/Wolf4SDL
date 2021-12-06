@@ -143,15 +143,15 @@
 #define OPT_KEYBOARD_MOVE_H   112
 
 #ifdef SHOW_ADVANCED_CONTROLS
-#define OPT_ADV_X   41
+#define OPT_ADV_X   26
 #define OPT_ADV_Y   50
-#define OPT_ADV_W   250
+#define OPT_ADV_W   280
 #define OPT_ADV_H   138
 
-#define OPT_ADV_TEXT_X 41
+#define OPT_ADV_TEXT_X 25
 #define OPT_ADV_TEXT_Y 55
 
-#define OPT_ADV_RIGHT_TEXT_X 190
+#define OPT_ADV_RIGHT_TEXT_X 200
 #endif
 
 #define OPT_KEYBOARD_X   41
@@ -198,7 +198,6 @@ extern const int ADV_CTL_ARRAY_RANGE_START;
 extern const int ADV_CTL_ARRAY_RANGE_END;
 #endif // SHOW_ADVANCED_CONTROLS
 
-
 //
 // FUNCTION PROTOTYPES
 //
@@ -234,7 +233,6 @@ void DrawHalfStep(int x, int y);
 void EraseGun(CP_iteminfo* item_i, CP_itemtype* items, int x, int y, int which);
 void DrawMenuGun(CP_iteminfo* iteminfo);
 void DrawStripes(int y);
-
 #ifndef USE_MODERN_OPTIONS
 void DefineMouseBtns(void);
 void DefineKeyMove(void);
@@ -259,9 +257,14 @@ void DrawMouseSens(void);
 void DrawCtlScreen(void);
 void DrawCustomScreen(void);
 void DrawMouseCtlScreen(void);
+#ifdef USE_MODERN_OPTIONS
 void DrawKeyboardMoveCtlScreen(void);
 void DrawKeyboardActionCtlScreen(void);
+#ifdef SHOW_ADVANCED_CONTROLS
 void DrawAdvancedCtlScreen(void);
+#endif
+#endif
+
 void DrawLSAction(int which);
 void DrawCustMouse(int hilight);
 void DrawCustJoy(int hilight);
@@ -296,15 +299,16 @@ int  CP_EndGame(int);
 int  CP_CheckQuick(ScanCode scancode);
 int Controls(int);
 int MouseSensitivity(int);
-
-#ifndef USE_MODERN_OPTIONS
-int CustomControls(int);
-#else
+#ifdef USE_MODERN_OPTIONS
 int CP_MouseCtl(int);
 int CP_KeyboardMoveCtl(int);
 int CP_KeyboardActionCtl(int);
 int CP_JoystickCtl(int);
+#ifdef SHOW_ADVANCED_CONTROLS
 int CP_AdvancedCtl(int);
+#endif
+#else
+int CustomControls(int);
 #endif
 
 void CheckForEpisodes(void);

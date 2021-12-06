@@ -243,11 +243,6 @@ typedef uint8_t tiletype;
 
 #define MAXTIMERS 4
 
-
-#define DEF_MAX_ADVANCED_CONTROLS = 10
-
-
-
 // object flag values
 
 typedef enum
@@ -846,6 +841,7 @@ enum
 	bt_movebackward,
 	bt_turnleft,
 	bt_turnright,
+#ifdef SHOW_ADVANCED_CONTROLS
 	bt_adv_1,
 	bt_adv_2,
 	bt_adv_3,
@@ -856,6 +852,7 @@ enum
 	bt_adv_8,
 	bt_adv_9,
 	bt_adv_10,
+#endif
 	NUMBUTTONS
 };
 
@@ -1087,6 +1084,9 @@ extern  int         lastgamemusicoffset;
 //
 #ifdef USE_MODERN_OPTIONS
 extern  boolean     mouseenabled, mouseYAxis, joystickenabled, alwaysRun;
+#ifdef SHOW_ADVANCED_CONTROLS
+extern  int         advancedcontrols[10];
+#endif
 #else
 extern  boolean     mouseenabled, joystickenabled;
 #endif
@@ -1099,8 +1099,6 @@ extern  int         dirscan[4];
 extern  int         buttonscan[NUMBUTTONS];
 extern  int         buttonmouse[4];
 extern  int         buttonjoy[32];
-
-extern  int         advancedcontrols[10];
 
 extern  boolean     buttonheld[NUMBUTTONS];
 
