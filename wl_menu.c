@@ -409,13 +409,13 @@ CP_itemtype CtlKeyboardActionMenu[] = {
     {1, STR_MOVEMENT_KEYS, CP_KeyboardMoveCtl}};
 
 CP_itemtype CtlKeyboardMoreActionMenu[] = {
-    {1, "Weapon 1", 0},
-    {1, "Weapon 2", 0},
-    {1, "Weapon 3", 0},
-    {1, "Weapon 4", 0},
-    {1, "Prev Wep", 0},
-    {1, "Next Wep", 0},
-    {1, "AutoMap", 0},
+    {1, STR_WPN_1, 0},
+    {1, STR_WPN_2, 0},
+    {1, STR_WPN_3, 0},
+    {1, STR_WPN_4, 0},
+    {1, STR_PREV_WPN, 0},
+    {1, STR_NEXT_WPN, 0},
+    {1, STR_AUTOMAP, 0},
     {0, "", 0},
     {1, STR_ACTION_KEYS, CP_KeyboardActionCtl} };
 
@@ -461,12 +461,17 @@ CP_itemtype OptMenu[] = {
 #else
     {1, STR_OP_SND, CP_Sound},
     {1, STR_OP_CTL, CP_Control},
+#ifdef USE_MODERN_OPTIONS
 #ifdef SHOW_GAME_OPTIONS
     {1, STR_CV, CP_ChangeView},
-    {1, STR_OP_GAME, 0}
+    {1, STR_OP_GAME, 0}    
 #else
     {1, STR_CV, CP_ChangeView}
 #endif
+#else
+    {1, STR_CV, CP_ChangeView},
+#endif
+
 #endif
 };
 
@@ -2363,14 +2368,14 @@ void DefineMouseBtns(int value)
 
     ++value;
 
-    EnterCtrlData(value, &mouseallowed, DrawCustMouse, PrintCustMouse, MOUSE, -1);
+    EnterCtrlData(value, &mouseallowed, DrawCustMouse, PrintCustMouse, MOUSE);
 }
 
 #else
 void DefineMouseBtns(void)
 {
     CustomCtrls mouseallowed = {0, 1, 1, 1};
-    EnterCtrlData(2, &mouseallowed, DrawCustMouse, PrintCustMouse, MOUSE, -1);
+    EnterCtrlData(2, &mouseallowed, DrawCustMouse, PrintCustMouse, MOUSE);
 }
 #endif
 
@@ -2408,7 +2413,7 @@ void DefineJoyBtns(int value)
 void DefineJoyBtns(void)
 {
     CustomCtrls joyallowed = {1, 1, 1, 1};
-    EnterCtrlData(5, &joyallowed, DrawCustJoy, PrintCustJoy, JOYSTICK, -1);
+    EnterCtrlData(5, &joyallowed, DrawCustJoy, PrintCustJoy, JOYSTICK);
 }
 #endif
 
@@ -2437,13 +2442,13 @@ void DefineKeyBtns(int value)
     }
 
     ++value;
-    EnterCtrlData(value, &keyallowed, DrawCustKeybd, PrintCustKeybd, KEYBOARDBTNS, -1);
+    EnterCtrlData(value, &keyallowed, DrawCustKeybd, PrintCustKeybd, KEYBOARDBTNS);
 }
 #else
 void DefineKeyBtns(void)
 {
     CustomCtrls keyallowed = {1, 1, 1, 1};
-    EnterCtrlData(8, &keyallowed, DrawCustKeybd, PrintCustKeybd, KEYBOARDBTNS, -1);
+    EnterCtrlData(8, &keyallowed, DrawCustKeybd, PrintCustKeybd, KEYBOARDBTNS);
 }
 #endif
 
@@ -2480,7 +2485,7 @@ void DefineKeyMove(int value)
 void DefineKeyMove(void)
 {
     CustomCtrls keyallowed = {1, 1, 1, 1};
-    EnterCtrlData(10, &keyallowed, DrawCustKeys, PrintCustKeys, KEYBOARDMOVE, false, false);
+    EnterCtrlData(10, &keyallowed, DrawCustKeys, PrintCustKeys, KEYBOARDMOVE);
 }
 #endif
 
@@ -2496,7 +2501,7 @@ void DefineKeyMoreActionsBtns(int value)
 
     --value;
 
-    for (i = 0; i < 8; i++)
+    for (i = 0; i < 10; i++)
     {
         if (i == value)
         {
@@ -3094,8 +3099,9 @@ void EnterCtrlData(int index, CustomCtrls *cust, void (*DrawRtn)(int), void (*Pr
                 case KEYBOARDBTNS:
                     if (LastScan && LastScan != sc_Escape)
                     {
+#ifdef USE_MODERN_OPTIONS
                         CheckKeyConflict();
-
+#endif
                         buttonscan[order[which]] = LastScan;
 
                         picked = 1;
@@ -3110,8 +3116,9 @@ void EnterCtrlData(int index, CustomCtrls *cust, void (*DrawRtn)(int), void (*Pr
                 case KEYBOARDMOVE:
                     if (LastScan && LastScan != sc_Escape)
                     {
+#ifdef USE_MODERN_OPTIONS
                         CheckKeyConflict();
-
+#endif
                         dirscan[moveorder[which]] = LastScan;
 
                         picked = 1;

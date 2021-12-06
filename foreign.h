@@ -137,6 +137,15 @@
 #define STR_STF_LEFT "Strafe L"
 #define STR_STF_RIGHT "Strafe R"
 
+#define STR_WPN_1 "Wpn 1"
+#define STR_WPN_2 "Wpn 2"
+#define STR_WPN_3 "Wpn 3"
+#define STR_WPN_4 "Wpn 4"
+#define STR_PREV_WPN "Prev Wpn"
+#define STR_NEXT_WPN "Next Wpn"
+#define STR_AUTOMAP "Automap"
+
+
 #ifdef SHOW_CUSTOM_CONTROLS
 #define STR_CUS_CONTROLS "Custom Controls"
 
