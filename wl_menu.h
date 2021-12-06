@@ -151,7 +151,7 @@
 #define OPT_KEYBOARD_MORE_ACTION_W 250
 #define OPT_KEYBOARD_MORE_ACTION_H 140
 
-#define OPT_KEYBOARD_MORE_ACTION_TEXT_X 25
+#define OPT_KEYBOARD_MORE_ACTION_TEXT_X 200
 #define OPT_KEYBOARD_MORE_ACTION_TEXT_Y 60
 
 #define OPT_KEYBOARD_MORE_ACTION_RIGHT_TEXT_X 200
@@ -195,7 +195,7 @@ typedef struct
 typedef struct
 {
 #ifdef USE_MODERN_OPTIONS
-	short allowed[10];
+	short allowed[12];
 #else
 	short allowed[4];
 #endif
@@ -273,6 +273,8 @@ void DrawMouseCtlScreen(void);
 void DrawKeyboardMoveCtlScreen(void);
 void DrawKeyboardActionCtlScreen(void);
 void DrawKeyboardMoreActionCtlScreen(void);
+
+void CheckKeyConflict(void);
 
 #ifdef SHOW_CUSTOM_CONTROLS
 void DrawCustomCtlScreen(void);

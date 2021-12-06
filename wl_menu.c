@@ -2417,7 +2417,6 @@ void DefineJoyBtns(void)
 // DEFINE THE KEYBOARD BUTTONS
 //
 #ifdef USE_MODERN_OPTIONS
-
 void DefineKeyBtns(int value)
 {
     CustomCtrls keyallowed;
@@ -2490,7 +2489,6 @@ void DefineKeyMove(void)
 // DEFINE THE KEYBOARD MORE ACTIONS BUTTONS
 //
 #ifdef USE_MODERN_OPTIONS
-
 void DefineKeyMoreActionsBtns(int value)
 {
     CustomCtrls keyallowed;
@@ -2512,12 +2510,6 @@ void DefineKeyMoreActionsBtns(int value)
 
     ++value;
     EnterCtrlData(value, &keyallowed, DrawMoreActionsKeys, PrintMoreActionsKeys, KEYBOARDMOREACTIONS);
-}
-#else
-void DefineKeyBtns(void)
-{
-    CustomCtrls keyallowed = { 1, 1, 1, 1 };
-    EnterCtrlData(8, &keyallowed, DrawCustKeybd, PrintCustKeybd, KEYBOARDBTNS, -1);
 }
 #endif
 
@@ -3102,23 +3094,10 @@ void EnterCtrlData(int index, CustomCtrls *cust, void (*DrawRtn)(int), void (*Pr
                 case KEYBOARDBTNS:
                     if (LastScan && LastScan != sc_Escape)
                     {
-#ifdef USE_MODERN_OPTIONS
-                         int i = 0;
-                        for (i = 0; i < 10; i++)
-                            if (buttonscan[order[i]] == LastScan)
-                                buttonscan[order[i]] = bt_nobutton;
+                        CheckKeyConflict();
 
-                        for (i = 0; i < 6; i++)
-                            if (dirscan[moveorder[i]] == LastScan)
-                                dirscan[moveorder[i]] = bt_nobutton;
-
-#ifdef SHOW_CUSTOM_CONTROLS
-                        for (i = 0; i < MAX_CUSTOM_CONTROLS; i++)
-                            if (buttonscan[18 + advorder[i]] == LastScan)
-                                buttonscan[18 + advorder[i]] = bt_nobutton;
-#endif
-#endif
                         buttonscan[order[which]] = LastScan;
+
                         picked = 1;
                         SD_PlaySound(SHOOTDOORSND);
                         IN_ClearKeysDown();
@@ -3131,23 +3110,10 @@ void EnterCtrlData(int index, CustomCtrls *cust, void (*DrawRtn)(int), void (*Pr
                 case KEYBOARDMOVE:
                     if (LastScan && LastScan != sc_Escape)
                     {
-#ifdef USE_MODERN_OPTIONS
-                         int i = 0;
-                        for (i = 0; i < 10; i++)
-                            if (buttonscan[order[i]] == LastScan)
-                                buttonscan[order[i]] = bt_nobutton;
+                        CheckKeyConflict();
 
-                        for (i = 0; i < 6; i++)
-                            if (dirscan[moveorder[i]] == LastScan)
-                                dirscan[moveorder[i]] = bt_nobutton;
-#ifdef SHOW_CUSTOM_CONTROLS
-                        for (i = 0; i < MAX_CUSTOM_CONTROLS; i++)
-                            if (buttonscan[18 + advorder[i]] == LastScan)
-                                buttonscan[18 + advorder[i]] = bt_nobutton;
-#endif
-
-#endif
                         dirscan[moveorder[which]] = LastScan;
+
                         picked = 1;
                         SD_PlaySound(SHOOTDOORSND);
                         IN_ClearKeysDown();
@@ -3161,20 +3127,10 @@ void EnterCtrlData(int index, CustomCtrls *cust, void (*DrawRtn)(int), void (*Pr
                 case KEYBOARDMOREACTIONS:
                     if (LastScan && LastScan != sc_Escape)
                     {
-                        int i = 0;
-                        for (i = 0; i < 10; i++)
-                            if (buttonscan[order[i]] == LastScan)
-                                buttonscan[order[i]] = bt_nobutton;
+                        CheckKeyConflict();
 
-                        for (i = 0; i < 6; i++)
-                            if (dirscan[moveorder[i]] == LastScan)
-                                dirscan[moveorder[i]] = bt_nobutton;
-#ifdef SHOW_CUSTOM_CONTROLS
-                        for (i = 0; i < MAX_CUSTOM_CONTROLS; i++)
-                            if (buttonscan[18 + advorder[i]] == LastScan)
-                                buttonscan[18 + advorder[i]] = bt_nobutton;
-#endif
                         buttonscan[4 + actionorder[which]] = LastScan;
+
                         picked = 1;
                         SD_PlaySound(SHOOTDOORSND);
                         IN_ClearKeysDown();
@@ -3187,18 +3143,7 @@ void EnterCtrlData(int index, CustomCtrls *cust, void (*DrawRtn)(int), void (*Pr
                 case CUSTOMCONTROLS:
                     if (LastScan && LastScan != sc_Escape)
                     {
-                       int i = 0;
-                        for (i = 0; i < 10; i++)
-                            if (buttonscan[order[i]] == LastScan)
-                                buttonscan[order[i]] = bt_nobutton;
-
-                        for (i = 0; i < 6; i++)
-                            if (dirscan[moveorder[i]] == LastScan)
-                                dirscan[moveorder[i]] = bt_nobutton;
-
-                        for (i = 0; i < MAX_CUSTOM_CONTROLS; i++)
-                            if (buttonscan[18 + advorder[i]] == LastScan)
-                                buttonscan[18 + advorder[i]] = bt_nobutton;
+                        CheckKeyConflict();
 
                         buttonscan[18 + advorder[which]] = LastScan;
 
@@ -5415,6 +5360,30 @@ void ShootSnd(void)
 {
     SD_PlaySound(SHOOTSND);
 }
+
+#ifdef USE_MODERN_OPTIONS
+void CheckKeyConflict(void)
+{
+    int i = 0;
+    for (i = 0; i < 8; i++)
+        if (buttonscan[order[i]] == LastScan)
+            buttonscan[order[i]] = bt_nobutton;
+
+    for (i = 0; i < 6; i++)
+        if (dirscan[moveorder[i]] == LastScan)
+            dirscan[moveorder[i]] = bt_nobutton;
+
+    for (i = 0; i < 7; i++)
+        if (buttonscan[4 + actionorder[i]] == LastScan)
+            buttonscan[4 + actionorder[i]] = bt_nobutton;
+
+#ifdef SHOW_CUSTOM_CONTROLS
+    for (i = 0; i < MAX_CUSTOM_CONTROLS; i++)
+        if (buttonscan[18 + advorder[i]] == LastScan)
+            buttonscan[18 + advorder[i]] = bt_nobutton;
+#endif
+}
+#endif
 
 ///////////////////////////////////////////////////////////////////////////
 //
