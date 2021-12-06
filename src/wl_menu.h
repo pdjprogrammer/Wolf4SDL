@@ -208,6 +208,9 @@ extern CP_iteminfo MainItems;
 extern const int MAX_CUSTOM_CONTROLS;
 extern const int CUS_CTL_ARRAY_RANGE_START;
 extern const int CUS_CTL_ARRAY_RANGE_END;
+extern int menuExit;
+
+void ExitMenu(void);
 #endif
 
 //
