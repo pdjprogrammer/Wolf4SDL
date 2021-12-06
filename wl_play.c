@@ -68,6 +68,7 @@ int dirscan[4] = { sc_UpArrow, sc_RightArrow, sc_DownArrow, sc_LeftArrow };
 
 #ifdef SHOW_ADVANCED_CONTROLS
 int buttonscan[NUMBUTTONS] = { sc_Control, sc_Alt, sc_LShift, sc_Space, sc_1, sc_2, sc_3, sc_4, sc_None, sc_None, sc_Escape, sc_None, sc_None, sc_None, sc_None, sc_None, sc_None, sc_None, sc_Adv_1, sc_Adv_2, sc_Adv_3, sc_Adv_4, sc_Adv_5, sc_Adv_6, sc_Adv_7, sc_Adv_8, sc_Adv_9, sc_Adv_10 };
+int advancedcontrols[10] = { bt_adv_1, bt_adv_2, bt_adv_3, bt_adv_4, bt_adv_5, bt_adv_6, bt_adv_7, bt_adv_8, bt_adv_9, bt_adv_10 };
 #else
 int buttonscan[NUMBUTTONS] = { sc_Control, sc_Alt, sc_LShift, sc_Space, sc_1, sc_2, sc_3, sc_4 };
 #endif
@@ -85,7 +86,7 @@ int buttonjoy[32] = {
 	bt_nobutton, bt_nobutton, bt_nobutton, bt_nobutton, bt_nobutton, bt_nobutton, bt_nobutton, bt_nobutton
 };
 
-int advancedcontrols[10] = { bt_adv_1, bt_adv_2, bt_adv_3, bt_adv_4, bt_adv_5, bt_adv_6, bt_adv_7, bt_adv_8, bt_adv_9, bt_adv_10 };
+
 
 int viewsize;
 

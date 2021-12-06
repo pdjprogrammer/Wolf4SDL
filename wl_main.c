@@ -169,7 +169,9 @@ void ReadConfig(void)
 #ifdef USE_MODERN_OPTIONS
 		read(file, &mouseYAxis, sizeof(mouseYAxis));
 		read(file, &alwaysRun, sizeof(alwaysRun));
+#ifdef SHOW_ADVANCED_CONTROLS
 		read(file, advancedcontrols, sizeof(advancedcontrols));
+#endif		
 #endif		
 		read(file, &joystickenabled, sizeof(joystickenabled));
 		boolean dummyJoypadEnabled;
@@ -300,7 +302,9 @@ void WriteConfig(void)
 #ifdef USE_MODERN_OPTIONS
 		write(file, &mouseYAxis, sizeof(mouseYAxis));
 		write(file, &alwaysRun, sizeof(alwaysRun));
+#ifdef SHOW_ADVANCED_CONTROLS
 		write(file, advancedcontrols, sizeof(advancedcontrols));
+#endif		
 #endif		
 		write(file, &joystickenabled, sizeof(joystickenabled));
 		boolean dummyJoypadEnabled = false;
