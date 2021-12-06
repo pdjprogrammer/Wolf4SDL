@@ -9,7 +9,7 @@
 #include <sys/types.h>
 
 #ifdef _WIN32
-                                                                                                                        #include <io.h>
+#include <io.h>
 #include <direct.h>
 #else
 
@@ -48,103 +48,104 @@ const int CUS_CTL_ARRAY_RANGE_END = 29;
 
 // ENDSTRx constants are defined in foreign.h
 char endStrings[9][80] = {
-        ENDSTR1,
-        ENDSTR2,
-        ENDSTR3,
-        ENDSTR4,
-        ENDSTR5,
-        ENDSTR6,
-        ENDSTR7,
-        ENDSTR8,
-        ENDSTR9};
+    ENDSTR1,
+    ENDSTR2,
+    ENDSTR3,
+    ENDSTR4,
+    ENDSTR5,
+    ENDSTR6,
+    ENDSTR7,
+    ENDSTR8,
+    ENDSTR9};
 
 CP_itemtype MainMenu[] = {
 #ifdef JAPAN
-                                                                                                                                {1, "", CP_NewGame},
-	{1, "", CP_Sound},
-	{1, "", CP_Control},
-	{1, "", CP_LoadGame},
-	{0, "", CP_SaveGame},
-	{1, "", CP_ChangeView},
-	{2, "", CP_ReadThis},
-	{1, "", CP_ViewScores},
-	{1, "", 0},
-	{1, "", 0}
+    {1, "", CP_NewGame},
+    {1, "", CP_Sound},
+    {1, "", CP_Control},
+    {1, "", CP_LoadGame},
+    {0, "", CP_SaveGame},
+    {1, "", CP_ChangeView},
+    {2, "", CP_ReadThis},
+    {1, "", CP_ViewScores},
+    {1, "", 0},
+    {1, "", 0}
 #else
 #ifdef USE_MODERN_OPTIONS
-        {1, STR_NG, CP_NewGame},
-        {1, STR_LG, CP_LoadGame},
-        {0, STR_SG, CP_SaveGame},
-        {1, STR_OP, CP_Options},
+    {1, STR_NG, CP_NewGame},
+    {1, STR_LG, CP_LoadGame},
+    {0, STR_SG, CP_SaveGame},
+    {1, STR_OP, CP_Options},
 #else
-                                                                                                                                {1, STR_NG, CP_NewGame},
-	{1, STR_SD, CP_Sound},
-	{1, STR_CL, CP_Control},
-	{1, STR_LG, CP_LoadGame},
-	{0, STR_SG, CP_SaveGame},
-	{1, STR_CV, CP_ChangeView},
+    {1, STR_NG, CP_NewGame},
+    {1, STR_SD, CP_Sound},
+    {1, STR_CL, CP_Control},
+    {1, STR_LG, CP_LoadGame},
+    {0, STR_SG, CP_SaveGame},
+    {1, STR_CV, CP_ChangeView},
 #endif
 
 #ifndef GOODTIMES
-                                                                                                                                #ifndef SPEAR
+#ifndef SPEAR
 
 #ifdef SPANISH
-	{2, "Ve esto!", CP_ReadThis},
+    {2, "Ve esto!", CP_ReadThis},
 #else
-	{2, "Read This!", CP_ReadThis},
+    {2, "Read This!", CP_ReadThis},
 #endif
 
 #endif
 #endif
-        {1, STR_VS, CP_ViewScores},
-        {1, STR_BD, 0},
-        {1, STR_QT, 0}
+    {1, STR_VS, CP_ViewScores},
+    {1, STR_BD, 0},
+    {1, STR_QT, 0}
 #endif
 };
 
 CP_itemtype SndMenu[] = {
 #ifdef JAPAN
-                                                                                                                                {1, "", 0},
-	{1, "", 0},
-	{1, "", 0},
-	{0, "", 0},
-	{0, "", 0},
-	{1, "", 0},
-	{1, "", 0},
-	{1, "", 0},
-	{0, "", 0},
-	{0, "", 0},
-	{1, "", 0},
-	{1, "", 0},
+    {1, "", 0},
+    {1, "", 0},
+    {1, "", 0},
+    {0, "", 0},
+    {0, "", 0},
+    {1, "", 0},
+    {1, "", 0},
+    {1, "", 0},
+    {0, "", 0},
+    {0, "", 0},
+    {1, "", 0},
+    {1, "", 0},
 #else
-        {1, STR_NONE, 0},
-        {1, STR_PC, 0},
-        {1, STR_ALSB, 0},
-        {0, "", 0},
-        {0, "", 0},
-        {1, STR_NONE, 0},
-        {0, STR_DISNEY, 0},
-        {1, STR_SB, 0},
-        {0, "", 0},
-        {0, "", 0},
-        {1, STR_NONE, 0},
-        {1, STR_ALSB, 0}
+    {1, STR_NONE, 0},
+    {1, STR_PC, 0},
+    {1, STR_ALSB, 0},
+    {0, "", 0},
+    {0, "", 0},
+    {1, STR_NONE, 0},
+    {0, STR_DISNEY, 0},
+    {1, STR_SB, 0},
+    {0, "", 0},
+    {0, "", 0},
+    {1, STR_NONE, 0},
+    {1, STR_ALSB, 0}
 #endif
 };
 
 #ifdef JAPAN
-                                                                                                                        enum
+enum
 {
-	CTL_MOUSEENABLE,
-	CTL_JOYENABLE,
-	CTL_JOY2BUTTONUNKNOWN,
-	CTL_GAMEPADUNKONWN,
-	CTL_MOUSESENS,
-	CTL_CUSTOMIZE
+    CTL_MOUSEENABLE,
+    CTL_JOYENABLE,
+    CTL_JOY2BUTTONUNKNOWN,
+    CTL_GAMEPADUNKONWN,
+    CTL_MOUSESENS,
+    CTL_CUSTOMIZE
 };
 #else
 #ifdef USE_MODERN_OPTIONS
-enum {
+enum
+{
     CTL_MOUSEENABLE,
     CTL_JOYENABLE,
     CTL_ALWAYSRUN,
@@ -153,7 +154,8 @@ enum {
     CTL_KEYBOARDOPTIONS,
     CTL_JOYSTICKOPTIONS
 };
-enum {
+enum
+{
     CTL_MOUSE_RUN,
     CTL_MOUSE_OPEN,
     CTL_MOUSE_FIRE,
@@ -162,7 +164,8 @@ enum {
     CTL_MOUSEMOVEMENT,
     CTL_MOUSESENS
 };
-enum {
+enum
+{
     CTL_KB_MOVE_FWRD,
     CTL_KB_MOVE_BWRD,
     CTL_KB_MOVE_LEFT,
@@ -172,7 +175,8 @@ enum {
     CTL_SPACE_KB_MOVE,
     CTL_ACTIONKEYS
 };
-enum {
+enum
+{
     CTL_KB_ACTION_RUN,
     CTL_KB_ACTION_OPEN,
     CTL_KB_ACTION_FIRE,
@@ -180,14 +184,16 @@ enum {
     CTL_SPACE_KB_ACTION,
     CTL_MOVEMENTKEYS
 };
-enum {
+enum
+{
     CTL_JOYSTICK_RUN,
     CTL_JOYSTICK_OPEN,
     CTL_JOYSTICK_FIRE,
     CTL_JOYSTICK_STRAFE
 };
 #ifdef SHOW_CUSTOM_CONTROLS
-enum {
+enum
+{
     CTL_ADV_1,
     CTL_ADV_2,
     CTL_ADV_3,
@@ -201,12 +207,12 @@ enum {
 };
 #endif
 #else
-                                                                                                                        enum
+enum
 {
-	CTL_MOUSEENABLE,
-	CTL_MOUSESENS,
-	CTL_JOYENABLE,
-	CTL_CUSTOMIZE
+    CTL_MOUSEENABLE,
+    CTL_MOUSESENS,
+    CTL_JOYENABLE,
+    CTL_CUSTOMIZE
 };
 #endif
 
@@ -214,27 +220,27 @@ enum {
 
 CP_itemtype CtlMenu[] = {
 #ifdef JAPAN
-                                                                                                                                {0, "", 0},
-	{0, "", 0},
-	{0, "", 0},
-	{0, "", 0},
-	{0, "", MouseSensitivity},
-	{1, "", CustomControls}
+    {0, "", 0},
+    {0, "", 0},
+    {0, "", 0},
+    {0, "", 0},
+    {0, "", MouseSensitivity},
+    {1, "", CustomControls}
 #else
-        {0, STR_MOUSEEN, 0},
+    {0, STR_MOUSEEN, 0},
 #ifndef USE_MODERN_OPTIONS
-                                                                                                                                {0, STR_SENS, MouseSensitivity},
-	{0, STR_JOYEN, 0},
-	{1, STR_CUSTOM, CustomControls}
+    {0, STR_SENS, MouseSensitivity},
+    {0, STR_JOYEN, 0},
+    {1, STR_CUSTOM, CustomControls}
 #else
-        {0, STR_JOYEN, 0},
-        {1, STR_ALWAYS_RUN, 0},
-        {0, "", 0},
-        {1, STR_OP_MOUSE, CP_MouseCtl},
-        {1, STR_OP_KEYBOARD, CP_KeyboardMoveCtl},
-        {1, STR_OP_JOYSTICK, CP_JoystickCtl},
+    {0, STR_JOYEN, 0},
+    {1, STR_ALWAYS_RUN, 0},
+    {0, "", 0},
+    {1, STR_OP_MOUSE, CP_MouseCtl},
+    {1, STR_OP_KEYBOARD, CP_KeyboardMoveCtl},
+    {1, STR_OP_JOYSTICK, CP_JoystickCtl},
 #ifdef SHOW_CUSTOM_CONTROLS
-        {1, STR_CUS_CONTROLS, CP_CustomCtl}
+    {1, STR_CUS_CONTROLS, CP_CustomCtl}
 #endif
 #endif
 #endif
@@ -243,82 +249,82 @@ CP_itemtype CtlMenu[] = {
 #ifndef SPEAR
 CP_itemtype NewEmenu[] = {
 #ifdef JAPAN
-                                                                                                                                #ifdef JAPDEMO
-	{1, "", 0},
-	{0, "", 0},
-	{0, "", 0},
-	{0, "", 0},
-	{0, "", 0},
-	{0, "", 0},
-	{0, "", 0},
-	{0, "", 0},
-	{0, "", 0},
-	{0, "", 0},
-	{0, "", 0},
-	{0, "", 0},
+#ifdef JAPDEMO
+    {1, "", 0},
+    {0, "", 0},
+    {0, "", 0},
+    {0, "", 0},
+    {0, "", 0},
+    {0, "", 0},
+    {0, "", 0},
+    {0, "", 0},
+    {0, "", 0},
+    {0, "", 0},
+    {0, "", 0},
+    {0, "", 0},
 #else
-	{1, "", 0},
-	{0, "", 0},
-	{1, "", 0},
-	{0, "", 0},
-	{1, "", 0},
-	{0, "", 0},
-	{1, "", 0},
-	{0, "", 0},
-	{1, "", 0},
-	{0, "", 0},
-	{1, "", 0},
-	{0, "", 0}
+    {1, "", 0},
+    {0, "", 0},
+    {1, "", 0},
+    {0, "", 0},
+    {1, "", 0},
+    {0, "", 0},
+    {1, "", 0},
+    {0, "", 0},
+    {1, "", 0},
+    {0, "", 0},
+    {1, "", 0},
+    {0, "", 0}
 #endif
 #else
 #ifdef SPANISH
-                                                                                                                                {1, "Episodio 1\n"
-		"Fuga desde Wolfenstein",
-	 0},
-	{0, "", 0},
-	{3, "Episodio 2\n"
-		"Operacion Eisenfaust",
-	 0},
-	{0, "", 0},
-	{3, "Episodio 3\n"
-		"Muere, Fuhrer, Muere!",
-	 0},
-	{0, "", 0},
-	{3, "Episodio 4\n"
-		"Un Negro Secreto",
-	 0},
-	{0, "", 0},
-	{3, "Episodio 5\n"
-		"Huellas del Loco",
-	 0},
-	{0, "", 0},
-	{3, "Episodio 6\n"
-		"Confrontacion",
-	 0}
+    {1, "Episodio 1\n"
+        "Fuga desde Wolfenstein",
+     0},
+    {0, "", 0},
+    {3, "Episodio 2\n"
+        "Operacion Eisenfaust",
+     0},
+    {0, "", 0},
+    {3, "Episodio 3\n"
+        "Muere, Fuhrer, Muere!",
+     0},
+    {0, "", 0},
+    {3, "Episodio 4\n"
+        "Un Negro Secreto",
+     0},
+    {0, "", 0},
+    {3, "Episodio 5\n"
+        "Huellas del Loco",
+     0},
+    {0, "", 0},
+    {3, "Episodio 6\n"
+        "Confrontacion",
+     0}
 #else
-        {1, "Episode 1\n"
-            "Escape from Wolfenstein",
-         0},
-        {0, "", 0},
-        {3, "Episode 2\n"
-            "Operation: Eisenfaust",
-         0},
-        {0, "", 0},
-        {3, "Episode 3\n"
-            "Die, Fuhrer, Die!",
-         0},
-        {0, "", 0},
-        {3, "Episode 4\n"
-            "A Dark Secret",
-         0},
-        {0, "", 0},
-        {3, "Episode 5\n"
-            "Trail of the Madman",
-         0},
-        {0, "", 0},
-        {3, "Episode 6\n"
-            "Confrontation",
-         0}
+    {1, "Episode 1\n"
+        "Escape from Wolfenstein",
+     0},
+    {0, "", 0},
+    {3, "Episode 2\n"
+        "Operation: Eisenfaust",
+     0},
+    {0, "", 0},
+    {3, "Episode 3\n"
+        "Die, Fuhrer, Die!",
+     0},
+    {0, "", 0},
+    {3, "Episode 4\n"
+        "A Dark Secret",
+     0},
+    {0, "", 0},
+    {3, "Episode 5\n"
+        "Trail of the Madman",
+     0},
+    {0, "", 0},
+    {3, "Episode 6\n"
+        "Confrontation",
+     0}
 #endif
 #endif
 };
@@ -326,151 +332,151 @@ CP_itemtype NewEmenu[] = {
 
 CP_itemtype NewMenu[] = {
 #ifdef JAPAN
-                                                                                                                                {1, "", 0},
-	{1, "", 0},
-	{1, "", 0},
-	{1, "", 0}
+    {1, "", 0},
+    {1, "", 0},
+    {1, "", 0},
+    {1, "", 0}
 #else
-        {1, STR_DADDY, 0},
-        {1, STR_HURTME, 0},
-        {1, STR_BRINGEM, 0},
-        {1, STR_DEATH, 0}
+    {1, STR_DADDY, 0},
+    {1, STR_HURTME, 0},
+    {1, STR_BRINGEM, 0},
+    {1, STR_DEATH, 0}
 #endif
 };
 
 CP_itemtype LSMenu[] = {
-        {1, "", 0},
-        {1, "", 0},
-        {1, "", 0},
-        {1, "", 0},
-        {1, "", 0},
-        {1, "", 0},
-        {1, "", 0},
-        {1, "", 0},
-        {1, "", 0},
-        {1, "", 0}};
+    {1, "", 0},
+    {1, "", 0},
+    {1, "", 0},
+    {1, "", 0},
+    {1, "", 0},
+    {1, "", 0},
+    {1, "", 0},
+    {1, "", 0},
+    {1, "", 0},
+    {1, "", 0}};
 
 CP_itemtype CusMenu[] = {
-        {1, "", 0},
-        {0, "", 0},
-        {0, "", 0},
-        {1, "", 0},
-        {0, "", 0},
-        {0, "", 0},
-        {1, "", 0},
-        {0, "", 0},
-        {1, "", 0}};
+    {1, "", 0},
+    {0, "", 0},
+    {0, "", 0},
+    {1, "", 0},
+    {0, "", 0},
+    {0, "", 0},
+    {1, "", 0},
+    {0, "", 0},
+    {1, "", 0}};
 
 #ifdef USE_MODERN_OPTIONS
 CP_itemtype CtlMouseMenu[] = {
-        {1, STR_CRUN,          0},
-        {1, STR_COPEN,         0},
-        {1, STR_CFIRE,         0},
-        {1, STR_CSTRAFE,       0},
-        {0, "",                0},
-        {1, STR_MOUSEMOVEMENT, 0},
-        {1, STR_SENS,          MouseSensitivity}};
+    {1, STR_CRUN, 0},
+    {1, STR_COPEN, 0},
+    {1, STR_CFIRE, 0},
+    {1, STR_CSTRAFE, 0},
+    {0, "", 0},
+    {1, STR_MOUSEMOVEMENT, 0},
+    {1, STR_SENS, MouseSensitivity}};
 
 CP_itemtype CtlKeyboardMoveMenu[] = {
-        {1, STR_FRWD,        0},
-        {1, STR_BKWD,        0},
-        {1, STR_LEFT,        0},
-        {1, STR_RIGHT,       0},
-        {1, STR_STF_LEFT,    0},
-        {1, STR_STF_RIGHT,   0},
-        {0, "",              0},
-        {1, STR_ACTION_KEYS, CP_KeyboardActionCtl}};
+    {1, STR_FRWD, 0},
+    {1, STR_BKWD, 0},
+    {1, STR_LEFT, 0},
+    {1, STR_RIGHT, 0},
+    {1, STR_STF_LEFT, 0},
+    {1, STR_STF_RIGHT, 0},
+    {0, "", 0},
+    {1, STR_ACTION_KEYS, CP_KeyboardActionCtl}};
 
 CP_itemtype CtlKeyboardActionMenu[] = {
-        {1, STR_CRUN,          0},
-        {1, STR_COPEN,         0},
-        {1, STR_CFIRE,         0},
-        {1, STR_CSTRAFE,       0},
-        {0, "",                0},
-        {1, STR_MOVEMENT_KEYS, CP_KeyboardMoveCtl}};
+    {1, STR_CRUN, 0},
+    {1, STR_COPEN, 0},
+    {1, STR_CFIRE, 0},
+    {1, STR_CSTRAFE, 0},
+    {0, "", 0},
+    {1, STR_MOVEMENT_KEYS, CP_KeyboardMoveCtl}};
 
 CP_itemtype CtlJoystickMenu[] = {
-        {1, STR_CRUN,    0},
-        {1, STR_COPEN,   0},
-        {1, STR_CFIRE,   0},
-        {1, STR_CSTRAFE, 0}};
+    {1, STR_CRUN, 0},
+    {1, STR_COPEN, 0},
+    {1, STR_CFIRE, 0},
+    {1, STR_CSTRAFE, 0}};
 
 #ifdef SHOW_CUSTOM_CONTROLS
 CP_itemtype CusCtlMenu[] = {
-        {1, STR_CUS_CTL_1,  0},
-        {1, STR_CUS_CTL_2,  0},
-        {1, STR_CUS_CTL_3,  0},
-        {1, STR_CUS_CTL_4,  0},
-        {1, STR_CUS_CTL_5,  0},
-        {1, STR_CUS_CTL_6,  0},
-        {1, STR_CUS_CTL_7,  0},
-        {1, STR_CUS_CTL_8,  0},
-        {1, STR_CUS_CTL_9,  0},
-        {1, STR_CUS_CTL_10, 0}};
+    {1, STR_CUS_CTL_1, 0},
+    {1, STR_CUS_CTL_2, 0},
+    {1, STR_CUS_CTL_3, 0},
+    {1, STR_CUS_CTL_4, 0},
+    {1, STR_CUS_CTL_5, 0},
+    {1, STR_CUS_CTL_6, 0},
+    {1, STR_CUS_CTL_7, 0},
+    {1, STR_CUS_CTL_8, 0},
+    {1, STR_CUS_CTL_9, 0},
+    {1, STR_CUS_CTL_10, 0}};
 #endif
 #else
-                                                                                                                        CP_itemtype CtlMouseMenu[] = {
-	{1, STR_CRUN, 0},
-	{1, STR_COPEN, 0},
-	{1, STR_CFIRE, 0},
-	{1, STR_CSTRAFE, 0},
-	{0, "", 0},
-	{1, STR_SENS, MouseSensitivity}};
+CP_itemtype CtlMouseMenu[] = {
+    {1, STR_CRUN, 0},
+    {1, STR_COPEN, 0},
+    {1, STR_CFIRE, 0},
+    {1, STR_CSTRAFE, 0},
+    {0, "", 0},
+    {1, STR_SENS, MouseSensitivity}};
 #endif
 
 CP_itemtype OptMenu[] = {
 #ifdef JAPAN
-                                                                                                                                {0, "", 0},
-	{0, "", 0},
-	{0, "", 0},
-	{0, "", 0},
-	{0, "", MouseSensitivity},
-	{1, "", CustomControls}
+    {0, "", 0},
+    {0, "", 0},
+    {0, "", 0},
+    {0, "", 0},
+    {0, "", MouseSensitivity},
+    {1, "", CustomControls}
 #else
-        {1, STR_OP_SND, CP_Sound},
-        {1, STR_OP_CTL, CP_Control},
+    {1, STR_OP_SND, CP_Sound},
+    {1, STR_OP_CTL, CP_Control},
 #ifdef SHOW_GAME_OPTIONS
-        {1, STR_CV, CP_ChangeView},
-        {1, STR_OP_GAME, 0}
+    {1, STR_CV, CP_ChangeView},
+    {1, STR_OP_GAME, 0}
 #else
-        {1, STR_CV, CP_ChangeView}
+    {1, STR_CV, CP_ChangeView}
 #endif
 #endif
 };
 
 // CP_iteminfo struct format: short x, y, amount, curpos, indent;
 CP_iteminfo MainItems = {MENU_X, MENU_Y, lengthof(MainMenu), STARTITEM, 24},
-        OptItems = {OPT_X, OPT_Y, lengthof(OptMenu), 0, 32},
+            OptItems = {OPT_X, OPT_Y, lengthof(OptMenu), 0, 32},
 
 #ifdef USE_MODERN_OPTIONS
-        CusMouseItems = {OPT_MOUSE_X, OPT_MOUSE_Y, lengthof(CtlMouseMenu), 0, 54},
-        CusKeyboardMoveItems = {OPT_KEYBOARD_MOVE_X, OPT_KEYBOARD_MOVE_Y + 4, lengthof(CtlKeyboardMoveMenu), 0, 54},
-        CusKeyboardActionItems = {OPT_KEYBOARD_X, OPT_KEYBOARD_Y, lengthof(CtlKeyboardActionMenu), 0, 54},
-        CusJoystickItems = {OPT_JOYSTICK_X, OPT_JOYSTICK_Y, lengthof(CtlJoystickMenu), 0, 54},
+            CusMouseItems = {OPT_MOUSE_X, OPT_MOUSE_Y, lengthof(CtlMouseMenu), 0, 54},
+            CusKeyboardMoveItems = {OPT_KEYBOARD_MOVE_X, OPT_KEYBOARD_MOVE_Y + 4, lengthof(CtlKeyboardMoveMenu), 0, 54},
+            CusKeyboardActionItems = {OPT_KEYBOARD_X, OPT_KEYBOARD_Y, lengthof(CtlKeyboardActionMenu), 0, 54},
+            CusJoystickItems = {OPT_JOYSTICK_X, OPT_JOYSTICK_Y, lengthof(CtlJoystickMenu), 0, 54},
 #ifdef SHOW_CUSTOM_CONTROLS
-        CusCtlItems = {CUS_CTL_TEXT_X, CUS_CTL_TEXT_Y, lengthof(CusCtlMenu), 0, 54},
+            CusCtlItems = {CUS_CTL_TEXT_X, CUS_CTL_TEXT_Y, lengthof(CusCtlMenu), 0, 54},
 #endif
 #endif
-        SndItems = {SM_X, SM_Y1, lengthof(SndMenu), 0, 52},
-        LSItems = {LSM_X, LSM_Y, lengthof(LSMenu), 0, 24},
-        CtlItems = {CTL_X, CTL_Y, lengthof(CtlMenu), -1, 56},
-        CusItems = {8, CST_Y + 13 * 2, lengthof(CusMenu), -1, 0},
+            SndItems = {SM_X, SM_Y1, lengthof(SndMenu), 0, 52},
+            LSItems = {LSM_X, LSM_Y, lengthof(LSMenu), 0, 24},
+            CtlItems = {CTL_X, CTL_Y, lengthof(CtlMenu), -1, 56},
+            CusItems = {8, CST_Y + 13 * 2, lengthof(CusMenu), -1, 0},
 #ifndef SPEAR
-        NewEitems = {NE_X, NE_Y, lengthof(NewEmenu), 0, 88},
+            NewEitems = {NE_X, NE_Y, lengthof(NewEmenu), 0, 88},
 #endif
-        NewItems = {NM_X, NM_Y, lengthof(NewMenu), 2, 24};
+            NewItems = {NM_X, NM_Y, lengthof(NewMenu), 2, 24};
 
 int color_hlite[] = {
-        DEACTIVE,
-        HIGHLIGHT,
-        READHCOLOR,
-        0x67};
+    DEACTIVE,
+    HIGHLIGHT,
+    READHCOLOR,
+    0x67};
 
 int color_norml[] = {
-        DEACTIVE,
-        TEXTCOLOR,
-        READCOLOR,
-        0x6b};
+    DEACTIVE,
+    TEXTCOLOR,
+    READCOLOR,
+    0x6b};
 
 int EpisodeSelect[6] = {1};
 
@@ -595,56 +601,60 @@ static byte *ExtScanNames[] =   // Names corresponding to ExtScanCodes
 // Wolfenstein Control Panel!  Ta Da!
 //
 ////////////////////////////////////////////////////////////////////
-void US_ControlPanel(ScanCode scancode) {
+void US_ControlPanel(ScanCode scancode)
+{
     int which;
 
 #ifdef _arch_dreamcast
     DC_StatusClearLCD();
 #endif
 
-    if (ingame) {
+    if (ingame)
+    {
         if (CP_CheckQuick(scancode))
             return;
         lastgamemusicoffset = StartCPMusic(MENUSONG);
-    } else
+    }
+    else
         StartCPMusic(MENUSONG);
     SetupControlPanel();
 
     //
     // F-KEYS FROM WITHIN GAME
     //
-    switch (scancode) {
-        case sc_F1:
+    switch (scancode)
+    {
+    case sc_F1:
 #if defined(SPEAR) || defined(GOODTIMES)
-            BossKey();
+        BossKey();
 #else
-            HelpScreens();
+        HelpScreens();
 #endif
-            goto finishup;
+        goto finishup;
 
-        case sc_F2:
-            CP_SaveGame(0);
-            goto finishup;
+    case sc_F2:
+        CP_SaveGame(0);
+        goto finishup;
 
-        case sc_F3:
-            CP_LoadGame(0);
-            goto finishup;
+    case sc_F3:
+        CP_LoadGame(0);
+        goto finishup;
 
-        case sc_F4:
-            CP_Sound(0);
-            goto finishup;
+    case sc_F4:
+        CP_Sound(0);
+        goto finishup;
 
-        case sc_F5:
-            CP_ChangeView(0);
-            goto finishup;
+    case sc_F5:
+        CP_ChangeView(0);
+        goto finishup;
 
-        case sc_F6:
-            CP_Control(0);
-            goto finishup;
+    case sc_F6:
+        CP_Control(0);
+        goto finishup;
 
-        finishup:
-            CleanupControlPanel();
-            return;
+    finishup:
+        CleanupControlPanel();
+        return;
     }
 
     DrawMainMenu();
@@ -654,73 +664,79 @@ void US_ControlPanel(ScanCode scancode) {
     //
     // MAIN MENU LOOP
     //
-    do {
+    do
+    {
         which = HandleMenu(&MainItems, &MainMenu[0], NULL);
 
 #ifdef SPEAR
-                                                                                                                                #ifndef SPEARDEMO
-		IN_ProcessEvents();
+#ifndef SPEARDEMO
+        IN_ProcessEvents();
 
-		//
-		// EASTER EGG FOR SPEAR OF DESTINY!
-		//
-		if (Keyboard(sc_I) && Keyboard(sc_D))
-		{
-			VW_FadeOut();
-			StartCPMusic(XJAZNAZI_MUS);
-			ClearMemory();
+        //
+        // EASTER EGG FOR SPEAR OF DESTINY!
+        //
+        if (Keyboard(sc_I) && Keyboard(sc_D))
+        {
+            VW_FadeOut();
+            StartCPMusic(XJAZNAZI_MUS);
+            ClearMemory();
 
-			VWB_DrawPic(0, 0, IDGUYS1PIC);
-			VWB_DrawPic(0, 80, IDGUYS2PIC);
+            VWB_DrawPic(0, 0, IDGUYS1PIC);
+            VWB_DrawPic(0, 80, IDGUYS2PIC);
 
-			VW_UpdateScreen();
+            VW_UpdateScreen();
 
-			SDL_Color pal[256];
-			VL_ConvertPalette(grsegs[IDGUYSPALETTE], pal, 256);
-			VL_FadeIn(0, 255, pal, 30);
+            SDL_Color pal[256];
+            VL_ConvertPalette(grsegs[IDGUYSPALETTE], pal, 256);
+            VL_FadeIn(0, 255, pal, 30);
 
-			while (Keyboard(sc_I) || Keyboard(sc_D))
-				IN_WaitAndProcessEvents();
-			IN_ClearKeysDown();
-			IN_Ack();
+            while (Keyboard(sc_I) || Keyboard(sc_D))
+                IN_WaitAndProcessEvents();
+            IN_ClearKeysDown();
+            IN_Ack();
 
-			VW_FadeOut();
+            VW_FadeOut();
 
-			DrawMainMenu();
-			StartCPMusic(MENUSONG);
-			MenuFadeIn();
-		}
+            DrawMainMenu();
+            StartCPMusic(MENUSONG);
+            MenuFadeIn();
+        }
 #endif
 #endif
 
-        switch (which) {
-            case viewscores:
-                if (MainMenu[viewscores].routine == NULL) {
-                    if (CP_EndGame(0))
-                        StartGame = 1;
-                } else {
-                    DrawMainMenu();
-                    MenuFadeIn();
-                }
-                break;
+        switch (which)
+        {
+        case viewscores:
+            if (MainMenu[viewscores].routine == NULL)
+            {
+                if (CP_EndGame(0))
+                    StartGame = 1;
+            }
+            else
+            {
+                DrawMainMenu();
+                MenuFadeIn();
+            }
+            break;
 
-            case backtodemo:
-                StartGame = 1;
-                if (!ingame)
-                    StartCPMusic(INTROSONG);
-                VL_FadeOut(0, 255, 0, 0, 0, 10);
-                break;
+        case backtodemo:
+            StartGame = 1;
+            if (!ingame)
+                StartCPMusic(INTROSONG);
+            VL_FadeOut(0, 255, 0, 0, 0, 10);
+            break;
 
-            case -1:
-            case quit:
-                CP_Quit(0);
-                break;
+        case -1:
+        case quit:
+            CP_Quit(0);
+            break;
 
-            default:
-                if (!StartGame) {
-                    DrawMainMenu();
-                    MenuFadeIn();
-                }
+        default:
+            if (!StartGame)
+            {
+                DrawMainMenu();
+                MenuFadeIn();
+            }
         }
 
         //
@@ -740,7 +756,8 @@ void US_ControlPanel(ScanCode scancode) {
         EnableEndGameMenuItem();
 }
 
-void EnableEndGameMenuItem() {
+void EnableEndGameMenuItem()
+{
     MainMenu[viewscores].routine = NULL;
 #ifndef JAPAN
     strcpy(MainMenu[viewscores].string, STR_EG);
@@ -751,7 +768,8 @@ void EnableEndGameMenuItem() {
 //
 // DRAW MAIN MENU SCREEN
 //
-void DrawMainMenu(void) {
+void DrawMainMenu(void)
+{
 #ifdef JAPAN
     VWB_DrawPic(0, 0, S_OPTIONSPIC);
 #else
@@ -771,7 +789,8 @@ void DrawMainMenu(void) {
     //
     // CHANGE "GAME" AND "DEMO"
     //
-    if (ingame) {
+    if (ingame)
+    {
 #ifndef JAPAN
 
 #ifdef SPANISH
@@ -781,11 +800,13 @@ void DrawMainMenu(void) {
 #endif
 
 #else
-                                                                                                                                VWB_DrawPic(12 * 8, 20 * 8, C_MRETGAMEPIC);
-		VWB_DrawPic(12 * 8, 18 * 8, C_MENDGAMEPIC);
+        VWB_DrawPic(12 * 8, 20 * 8, C_MRETGAMEPIC);
+        VWB_DrawPic(12 * 8, 18 * 8, C_MENDGAMEPIC);
 #endif
         MainMenu[backtodemo].active = 2;
-    } else {
+    }
+    else
+    {
 #ifndef JAPAN
 #ifdef SPANISH
         strcpy(&MainMenu[backtodemo].string, STR_BD);
@@ -793,8 +814,8 @@ void DrawMainMenu(void) {
         strcpy(&MainMenu[backtodemo].string[8], STR_DEMO);
 #endif
 #else
-                                                                                                                                VWB_DrawPic(12 * 8, 20 * 8, C_MRETDEMOPIC);
-		VWB_DrawPic(12 * 8, 18 * 8, C_MSCORESPIC);
+        VWB_DrawPic(12 * 8, 20 * 8, C_MRETDEMOPIC);
+        VWB_DrawPic(12 * 8, 18 * 8, C_MSCORESPIC);
 #endif
         MainMenu[backtodemo].active = 1;
     }
@@ -804,7 +825,7 @@ void DrawMainMenu(void) {
 }
 
 #ifndef GOODTIMES
-                                                                                                                        #ifndef SPEAR
+#ifndef SPEAR
 ////////////////////////////////////////////////////////////////////
 //
 // READ THIS!
@@ -812,10 +833,10 @@ void DrawMainMenu(void) {
 ////////////////////////////////////////////////////////////////////
 int CP_ReadThis(int blank)
 {
-	StartCPMusic(CORNER_MUS);
-	HelpScreens();
-	StartCPMusic(MENUSONG);
-	return true;
+    StartCPMusic(CORNER_MUS);
+    HelpScreens();
+    StartCPMusic(MENUSONG);
+    return true;
 }
 #endif
 #endif
@@ -827,7 +848,8 @@ int CP_ReadThis(int blank)
 // BOSS KEY
 //
 ////////////////////////////////////////////////////////////////////
-void BossKey(void) {
+void BossKey(void)
+{
     int i, lastBlinkTime;
     ControlInfo ci;
 
@@ -847,13 +869,18 @@ void BossKey(void) {
     i = 0;
     lastBlinkTime = GetTimeCount();
 
-    do {
+    do
+    {
         IN_ProcessEvents();
 
-        if (GetTimeCount() - lastBlinkTime > 7) {
-            if (!i) {
+        if (GetTimeCount() - lastBlinkTime > 7)
+        {
+            if (!i)
+            {
                 SETFONTCOLOR(7, BLACK);
-            } else {
+            }
+            else
+            {
                 SETFONTCOLOR(BLACK, BLACK);
             }
 
@@ -863,7 +890,8 @@ void BossKey(void) {
 
             i ^= 1;
             lastBlinkTime = GetTimeCount();
-        } else
+        }
+        else
             SDL_Delay(5);
 
     } while (LastScan != sc_Escape);
@@ -878,136 +906,144 @@ void BossKey(void) {
 // CHECK QUICK-KEYS & QUIT (WHILE IN A GAME)
 //
 ////////////////////////////////////////////////////////////////////
-int CP_CheckQuick(ScanCode scancode) {
-    switch (scancode) {
-        //
-        // END GAME
-        //
-        case sc_F7:
-            WindowH = 160;
+int CP_CheckQuick(ScanCode scancode)
+{
+    switch (scancode)
+    {
+    //
+    // END GAME
+    //
+    case sc_F7:
+        WindowH = 160;
 #ifdef JAPAN
-            if (GetYorN(7, 8, C_JAPQUITPIC))
+        if (GetYorN(7, 8, C_JAPQUITPIC))
 #else
-            if (Confirm(ENDGAMESTR))
+        if (Confirm(ENDGAMESTR))
 #endif
-            {
-                playstate = ex_died;
-                killerobj = NULL;
-                pickquick = gamestate.lives = 0;
-            }
+        {
+            playstate = ex_died;
+            killerobj = NULL;
+            pickquick = gamestate.lives = 0;
+        }
 
-            WindowH = 200;
+        WindowH = 200;
+        fontnumber = 0;
+        MainMenu[savegame].active = 0;
+        return 1;
+
+        //
+        // QUICKSAVE
+        //
+    case sc_F8:
+        if (SaveGamesAvail[LSItems.curpos] && pickquick)
+        {
+            fontnumber = 1;
+            Message(STR_SAVING "...");
+            CP_SaveGame(1);
             fontnumber = 0;
-            MainMenu[savegame].active = 0;
-            return 1;
+        }
+        else
+        {
+            VW_FadeOut();
+            if (screenHeight % 200 != 0)
+                VL_ClearScreen(0);
 
-            //
-            // QUICKSAVE
-            //
-        case sc_F8:
-            if (SaveGamesAvail[LSItems.curpos] && pickquick) {
-                fontnumber = 1;
-                Message(STR_SAVING "...");
-                CP_SaveGame(1);
-                fontnumber = 0;
-            } else {
-                VW_FadeOut();
-                if (screenHeight % 200 != 0)
-                    VL_ClearScreen(0);
+            lastgamemusicoffset = StartCPMusic(MENUSONG);
+            pickquick = CP_SaveGame(0);
 
-                lastgamemusicoffset = StartCPMusic(MENUSONG);
-                pickquick = CP_SaveGame(0);
+            SETFONTCOLOR(0, 15);
+            IN_ClearKeysDown();
+            VW_FadeOut();
+            if (viewsize != 21)
+                DrawPlayScreen();
 
-                SETFONTCOLOR(0, 15);
-                IN_ClearKeysDown();
-                VW_FadeOut();
-                if (viewsize != 21)
-                    DrawPlayScreen();
+            if (!startgame && !loadedgame)
+                ContinueMusic(lastgamemusicoffset);
 
-                if (!startgame && !loadedgame)
-                    ContinueMusic(lastgamemusicoffset);
+            if (loadedgame)
+                playstate = ex_abort;
+            lasttimecount = GetTimeCount();
 
-                if (loadedgame)
-                    playstate = ex_abort;
-                lasttimecount = GetTimeCount();
+            if (MousePresent && IN_IsInputGrabbed())
+                IN_CenterMouse(); // Clear accumulated mouse movement
+        }
+        return 1;
 
-                if (MousePresent && IN_IsInputGrabbed())
-                    IN_CenterMouse(); // Clear accumulated mouse movement
-            }
-            return 1;
+        //
+        // QUICKLOAD
+        //
+    case sc_F9:
+        if (SaveGamesAvail[LSItems.curpos] && pickquick)
+        {
+            char string[100] = STR_LGC;
 
-            //
-            // QUICKLOAD
-            //
-        case sc_F9:
-            if (SaveGamesAvail[LSItems.curpos] && pickquick) {
-                char string[100] = STR_LGC;
+            fontnumber = 1;
 
-                fontnumber = 1;
+            strcat(string, SaveGameNames[LSItems.curpos]);
+            strcat(string, "\"?");
 
-                strcat(string, SaveGameNames[LSItems.curpos]);
-                strcat(string, "\"?");
+            if (Confirm(string))
+                CP_LoadGame(1);
 
-                if (Confirm(string))
-                    CP_LoadGame(1);
+            fontnumber = 0;
+        }
+        else
+        {
+            VW_FadeOut();
+            if (screenHeight % 200 != 0)
+                VL_ClearScreen(0);
 
-                fontnumber = 0;
-            } else {
-                VW_FadeOut();
-                if (screenHeight % 200 != 0)
-                    VL_ClearScreen(0);
+            lastgamemusicoffset = StartCPMusic(MENUSONG);
+            pickquick = CP_LoadGame(0); // loads lastgamemusicoffs
 
-                lastgamemusicoffset = StartCPMusic(MENUSONG);
-                pickquick = CP_LoadGame(0); // loads lastgamemusicoffs
+            SETFONTCOLOR(0, 15);
+            IN_ClearKeysDown();
+            VW_FadeOut();
+            if (viewsize != 21)
+                DrawPlayScreen();
 
-                SETFONTCOLOR(0, 15);
-                IN_ClearKeysDown();
-                VW_FadeOut();
-                if (viewsize != 21)
-                    DrawPlayScreen();
+            if (!startgame && !loadedgame)
+                ContinueMusic(lastgamemusicoffset);
 
-                if (!startgame && !loadedgame)
-                    ContinueMusic(lastgamemusicoffset);
+            if (loadedgame)
+                playstate = ex_abort;
 
-                if (loadedgame)
-                    playstate = ex_abort;
+            lasttimecount = GetTimeCount();
 
-                lasttimecount = GetTimeCount();
+            if (MousePresent && IN_IsInputGrabbed())
+                IN_CenterMouse(); // Clear accumulated mouse movement
+        }
+        return 1;
 
-                if (MousePresent && IN_IsInputGrabbed())
-                    IN_CenterMouse(); // Clear accumulated mouse movement
-            }
-            return 1;
-
-            //
-            // QUIT
-            //
-        case sc_F10:
-            WindowX = WindowY = 0;
-            WindowW = 320;
-            WindowH = 160;
+        //
+        // QUIT
+        //
+    case sc_F10:
+        WindowX = WindowY = 0;
+        WindowW = 320;
+        WindowH = 160;
 #ifdef JAPAN
-            if (GetYorN(7, 8, C_QUITMSGPIC))
+        if (GetYorN(7, 8, C_QUITMSGPIC))
 #else
 #ifdef SPANISH
-            if (Confirm(ENDGAMESTR))
+        if (Confirm(ENDGAMESTR))
 #else
-            if (Confirm(endStrings[US_RndT() & 0x7 + (US_RndT() & 1)]))
+        if (Confirm(endStrings[US_RndT() & 0x7 + (US_RndT() & 1)]))
 #endif
 #endif
-            {
-                VW_UpdateScreen();
-                SD_MusicOff();
-                SD_StopSound();
-                MenuFadeOut();
+        {
+            VW_UpdateScreen();
+            SD_MusicOff();
+            SD_StopSound();
+            MenuFadeOut();
 
-                Quit(NULL);
-            }
+            Quit(NULL);
+        }
 
-            DrawPlayBorder();
-            WindowH = 200;
-            fontnumber = 0;
-            return 1;
+        DrawPlayBorder();
+        WindowH = 200;
+        fontnumber = 0;
+        return 1;
     }
 
     return 0;
@@ -1018,7 +1054,8 @@ int CP_CheckQuick(ScanCode scancode) {
 // END THE CURRENT GAME
 //
 ////////////////////////////////////////////////////////////////////
-int CP_EndGame(int blank) {
+int CP_EndGame(int blank)
+{
     int res;
 #ifdef JAPAN
     res = GetYorN(7, 8, C_JAPQUITPIC);
@@ -1047,7 +1084,8 @@ int CP_EndGame(int blank) {
 // VIEW THE HIGH SCORES
 //
 ////////////////////////////////////////////////////////////////////
-int CP_ViewScores(int blank) {
+int CP_ViewScores(int blank)
+{
     fontnumber = 0;
 
 #ifdef SPEAR
@@ -1074,36 +1112,42 @@ int CP_ViewScores(int blank) {
 // START A NEW GAME
 //
 ////////////////////////////////////////////////////////////////////
-int CP_NewGame(int blank) {
+int CP_NewGame(int blank)
+{
     int which, episode;
 
 #ifndef SPEAR
-    firstpart:
+firstpart:
 
     DrawNewEpisode();
-    do {
+    do
+    {
         which = HandleMenu(&NewEitems, &NewEmenu[0], NULL);
-        switch (which) {
-            case -1:
-                MenuFadeOut();
-                return 0;
+        switch (which)
+        {
+        case -1:
+            MenuFadeOut();
+            return 0;
 
-            default:
-                if (!EpisodeSelect[which / 2]) {
-                    SD_PlaySound(NOWAYSND);
-                    Message("Please select \"Read This!\"\n"
-                            "from the Options menu to\n"
-                            "find out how to order this\n"
-                            "episode from Apogee.");
-                    IN_ClearKeysDown();
-                    IN_Ack();
-                    DrawNewEpisode();
-                    which = 0;
-                } else {
-                    episode = which / 2;
-                    which = 1;
-                }
-                break;
+        default:
+            if (!EpisodeSelect[which / 2])
+            {
+                SD_PlaySound(NOWAYSND);
+                Message("Please select \"Read This!\"\n"
+                        "from the Options menu to\n"
+                        "find out how to order this\n"
+                        "episode from Apogee.");
+                IN_ClearKeysDown();
+                IN_Ack();
+                DrawNewEpisode();
+                which = 0;
+            }
+            else
+            {
+                episode = which / 2;
+                which = 1;
+            }
+            break;
         }
 
     } while (!which);
@@ -1127,25 +1171,26 @@ int CP_NewGame(int blank) {
     MenuFadeOut();
 
 #else
-                                                                                                                            episode = 0;
+    episode = 0;
 
-	//
-	// ALREADY IN A GAME?
-	//
-	DrawNewGame();
-	if (ingame)
-		if (!Confirm(CURGAME))
-		{
-			MenuFadeOut();
+    //
+    // ALREADY IN A GAME?
+    //
+    DrawNewGame();
+    if (ingame)
+        if (!Confirm(CURGAME))
+        {
+            MenuFadeOut();
 
-			return 0;
-		}
+            return 0;
+        }
 
 #endif
 
     DrawNewGame();
     which = HandleMenu(&NewItems, &NewMenu[0], DrawNewGameDiff);
-    if (which < 0) {
+    if (which < 0)
+    {
         MenuFadeOut();
 #ifndef SPEAR
         goto firstpart;
@@ -1179,7 +1224,8 @@ int CP_NewGame(int blank) {
 //
 // DRAW NEW EPISODE MENU
 //
-void DrawNewEpisode(void) {
+void DrawNewEpisode(void)
+{
     int i;
 
 #ifdef JAPAN
@@ -1216,7 +1262,8 @@ void DrawNewEpisode(void) {
 //
 // DRAW NEW GAME MENU
 //
-void DrawNewGame(void) {
+void DrawNewGame(void)
+{
 #ifdef JAPAN
     VWB_DrawPic(0, 0, S_SKILLPIC);
 #else
@@ -1251,7 +1298,8 @@ void DrawNewGame(void) {
 //
 // DRAW NEW GAME GRAPHIC
 //
-void DrawNewGameDiff(int w) {
+void DrawNewGameDiff(int w)
+{
     VWB_DrawPic(NM_X + 185, NM_Y + 7, w + C_BABYMODEPIC);
 }
 
@@ -1260,91 +1308,101 @@ void DrawNewGameDiff(int w) {
 // HANDLE SOUND MENU
 //
 ////////////////////////////////////////////////////////////////////
-int CP_Sound(int blank) {
+int CP_Sound(int blank)
+{
     int which;
 
     DrawSoundMenu();
     MenuFadeIn();
     WaitKeyUp();
 
-    do {
+    do
+    {
         which = HandleMenu(&SndItems, &SndMenu[0], NULL);
         //
         // HANDLE MENU CHOICES
         //
-        switch (which) {
-            //
-            // SOUND EFFECTS
-            //
-            case 0:
-                if (SoundMode != sdm_Off) {
-                    SD_WaitSoundDone();
-                    SD_SetSoundMode(sdm_Off);
-                    DrawSoundMenu();
-                }
-                break;
-            case 1:
-                if (SoundMode != sdm_PC) {
-                    SD_WaitSoundDone();
-                    SD_SetSoundMode(sdm_PC);
-                    CA_LoadAllSounds();
-                    DrawSoundMenu();
-                    ShootSnd();
-                }
-                break;
-            case 2:
-                if (SoundMode != sdm_AdLib) {
-                    SD_WaitSoundDone();
-                    SD_SetSoundMode(sdm_AdLib);
-                    CA_LoadAllSounds();
-                    DrawSoundMenu();
-                    ShootSnd();
-                }
-                break;
+        switch (which)
+        {
+        //
+        // SOUND EFFECTS
+        //
+        case 0:
+            if (SoundMode != sdm_Off)
+            {
+                SD_WaitSoundDone();
+                SD_SetSoundMode(sdm_Off);
+                DrawSoundMenu();
+            }
+            break;
+        case 1:
+            if (SoundMode != sdm_PC)
+            {
+                SD_WaitSoundDone();
+                SD_SetSoundMode(sdm_PC);
+                CA_LoadAllSounds();
+                DrawSoundMenu();
+                ShootSnd();
+            }
+            break;
+        case 2:
+            if (SoundMode != sdm_AdLib)
+            {
+                SD_WaitSoundDone();
+                SD_SetSoundMode(sdm_AdLib);
+                CA_LoadAllSounds();
+                DrawSoundMenu();
+                ShootSnd();
+            }
+            break;
 
-                //
-                // DIGITIZED SOUND
-                //
-            case 5:
-                if (DigiMode != sds_Off) {
-                    SD_SetDigiDevice(sds_Off);
-                    DrawSoundMenu();
-                }
-                break;
-            case 6:
-                /*                if (DigiMode != sds_SoundSource)
+            //
+            // DIGITIZED SOUND
+            //
+        case 5:
+            if (DigiMode != sds_Off)
+            {
+                SD_SetDigiDevice(sds_Off);
+                DrawSoundMenu();
+            }
+            break;
+        case 6:
+            /*                if (DigiMode != sds_SoundSource)
 							{
 								SD_SetDigiDevice (sds_SoundSource);
 								DrawSoundMenu ();
 								ShootSnd ();
 							}*/
-                break;
-            case 7:
-                if (DigiMode != sds_SoundBlaster) {
-                    SD_SetDigiDevice(sds_SoundBlaster);
-                    DrawSoundMenu();
-                    ShootSnd();
-                }
-                break;
+            break;
+        case 7:
+            if (DigiMode != sds_SoundBlaster)
+            {
+                SD_SetDigiDevice(sds_SoundBlaster);
+                DrawSoundMenu();
+                ShootSnd();
+            }
+            break;
 
-                //
-                // MUSIC
-                //
-            case 10:
-                if (MusicMode != smm_Off) {
-                    SD_SetMusicMode(smm_Off);
-                    DrawSoundMenu();
-                    ShootSnd();
-                }
-                break;
-            case 11:
-                if (MusicMode != smm_AdLib) {
-                    SD_SetMusicMode(smm_AdLib);
-                    DrawSoundMenu();
-                    ShootSnd();
-                    StartCPMusic(MENUSONG);
-                }
-                break;
+            //
+            // MUSIC
+            //
+        case 10:
+            if (MusicMode != smm_Off)
+            {
+                SD_SetMusicMode(smm_Off);
+                DrawSoundMenu();
+                ShootSnd();
+            }
+            break;
+        case 11:
+            if (MusicMode != smm_AdLib)
+            {
+                SD_SetMusicMode(smm_AdLib);
+                DrawSoundMenu();
+                ShootSnd();
+                StartCPMusic(MENUSONG);
+            }
+            break;
         }
     } while (which >= 0);
 
@@ -1357,7 +1415,8 @@ int CP_Sound(int blank) {
 //
 // DRAW THE SOUND MENU
 //
-void DrawSoundMenu(void) {
+void DrawSoundMenu(void)
+{
     int i, on;
 
 #ifdef JAPAN
@@ -1377,7 +1436,8 @@ void DrawSoundMenu(void) {
     //
     // IF NO ADLIB, NON-CHOOSENESS!
     //
-    if (!AdLibPresent && !SoundBlasterPresent) {
+    if (!AdLibPresent && !SoundBlasterPresent)
+    {
         SndMenu[2].active = SndMenu[10].active = SndMenu[11].active = 0;
     }
 
@@ -1398,64 +1458,65 @@ void DrawSoundMenu(void) {
 #ifdef JAPAN
         if (i != 3 && i != 4 && i != 8 && i != 9)
 #else
-            if (SndMenu[i].string[0])
+        if (SndMenu[i].string[0])
 #endif
+        {
+            //
+            // DRAW SELECTED/NOT SELECTED GRAPHIC BUTTONS
+            //
+            on = 0;
+            switch (i)
             {
+            //
+            // SOUND EFFECTS
+            //
+            case 0:
+                if (SoundMode == sdm_Off)
+                    on = 1;
+                break;
+            case 1:
+                if (SoundMode == sdm_PC)
+                    on = 1;
+                break;
+            case 2:
+                if (SoundMode == sdm_AdLib)
+                    on = 1;
+                break;
+
                 //
-                // DRAW SELECTED/NOT SELECTED GRAPHIC BUTTONS
+                // DIGITIZED SOUND
                 //
-                on = 0;
-                switch (i) {
-                    //
-                    // SOUND EFFECTS
-                    //
-                    case 0:
-                        if (SoundMode == sdm_Off)
-                            on = 1;
-                        break;
-                    case 1:
-                        if (SoundMode == sdm_PC)
-                            on = 1;
-                        break;
-                    case 2:
-                        if (SoundMode == sdm_AdLib)
-                            on = 1;
-                        break;
+            case 5:
+                if (DigiMode == sds_Off)
+                    on = 1;
+                break;
+            case 6:
+                //                    if (DigiMode == sds_SoundSource)
+                //                        on = 1;
+                break;
+            case 7:
+                if (DigiMode == sds_SoundBlaster)
+                    on = 1;
+                break;
 
-                        //
-                        // DIGITIZED SOUND
-                        //
-                    case 5:
-                        if (DigiMode == sds_Off)
-                            on = 1;
-                        break;
-                    case 6:
-                        //                    if (DigiMode == sds_SoundSource)
-                        //                        on = 1;
-                        break;
-                    case 7:
-                        if (DigiMode == sds_SoundBlaster)
-                            on = 1;
-                        break;
-
-                        //
-                        // MUSIC
-                        //
-                    case 10:
-                        if (MusicMode == smm_Off)
-                            on = 1;
-                        break;
-                    case 11:
-                        if (MusicMode == smm_AdLib)
-                            on = 1;
-                        break;
-                }
-
-                if (on)
-                    VWB_DrawPic(SM_X + 24, SM_Y1 + i * 13 + 2, C_SELECTEDPIC);
-                else
-                    VWB_DrawPic(SM_X + 24, SM_Y1 + i * 13 + 2, C_NOTSELECTEDPIC);
+                //
+                // MUSIC
+                //
+            case 10:
+                if (MusicMode == smm_Off)
+                    on = 1;
+                break;
+            case 11:
+                if (MusicMode == smm_AdLib)
+                    on = 1;
+                break;
             }
+
+            if (on)
+                VWB_DrawPic(SM_X + 24, SM_Y1 + i * 13 + 2, C_SELECTEDPIC);
+            else
+                VWB_DrawPic(SM_X + 24, SM_Y1 + i * 13 + 2, C_NOTSELECTEDPIC);
+        }
 
     DrawMenuGun(&SndItems);
     VW_UpdateScreen();
@@ -1464,7 +1525,8 @@ void DrawSoundMenu(void) {
 //
 // DRAW LOAD/SAVE IN PROGRESS
 //
-void DrawLSAction(int which) {
+void DrawLSAction(int which)
+{
 #define LSA_X 96
 #define LSA_Y 80
 #define LSA_W 130
@@ -1492,7 +1554,8 @@ void DrawLSAction(int which) {
 // LOAD SAVED GAMES
 //
 ////////////////////////////////////////////////////////////////////
-int CP_LoadGame(int quick) {
+int CP_LoadGame(int quick)
+{
     FILE *file;
     int which, exit = 0;
     char name[13];
@@ -1503,10 +1566,12 @@ int CP_LoadGame(int quick) {
     //
     // QUICKLOAD?
     //
-    if (quick) {
+    if (quick)
+    {
         which = LSItems.curpos;
 
-        if (SaveGamesAvail[which]) {
+        if (SaveGamesAvail[which])
+        {
             name[7] = which + '0';
 
 #ifdef _arch_dreamcast
@@ -1540,9 +1605,11 @@ int CP_LoadGame(int quick) {
 
     DrawLoadSaveScreen(0);
 
-    do {
+    do
+    {
         which = HandleMenu(&LSItems, &LSMenu[0], TrackWhichGame);
-        if (which >= 0 && SaveGamesAvail[which]) {
+        if (which >= 0 && SaveGamesAvail[which])
+        {
             ShootSnd();
             name[7] = which + '0';
 
@@ -1591,7 +1658,8 @@ int CP_LoadGame(int quick) {
 //
 // HIGHLIGHT CURRENT SELECTED ENTRY
 //
-void TrackWhichGame(int w) {
+void TrackWhichGame(int w)
+{
     static int lastgameon = 0;
 
     PrintLSEntry(lastgameon, TEXTCOLOR);
@@ -1604,7 +1672,8 @@ void TrackWhichGame(int w) {
 //
 // DRAW THE LOAD/SAVE SCREEN
 //
-void DrawLoadSaveScreen(int loadsave) {
+void DrawLoadSaveScreen(int loadsave)
+{
 #define DISKX 100
 #define DISKY 0
 
@@ -1634,7 +1703,8 @@ void DrawLoadSaveScreen(int loadsave) {
 //
 // PRINT LOAD/SAVE GAME ENTRY W/BOX OUTLINE
 //
-void PrintLSEntry(int w, int color) {
+void PrintLSEntry(int w, int color)
+{
     SETFONTCOLOR(color, BKGDCOLOR);
     DrawOutline(LSM_X + LSItems.indent, LSM_Y + w * 13, LSM_W - LSItems.indent - 15, 11, color,
                 color);
@@ -1655,7 +1725,8 @@ void PrintLSEntry(int w, int color) {
 // SAVE CURRENT GAME
 //
 ////////////////////////////////////////////////////////////////////
-int CP_SaveGame(int quick) {
+int CP_SaveGame(int quick)
+{
     int which, exit = 0;
     FILE *file;
     char name[13];
@@ -1667,10 +1738,12 @@ int CP_SaveGame(int quick) {
     //
     // QUICKSAVE?
     //
-    if (quick) {
+    if (quick)
+    {
         which = LSItems.curpos;
 
-        if (SaveGamesAvail[which]) {
+        if (SaveGamesAvail[which])
+        {
             name[7] = which + '0';
 
             if (configdir[0])
@@ -1698,13 +1771,16 @@ int CP_SaveGame(int quick) {
 
     DrawLoadSaveScreen(1);
 
-    do {
+    do
+    {
         which = HandleMenu(&LSItems, &LSMenu[0], TrackWhichGame);
-        if (which >= 0) {
+        if (which >= 0)
+        {
             //
             // OVERWRITE EXISTING SAVEGAME?
             //
-            if (SaveGamesAvail[which]) {
+            if (SaveGamesAvail[which])
+            {
 #ifdef JAPAN
                 if (!GetYorN(7, 8, C_JAPSAVEOVERPIC))
 #else
@@ -1713,7 +1789,9 @@ int CP_SaveGame(int quick) {
                 {
                     DrawLoadSaveScreen(1);
                     continue;
-                } else {
+                }
+                else
+                {
                     DrawLoadSaveScreen(1);
                     PrintLSEntry(which, HIGHLIGHT);
                     VW_UpdateScreen();
@@ -1732,7 +1810,8 @@ int CP_SaveGame(int quick) {
             VW_UpdateScreen();
 
             if (US_LineInput(LSM_X + LSItems.indent + 2, LSM_Y + which * 13 + 1, input, input, true, 31,
-                             LSM_W - LSItems.indent - 30)) {
+                             LSM_W - LSItems.indent - 30))
+            {
                 SaveGamesAvail[which] = 1;
                 strcpy(&SaveGameNames[which][0], input);
 
@@ -1757,7 +1836,9 @@ int CP_SaveGame(int quick) {
 
                 ShootSnd();
                 exit = 1;
-            } else {
+            }
+            else
+            {
                 VWB_Bar(LSM_X + LSItems.indent + 1, LSM_Y + which * 13 + 1,
                         LSM_W - LSItems.indent - 16, 10, BKGDCOLOR);
                 PrintLSEntry(which, HIGHLIGHT);
@@ -1782,44 +1863,47 @@ int CP_SaveGame(int quick) {
 // DEFINE CONTROLS
 //
 ////////////////////////////////////////////////////////////////////
-int CP_Control(int blank) {
+int CP_Control(int blank)
+{
     int which;
 
     DrawCtlScreen();
     MenuFadeIn();
     WaitKeyUp();
 
-    do {
+    do
+    {
         which = HandleMenu(&CtlItems, CtlMenu, NULL);
-        switch (which) {
-            case CTL_MOUSEENABLE:
-                mouseenabled ^= 1;
-                if (IN_IsInputGrabbed())
-                    IN_CenterMouse();
-                DrawCtlScreen();
-                CusItems.curpos = -1;
-                ShootSnd();
-                break;
-            case CTL_JOYENABLE:
-                joystickenabled ^= 1;
-                DrawCtlScreen();
-                CusItems.curpos = -1;
-                ShootSnd();
-                break;
+        switch (which)
+        {
+        case CTL_MOUSEENABLE:
+            mouseenabled ^= 1;
+            if (IN_IsInputGrabbed())
+                IN_CenterMouse();
+            DrawCtlScreen();
+            CusItems.curpos = -1;
+            ShootSnd();
+            break;
+        case CTL_JOYENABLE:
+            joystickenabled ^= 1;
+            DrawCtlScreen();
+            CusItems.curpos = -1;
+            ShootSnd();
+            break;
 #ifdef USE_MODERN_OPTIONS
-            case CTL_ALWAYSRUN:
-                alwaysRun ^= 1;
-                DrawCtlScreen();
-                CusItems.curpos = -1;
-                ShootSnd();
-                break;
+        case CTL_ALWAYSRUN:
+            alwaysRun ^= 1;
+            DrawCtlScreen();
+            CusItems.curpos = -1;
+            ShootSnd();
+            break;
 #else
-                                                                                                                                        case CTL_MOUSESENS:
-		case CTL_CUSTOMIZE:
-			DrawCtlScreen();
-			MenuFadeIn();
-			WaitKeyUp();
-			break;
+        case CTL_MOUSESENS:
+        case CTL_CUSTOMIZE:
+            DrawCtlScreen();
+            MenuFadeIn();
+            WaitKeyUp();
+            break;
 #endif
         }
     } while (which >= 0);
@@ -1834,21 +1918,24 @@ int CP_Control(int blank) {
 // DEFINE OPTIONS
 //
 ////////////////////////////////////////////////////////////////////
-int CP_Options(int blank) {
+int CP_Options(int blank)
+{
     int which;
 
     DrawOptScreen();
     MenuFadeIn();
     WaitKeyUp();
 
-    do {
+    do
+    {
         which = HandleMenu(&OptItems, OptMenu, NULL);
-        switch (which) {
-            default:
-                DrawOptScreen();
-                MenuFadeIn();
-                WaitKeyUp();
-                break;
+        switch (which)
+        {
+        default:
+            DrawOptScreen();
+            MenuFadeIn();
+            WaitKeyUp();
+            break;
         }
     } while (which >= 0);
 
@@ -1861,7 +1948,8 @@ int CP_Options(int blank) {
 //
 // DRAW MOUSE SENSITIVITY SCREEN
 //
-void DrawMouseSens(void) {
+void DrawMouseSens(void)
+{
 #ifdef JAPAN
     VWB_DrawPic(0, 0, S_MOUSESENSPIC);
 #else
@@ -1881,11 +1969,11 @@ void DrawMouseSens(void) {
 
     SETFONTCOLOR(TEXTCOLOR, BKGDCOLOR);
 #ifdef SPANISH
-                                                                                                                            PrintX = 14;
-	PrintY = 95 + 13;
-	US_Print(STR_SLOW);
-	PrintX = 252;
-	US_Print(STR_FAST);
+    PrintX = 14;
+    PrintY = 95 + 13;
+    US_Print(STR_SLOW);
+    PrintX = 252;
+    US_Print(STR_FAST);
 #else
     PrintX = 14;
     PrintY = 95;
@@ -1908,43 +1996,48 @@ void DrawMouseSens(void) {
 //
 // ADJUST MOUSE SENSITIVITY
 //
-int MouseSensitivity(int blank) {
+int MouseSensitivity(int blank)
+{
     ControlInfo ci;
     int exit = 0, oldMA;
 
     oldMA = mouseadjustment;
     DrawMouseSens();
-    do {
+    do
+    {
         SDL_Delay(5);
         ReadAnyControl(&ci);
-        switch (ci.dir) {
-            case dir_North:
-            case dir_West:
-                if (mouseadjustment) {
-                    mouseadjustment--;
-                    VWB_Bar(60, 97, 200, 10, TEXTCOLOR);
-                    DrawOutline(60, 97, 200, 10, 0, HIGHLIGHT);
-                    DrawOutline(60 + 20 * mouseadjustment, 97, 20, 10, 0, READCOLOR);
-                    VWB_Bar(61 + 20 * mouseadjustment, 98, 19, 9, READHCOLOR);
-                    VW_UpdateScreen();
-                    SD_PlaySound(MOVEGUN1SND);
-                    TicDelay(20);
-                }
-                break;
+        switch (ci.dir)
+        {
+        case dir_North:
+        case dir_West:
+            if (mouseadjustment)
+            {
+                mouseadjustment--;
+                VWB_Bar(60, 97, 200, 10, TEXTCOLOR);
+                DrawOutline(60, 97, 200, 10, 0, HIGHLIGHT);
+                DrawOutline(60 + 20 * mouseadjustment, 97, 20, 10, 0, READCOLOR);
+                VWB_Bar(61 + 20 * mouseadjustment, 98, 19, 9, READHCOLOR);
+                VW_UpdateScreen();
+                SD_PlaySound(MOVEGUN1SND);
+                TicDelay(20);
+            }
+            break;
 
-            case dir_South:
-            case dir_East:
-                if (mouseadjustment < 9) {
-                    mouseadjustment++;
-                    VWB_Bar(60, 97, 200, 10, TEXTCOLOR);
-                    DrawOutline(60, 97, 200, 10, 0, HIGHLIGHT);
-                    DrawOutline(60 + 20 * mouseadjustment, 97, 20, 10, 0, READCOLOR);
-                    VWB_Bar(61 + 20 * mouseadjustment, 98, 19, 9, READHCOLOR);
-                    VW_UpdateScreen();
-                    SD_PlaySound(MOVEGUN1SND);
-                    TicDelay(20);
-                }
-                break;
+        case dir_South:
+        case dir_East:
+            if (mouseadjustment < 9)
+            {
+                mouseadjustment++;
+                VWB_Bar(60, 97, 200, 10, TEXTCOLOR);
+                DrawOutline(60, 97, 200, 10, 0, HIGHLIGHT);
+                DrawOutline(60 + 20 * mouseadjustment, 97, 20, 10, 0, READCOLOR);
+                VWB_Bar(61 + 20 * mouseadjustment, 98, 19, 9, READHCOLOR);
+                VW_UpdateScreen();
+                SD_PlaySound(MOVEGUN1SND);
+                TicDelay(20);
+            }
+            break;
         }
 
         if (ci.button0 || Keyboard(sc_Space) || Keyboard(sc_Enter))
@@ -1954,10 +2047,12 @@ int MouseSensitivity(int blank) {
 
     } while (!exit);
 
-    if (exit == 2) {
+    if (exit == 2)
+    {
         mouseadjustment = oldMA;
         SD_PlaySound(ESCPRESSEDSND);
-    } else
+    }
+    else
         SD_PlaySound(SHOOTSND);
 
     WaitKeyUp();
@@ -1970,7 +2065,8 @@ int MouseSensitivity(int blank) {
 //
 // DRAW CONTROL MENU SCREEN
 //
-void DrawCtlScreen(void) {
+void DrawCtlScreen(void)
+{
     int i, x, y;
 
 #ifdef JAPAN
@@ -1989,7 +2085,8 @@ void DrawCtlScreen(void) {
     if (IN_JoyPresent())
         CtlMenu[CTL_JOYENABLE].active = 1;
 
-    if (MousePresent) {
+    if (MousePresent)
+    {
 #ifndef USE_MODERN_OPTIONS
         CtlMenu[CTL_MOUSESENS].active = CtlMenu[CTL_MOUSEENABLE].active = 1;
 #else
@@ -2035,9 +2132,12 @@ void DrawCtlScreen(void) {
     //
     // PICK FIRST AVAILABLE SPOT
     //
-    if (CtlItems.curpos < 0 || !CtlMenu[CtlItems.curpos].active) {
-        for (i = 0; i < CtlItems.amount; i++) {
-            if (CtlMenu[i].active) {
+    if (CtlItems.curpos < 0 || !CtlMenu[CtlItems.curpos].active)
+    {
+        for (i = 0; i < CtlItems.amount; i++)
+        {
+            if (CtlMenu[i].active)
+            {
                 CtlItems.curpos = i;
                 break;
             }
@@ -2053,8 +2153,9 @@ void DrawCtlScreen(void) {
 //
 // DRAW OPTIONS MENU SCREEN
 //
-void DrawOptScreen(void) {
-    int i, x, y;
+void DrawOptScreen(void)
+{
+    int i = 0, x = 0, y = 0;
 
 #ifdef JAPAN
     VWB_DrawPic(0, 0, S_CONTROLPIC);
@@ -2074,9 +2175,12 @@ void DrawOptScreen(void) {
     //
     // PICK FIRST AVAILABLE SPOT
     //
-    if (OptItems.curpos < 0 || !OptMenu[OptItems.curpos].active) {
-        for (i = 0; i < OptItems.amount; i++) {
-            if (OptMenu[i].active) {
+    if (OptItems.curpos < 0 || !OptMenu[OptItems.curpos].active)
+    {
+        for (i = 0; i < OptItems.amount; i++)
+        {
+            if (OptMenu[i].active)
+            {
                 OptItems.curpos = i;
                 break;
             }
@@ -2094,7 +2198,8 @@ void DrawOptScreen(void) {
 // CUSTOMIZE MOUSE CONTROLS
 //
 ////////////////////////////////////////////////////////////////////
-enum {
+enum
+{
     FIRE,
     STRAFE,
     RUN,
@@ -2105,38 +2210,41 @@ enum {
 char mbarray[4][11] = {"Left Bt", "Right Bt", "Middle Bt", "Top Bt"};
 int8_t order[6] = {RUN, OPEN, FIRE, STRAFE, PREV_WEP, NEXT_WEP};
 
-int CP_MouseCtl(int blank) {
+int CP_MouseCtl(int blank)
+{
     int which;
 
     DrawMouseCtlScreen();
     WaitKeyUp();
 
-    do {
+    do
+    {
         which = HandleMenu(&CusMouseItems, &CtlMouseMenu[0], NULL);
 
-        switch (which) {
-            case CTL_MOUSE_RUN:
-                DefineMouseBtns(1);
-                DrawCustMouse(1);
-                break;
-            case CTL_MOUSE_OPEN:
-                DefineMouseBtns(2);
-                DrawCustMouse(2);
-                break;
-            case CTL_MOUSE_FIRE:
-                DefineMouseBtns(3);
-                DrawCustMouse(3);
-                break;
-            case CTL_MOUSE_STRAFE:
-                DefineMouseBtns(4);
-                DrawCustMouse(4);
-                break;
-            case CTL_MOUSEMOVEMENT:
-                mouseYAxis ^= 1;
-                ShootSnd();
-                break;
-            default:
-                break;
+        switch (which)
+        {
+        case CTL_MOUSE_RUN:
+            DefineMouseBtns(1);
+            DrawCustMouse(1);
+            break;
+        case CTL_MOUSE_OPEN:
+            DefineMouseBtns(2);
+            DrawCustMouse(2);
+            break;
+        case CTL_MOUSE_FIRE:
+            DefineMouseBtns(3);
+            DrawCustMouse(3);
+            break;
+        case CTL_MOUSE_STRAFE:
+            DefineMouseBtns(4);
+            DrawCustMouse(4);
+            break;
+        case CTL_MOUSEMOVEMENT:
+            mouseYAxis ^= 1;
+            ShootSnd();
+            break;
+        default:
+            break;
         }
 
         DrawMouseCtlScreen();
@@ -2151,52 +2259,52 @@ int CP_MouseCtl(int blank) {
 }
 
 #else
-                                                                                                                        ////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////
 //
 // CUSTOMIZE CONTROLS
 //
 ////////////////////////////////////////////////////////////////////
 enum
 {
-	FIRE,
-	STRAFE,
-	RUN,
-	OPEN
+    FIRE,
+    STRAFE,
+    RUN,
+    OPEN
 };
 char mbarray[4][3] = {"b0", "b1", "b2", "b3"};
 int8_t order[4] = {RUN, OPEN, FIRE, STRAFE};
 
 int CustomControls(int blank)
 {
-	int which;
+    int which;
 
-	DrawCustomScreen();
-	do
-	{
-		which = HandleMenu(&CusItems, &CusMenu[0], FixupCustom);
-		switch (which)
-		{
-		case 0:
-			DefineMouseBtns();
-			DrawCustMouse(1);
-			break;
-		case 3:
-			DefineJoyBtns();
-			DrawCustJoy(0);
-			break;
-		case 6:
-			DefineKeyBtns();
-			DrawCustKeybd(0);
-			break;
-		case 8:
-			DefineKeyMove();
-			DrawCustKeys(0);
-		}
-	} while (which >= 0);
+    DrawCustomScreen();
+    do
+    {
+        which = HandleMenu(&CusItems, &CusMenu[0], FixupCustom);
+        switch (which)
+        {
+        case 0:
+            DefineMouseBtns();
+            DrawCustMouse(1);
+            break;
+        case 3:
+            DefineJoyBtns();
+            DrawCustJoy(0);
+            break;
+        case 6:
+            DefineKeyBtns();
+            DrawCustKeybd(0);
+            break;
+        case 8:
+            DefineKeyMove();
+            DrawCustKeys(0);
+        }
+    } while (which >= 0);
 
-	MenuFadeOut();
+    MenuFadeOut();
 
-	return 0;
+    return 0;
 }
 
 #endif
@@ -2207,16 +2315,21 @@ int CustomControls(int blank)
 //
 // DEFINE THE MOUSE BUTTONS
 //
-void DefineMouseBtns(int value) {
+void DefineMouseBtns(int value)
+{
     CustomCtrls mouseallowed;
     int i;
 
     --value;
 
-    for (i = 0; i < 4; i++) {
-        if (i == value) {
+    for (i = 0; i < 4; i++)
+    {
+        if (i == value)
+        {
             mouseallowed.allowed[i] = 1;
-        } else {
+        }
+        else
+        {
             mouseallowed.allowed[i] = 0;
         }
     }
@@ -2227,10 +2340,10 @@ void DefineMouseBtns(int value) {
 }
 
 #else
-                                                                                                                        void DefineMouseBtns(void)
+void DefineMouseBtns(void)
 {
-	CustomCtrls mouseallowed = {0, 1, 1, 1};
-	EnterCtrlData(2, &mouseallowed, DrawCustMouse, PrintCustMouse, MOUSE, false, false);
+    CustomCtrls mouseallowed = {0, 1, 1, 1};
+    EnterCtrlData(2, &mouseallowed, DrawCustMouse, PrintCustMouse, MOUSE, false, false);
 }
 #endif
 
@@ -2240,16 +2353,21 @@ void DefineMouseBtns(int value) {
 //
 #ifdef USE_MODERN_OPTIONS
 
-void DefineJoyBtns(int value) {
+void DefineJoyBtns(int value)
+{
     CustomCtrls joyallowed;
     int i;
 
     --value;
 
-    for (i = 0; i < 4; i++) {
-        if (i == value) {
+    for (i = 0; i < 4; i++)
+    {
+        if (i == value)
+        {
             joyallowed.allowed[i] = 1;
-        } else {
+        }
+        else
+        {
             joyallowed.allowed[i] = 0;
         }
     }
@@ -2260,10 +2378,10 @@ void DefineJoyBtns(int value) {
 }
 
 #else
-                                                                                                                        void DefineJoyBtns(void)
+void DefineJoyBtns(void)
 {
-	CustomCtrls joyallowed = {1, 1, 1, 1};
-	EnterCtrlData(5, &joyallowed, DrawCustJoy, PrintCustJoy, JOYSTICK, false, false);
+    CustomCtrls joyallowed = {1, 1, 1, 1};
+    EnterCtrlData(5, &joyallowed, DrawCustJoy, PrintCustJoy, JOYSTICK, false, false);
 }
 #endif
 
@@ -2273,16 +2391,21 @@ void DefineJoyBtns(int value) {
 //
 #ifdef USE_MODERN_OPTIONS
 
-void DefineKeyBtns(int value) {
+void DefineKeyBtns(int value)
+{
     CustomCtrls keyallowed;
     int i;
 
     --value;
 
-    for (i = 0; i < 6; i++) {
-        if (i == value) {
+    for (i = 0; i < 6; i++)
+    {
+        if (i == value)
+        {
             keyallowed.allowed[i] = 1;
-        } else {
+        }
+        else
+        {
             keyallowed.allowed[i] = 0;
         }
     }
@@ -2292,10 +2415,10 @@ void DefineKeyBtns(int value) {
 }
 
 #else
-                                                                                                                        void DefineKeyBtns(void)
+void DefineKeyBtns(void)
 {
-	CustomCtrls keyallowed = {1, 1, 1, 1};
-	EnterCtrlData(8, &keyallowed, DrawCustKeybd, PrintCustKeybd, KEYBOARDBTNS, false, false);
+    CustomCtrls keyallowed = {1, 1, 1, 1};
+    EnterCtrlData(8, &keyallowed, DrawCustKeybd, PrintCustKeybd, KEYBOARDBTNS, false, false);
 }
 #endif
 
@@ -2305,16 +2428,21 @@ void DefineKeyBtns(int value) {
 //
 #ifdef USE_MODERN_OPTIONS
 
-void DefineKeyMove(int value) {
+void DefineKeyMove(int value)
+{
     CustomCtrls keyallowed;
     int i;
 
     --value;
 
-    for (i = 0; i < 6; i++) {
-        if (i == value) {
+    for (i = 0; i < 6; i++)
+    {
+        if (i == value)
+        {
             keyallowed.allowed[i] = 1;
-        } else {
+        }
+        else
+        {
             keyallowed.allowed[i] = 0;
         }
     }
@@ -2324,10 +2452,10 @@ void DefineKeyMove(int value) {
 }
 
 #else
-                                                                                                                        void DefineKeyMove(void)
+void DefineKeyMove(void)
 {
-	CustomCtrls keyallowed = {1, 1, 1, 1};
-	EnterCtrlData(10, &keyallowed, DrawCustKeys, PrintCustKeys, KEYBOARDMOVE, false, false);
+    CustomCtrls keyallowed = {1, 1, 1, 1};
+    EnterCtrlData(10, &keyallowed, DrawCustKeys, PrintCustKeys, KEYBOARDMOVE, false, false);
 }
 #endif
 
@@ -2337,7 +2465,8 @@ void DefineKeyMove(int value) {
 //
 
 #ifdef USE_MODERN_OPTIONS
-enum {
+enum
+{
     FWRD,
     RIGHT,
     BKWD,
@@ -2347,55 +2476,58 @@ enum {
 };
 int moveorder[6] = {FWRD, BKWD, LEFT, RIGHT, STF_LEFT, STF_RIGHT};
 #else
-                                                                                                                        enum
+enum
 {
-	LEFT,
-	RIGHT,
-	FWRD,
-	BKWD
+    LEFT,
+    RIGHT,
+    FWRD,
+    BKWD
 };
 int moveorder[4] = {LEFT, RIGHT, FWRD, BKWD};
 #endif
 
 #ifdef USE_MODERN_OPTIONS
 
-int CP_KeyboardMoveCtl(int blank) {
+int CP_KeyboardMoveCtl(int blank)
+{
     int which;
 
     DrawKeyboardMoveCtlScreen();
     WaitKeyUp();
 
-    do {
+    do
+    {
         which = HandleMenu(&CusKeyboardMoveItems, &CtlKeyboardMoveMenu[0], NULL);
 
-        switch (which) {
-            case CTL_KB_MOVE_FWRD:
-                DefineKeyMove(1);
-                DrawCustKeys(1);
-                break;
-            case CTL_KB_MOVE_BWRD:
-                DefineKeyMove(2);
-                DrawCustKeys(2);
-                break;
-            case CTL_KB_MOVE_LEFT:
-                DefineKeyMove(3);
-                DrawCustKeys(3);
-                break;
-            case CTL_KB_MOVE_RIGHT:
-                DefineKeyMove(4);
-                DrawCustKeys(4);
-                break;
-            case CTL_KB_STRAFE_LEFT:
-                DefineKeyMove(5);
-                DrawCustKeys(5);
-                break;
-            case CTL_KB_STRAFE_RIGHT:
-                DefineKeyMove(6);
-                DrawCustKeys(6);
-                break;
-            default:
-                which = -1;
-                break;
+        switch (which)
+        {
+        case CTL_KB_MOVE_FWRD:
+            DefineKeyMove(1);
+            DrawCustKeys(1);
+            break;
+        case CTL_KB_MOVE_BWRD:
+            DefineKeyMove(2);
+            DrawCustKeys(2);
+            break;
+        case CTL_KB_MOVE_LEFT:
+            DefineKeyMove(3);
+            DrawCustKeys(3);
+            break;
+        case CTL_KB_MOVE_RIGHT:
+            DefineKeyMove(4);
+            DrawCustKeys(4);
+            break;
+        case CTL_KB_STRAFE_LEFT:
+            DefineKeyMove(5);
+            DrawCustKeys(5);
+            break;
+        case CTL_KB_STRAFE_RIGHT:
+            DefineKeyMove(6);
+            DrawCustKeys(6);
+            break;
+        default:
+            which = -1;
+            break;
         }
 
         if (which != -1)
@@ -2408,35 +2540,38 @@ int CP_KeyboardMoveCtl(int blank) {
     return 0;
 }
 
-int CP_KeyboardActionCtl(int blank) {
+int CP_KeyboardActionCtl(int blank)
+{
     int which;
 
     DrawKeyboardActionCtlScreen();
     WaitKeyUp();
 
-    do {
+    do
+    {
         which = HandleMenu(&CusKeyboardActionItems, &CtlKeyboardActionMenu[0], NULL);
 
-        switch (which) {
-            case CTL_KB_ACTION_RUN:
-                DefineKeyBtns(1);
-                DrawCustKeybd(1);
-                break;
-            case CTL_KB_ACTION_OPEN:
-                DefineKeyBtns(2);
-                DrawCustKeybd(2);
-                break;
-            case CTL_KB_ACTION_FIRE:
-                DefineKeyBtns(3);
-                DrawCustKeybd(3);
-                break;
-            case CTL_KB_ACTION_STRAFE:
-                DefineKeyBtns(4);
-                DrawCustKeybd(4);
-                break;
-            default:
-                which = -1;
-                break;
+        switch (which)
+        {
+        case CTL_KB_ACTION_RUN:
+            DefineKeyBtns(1);
+            DrawCustKeybd(1);
+            break;
+        case CTL_KB_ACTION_OPEN:
+            DefineKeyBtns(2);
+            DrawCustKeybd(2);
+            break;
+        case CTL_KB_ACTION_FIRE:
+            DefineKeyBtns(3);
+            DrawCustKeybd(3);
+            break;
+        case CTL_KB_ACTION_STRAFE:
+            DefineKeyBtns(4);
+            DrawCustKeybd(4);
+            break;
+        default:
+            which = -1;
+            break;
         }
 
         if (which != -1)
@@ -2457,34 +2592,37 @@ int CP_KeyboardActionCtl(int blank) {
 
 char jbarray[4][11] = {"AB Down", "AB Right", "AB Left", "AB Top"};
 
-int CP_JoystickCtl(int blank) {
+int CP_JoystickCtl(int blank)
+{
     int which;
 
     DrawJoystickScreen();
     WaitKeyUp();
 
-    do {
+    do
+    {
         which = HandleMenu(&CusJoystickItems, &CtlJoystickMenu[0], NULL);
 
-        switch (which) {
-            case CTL_JOYSTICK_RUN:
-                DefineJoyBtns(1);
-                DrawCustJoy(1);
-                break;
-            case CTL_JOYSTICK_OPEN:
-                DefineJoyBtns(2);
-                DrawCustJoy(2);
-                break;
-            case CTL_JOYSTICK_FIRE:
-                DefineJoyBtns(3);
-                DrawCustJoy(3);
-                break;
-            case CTL_JOYSTICK_STRAFE:
-                DefineJoyBtns(4);
-                DrawCustJoy(4);
-                break;
-            default:
-                break;
+        switch (which)
+        {
+        case CTL_JOYSTICK_RUN:
+            DefineJoyBtns(1);
+            DrawCustJoy(1);
+            break;
+        case CTL_JOYSTICK_OPEN:
+            DefineJoyBtns(2);
+            DrawCustJoy(2);
+            break;
+        case CTL_JOYSTICK_FIRE:
+            DefineJoyBtns(3);
+            DrawCustJoy(3);
+            break;
+        case CTL_JOYSTICK_STRAFE:
+            DefineJoyBtns(4);
+            DrawCustJoy(4);
+            break;
+        default:
+            break;
         }
 
         DrawJoystickScreen();
@@ -2499,7 +2637,8 @@ int CP_JoystickCtl(int blank) {
 }
 
 #ifdef SHOW_CUSTOM_CONTROLS
-enum {
+enum
+{
     ADV_CTL_1,
     ADV_CTL_2,
     ADV_CTL_3,
@@ -2514,16 +2653,21 @@ enum {
 int8_t advorder[10] = {ADV_CTL_1, ADV_CTL_2, ADV_CTL_3, ADV_CTL_4, ADV_CTL_5, ADV_CTL_6, ADV_CTL_7, ADV_CTL_8,
                        ADV_CTL_9, ADV_CTL_10};
 
-void DefineCustomCtl(int value) {
+void DefineCustomCtl(int value)
+{
     CustomCtrls keyallowed;
     int i;
 
     --value;
 
-    for (i = 0; i < MAX_CUSTOM_CONTROLS; i++) {
-        if (i == value) {
+    for (i = 0; i < MAX_CUSTOM_CONTROLS; i++)
+    {
+        if (i == value)
+        {
             keyallowed.allowed[i] = 1;
-        } else {
+        }
+        else
+        {
             keyallowed.allowed[i] = 0;
         }
     }
@@ -2532,59 +2676,62 @@ void DefineCustomCtl(int value) {
     EnterCtrlData(value, &keyallowed, DrawCustomCtlKeys, PrintCustomCtlKeys, CUSTOMCTL, false, true);
 }
 
-int CP_CustomCtl(int blank) {
+int CP_CustomCtl(int blank)
+{
     int which;
 
     DrawCustomCtlScreen();
     WaitKeyUp();
 
-    do {
+    do
+    {
         which = HandleMenu(&CusCtlItems, &CusCtlMenu[0], NULL);
 
-        switch (which) {
-            case CTL_ADV_1:
-                DefineCustomCtl(1);
-                DrawCustomCtlKeys(1);
-                break;
-            case CTL_ADV_2:
-                DefineCustomCtl(2);
-                DrawCustomCtlKeys(2);
-                break;
-            case CTL_ADV_3:
-                DefineCustomCtl(3);
-                DrawCustomCtlKeys(3);
-                break;
-            case CTL_ADV_4:
-                DefineCustomCtl(4);
-                DrawCustomCtlKeys(4);
-                break;
-            case CTL_ADV_5:
-                DefineCustomCtl(5);
-                DrawCustomCtlKeys(5);
-                break;
-            case CTL_ADV_6:
-                DefineCustomCtl(6);
-                DrawCustomCtlKeys(6);
-                break;
-            case CTL_ADV_7:
-                DefineCustomCtl(7);
-                DrawCustomCtlKeys(7);
-                break;
-            case CTL_ADV_8:
-                DefineCustomCtl(8);
-                DrawCustomCtlKeys(8);
-                break;
-            case CTL_ADV_9:
-                DefineCustomCtl(9);
-                DrawCustomCtlKeys(9);
-                break;
-            case CTL_ADV_10:
-                DefineCustomCtl(10);
-                DrawCustomCtlKeys(10);
-                break;
-            default:
-                which = -1;
-                break;
+        switch (which)
+        {
+        case CTL_ADV_1:
+            DefineCustomCtl(1);
+            DrawCustomCtlKeys(1);
+            break;
+        case CTL_ADV_2:
+            DefineCustomCtl(2);
+            DrawCustomCtlKeys(2);
+            break;
+        case CTL_ADV_3:
+            DefineCustomCtl(3);
+            DrawCustomCtlKeys(3);
+            break;
+        case CTL_ADV_4:
+            DefineCustomCtl(4);
+            DrawCustomCtlKeys(4);
+            break;
+        case CTL_ADV_5:
+            DefineCustomCtl(5);
+            DrawCustomCtlKeys(5);
+            break;
+        case CTL_ADV_6:
+            DefineCustomCtl(6);
+            DrawCustomCtlKeys(6);
+            break;
+        case CTL_ADV_7:
+            DefineCustomCtl(7);
+            DrawCustomCtlKeys(7);
+            break;
+        case CTL_ADV_8:
+            DefineCustomCtl(8);
+            DrawCustomCtlKeys(8);
+            break;
+        case CTL_ADV_9:
+            DefineCustomCtl(9);
+            DrawCustomCtlKeys(9);
+            break;
+        case CTL_ADV_10:
+            DefineCustomCtl(10);
+            DrawCustomCtlKeys(10);
+            break;
+        default:
+            which = -1;
+            break;
         }
 
         if (which != -1)
@@ -2603,7 +2750,8 @@ int CP_CustomCtl(int blank) {
 #endif
 
 void EnterCtrlData(int index, CustomCtrls *cust, void (*DrawRtn)(int), void (*PrintRtn)(int), int type,
-                   bool keyboardMoveControls, bool advControls) {
+                   bool keyboardMoveControls, bool advControls)
+{
     int j, z, exit, tick, redraw, which, x, y, picked, lastFlashTime;
     ControlInfo ci;
 
@@ -2616,18 +2764,22 @@ void EnterCtrlData(int index, CustomCtrls *cust, void (*DrawRtn)(int), void (*Pr
     ShootSnd();
 
 #ifndef USE_MODERN_OPTIONS
-                                                                                                                            amount = 4;
-	PrintY = CST_Y + 13 * index;
+    amount = 4;
+    PrintY = CST_Y + 13 * index;
 #else
-    if (keyboardMoveControls) {
+    if (keyboardMoveControls)
+    {
         start = 0;
         amount = 8;
-    } else {
+    }
+    else
+    {
         start = 0;
         amount = 6;
     }
 #ifdef SHOW_CUSTOM_CONTROLS
-    if (advControls) {
+    if (advControls)
+    {
         start = CUS_CTL_ARRAY_RANGE_START;
         amount = CUS_CTL_ARRAY_RANGE_END;
     }
@@ -2639,31 +2791,39 @@ void EnterCtrlData(int index, CustomCtrls *cust, void (*DrawRtn)(int), void (*Pr
     //
     // FIND FIRST SPOT IN ALLOWED ARRAY
     //
-    for (j = start; j < amount; j++) {
-        if (cust->allowed[arrayIndex]) {
+    for (j = start; j < amount; j++)
+    {
+        if (cust->allowed[arrayIndex])
+        {
             which = arrayIndex;
             break;
         }
         arrayIndex++;
     }
 
-    do {
-        if (redraw) {
+    do
+    {
+        if (redraw)
+        {
 #ifndef USE_MODERN_OPTIONS
-                                                                                                                                    x = CST_START + CST_SPC * which;
-			DrawWindow(5, PrintY - 1, 310, 13, BKGDCOLOR);
+            x = CST_START + CST_SPC * which;
+            DrawWindow(5, PrintY - 1, 310, 13, BKGDCOLOR);
 #else
-            if (keyboardMoveControls) {
+            if (keyboardMoveControls)
+            {
                 x = CTL_MOUSE_X + 10;
                 y = OPT_KB_MOVE_KEYS_Y;
                 w = 80;
-            } else {
+            }
+            else
+            {
                 x = CTL_MOUSE_X;
                 y = CST_START;
                 w = CST_SPC;
             }
 #ifdef SHOW_CUSTOM_CONTROLS
-            if (advControls) {
+            if (advControls)
+            {
                 x = CUS_CTL_RIGHT_TEXT_X;
                 y = CUS_CTL_TEXT_Y;
                 w = 75;
@@ -2673,8 +2833,8 @@ void EnterCtrlData(int index, CustomCtrls *cust, void (*DrawRtn)(int), void (*Pr
             DrawRtn(1);
 
 #ifndef USE_MODERN_OPTIONS
-                                                                                                                                    DrawWindow(x - 2, PrintY, CST_SPC, 11, TEXTCOLOR);
-			DrawOutline(x - 2, PrintY, CST_SPC, 11, 0, HIGHLIGHT);
+            DrawWindow(x - 2, PrintY, CST_SPC, 11, TEXTCOLOR);
+            DrawOutline(x - 2, PrintY, CST_SPC, 11, 0, HIGHLIGHT);
 #else
             DrawWindow(x - 2, y + (CST_SPC_Y * (index - 1)), w, 11, TEXTCOLOR);
             DrawOutline(x - 2, y + (CST_SPC_Y * (index - 1)), w, 11, 0, HIGHLIGHT);
@@ -2692,7 +2852,8 @@ void EnterCtrlData(int index, CustomCtrls *cust, void (*DrawRtn)(int), void (*Pr
         ReadAnyControl(&ci);
 
         if (type == MOUSE || type == JOYSTICK)
-            if (IN_KeyDown(sc_Enter) || IN_KeyDown(sc_Control) || IN_KeyDown(sc_Alt)) {
+            if (IN_KeyDown(sc_Enter) || IN_KeyDown(sc_Control) || IN_KeyDown(sc_Alt))
+            {
                 IN_ClearKeysDown();
                 ci.button0 = ci.button1 = false;
             }
@@ -2701,8 +2862,9 @@ void EnterCtrlData(int index, CustomCtrls *cust, void (*DrawRtn)(int), void (*Pr
         // CHANGE BUTTON VALUE?
         //
         if ((type != KEYBOARDBTNS && type != KEYBOARDMOVE && type != CUSTOMCTL) &&
-            (ci.button0 | ci.button1 | ci.button2 | ci.button3) ||
-            ((type == KEYBOARDBTNS || type == KEYBOARDMOVE || type == CUSTOMCTL) && LastScan == sc_Enter)) {
+                (ci.button0 | ci.button1 | ci.button2 | ci.button3) ||
+            ((type == KEYBOARDBTNS || type == KEYBOARDMOVE || type == CUSTOMCTL) && LastScan == sc_Enter))
+        {
             lastFlashTime = GetTimeCount();
             tick = picked = 0;
             SETFONTCOLOR(0, TEXTCOLOR);
@@ -2710,171 +2872,189 @@ void EnterCtrlData(int index, CustomCtrls *cust, void (*DrawRtn)(int), void (*Pr
             if (type == KEYBOARDBTNS || type == KEYBOARDMOVE || type == CUSTOMCTL)
                 IN_ClearKeysDown();
 
-            while (1) {
+            while (1)
+            {
                 int button, result = 0;
 
                 //
                 // FLASH CURSOR
                 //
-                if (GetTimeCount() - lastFlashTime > 10) {
-                    switch (tick) {
-                        case 0:
+                if (GetTimeCount() - lastFlashTime > 10)
+                {
+                    switch (tick)
+                    {
+                    case 0:
 #ifndef USE_MODERN_OPTIONS
-                            w = CST_SPC;
+                        w = CST_SPC;
 #endif
-                            VWB_Bar(x, PrintY + 1, w - 2, 10, TEXTCOLOR);
-                            break;
-                        case 1:
-                            PrintX = x;
-                            US_Print("?");
-                            SD_PlaySound(HITWALLSND);
+                        VWB_Bar(x, PrintY + 1, w - 2, 10, TEXTCOLOR);
+                        break;
+                    case 1:
+                        PrintX = x;
+                        US_Print("?");
+                        SD_PlaySound(HITWALLSND);
                     }
                     tick ^= 1;
                     lastFlashTime = GetTimeCount();
                     VW_UpdateScreen();
-                } else
+                }
+                else
                     SDL_Delay(5);
 
                 //
                 // WHICH TYPE OF INPUT DO WE PROCESS?
                 //
-                switch (type) {
-                    case MOUSE:
-                        button = IN_MouseButtons();
-                        switch (button) {
-                            case 1:
-                                result = 1;
-                                break;
-                            case 2:
-                                result = 2;
-                                break;
-                            case 4:
-                                result = 3;
-                                break;
-                        }
-
-                        if (result) {
-                            for (z = 0; z < 4; z++)
-                                if (order[which] == buttonmouse[z]) {
-                                    buttonmouse[z] = bt_nobutton;
-                                    break;
-                                }
-
-                            buttonmouse[result - 1] = order[which];
-                            picked = 1;
-                            SD_PlaySound(SHOOTDOORSND);
-                        }
+                switch (type)
+                {
+                case MOUSE:
+                    button = IN_MouseButtons();
+                    switch (button)
+                    {
+                    case 1:
+                        result = 1;
                         break;
+                    case 2:
+                        result = 2;
+                        break;
+                    case 4:
+                        result = 3;
+                        break;
+                    }
 
-                    case JOYSTICK:
-                        if (ci.button0)
-                            result = 1;
-                        else if (ci.button1)
-                            result = 2;
-                        else if (ci.button2)
-                            result = 3;
-                        else if (ci.button3)
-                            result = 4;
-
-                        if (result) {
-                            for (z = 0; z < 4; z++) {
-                                if (order[which] == buttonjoy[z]) {
-                                    buttonjoy[z] = bt_nobutton;
-                                    break;
-                                }
+                    if (result)
+                    {
+                        for (z = 0; z < 4; z++)
+                            if (order[which] == buttonmouse[z])
+                            {
+                                buttonmouse[z] = bt_nobutton;
+                                break;
                             }
 
-                            buttonjoy[result - 1] = order[which];
-                            picked = 1;
-                            SD_PlaySound(SHOOTDOORSND);
+                        buttonmouse[result - 1] = order[which];
+                        picked = 1;
+                        SD_PlaySound(SHOOTDOORSND);
+                    }
+                    break;
+
+                case JOYSTICK:
+                    if (ci.button0)
+                        result = 1;
+                    else if (ci.button1)
+                        result = 2;
+                    else if (ci.button2)
+                        result = 3;
+                    else if (ci.button3)
+                        result = 4;
+
+                    if (result)
+                    {
+                        for (z = 0; z < 4; z++)
+                        {
+                            if (order[which] == buttonjoy[z])
+                            {
+                                buttonjoy[z] = bt_nobutton;
+                                break;
+                            }
                         }
-                        break;
 
-                    case KEYBOARDBTNS:
-                        if (LastScan && LastScan != sc_Escape) {
+                        buttonjoy[result - 1] = order[which];
+                        picked = 1;
+                        SD_PlaySound(SHOOTDOORSND);
+                    }
+                    break;
+
+                case KEYBOARDBTNS:
+                    if (LastScan && LastScan != sc_Escape)
+                    {
 #ifdef USE_MODERN_OPTIONS
-                            for (size_t i = 0; i < 6; i++)
-                                if (buttonscan[order[i]] == LastScan)
-                                    buttonscan[order[i]] = bt_nobutton;
+                         int i = 0;
+                        for (i = 0; i < 6; i++)
+                            if (buttonscan[order[i]] == LastScan)
+                                buttonscan[order[i]] = bt_nobutton;
 
-                            for (size_t i = 0; i < 6; i++)
-                                if (dirscan[moveorder[i]] == LastScan)
-                                    dirscan[moveorder[i]] = bt_nobutton;
+                        for (i = 0; i < 6; i++)
+                            if (dirscan[moveorder[i]] == LastScan)
+                                dirscan[moveorder[i]] = bt_nobutton;
 
 #ifdef SHOW_CUSTOM_CONTROLS
-                            for (size_t i = 0; i < MAX_CUSTOM_CONTROLS; i++)
-                                if (buttonscan[18 + advorder[i]] == LastScan)
-                                    buttonscan[18 + advorder[i]] = bt_nobutton;
+                        for (i = 0; i < MAX_CUSTOM_CONTROLS; i++)
+                            if (buttonscan[18 + advorder[i]] == LastScan)
+                                buttonscan[18 + advorder[i]] = bt_nobutton;
 #endif
 #endif
-                            buttonscan[order[which]] = LastScan;
-                            picked = 1;
-                            SD_PlaySound(SHOOTDOORSND);
-                            IN_ClearKeysDown();
+                        buttonscan[order[which]] = LastScan;
+                        picked = 1;
+                        SD_PlaySound(SHOOTDOORSND);
+                        IN_ClearKeysDown();
 #ifdef USE_MODERN_OPTIONS
-                            exit = 1;
+                        exit = 1;
 #endif
-                        }
-                        break;
+                    }
+                    break;
 
-                    case KEYBOARDMOVE:
-                        if (LastScan && LastScan != sc_Escape) {
+                case KEYBOARDMOVE:
+                    if (LastScan && LastScan != sc_Escape)
+                    {
 #ifdef USE_MODERN_OPTIONS
-                            for (size_t i = 0; i < 6; i++)
-                                if (buttonscan[order[i]] == LastScan)
-                                    buttonscan[order[i]] = bt_nobutton;
+                         int i = 0;
+                        for (i = 0; i < 6; i++)
+                            if (buttonscan[order[i]] == LastScan)
+                                buttonscan[order[i]] = bt_nobutton;
 
-                            for (size_t i = 0; i < 6; i++)
-                                if (dirscan[moveorder[i]] == LastScan)
-                                    dirscan[moveorder[i]] = bt_nobutton;
+                        for (i = 0; i < 6; i++)
+                            if (dirscan[moveorder[i]] == LastScan)
+                                dirscan[moveorder[i]] = bt_nobutton;
 #ifdef SHOW_CUSTOM_CONTROLS
-                            for (size_t i = 0; i < MAX_CUSTOM_CONTROLS; i++)
-                                if (buttonscan[18 + advorder[i]] == LastScan)
-                                    buttonscan[18 + advorder[i]] = bt_nobutton;
+                        for (i = 0; i < MAX_CUSTOM_CONTROLS; i++)
+                            if (buttonscan[18 + advorder[i]] == LastScan)
+                                buttonscan[18 + advorder[i]] = bt_nobutton;
 #endif
 
 #endif
-                            dirscan[moveorder[which]] = LastScan;
-                            picked = 1;
-                            SD_PlaySound(SHOOTDOORSND);
-                            IN_ClearKeysDown();
+                        dirscan[moveorder[which]] = LastScan;
+                        picked = 1;
+                        SD_PlaySound(SHOOTDOORSND);
+                        IN_ClearKeysDown();
 #ifdef USE_MODERN_OPTIONS
-                            exit = 1;
+                        exit = 1;
 #endif
-                        }
-                        break;
+                    }
+                    break;
 
 #ifdef SHOW_CUSTOM_CONTROLS
-                    case CUSTOMCTL:
-                        if (LastScan && LastScan != sc_Escape) {
-                            for (size_t i = 0; i < 6; i++)
-                                if (buttonscan[order[i]] == LastScan)
-                                    buttonscan[order[i]] = bt_nobutton;
+                case CUSTOMCTL:
+                    if (LastScan && LastScan != sc_Escape)
+                    {
+                       int i = 0;
+                        for (i = 0; i < 6; i++)
+                            if (buttonscan[order[i]] == LastScan)
+                                buttonscan[order[i]] = bt_nobutton;
 
-                            for (size_t i = 0; i < 6; i++)
-                                if (dirscan[moveorder[i]] == LastScan)
-                                    dirscan[moveorder[i]] = bt_nobutton;
+                        for (i = 0; i < 6; i++)
+                            if (dirscan[moveorder[i]] == LastScan)
+                                dirscan[moveorder[i]] = bt_nobutton;
 
-                            for (size_t i = 0; i < MAX_CUSTOM_CONTROLS; i++)
-                                if (buttonscan[18 + advorder[i]] == LastScan)
-                                    buttonscan[18 + advorder[i]] = bt_nobutton;
+                        for (i = 0; i < MAX_CUSTOM_CONTROLS; i++)
+                            if (buttonscan[18 + advorder[i]] == LastScan)
+                                buttonscan[18 + advorder[i]] = bt_nobutton;
 
-                            buttonscan[18 + advorder[which]] = LastScan;
+                        buttonscan[18 + advorder[which]] = LastScan;
 
-                            picked = 1;
-                            SD_PlaySound(SHOOTDOORSND);
-                            IN_ClearKeysDown();
+                        picked = 1;
+                        SD_PlaySound(SHOOTDOORSND);
+                        IN_ClearKeysDown();
 
-                            exit = 1;
-                        }
-                        break;
+                        exit = 1;
+                    }
+                    break;
 #endif
                 }
 
                 //
                 // EXIT INPUT?
                 //
-                if (IN_KeyDown(sc_Escape) || type != JOYSTICK && ci.button1) {
+                if (IN_KeyDown(sc_Escape) || type != JOYSTICK && ci.button1)
+                {
                     picked = 1;
                     SD_PlaySound(ESCPRESSEDSND);
                 }
@@ -2897,35 +3077,38 @@ void EnterCtrlData(int index, CustomCtrls *cust, void (*DrawRtn)(int), void (*Pr
         //
         // MOVE TO ANOTHER SPOT?
         //
-        switch (ci.dir) {
-            case dir_West:
-                do {
-                    which--;
-                    if (which < 0)
-                        which = 3;
-                } while (!cust->allowed[which]);
-                redraw = 1;
-                SD_PlaySound(MOVEGUN1SND);
-                while (ReadAnyControl(&ci), ci.dir != dir_None)
-                    SDL_Delay(5);
-                IN_ClearKeysDown();
-                break;
+        switch (ci.dir)
+        {
+        case dir_West:
+            do
+            {
+                which--;
+                if (which < 0)
+                    which = 3;
+            } while (!cust->allowed[which]);
+            redraw = 1;
+            SD_PlaySound(MOVEGUN1SND);
+            while (ReadAnyControl(&ci), ci.dir != dir_None)
+                SDL_Delay(5);
+            IN_ClearKeysDown();
+            break;
 
-            case dir_East:
-                do {
-                    which++;
-                    if (which > 3)
-                        which = 0;
-                } while (!cust->allowed[which]);
-                redraw = 1;
-                SD_PlaySound(MOVEGUN1SND);
-                while (ReadAnyControl(&ci), ci.dir != dir_None)
-                    SDL_Delay(5);
-                IN_ClearKeysDown();
-                break;
-            case dir_North:
-            case dir_South:
-                exit = 1;
+        case dir_East:
+            do
+            {
+                which++;
+                if (which > 3)
+                    which = 0;
+            } while (!cust->allowed[which]);
+            redraw = 1;
+            SD_PlaySound(MOVEGUN1SND);
+            while (ReadAnyControl(&ci), ci.dir != dir_None)
+                SDL_Delay(5);
+            IN_ClearKeysDown();
+            break;
+        case dir_North:
+        case dir_South:
+            exit = 1;
         }
     } while (!exit);
 
@@ -2941,7 +3124,8 @@ void EnterCtrlData(int index, CustomCtrls *cust, void (*DrawRtn)(int), void (*Pr
 //
 // FIXUP GUN CURSOR OVERDRAW SHIT
 //
-void FixupCustom(int w) {
+void FixupCustom(int w)
+{
     static int lastwhich = -1;
     int y = CST_Y + 26 + w * 13;
 
@@ -2951,25 +3135,27 @@ void FixupCustom(int w) {
     VWB_Hlin(7, 32, y - 2, BORDCOLOR);
     VWB_Hlin(7, 32, y + 13, BORDCOLOR);
 #else
-                                                                                                                            VWB_Hlin(7, 32, y - 2, BORD2COLOR);
-	VWB_Hlin(7, 32, y + 13, BORD2COLOR);
+    VWB_Hlin(7, 32, y - 2, BORD2COLOR);
+    VWB_Hlin(7, 32, y + 13, BORD2COLOR);
 #endif
 
-    switch (w) {
-        case 0:
-            DrawCustMouse(1);
-            break;
-        case 3:
-            DrawCustJoy(1);
-            break;
-        case 6:
-            DrawCustKeybd(1);
-            break;
-        case 8:
-            DrawCustKeys(1);
+    switch (w)
+    {
+    case 0:
+        DrawCustMouse(1);
+        break;
+    case 3:
+        DrawCustJoy(1);
+        break;
+    case 6:
+        DrawCustKeybd(1);
+        break;
+    case 8:
+        DrawCustKeys(1);
     }
 
-    if (lastwhich >= 0) {
+    if (lastwhich >= 0)
+    {
         y = CST_Y + 26 + lastwhich * 13;
         VWB_Hlin(7, 32, y - 1, DEACTIVE);
         VWB_Hlin(7, 32, y + 12, BORD2COLOR);
@@ -2977,23 +3163,24 @@ void FixupCustom(int w) {
         VWB_Hlin(7, 32, y - 2, BORDCOLOR);
         VWB_Hlin(7, 32, y + 13, BORDCOLOR);
 #else
-                                                                                                                                VWB_Hlin(7, 32, y - 2, BORD2COLOR);
-		VWB_Hlin(7, 32, y + 13, BORD2COLOR);
+        VWB_Hlin(7, 32, y - 2, BORD2COLOR);
+        VWB_Hlin(7, 32, y + 13, BORD2COLOR);
 #endif
 
         if (lastwhich != w)
-            switch (lastwhich) {
-                case 0:
-                    DrawCustMouse(0);
-                    break;
-                case 3:
-                    DrawCustJoy(0);
-                    break;
-                case 6:
-                    DrawCustKeybd(0);
-                    break;
-                case 8:
-                    DrawCustKeys(0);
+            switch (lastwhich)
+            {
+            case 0:
+                DrawCustMouse(0);
+                break;
+            case 3:
+                DrawCustJoy(0);
+                break;
+            case 6:
+                DrawCustKeybd(0);
+                break;
+            case 8:
+                DrawCustKeys(0);
             }
     }
 
@@ -3006,9 +3193,10 @@ void FixupCustom(int w) {
 //
 // DRAW MOUSE CONTROLS SCREEN
 //
-void DrawMouseCtlScreen(void) {
+void DrawMouseCtlScreen(void)
+{
     int i;
-    int which;
+    int which = 0;
 
     ClearMScreen();
     WindowX = 0;
@@ -3028,8 +3216,8 @@ void DrawMouseCtlScreen(void) {
     //PrintY = OPT_MOUSE_Y;
     //US_CPrint("Mouse\n");
 #else
-                                                                                                                            PrintY = CST_Y + 13;
-	VWB_DrawPic(128, 48, C_MOUSEPIC);
+    PrintY = CST_Y + 13;
+    VWB_DrawPic(128, 48, C_MOUSEPIC);
 #endif
 
     SETFONTCOLOR(TEXTCOLOR, BKGDCOLOR);
@@ -3053,7 +3241,8 @@ void DrawMouseCtlScreen(void) {
     //
     if (CusMouseItems.curpos < 0)
         for (i = 0; i < CusMouseItems.amount; i++)
-            if (CtlMouseMenu[i].active) {
+            if (CtlMouseMenu[i].active)
+            {
                 CusMouseItems.curpos = i;
                 break;
             }
@@ -3066,9 +3255,10 @@ void DrawMouseCtlScreen(void) {
 //
 // DRAW KEYBOARD MOVE CONTROLS SCREEN
 //
-void DrawKeyboardMoveCtlScreen(void) {
+void DrawKeyboardMoveCtlScreen(void)
+{
     int i;
-    int which;
+    int which = 0;
 
     ClearMScreen();
     WindowX = 0;
@@ -3088,8 +3278,8 @@ void DrawKeyboardMoveCtlScreen(void) {
     //PrintY = OPT_MOUSE_Y;
     //US_CPrint("Mouse\n");
 #else
-                                                                                                                            PrintY = CST_Y + 13;
-	VWB_DrawPic(128, 48, C_MOUSEPIC);
+    PrintY = CST_Y + 13;
+    VWB_DrawPic(128, 48, C_MOUSEPIC);
 #endif
 
     SETFONTCOLOR(TEXTCOLOR, BKGDCOLOR);
@@ -3108,7 +3298,8 @@ void DrawKeyboardMoveCtlScreen(void) {
     //
     if (CusKeyboardMoveItems.curpos < 0)
         for (i = 0; i < CusKeyboardMoveItems.amount; i++)
-            if (CtlKeyboardMoveMenu[i].active) {
+            if (CtlKeyboardMoveMenu[i].active)
+            {
                 CusKeyboardMoveItems.curpos = i;
                 break;
             }
@@ -3121,9 +3312,10 @@ void DrawKeyboardMoveCtlScreen(void) {
 //
 // DRAW KEYBOARD ACTION CONTROLS SCREEN
 //
-void DrawKeyboardActionCtlScreen(void) {
+void DrawKeyboardActionCtlScreen(void)
+{
     int i;
-    int which;
+    int which = 0;
 
     ClearMScreen();
     WindowX = 0;
@@ -3143,8 +3335,8 @@ void DrawKeyboardActionCtlScreen(void) {
     //PrintY = OPT_MOUSE_Y;
     //US_CPrint("Mouse\n");
 #else
-                                                                                                                            PrintY = CST_Y + 13;
-	VWB_DrawPic(128, 48, C_MOUSEPIC);
+    PrintY = CST_Y + 13;
+    VWB_DrawPic(128, 48, C_MOUSEPIC);
 #endif
 
     SETFONTCOLOR(TEXTCOLOR, BKGDCOLOR);
@@ -3163,7 +3355,8 @@ void DrawKeyboardActionCtlScreen(void) {
     //
     if (CusKeyboardActionItems.curpos < 0)
         for (i = 0; i < CusKeyboardActionItems.amount; i++)
-            if (CtlKeyboardActionMenu[i].active) {
+            if (CtlKeyboardActionMenu[i].active)
+            {
                 CusKeyboardActionItems.curpos = i;
                 break;
             }
@@ -3178,9 +3371,10 @@ void DrawKeyboardActionCtlScreen(void) {
 //
 // DRAW CUSTOM CONTROLS SCREEN
 //
-void DrawCustomCtlScreen(void) {
+void DrawCustomCtlScreen(void)
+{
     int i;
-    int which;
+    int which = 0;
 
     ClearMScreen();
     WindowX = 0;
@@ -3200,8 +3394,8 @@ void DrawCustomCtlScreen(void) {
     //PrintY = OPT_MOUSE_Y;
     //US_CPrint("Mouse\n");
 #else
-                                                                                                                            PrintY = CST_Y + 13;
-	VWB_DrawPic(128, 48, C_MOUSEPIC);
+    PrintY = CST_Y + 13;
+    VWB_DrawPic(128, 48, C_MOUSEPIC);
 #endif
 
     SETFONTCOLOR(TEXTCOLOR, BKGDCOLOR);
@@ -3220,7 +3414,8 @@ void DrawCustomCtlScreen(void) {
     //
     if (CusCtlItems.curpos < 0)
         for (i = 0; i < CusCtlItems.amount; i++)
-            if (CusCtlMenu[i].active) {
+            if (CusCtlMenu[i].active)
+            {
                 CusCtlItems.curpos = i;
                 break;
             }
@@ -3235,9 +3430,10 @@ void DrawCustomCtlScreen(void) {
 //
 // DRAW JOYSTICK SCREEN
 //
-void DrawJoystickScreen(void) {
+void DrawJoystickScreen(void)
+{
     int i;
-    int which;
+    int which = 0;
 
     ClearMScreen();
     WindowX = 0;
@@ -3257,8 +3453,8 @@ void DrawJoystickScreen(void) {
     //PrintY = OPT_MOUSE_Y;
     //US_CPrint("Mouse\n");
 #else
-                                                                                                                            PrintY = CST_Y + 13;
-	VWB_DrawPic(128, 48, C_MOUSEPIC);
+    PrintY = CST_Y + 13;
+    VWB_DrawPic(128, 48, C_MOUSEPIC);
 #endif
 
     SETFONTCOLOR(TEXTCOLOR, BKGDCOLOR);
@@ -3277,7 +3473,8 @@ void DrawJoystickScreen(void) {
     //
     if (CusJoystickItems.curpos < 0)
         for (i = 0; i < CusJoystickItems.amount; i++)
-            if (CtlJoystickMenu[i].active) {
+            if (CtlJoystickMenu[i].active)
+            {
                 CusJoystickItems.curpos = i;
                 break;
             }
@@ -3288,201 +3485,203 @@ void DrawJoystickScreen(void) {
 
 #else
 
-                                                                                                                        ////////////////////////
+////////////////////////
 //
 // DRAW CUSTOMIZE SCREEN
 //
 void DrawCustomScreen(void)
 {
-	int i;
+    int i;
 
 #ifdef JAPAN
-	VWB_DrawPic(0, 0, S_CUSTOMPIC);
-	fontnumber = 1;
+    VWB_DrawPic(0, 0, S_CUSTOMPIC);
+    fontnumber = 1;
 
-	PrintX = CST_START;
-	PrintY = CST_Y + 26;
-	DrawCustMouse(0);
+    PrintX = CST_START;
+    PrintY = CST_Y + 26;
+    DrawCustMouse(0);
 
-	PrintX = CST_START;
-	US_Print("\n\n\n");
-	DrawCustJoy(0);
+    PrintX = CST_START;
+    US_Print("\n\n\n");
+    DrawCustJoy(0);
 
-	PrintX = CST_START;
-	US_Print("\n\n\n");
-	DrawCustKeybd(0);
+    PrintX = CST_START;
+    US_Print("\n\n\n");
+    DrawCustKeybd(0);
 
-	PrintX = CST_START;
-	US_Print("\n\n\n");
-	DrawCustKeys(0);
+    PrintX = CST_START;
+    US_Print("\n\n\n");
+    DrawCustKeys(0);
 #else
-	ClearMScreen();
-	WindowX = 0;
-	WindowW = 320;
-	VWB_DrawPic(112, 184, C_MOUSELBACKPIC);
-	DrawStripes(10);
-	VWB_DrawPic(80, 0, C_CUSTOMIZEPIC);
+    ClearMScreen();
+    WindowX = 0;
+    WindowW = 320;
+    VWB_DrawPic(112, 184, C_MOUSELBACKPIC);
+    DrawStripes(10);
+    VWB_DrawPic(80, 0, C_CUSTOMIZEPIC);
 
-	//
-	// MOUSE
-	//
-	SETFONTCOLOR(READCOLOR, BKGDCOLOR);
-	WindowX = 0;
-	WindowW = 320;
+    //
+    // MOUSE
+    //
+    SETFONTCOLOR(READCOLOR, BKGDCOLOR);
+    WindowX = 0;
+    WindowW = 320;
 
 #ifndef SPEAR
-	PrintY = CST_Y;
-	US_CPrint("Mouse\n");
+    PrintY = CST_Y;
+    US_CPrint("Mouse\n");
 #else
-	PrintY = CST_Y + 13;
-	VWB_DrawPic(128, 48, C_MOUSEPIC);
+    PrintY = CST_Y + 13;
+    VWB_DrawPic(128, 48, C_MOUSEPIC);
 #endif
 
-	SETFONTCOLOR(TEXTCOLOR, BKGDCOLOR);
+    SETFONTCOLOR(TEXTCOLOR, BKGDCOLOR);
 #ifdef SPANISH
-	PrintX = CST_START - 16;
-	US_Print(STR_CRUN);
-	PrintX = CST_START - 16 + CST_SPC * 1;
-	US_Print(STR_COPEN);
-	PrintX = CST_START - 16 + CST_SPC * 2;
-	US_Print(STR_CFIRE);
-	PrintX = CST_START - 16 + CST_SPC * 3;
-	US_Print(STR_CSTRAFE "\n");
+    PrintX = CST_START - 16;
+    US_Print(STR_CRUN);
+    PrintX = CST_START - 16 + CST_SPC * 1;
+    US_Print(STR_COPEN);
+    PrintX = CST_START - 16 + CST_SPC * 2;
+    US_Print(STR_CFIRE);
+    PrintX = CST_START - 16 + CST_SPC * 3;
+    US_Print(STR_CSTRAFE "\n");
 #else
-	PrintX = CST_START;
-	US_Print(STR_CRUN);
-	PrintX = CST_START + CST_SPC * 1;
-	US_Print(STR_COPEN);
-	PrintX = CST_START + CST_SPC * 2;
-	US_Print(STR_CFIRE);
-	PrintX = CST_START + CST_SPC * 3;
-	US_Print(STR_CSTRAFE "\n");
+    PrintX = CST_START;
+    US_Print(STR_CRUN);
+    PrintX = CST_START + CST_SPC * 1;
+    US_Print(STR_COPEN);
+    PrintX = CST_START + CST_SPC * 2;
+    US_Print(STR_CFIRE);
+    PrintX = CST_START + CST_SPC * 3;
+    US_Print(STR_CSTRAFE "\n");
 #endif
 
-	DrawWindow(5, PrintY - 1, 310, 13, BKGDCOLOR);
-	DrawCustMouse(0);
-	US_Print("\n");
+    DrawWindow(5, PrintY - 1, 310, 13, BKGDCOLOR);
+    DrawCustMouse(0);
+    US_Print("\n");
 
-	//
-	// JOYSTICK/PAD
-	//
+    //
+    // JOYSTICK/PAD
+    //
 #ifndef SPEAR
-	SETFONTCOLOR(READCOLOR, BKGDCOLOR);
-	US_CPrint("Joystick/Gravis GamePad\n");
+    SETFONTCOLOR(READCOLOR, BKGDCOLOR);
+    US_CPrint("Joystick/Gravis GamePad\n");
 #else
-	PrintY += 13;
-	VWB_DrawPic(40, 88, C_JOYSTICKPIC);
+    PrintY += 13;
+    VWB_DrawPic(40, 88, C_JOYSTICKPIC);
 #endif
 
 #ifdef SPEAR
-	VWB_DrawPic(112, 120, C_KEYBOARDPIC);
+    VWB_DrawPic(112, 120, C_KEYBOARDPIC);
 #endif
 
-	SETFONTCOLOR(TEXTCOLOR, BKGDCOLOR);
+    SETFONTCOLOR(TEXTCOLOR, BKGDCOLOR);
 #ifdef SPANISH
-	PrintX = CST_START - 16;
-	US_Print(STR_CRUN);
-	PrintX = CST_START - 16 + CST_SPC * 1;
-	US_Print(STR_COPEN);
-	PrintX = CST_START - 16 + CST_SPC * 2;
-	US_Print(STR_CFIRE);
-	PrintX = CST_START - 16 + CST_SPC * 3;
-	US_Print(STR_CSTRAFE "\n");
+    PrintX = CST_START - 16;
+    US_Print(STR_CRUN);
+    PrintX = CST_START - 16 + CST_SPC * 1;
+    US_Print(STR_COPEN);
+    PrintX = CST_START - 16 + CST_SPC * 2;
+    US_Print(STR_CFIRE);
+    PrintX = CST_START - 16 + CST_SPC * 3;
+    US_Print(STR_CSTRAFE "\n");
 #else
-	PrintX = CST_START;
-	US_Print(STR_CRUN);
-	PrintX = CST_START + CST_SPC * 1;
-	US_Print(STR_COPEN);
-	PrintX = CST_START + CST_SPC * 2;
-	US_Print(STR_CFIRE);
-	PrintX = CST_START + CST_SPC * 3;
-	US_Print(STR_CSTRAFE "\n");
+    PrintX = CST_START;
+    US_Print(STR_CRUN);
+    PrintX = CST_START + CST_SPC * 1;
+    US_Print(STR_COPEN);
+    PrintX = CST_START + CST_SPC * 2;
+    US_Print(STR_CFIRE);
+    PrintX = CST_START + CST_SPC * 3;
+    US_Print(STR_CSTRAFE "\n");
 #endif
-	DrawWindow(5, PrintY - 1, 310, 13, BKGDCOLOR);
-	DrawCustJoy(0);
-	US_Print("\n");
+    DrawWindow(5, PrintY - 1, 310, 13, BKGDCOLOR);
+    DrawCustJoy(0);
+    US_Print("\n");
 
-	//
-	// KEYBOARD
-	//
+    //
+    // KEYBOARD
+    //
 #ifndef SPEAR
-	SETFONTCOLOR(READCOLOR, BKGDCOLOR);
-	US_CPrint("Keyboard\n");
+    SETFONTCOLOR(READCOLOR, BKGDCOLOR);
+    US_CPrint("Keyboard\n");
 #else
-	PrintY += 13;
+    PrintY += 13;
 #endif
-	SETFONTCOLOR(TEXTCOLOR, BKGDCOLOR);
+    SETFONTCOLOR(TEXTCOLOR, BKGDCOLOR);
 #ifdef SPANISH
-	PrintX = CST_START - 16;
-	US_Print(STR_CRUN);
-	PrintX = CST_START - 16 + CST_SPC * 1;
-	US_Print(STR_COPEN);
-	PrintX = CST_START - 16 + CST_SPC * 2;
-	US_Print(STR_CFIRE);
-	PrintX = CST_START - 16 + CST_SPC * 3;
-	US_Print(STR_CSTRAFE "\n");
+    PrintX = CST_START - 16;
+    US_Print(STR_CRUN);
+    PrintX = CST_START - 16 + CST_SPC * 1;
+    US_Print(STR_COPEN);
+    PrintX = CST_START - 16 + CST_SPC * 2;
+    US_Print(STR_CFIRE);
+    PrintX = CST_START - 16 + CST_SPC * 3;
+    US_Print(STR_CSTRAFE "\n");
 #else
-	PrintX = CST_START;
-	US_Print(STR_CRUN);
-	PrintX = CST_START + CST_SPC * 1;
-	US_Print(STR_COPEN);
-	PrintX = CST_START + CST_SPC * 2;
-	US_Print(STR_CFIRE);
-	PrintX = CST_START + CST_SPC * 3;
-	US_Print(STR_CSTRAFE "\n");
+    PrintX = CST_START;
+    US_Print(STR_CRUN);
+    PrintX = CST_START + CST_SPC * 1;
+    US_Print(STR_COPEN);
+    PrintX = CST_START + CST_SPC * 2;
+    US_Print(STR_CFIRE);
+    PrintX = CST_START + CST_SPC * 3;
+    US_Print(STR_CSTRAFE "\n");
 #endif
-	DrawWindow(5, PrintY - 1, 310, 13, BKGDCOLOR);
-	DrawCustKeybd(0);
-	US_Print("\n");
+    DrawWindow(5, PrintY - 1, 310, 13, BKGDCOLOR);
+    DrawCustKeybd(0);
+    US_Print("\n");
 
-	//
-	// KEYBOARD MOVE KEYS
-	//
-	SETFONTCOLOR(TEXTCOLOR, BKGDCOLOR);
+    //
+    // KEYBOARD MOVE KEYS
+    //
+    SETFONTCOLOR(TEXTCOLOR, BKGDCOLOR);
 #ifdef SPANISH
-	PrintX = 4;
-	US_Print(STR_LEFT);
-	US_Print("/");
-	US_Print(STR_RIGHT);
-	US_Print("/");
-	US_Print(STR_FRWD);
-	US_Print("/");
-	US_Print(STR_BKWD "\n");
+    PrintX = 4;
+    US_Print(STR_LEFT);
+    US_Print("/");
+    US_Print(STR_RIGHT);
+    US_Print("/");
+    US_Print(STR_FRWD);
+    US_Print("/");
+    US_Print(STR_BKWD "\n");
 #else
-	PrintX = CST_START;
-	US_Print(STR_LEFT);
-	PrintX = CST_START + CST_SPC * 1;
-	US_Print(STR_RIGHT);
-	PrintX = CST_START + CST_SPC * 2;
-	US_Print(STR_FRWD);
-	PrintX = CST_START + CST_SPC * 3;
-	US_Print(STR_BKWD "\n");
+    PrintX = CST_START;
+    US_Print(STR_LEFT);
+    PrintX = CST_START + CST_SPC * 1;
+    US_Print(STR_RIGHT);
+    PrintX = CST_START + CST_SPC * 2;
+    US_Print(STR_FRWD);
+    PrintX = CST_START + CST_SPC * 3;
+    US_Print(STR_BKWD "\n");
 #endif
-	DrawWindow(5, PrintY - 1, 310, 13, BKGDCOLOR);
-	DrawCustKeys(0);
+    DrawWindow(5, PrintY - 1, 310, 13, BKGDCOLOR);
+    DrawCustKeys(0);
 #endif
-	//
-	// PICK STARTING POINT IN MENU
-	//
-	if (CusItems.curpos < 0)
-		for (i = 0; i < CusItems.amount; i++)
-			if (CusMenu[i].active)
-			{
-				CusItems.curpos = i;
-				break;
-			}
+    //
+    // PICK STARTING POINT IN MENU
+    //
+    if (CusItems.curpos < 0)
+        for (i = 0; i < CusItems.amount; i++)
+            if (CusMenu[i].active)
+            {
+                CusItems.curpos = i;
+                break;
+            }
 
-	VW_UpdateScreen();
-	MenuFadeIn();
+    VW_UpdateScreen();
+    MenuFadeIn();
 }
 
 #endif // USE_MODERN_OPTIONS
 
-void PrintCustMouse(int i) {
+void PrintCustMouse(int i)
+{
     int j;
 
     for (j = 0; j < 4; j++)
-        if (order[i] == buttonmouse[j]) {
+        if (order[i] == buttonmouse[j])
+        {
 #ifndef USE_MODERN_OPTIONS
             PrintX = CST_START + CST_SPC * i;
 #else
@@ -3494,7 +3693,8 @@ void PrintCustMouse(int i) {
         }
 }
 
-void DrawCustMouse(int highlight) {
+void DrawCustMouse(int highlight)
+{
     int i, color;
 
     color = TEXTCOLOR;
@@ -3502,10 +3702,12 @@ void DrawCustMouse(int highlight) {
         color = HIGHLIGHT;
     SETFONTCOLOR(color, BKGDCOLOR);
 
-    if (!mouseenabled) {
+    if (!mouseenabled)
+    {
         SETFONTCOLOR(DEACTIVE, BKGDCOLOR);
         CtlMouseMenu[0].active = 0;
-    } else
+    }
+    else
         CtlMouseMenu[0].active = 1;
 
 #ifndef USE_MODERN_OPTIONS
@@ -3517,14 +3719,17 @@ void DrawCustMouse(int highlight) {
         PrintCustMouse(i);
 }
 
-void PrintCustJoy(int i) {
+void PrintCustJoy(int i)
+{
     int j;
 
-    for (j = 0; j < 4; j++) {
-        if (order[i] == buttonjoy[j]) {
+    for (j = 0; j < 4; j++)
+    {
+        if (order[i] == buttonjoy[j])
+        {
 #ifndef USE_MODERN_OPTIONS
-                                                                                                                                    PrintX = CST_START + CST_SPC * i;
-			US_Print(mbarray[j]);
+            PrintX = CST_START + CST_SPC * i;
+            US_Print(mbarray[j]);
 #else
             PrintX = CTL_MOUSE_X;
             PrintY = CST_START + (CST_SPC_Y * i);
@@ -3535,7 +3740,8 @@ void PrintCustJoy(int i) {
     }
 }
 
-void DrawCustJoy(int hilight) {
+void DrawCustJoy(int hilight)
+{
     int i, color;
 
     color = TEXTCOLOR;
@@ -3543,10 +3749,12 @@ void DrawCustJoy(int hilight) {
         color = HIGHLIGHT;
     SETFONTCOLOR(color, BKGDCOLOR);
 
-    if (!joystickenabled) {
+    if (!joystickenabled)
+    {
         SETFONTCOLOR(DEACTIVE, BKGDCOLOR);
         CusMenu[3].active = 0;
-    } else
+    }
+    else
         CusMenu[3].active = 1;
 
 #ifndef USE_MODERN_OPTIONS
@@ -3559,17 +3767,19 @@ void DrawCustJoy(int hilight) {
         PrintCustJoy(i);
 }
 
-void PrintCustKeybd(int i) {
+void PrintCustKeybd(int i)
+{
 #ifndef USE_MODERN_OPTIONS
     PrintX = CST_START + CST_SPC * i;
 #else
     PrintX = CTL_MOUSE_X;
     PrintY = CST_START + (CST_SPC_Y * i);
 #endif
-    US_Print((const char *) IN_GetScanName(buttonscan[order[i]]));
+    US_Print((const char *)IN_GetScanName(buttonscan[order[i]]));
 }
 
-void DrawCustKeybd(int hilight) {
+void DrawCustKeybd(int hilight)
+{
     int i, color;
 
     color = TEXTCOLOR;
@@ -3586,17 +3796,19 @@ void DrawCustKeybd(int hilight) {
         PrintCustKeybd(i);
 }
 
-void PrintCustKeys(int i) {
+void PrintCustKeys(int i)
+{
 #ifndef USE_MODERN_OPTIONS
     PrintX = CST_START + CST_SPC * i;
 #else
     PrintX = OPT_KB_MOVE_KEYS_X;
     PrintY = OPT_KB_MOVE_KEYS_Y + (CST_SPC_Y * i);
 #endif
-    US_Print((const char *) IN_GetScanName(dirscan[moveorder[i]]));
+    US_Print((const char *)IN_GetScanName(dirscan[moveorder[i]]));
 }
 
-void DrawCustKeys(int hilight) {
+void DrawCustKeys(int hilight)
+{
     int i, color;
 
     color = TEXTCOLOR;
@@ -3619,14 +3831,16 @@ void DrawCustKeys(int hilight) {
 #ifdef USE_MODERN_OPTIONS
 #ifdef SHOW_CUSTOM_CONTROLS
 
-void PrintCustomCtlKeys(int i) {
+void PrintCustomCtlKeys(int i)
+{
     PrintX = CUS_CTL_RIGHT_TEXT_X;
     PrintY = CST_START + (CST_SPC_Y * i);
     PrintY = CUS_CTL_TEXT_Y + (CST_SPC_Y * i);
-    US_Print((const char *) IN_GetScanName(buttonscan[18 + advorder[i]]));
+    US_Print((const char *)IN_GetScanName(buttonscan[18 + advorder[i]]));
 }
 
-void DrawCustomCtlKeys(int hilight) {
+void DrawCustomCtlKeys(int hilight)
+{
     int i, color;
 
     color = TEXTCOLOR;
@@ -3648,7 +3862,8 @@ void DrawCustomCtlKeys(int hilight) {
 // CHANGE SCREEN VIEWING SIZE
 //
 ////////////////////////////////////////////////////////////////////
-int CP_ChangeView(int blank) {
+int CP_ChangeView(int blank)
+{
     int exit = 0, oldview, newview;
     ControlInfo ci;
 
@@ -3659,42 +3874,47 @@ int CP_ChangeView(int blank) {
     DrawChangeView(oldview);
     MenuFadeIn();
 
-    do {
+    do
+    {
         CheckPause();
         SDL_Delay(5);
         ReadAnyControl(&ci);
-        switch (ci.dir) {
-            case dir_South:
-            case dir_West:
-                newview--;
-                if (newview < 4)
-                    newview = 4;
-                if (newview >= 19)
-                    DrawChangeView(newview);
-                else
-                    ShowViewSize(newview);
-                VW_UpdateScreen();
-                SD_PlaySound(HITWALLSND);
-                TicDelay(10);
-                break;
+        switch (ci.dir)
+        {
+        case dir_South:
+        case dir_West:
+            newview--;
+            if (newview < 4)
+                newview = 4;
+            if (newview >= 19)
+                DrawChangeView(newview);
+            else
+                ShowViewSize(newview);
+            VW_UpdateScreen();
+            SD_PlaySound(HITWALLSND);
+            TicDelay(10);
+            break;
 
-            case dir_North:
-            case dir_East:
-                newview++;
-                if (newview >= 21) {
-                    newview = 21;
-                    DrawChangeView(newview);
-                } else
-                    ShowViewSize(newview);
-                VW_UpdateScreen();
-                SD_PlaySound(HITWALLSND);
-                TicDelay(10);
-                break;
+        case dir_North:
+        case dir_East:
+            newview++;
+            if (newview >= 21)
+            {
+                newview = 21;
+                DrawChangeView(newview);
+            }
+            else
+                ShowViewSize(newview);
+            VW_UpdateScreen();
+            SD_PlaySound(HITWALLSND);
+            TicDelay(10);
+            break;
         }
 
         if (ci.button0 || Keyboard(sc_Enter))
             exit = 1;
-        else if (ci.button1 || Keyboard(sc_Escape)) {
+        else if (ci.button1 || Keyboard(sc_Escape))
+        {
             SD_PlaySound(ESCPRESSEDSND);
             MenuFadeOut();
             if (screenHeight % 200 != 0)
@@ -3703,7 +3923,8 @@ int CP_ChangeView(int blank) {
         }
     } while (!exit);
 
-    if (oldview != newview) {
+    if (oldview != newview)
+    {
         SD_PlaySound(SHOOTSND);
         Message(STR_THINK "...");
         NewViewSize(newview);
@@ -3721,15 +3942,16 @@ int CP_ChangeView(int blank) {
 //
 // DRAW THE CHANGEVIEW SCREEN
 //
-void DrawChangeView(int view) {
+void DrawChangeView(int view)
+{
     int rescaledHeight = screenHeight / scaleFactor;
     if (view != 21)
         VWB_Bar(0, rescaledHeight - 40, 320, 40, bordercol);
 
 #ifdef JAPAN
-                                                                                                                            VWB_DrawPic(0, 0, S_CHANGEPIC);
+    VWB_DrawPic(0, 0, S_CHANGEPIC);
 
-	ShowViewSize(view);
+    ShowViewSize(view);
 #else
     ShowViewSize(view);
 
@@ -3750,7 +3972,8 @@ void DrawChangeView(int view) {
 // QUIT THIS INFERNAL GAME!
 //
 ////////////////////////////////////////////////////////////////////
-int CP_Quit(int blank) {
+int CP_Quit(int blank)
+{
 #ifdef JAPAN
     if (GetYorN(7, 11, C_QUITMSGPIC))
 #else
@@ -3779,10 +4002,11 @@ int CP_Quit(int blank) {
 // HANDLE INTRO SCREEN (SYSTEM CONFIG)
 //
 ////////////////////////////////////////////////////////////////////
-void IntroScreen(void) {
+void IntroScreen(void)
+{
 #ifdef SPEAR
 
-                                                                                                                            #define MAINCOLOR 0x4f
+#define MAINCOLOR 0x4f
 #define EMSCOLOR 0x4f
 #define XMSCOLOR 0x4f
 
@@ -3806,32 +4030,32 @@ void IntroScreen(void) {
     // DRAW MAIN MEMORY
     //
 #ifdef ABCAUS
-                                                                                                                            memory = (1023l + mminfo.nearheap + mminfo.farheap) / 1024l;
-	for (i = 0; i < 10; i++)
-		if (memory >= main[i])
-			VWB_Bar(49, 163 - 8 * i, 6, 5, MAINCOLOR - i);
+    memory = (1023l + mminfo.nearheap + mminfo.farheap) / 1024l;
+    for (i = 0; i < 10; i++)
+        if (memory >= main[i])
+            VWB_Bar(49, 163 - 8 * i, 6, 5, MAINCOLOR - i);
 
-	//
-	// DRAW EMS MEMORY
-	//
-	if (EMSPresent)
-	{
-		emshere = 4l * EMSPagesAvail;
-		for (i = 0; i < 10; i++)
-			if (emshere >= ems[i])
-				VWB_Bar(89, 163 - 8 * i, 6, 5, EMSCOLOR - i);
-	}
+    //
+    // DRAW EMS MEMORY
+    //
+    if (EMSPresent)
+    {
+        emshere = 4l * EMSPagesAvail;
+        for (i = 0; i < 10; i++)
+            if (emshere >= ems[i])
+                VWB_Bar(89, 163 - 8 * i, 6, 5, EMSCOLOR - i);
+    }
 
-	//
-	// DRAW XMS MEMORY
-	//
-	if (XMSPresent)
-	{
-		xmshere = 4l * XMSPagesAvail;
-		for (i = 0; i < 10; i++)
-			if (xmshere >= xms[i])
-				VWB_Bar(129, 163 - 8 * i, 6, 5, XMSCOLOR - i);
-	}
+    //
+    // DRAW XMS MEMORY
+    //
+    if (XMSPresent)
+    {
+        xmshere = 4l * XMSPagesAvail;
+        for (i = 0; i < 10; i++)
+            if (xmshere >= xms[i])
+                VWB_Bar(129, 163 - 8 * i, 6, 5, XMSCOLOR - i);
+    }
 #else
     for (i = 0; i < 10; i++)
         VWB_Bar(49, 163 - 8 * i, 6, 5, MAINCOLOR - i);
@@ -3873,7 +4097,8 @@ void IntroScreen(void) {
 // Clear Menu screens to dark red
 //
 ////////////////////////////////////////////////////////////////////
-void ClearMScreen(void) {
+void ClearMScreen(void)
+{
 #ifndef SPEAR
     VWB_Bar(0, 0, 320, 200, BORDCOLOR);
 #else
@@ -3886,12 +4111,14 @@ void ClearMScreen(void) {
 // Draw a window for a menu
 //
 ////////////////////////////////////////////////////////////////////
-void DrawWindow(int x, int y, int w, int h, int wcolor) {
+void DrawWindow(int x, int y, int w, int h, int wcolor)
+{
     VWB_Bar(x, y, w, h, wcolor);
     DrawOutline(x, y, w, h, BORD2COLOR, DEACTIVE);
 }
 
-void DrawOutline(int x, int y, int w, int h, int color1, int color2) {
+void DrawOutline(int x, int y, int w, int h, int color1, int color2)
+{
     VWB_Hlin(x, x + w, y, color2);
     VWB_Vlin(y, y + h, x, color2);
     VWB_Hlin(x, x + w, y + h, color1);
@@ -3903,7 +4130,8 @@ void DrawOutline(int x, int y, int w, int h, int color1, int color2) {
 // Setup Control Panel stuff - graphics, etc.
 //
 ////////////////////////////////////////////////////////////////////
-void SetupControlPanel(void) {
+void SetupControlPanel(void)
+{
     //
     // CACHE SOUNDS
     //
@@ -3930,37 +4158,40 @@ void SetupControlPanel(void) {
 // SEE WHICH SAVE GAME FILES ARE AVAILABLE & READ STRING IN
 //
 ////////////////////////////////////////////////////////////////////
-void SetupSaveGames() {
+void SetupSaveGames()
+{
     int i;
     char name[13];
     char savepath[300];
 
     strcpy(name, SaveName);
-    for (i = 0; i < 10; i++) {
+    for (i = 0; i < 10; i++)
+    {
         name[7] = '0' + i;
 #ifdef _arch_dreamcast
-                                                                                                                                // Try to unpack file
-		if (DC_LoadFromVMU(name))
-		{
+        // Try to unpack file
+        if (DC_LoadFromVMU(name))
+        {
 #endif
-        if (configdir[0])
-            snprintf(savepath, sizeof(savepath), "%s/%s", configdir, name);
-        else
-            strcpy(savepath, name);
+            if (configdir[0])
+                snprintf(savepath, sizeof(savepath), "%s/%s", configdir, name);
+            else
+                strcpy(savepath, name);
 
-        const int handle = open(savepath, O_RDONLY | O_BINARY);
-        if (handle >= 0) {
-            char temp[32];
+            const int handle = open(savepath, O_RDONLY | O_BINARY);
+            if (handle >= 0)
+            {
+                char temp[32];
 
-            SaveGamesAvail[i] = 1;
-            read(handle, temp, 32);
-            close(handle);
-            strcpy(&SaveGameNames[i][0], temp);
-        }
+                SaveGamesAvail[i] = 1;
+                read(handle, temp, 32);
+                close(handle);
+                strcpy(&SaveGameNames[i][0], temp);
+            }
 #ifdef _arch_dreamcast
-                                                                                                                                // Remove unpacked version of file
-			fs_unlink(name);
-		}
+            // Remove unpacked version of file
+            fs_unlink(name);
+        }
 #endif
     }
 }
@@ -3970,7 +4201,8 @@ void SetupSaveGames() {
 // Clean up all the Control Panel stuff
 //
 ////////////////////////////////////////////////////////////////////
-void CleanupControlPanel(void) {
+void CleanupControlPanel(void)
+{
     fontnumber = 0;
 }
 
@@ -3979,7 +4211,8 @@ void CleanupControlPanel(void) {
 // Handle moving gun around a menu
 //
 ////////////////////////////////////////////////////////////////////
-int HandleMenu(CP_iteminfo *item_i, CP_itemtype *items, void (*routine)(int w)) {
+int HandleMenu(CP_iteminfo *item_i, CP_itemtype *items, void (*routine)(int w))
+{
     char key;
     static int redrawitem = 1, lastitem = -1;
     int i, x, y, basey, exit, which, shape;
@@ -3993,7 +4226,8 @@ int HandleMenu(CP_iteminfo *item_i, CP_itemtype *items, void (*routine)(int w)) 
 
     VWB_DrawPic(x, y, C_CURSOR1PIC);
     SetTextColor(items + which, 1);
-    if (redrawitem) {
+    if (redrawitem)
+    {
         PrintX = item_i->x + item_i->indent;
         PrintY = item_i->y + which * 13;
         US_Print((items + which)->string);
@@ -4011,16 +4245,21 @@ int HandleMenu(CP_iteminfo *item_i, CP_itemtype *items, void (*routine)(int w)) 
     lastBlinkTime = GetTimeCount();
     IN_ClearKeysDown();
 
-    do {
+    do
+    {
         //
         // CHANGE GUN SHAPE
         //
-        if ((int32_t)GetTimeCount() - lastBlinkTime > timer) {
+        if ((int32_t)GetTimeCount() - lastBlinkTime > timer)
+        {
             lastBlinkTime = GetTimeCount();
-            if (shape == C_CURSOR1PIC) {
+            if (shape == C_CURSOR1PIC)
+            {
                 shape = C_CURSOR2PIC;
                 timer = 8;
-            } else {
+            }
+            else
+            {
                 shape = C_CURSOR1PIC;
                 timer = 70;
             }
@@ -4028,7 +4267,8 @@ int HandleMenu(CP_iteminfo *item_i, CP_itemtype *items, void (*routine)(int w)) 
             if (routine)
                 routine(which);
             VW_UpdateScreen();
-        } else
+        }
+        else
             SDL_Delay(5);
 
         CheckPause();
@@ -4037,14 +4277,16 @@ int HandleMenu(CP_iteminfo *item_i, CP_itemtype *items, void (*routine)(int w)) 
         // SEE IF ANY KEYS ARE PRESSED FOR INITIAL CHAR FINDING
         //
         key = LastASCII;
-        if (key) {
+        if (key)
+        {
             int ok = 0;
 
             if (key >= 'a')
                 key -= 'a' - 'A';
 
             for (i = which + 1; i < item_i->amount; i++)
-                if ((items + i)->active && (items + i)->string[0] == key) {
+                if ((items + i)->active && (items + i)->string[0] == key)
+                {
                     EraseGun(item_i, items, x, y, which);
                     which = i;
                     DrawGun(item_i, items, x, &y, which, basey, routine);
@@ -4056,9 +4298,11 @@ int HandleMenu(CP_iteminfo *item_i, CP_itemtype *items, void (*routine)(int w)) 
             //
             // DIDN'T FIND A MATCH FIRST TIME THRU. CHECK AGAIN.
             //
-            if (!ok) {
+            if (!ok)
+            {
                 for (i = 0; i < which; i++)
-                    if ((items + i)->active && (items + i)->string[0] == key) {
+                    if ((items + i)->active && (items + i)->string[0] == key)
+                    {
                         EraseGun(item_i, items, x, y, which);
                         which = i;
                         DrawGun(item_i, items, x, &y, which, basey, routine);
@@ -4072,69 +4316,74 @@ int HandleMenu(CP_iteminfo *item_i, CP_itemtype *items, void (*routine)(int w)) 
         // GET INPUT
         //
         ReadAnyControl(&ci);
-        switch (ci.dir) {
+        switch (ci.dir)
+        {
+        ////////////////////////////////////////////////
+        //
+        // MOVE UP
+        //
+        case dir_North:
+
+            EraseGun(item_i, items, x, y, which);
+
+            //
+            // ANIMATE HALF-STEP
+            //
+            if (which && (items + which - 1)->active)
+            {
+                y -= 6;
+                DrawHalfStep(x, y);
+            }
+
+            //
+            // MOVE TO NEXT AVAILABLE SPOT
+            //
+            do
+            {
+                if (!which)
+                    which = item_i->amount - 1;
+                else
+                    which--;
+            } while (!(items + which)->active);
+
+            DrawGun(item_i, items, x, &y, which, basey, routine);
+            //
+            // WAIT FOR BUTTON-UP OR DELAY NEXT MOVE
+            //
+            TicDelay(20);
+            break;
+
             ////////////////////////////////////////////////
             //
-            // MOVE UP
+            // MOVE DOWN
             //
-            case dir_North:
+        case dir_South:
 
-                EraseGun(item_i, items, x, y, which);
+            EraseGun(item_i, items, x, y, which);
+            //
+            // ANIMATE HALF-STEP
+            //
+            if (which != item_i->amount - 1 && (items + which + 1)->active)
+            {
+                y += 6;
+                DrawHalfStep(x, y);
+            }
 
-                //
-                // ANIMATE HALF-STEP
-                //
-                if (which && (items + which - 1)->active) {
-                    y -= 6;
-                    DrawHalfStep(x, y);
-                }
+            do
+            {
+                if (which == item_i->amount - 1)
+                    which = 0;
+                else
+                    which++;
+            } while (!(items + which)->active);
 
-                //
-                // MOVE TO NEXT AVAILABLE SPOT
-                //
-                do {
-                    if (!which)
-                        which = item_i->amount - 1;
-                    else
-                        which--;
-                } while (!(items + which)->active);
+            DrawGun(item_i, items, x, &y, which, basey, routine);
 
-                DrawGun(item_i, items, x, &y, which, basey, routine);
-                //
-                // WAIT FOR BUTTON-UP OR DELAY NEXT MOVE
-                //
-                TicDelay(20);
-                break;
-
-                ////////////////////////////////////////////////
-                //
-                // MOVE DOWN
-                //
-            case dir_South:
-
-                EraseGun(item_i, items, x, y, which);
-                //
-                // ANIMATE HALF-STEP
-                //
-                if (which != item_i->amount - 1 && (items + which + 1)->active) {
-                    y += 6;
-                    DrawHalfStep(x, y);
-                }
-
-                do {
-                    if (which == item_i->amount - 1)
-                        which = 0;
-                    else
-                        which++;
-                } while (!(items + which)->active);
-
-                DrawGun(item_i, items, x, &y, which, basey, routine);
-
-                //
-                // WAIT FOR BUTTON-UP OR DELAY NEXT MOVE
-                //
-                TicDelay(20);
-                break;
+            //
+            // WAIT FOR BUTTON-UP OR DELAY NEXT MOVE
+            //
+            TicDelay(20);
+            break;
         }
 
         if (ci.button0 || Keyboard(sc_Space) || Keyboard(sc_Enter))
@@ -4150,13 +4399,15 @@ int HandleMenu(CP_iteminfo *item_i, CP_itemtype *items, void (*routine)(int w)) 
     //
     // ERASE EVERYTHING
     //
-    if (lastitem != which) {
+    if (lastitem != which)
+    {
         VWB_Bar(x - 1, y, 25, 16, BKGDCOLOR);
         PrintX = item_i->x + item_i->indent;
         PrintY = item_i->y + which * 13;
         US_Print((items + which)->string);
         redrawitem = 1;
-    } else
+    }
+    else
         redrawitem = 0;
 
     if (routine)
@@ -4166,21 +4417,23 @@ int HandleMenu(CP_iteminfo *item_i, CP_itemtype *items, void (*routine)(int w)) 
     item_i->curpos = which;
 
     lastitem = which;
-    switch (exit) {
-        case 1:
-            //
-            // CALL THE ROUTINE
-            //
-            if ((items + which)->routine != NULL) {
-                ShootSnd();
-                MenuFadeOut();
-                (items + which)->routine(0);
-            }
-            return which;
+    switch (exit)
+    {
+    case 1:
+        //
+        // CALL THE ROUTINE
+        //
+        if ((items + which)->routine != NULL)
+        {
+            ShootSnd();
+            MenuFadeOut();
+            (items + which)->routine(0);
+        }
+        return which;
 
-        case 2:
-            SD_PlaySound(ESCPRESSEDSND);
-            return -1;
+    case 2:
+        SD_PlaySound(ESCPRESSEDSND);
+        return -1;
     }
 
     return 0; // JUST TO SHUT UP THE ERROR MESSAGES!
@@ -4189,7 +4442,8 @@ int HandleMenu(CP_iteminfo *item_i, CP_itemtype *items, void (*routine)(int w)) 
 //
 // ERASE GUN & DE-HIGHLIGHT STRING
 //
-void EraseGun(CP_iteminfo *item_i, CP_itemtype *items, int x, int y, int which) {
+void EraseGun(CP_iteminfo *item_i, CP_itemtype *items, int x, int y, int which)
+{
     VWB_Bar(x - 1, y, 25, 16, BKGDCOLOR);
     SetTextColor(items + which, 0);
 
@@ -4202,7 +4456,8 @@ void EraseGun(CP_iteminfo *item_i, CP_itemtype *items, int x, int y, int which) 
 //
 // DRAW HALF STEP OF GUN TO NEXT POSITION
 //
-void DrawHalfStep(int x, int y) {
+void DrawHalfStep(int x, int y)
+{
     VWB_DrawPic(x, y, C_CURSOR1PIC);
     VW_UpdateScreen();
     SD_PlaySound(MOVEGUN1SND);
@@ -4213,7 +4468,8 @@ void DrawHalfStep(int x, int y) {
 // DRAW GUN AT NEW POSITION
 //
 void DrawGun(CP_iteminfo *item_i, CP_itemtype *items, int x, int *y, int which, int basey,
-             void (*routine)(int w)) {
+             void (*routine)(int w))
+{
     VWB_Bar(x - 1, *y, 25, 16, BKGDCOLOR);
     *y = basey + which * 13;
     VWB_DrawPic(x, *y, C_CURSOR1PIC);
@@ -4237,11 +4493,13 @@ void DrawGun(CP_iteminfo *item_i, CP_itemtype *items, int x, int *y, int which, 
 // DELAY FOR AN AMOUNT OF TICS OR UNTIL CONTROLS ARE INACTIVE
 //
 ////////////////////////////////////////////////////////////////////
-void TicDelay(int count) {
+void TicDelay(int count)
+{
     ControlInfo ci;
 
     int32_t startTime = GetTimeCount();
-    do {
+    do
+    {
         SDL_Delay(5);
         ReadAnyControl(&ci);
     } while ((int32_t)GetTimeCount() - startTime < count && ci.dir != dir_None);
@@ -4252,7 +4510,8 @@ void TicDelay(int count) {
 // Draw a menu
 //
 ////////////////////////////////////////////////////////////////////
-void DrawMenu(CP_iteminfo *item_i, CP_itemtype *items) {
+void DrawMenu(CP_iteminfo *item_i, CP_itemtype *items)
+{
     int i, which = item_i->curpos;
 
     WindowX = PrintX = item_i->x + item_i->indent;
@@ -4260,13 +4519,15 @@ void DrawMenu(CP_iteminfo *item_i, CP_itemtype *items) {
     WindowW = 320;
     WindowH = 200;
 
-    for (i = 0; i < item_i->amount; i++) {
+    for (i = 0; i < item_i->amount; i++)
+    {
         SetTextColor(items + i, which == i);
 
         PrintY = item_i->y + i * 13;
         if ((items + i)->active)
             US_Print((items + i)->string);
-        else {
+        else
+        {
             SETFONTCOLOR(DEACTIVE, BKGDCOLOR);
             US_Print((items + i)->string);
             SETFONTCOLOR(TEXTCOLOR, BKGDCOLOR);
@@ -4281,10 +4542,14 @@ void DrawMenu(CP_iteminfo *item_i, CP_itemtype *items) {
 // SET TEXT COLOR (HIGHLIGHT OR NO)
 //
 ////////////////////////////////////////////////////////////////////
-void SetTextColor(CP_itemtype *items, int hlight) {
-    if (hlight) {
+void SetTextColor(CP_itemtype *items, int hlight)
+{
+    if (hlight)
+    {
         SETFONTCOLOR(color_hlite[items->active], BKGDCOLOR);
-    } else {
+    }
+    else
+    {
         SETFONTCOLOR(color_norml[items->active], BKGDCOLOR);
     }
 }
@@ -4294,12 +4559,14 @@ void SetTextColor(CP_itemtype *items, int hlight) {
 // WAIT FOR CTRLKEY-UP OR BUTTON-UP
 //
 ////////////////////////////////////////////////////////////////////
-void WaitKeyUp(void) {
+void WaitKeyUp(void)
+{
     ControlInfo ci;
     while (ReadAnyControl(&ci), ci.button0 |
-                                ci.button1 |
-                                ci.button2 | ci.button3 | Keyboard(sc_Space) | Keyboard(sc_Enter) |
-                                Keyboard(sc_Escape)) {
+                                    ci.button1 |
+                                    ci.button2 | ci.button3 | Keyboard(sc_Space) | Keyboard(sc_Enter) |
+                                    Keyboard(sc_Escape))
+    {
         IN_WaitAndProcessEvents();
     }
 }
@@ -4311,18 +4578,20 @@ void WaitKeyUp(void) {
 ////////////////////////////////////////////////////////////////////
 static int totalMousex = 0, totalMousey = 0;
 
-void ReadAnyControl(ControlInfo *ci) {
+void ReadAnyControl(ControlInfo *ci)
+{
     int mouseactive = 0;
 
     IN_ReadControl(0, ci);
 
-    if (mouseenabled && IN_IsInputGrabbed()) {
+    if (mouseenabled && IN_IsInputGrabbed())
+    {
         int mousex, mousey, buttons;
 #if SDL_MAJOR_VERSION == 1
-                                                                                                                                buttons = SDL_GetMouseState(&mousex, &mousey);
-		mousex -= screenWidth / 2;
-		mousey -= screenHeight / 2;
-		IN_CenterMouse();
+        buttons = SDL_GetMouseState(&mousex, &mousey);
+        mousex -= screenWidth / 2;
+        mousey -= screenHeight / 2;
+        IN_CenterMouse();
 #else
         buttons = SDL_GetRelativeMouseState(&mousex, &mousey);
 #endif
@@ -4337,28 +4606,36 @@ void ReadAnyControl(ControlInfo *ci) {
         totalMousex += mousex;
         totalMousey += mousey;
 
-        if (totalMousey < -SENSITIVE) {
+        if (totalMousey < -SENSITIVE)
+        {
             ci->dir = dir_North;
             mouseactive = 1;
-        } else if (totalMousey > SENSITIVE) {
+        }
+        else if (totalMousey > SENSITIVE)
+        {
             ci->dir = dir_South;
             mouseactive = 1;
         }
 
-        if (totalMousex < -SENSITIVE) {
+        if (totalMousex < -SENSITIVE)
+        {
             ci->dir = dir_West;
             mouseactive = 1;
-        } else if (totalMousex > SENSITIVE) {
+        }
+        else if (totalMousex > SENSITIVE)
+        {
             ci->dir = dir_East;
             mouseactive = 1;
         }
 
-        if (mouseactive) {
+        if (mouseactive)
+        {
             totalMousex = 0;
             totalMousey = 0;
         }
 
-        if (buttons) {
+        if (buttons)
+        {
             ci->button0 = buttons & 1;
             ci->button1 = buttons & 2;
             ci->button2 = buttons & 4;
@@ -4367,7 +4644,8 @@ void ReadAnyControl(ControlInfo *ci) {
         }
     }
 
-    if (joystickenabled && !mouseactive) {
+    if (joystickenabled && !mouseactive)
+    {
         int jx, jy, jb;
 
         IN_GetJoyDelta(&jx, &jy);
@@ -4382,7 +4660,8 @@ void ReadAnyControl(ControlInfo *ci) {
             ci->dir = dir_East;
 
         jb = IN_JoyButtons();
-        if (jb) {
+        if (jb)
+        {
             ci->button0 = jb & 1;
             ci->button1 = jb & 2;
             ci->button2 = jb & 4;
@@ -4396,7 +4675,8 @@ void ReadAnyControl(ControlInfo *ci) {
 // DRAW DIALOG AND CONFIRM YES OR NO TO QUESTION
 //
 ////////////////////////////////////////////////////////////////////
-int Confirm(const char *string) {
+int Confirm(const char *string)
+{
     int xit = 0, x, y, tick = 0, lastBlinkTime;
     int whichsnd[2] = {ESCPRESSEDSND, SHOOTSND};
     ControlInfo ci;
@@ -4412,39 +4692,44 @@ int Confirm(const char *string) {
     y = PrintY;
     lastBlinkTime = GetTimeCount();
 
-    do {
+    do
+    {
         ReadAnyControl(&ci);
 
-        if (GetTimeCount() - lastBlinkTime >= 10) {
-            switch (tick) {
-                case 0:
-                    VWB_Bar(x, y, 8, 13, TEXTCOLOR);
-                    break;
-                case 1:
-                    PrintX = x;
-                    PrintY = y;
-                    US_Print("_");
+        if (GetTimeCount() - lastBlinkTime >= 10)
+        {
+            switch (tick)
+            {
+            case 0:
+                VWB_Bar(x, y, 8, 13, TEXTCOLOR);
+                break;
+            case 1:
+                PrintX = x;
+                PrintY = y;
+                US_Print("_");
             }
             VW_UpdateScreen();
             tick ^= 1;
             lastBlinkTime = GetTimeCount();
-        } else
+        }
+        else
             SDL_Delay(5);
 
 #ifdef SPANISH
-        } while (!Keyboard(sc_S) && !Keyboard(sc_N) && !Keyboard(sc_Escape));
+    } while (!Keyboard(sc_S) && !Keyboard(sc_N) && !Keyboard(sc_Escape));
 #else
     } while (!Keyboard(sc_Y) && !Keyboard(sc_N) && !Keyboard(sc_Escape) && !ci.button0 && !ci.button1);
 #endif
 
 #ifdef SPANISH
-                                                                                                                            if (Keyboard(sc_S) || ci.button0)
-	{
-		xit = 1;
-		ShootSnd();
-	}
+    if (Keyboard(sc_S) || ci.button0)
+    {
+        xit = 1;
+        ShootSnd();
+    }
 #else
-    if (Keyboard(sc_Y) || ci.button0) {
+    if (Keyboard(sc_Y) || ci.button0)
+    {
         xit = 1;
         ShootSnd();
     }
@@ -4453,61 +4738,61 @@ int Confirm(const char *string) {
     IN_ClearKeysDown();
     WaitKeyUp();
 
-    SD_PlaySound((soundnames) whichsnd[xit]);
+    SD_PlaySound((soundnames)whichsnd[xit]);
 
     return xit;
 }
 
 #ifdef JAPAN
-                                                                                                                        ////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////
 //
 // DRAW MESSAGE & GET Y OR N
 //
 ////////////////////////////////////////////////////////////////////
 int GetYorN(int x, int y, int pic)
 {
-	int xit = 0;
-	soundnames whichsnd[2] = {ESCPRESSEDSND, SHOOTSND};
+    int xit = 0;
+    soundnames whichsnd[2] = {ESCPRESSEDSND, SHOOTSND};
 
-	VWB_DrawPic(x * 8, y * 8, pic);
-	VW_UpdateScreen();
-	IN_ClearKeysDown();
+    VWB_DrawPic(x * 8, y * 8, pic);
+    VW_UpdateScreen();
+    IN_ClearKeysDown();
 
-	do
-	{
-		IN_WaitAndProcessEvents();
-	}
+    do
+    {
+        IN_WaitAndProcessEvents();
+    }
 #ifdef SPANISH
-	while (!Keyboard(sc_S) && !Keyboard(sc_N) && !Keyboard(sc_Escape));
+    while (!Keyboard(sc_S) && !Keyboard(sc_N) && !Keyboard(sc_Escape));
 #else
-	while (!Keyboard(sc_Y) && !Keyboard(sc_N) && !Keyboard(sc_Escape));
+    while (!Keyboard(sc_Y) && !Keyboard(sc_N) && !Keyboard(sc_Escape));
 #endif
 
 #ifdef SPANISH
-	if (Keyboard(sc_S))
-	{
-		xit = 1;
-		ShootSnd();
-	}
+    if (Keyboard(sc_S))
+    {
+        xit = 1;
+        ShootSnd();
+    }
 
-	while (Keyboard(sc_S) || Keyboard(sc_N) || Keyboard(sc_Escape))
-		IN_WaitAndProcessEvents();
+    while (Keyboard(sc_S) || Keyboard(sc_N) || Keyboard(sc_Escape))
+        IN_WaitAndProcessEvents();
 
 #else
 
-	if (Keyboard(sc_Y))
-	{
-		xit = 1;
-		ShootSnd();
-	}
+    if (Keyboard(sc_Y))
+    {
+        xit = 1;
+        ShootSnd();
+    }
 
-	while (Keyboard(sc_Y) || Keyboard(sc_N) || Keyboard(sc_Escape))
-		IN_WaitAndProcessEvents();
+    while (Keyboard(sc_Y) || Keyboard(sc_N) || Keyboard(sc_Escape))
+        IN_WaitAndProcessEvents();
 #endif
 
-	IN_ClearKeysDown();
-	SD_PlaySound(whichsnd[xit]);
-	return xit;
+    IN_ClearKeysDown();
+    SD_PlaySound(whichsnd[xit]);
+    return xit;
 }
 #endif
 
@@ -4516,20 +4801,24 @@ int GetYorN(int x, int y, int pic)
 // PRINT A MESSAGE IN A WINDOW
 //
 ////////////////////////////////////////////////////////////////////
-void Message(const char *string) {
-    int h = 0, w = 0, mw = 0, i, len = (int) strlen(string);
+void Message(const char *string)
+{
+    int h = 0, w = 0, mw = 0, i, len = (int)strlen(string);
     fontstruct *font;
 
     fontnumber = 1;
-    font = (fontstruct *) grsegs[STARTFONT + fontnumber];
+    font = (fontstruct *)grsegs[STARTFONT + fontnumber];
     h = font->height;
-    for (i = 0; i < len; i++) {
-        if (string[i] == '\n') {
+    for (i = 0; i < len; i++)
+    {
+        if (string[i] == '\n')
+        {
             if (w > mw)
                 mw = w;
             w = 0;
             h += font->height;
-        } else
+        }
+        else
             w += font->width[string[i]];
     }
 
@@ -4553,7 +4842,8 @@ void Message(const char *string) {
 ////////////////////////////////////////////////////////////////////
 static int lastmusic;
 
-int StartCPMusic(int song) {
+int StartCPMusic(int song)
+{
     int lastoffs;
 
     lastmusic = song;
@@ -4564,7 +4854,8 @@ int StartCPMusic(int song) {
     return lastoffs;
 }
 
-void FreeMusic(void) {
+void FreeMusic(void)
+{
     UNCACHEAUDIOCHUNK(STARTMUSIC + lastmusic);
 }
 
@@ -4575,7 +4866,8 @@ void FreeMusic(void) {
 //
 ///////////////////////////////////////////////////////////////////////////
 const char *
-IN_GetScanName(ScanCode scan) {
+IN_GetScanName(ScanCode scan)
+{
     /*    const char **p;
 		ScanCode *s;
 
@@ -4583,241 +4875,242 @@ IN_GetScanName(ScanCode scan) {
 			if (*s == scan)
 				return (*p);*/
 
-    switch (scan) {
-        case (SDLK_BACKSPACE):
-            return "BkSp";
-        case (SDLK_TAB):
-            return "Tab";
-        case (SDLK_RETURN):
-            return "Enter";
-        case (SDLK_PAUSE):
-            return "Pause";
-        case (SDLK_ESCAPE):
-            return "Esc";
-        case (SDLK_SPACE):
-            return "Space";
-        case (SDLK_EXCLAIM):
-            return "!";
-        case (SDLK_QUOTEDBL):
-            return "\"";
-        case (SDLK_HASH):
-            return "#";
-        case (SDLK_DOLLAR):
-            return "$";
-        case (SDLK_AMPERSAND):
-            return "&";
-        case (SDLK_QUOTE):
-            return "'";
-        case (SDLK_LEFTPAREN):
-            return "(";
-        case (SDLK_RIGHTPAREN):
-            return ")";
-        case (SDLK_ASTERISK):
-            return "*";
-        case (SDLK_PLUS):
-            return "+";
-        case (SDLK_COMMA):
-            return ",";
-        case (SDLK_MINUS):
-            return "-";
-        case (SDLK_PERIOD):
-            return ".";
-        case (SDLK_SLASH):
-            return "/";
-        case (SDLK_0):
-            return "0";
-        case (SDLK_1):
-            return "1";
-        case (SDLK_2):
-            return "2";
-        case (SDLK_3):
-            return "3";
-        case (SDLK_4):
-            return "4";
-        case (SDLK_5):
-            return "5";
-        case (SDLK_6):
-            return "6";
-        case (SDLK_7):
-            return "7";
-        case (SDLK_8):
-            return "8";
-        case (SDLK_9):
-            return "9";
-        case (SDLK_COLON):
-            return ":";
-        case (SDLK_SEMICOLON):
-            return ";";
-        case (SDLK_LESS):
-            return "<";
-        case (SDLK_EQUALS):
-            return "=";
-        case (SDLK_GREATER):
-            return ">";
-        case (SDLK_QUESTION):
-            return "?";
-        case (SDLK_AT):
-            return "@";
-        case (SDLK_a):
-            return "A";
-        case (SDLK_b):
-            return "B";
-        case (SDLK_c):
-            return "C";
-        case (SDLK_d):
-            return "D";
-        case (SDLK_e):
-            return "E";
-        case (SDLK_f):
-            return "F";
-        case (SDLK_g):
-            return "G";
-        case (SDLK_h):
-            return "H";
-        case (SDLK_i):
-            return "I";
-        case (SDLK_j):
-            return "J";
-        case (SDLK_k):
-            return "K";
-        case (SDLK_l):
-            return "L";
-        case (SDLK_m):
-            return "M";
-        case (SDLK_n):
-            return "N";
-        case (SDLK_o):
-            return "O";
-        case (SDLK_p):
-            return "P";
-        case (SDLK_q):
-            return "Q";
-        case (SDLK_r):
-            return "R";
-        case (SDLK_s):
-            return "S";
-        case (SDLK_t):
-            return "T";
-        case (SDLK_u):
-            return "U";
-        case (SDLK_v):
-            return "V";
-        case (SDLK_w):
-            return "W";
-        case (SDLK_x):
-            return "X";
-        case (SDLK_y):
-            return "Y";
-        case (SDLK_z):
-            return "Z";
-        case (SDLK_LEFTBRACKET):
-            return "[";
-        case (SDLK_BACKSLASH):
-            return "\\";
-        case (SDLK_RIGHTBRACKET):
-            return "]";
-        case (SDLK_CARET):
-            return "^";
-        case (SDLK_UNDERSCORE):
-            return "_";
-        case (SDLK_BACKQUOTE):
-            return "`";
-        case (SDLK_UP):
-            return "Up";
-        case (SDLK_DOWN):
-            return "Down";
-        case (SDLK_RIGHT):
-            return "Right";
-        case (SDLK_LEFT):
-            return "Left";
-        case (SDLK_INSERT):
-            return "Ins";
-        case (SDLK_HOME):
-            return "Home";
-        case (SDLK_END):
-            return "End";
-        case (SDLK_PAGEUP):
-            return "PgUp";
-        case (SDLK_PAGEDOWN):
-            return "PgDn";
-        case (SDLK_DELETE):
-            return "Del";
-        case (SDLK_F1):
-            return "F1";
-        case (SDLK_F2):
-            return "F2";
-        case (SDLK_F3):
-            return "F3";
-        case (SDLK_F4):
-            return "F4";
-        case (SDLK_F5):
-            return "F5";
-        case (SDLK_F6):
-            return "F6";
-        case (SDLK_F7):
-            return "F7";
-        case (SDLK_F8):
-            return "F8";
-        case (SDLK_F9):
-            return "F9";
-        case (SDLK_F10):
-            return "F10";
-        case (SDLK_F11):
-            return "F11";
-        case (SDLK_F12):
-            return "F12";
-        case (SDLK_NUMLOCKCLEAR):
-            return "NumLk";
-        case (SDLK_CAPSLOCK):
-            return "CapsLk";
-        case (SDLK_SCROLLLOCK):
-            return "ScrlLk";
-        case (SDLK_RSHIFT):
-            return "RShft";
-        case (SDLK_LSHIFT):
-            return "Shift";
-        case (SDLK_RCTRL):
-            return "RCtrl";
-        case (SDLK_LCTRL):
-            return "Ctrl";
-        case (SDLK_RALT):
-            return "RAlt";
-        case (SDLK_LALT):
-            return "Alt";
-        case (SDLK_PRINTSCREEN):
-            return "PrtSc";
-        case (SDLK_KP_0):
-            return "KP 0";
-        case (SDLK_KP_1):
-            return "KP 1";
-        case (SDLK_KP_2):
-            return "KP 2";
-        case (SDLK_KP_3):
-            return "KP 3";
-        case (SDLK_KP_4):
-            return "KP 4";
-        case (SDLK_KP_5):
-            return "KP 5";
-        case (SDLK_KP_6):
-            return "KP 6";
-        case (SDLK_KP_7):
-            return "KP 7";
-        case (SDLK_KP_8):
-            return "KP 8";
-        case (SDLK_KP_9):
-            return "KP 9";
-        case (SDLK_KP_DIVIDE):
-            return "KP /";
-        case (SDLK_KP_MULTIPLY):
-            return "KP *";
-        case (SDLK_KP_MINUS):
-            return "KP -";
-        case (SDLK_KP_PLUS):
-            return "KP +";
-        case (SDLK_KP_PERIOD):
-            return "KP .";
-        default:
-            return "?";
+    switch (scan)
+    {
+    case (SDLK_BACKSPACE):
+        return "BkSp";
+    case (SDLK_TAB):
+        return "Tab";
+    case (SDLK_RETURN):
+        return "Enter";
+    case (SDLK_PAUSE):
+        return "Pause";
+    case (SDLK_ESCAPE):
+        return "Esc";
+    case (SDLK_SPACE):
+        return "Space";
+    case (SDLK_EXCLAIM):
+        return "!";
+    case (SDLK_QUOTEDBL):
+        return "\"";
+    case (SDLK_HASH):
+        return "#";
+    case (SDLK_DOLLAR):
+        return "$";
+    case (SDLK_AMPERSAND):
+        return "&";
+    case (SDLK_QUOTE):
+        return "'";
+    case (SDLK_LEFTPAREN):
+        return "(";
+    case (SDLK_RIGHTPAREN):
+        return ")";
+    case (SDLK_ASTERISK):
+        return "*";
+    case (SDLK_PLUS):
+        return "+";
+    case (SDLK_COMMA):
+        return ",";
+    case (SDLK_MINUS):
+        return "-";
+    case (SDLK_PERIOD):
+        return ".";
+    case (SDLK_SLASH):
+        return "/";
+    case (SDLK_0):
+        return "0";
+    case (SDLK_1):
+        return "1";
+    case (SDLK_2):
+        return "2";
+    case (SDLK_3):
+        return "3";
+    case (SDLK_4):
+        return "4";
+    case (SDLK_5):
+        return "5";
+    case (SDLK_6):
+        return "6";
+    case (SDLK_7):
+        return "7";
+    case (SDLK_8):
+        return "8";
+    case (SDLK_9):
+        return "9";
+    case (SDLK_COLON):
+        return ":";
+    case (SDLK_SEMICOLON):
+        return ";";
+    case (SDLK_LESS):
+        return "<";
+    case (SDLK_EQUALS):
+        return "=";
+    case (SDLK_GREATER):
+        return ">";
+    case (SDLK_QUESTION):
+        return "?";
+    case (SDLK_AT):
+        return "@";
+    case (SDLK_a):
+        return "A";
+    case (SDLK_b):
+        return "B";
+    case (SDLK_c):
+        return "C";
+    case (SDLK_d):
+        return "D";
+    case (SDLK_e):
+        return "E";
+    case (SDLK_f):
+        return "F";
+    case (SDLK_g):
+        return "G";
+    case (SDLK_h):
+        return "H";
+    case (SDLK_i):
+        return "I";
+    case (SDLK_j):
+        return "J";
+    case (SDLK_k):
+        return "K";
+    case (SDLK_l):
+        return "L";
+    case (SDLK_m):
+        return "M";
+    case (SDLK_n):
+        return "N";
+    case (SDLK_o):
+        return "O";
+    case (SDLK_p):
+        return "P";
+    case (SDLK_q):
+        return "Q";
+    case (SDLK_r):
+        return "R";
+    case (SDLK_s):
+        return "S";
+    case (SDLK_t):
+        return "T";
+    case (SDLK_u):
+        return "U";
+    case (SDLK_v):
+        return "V";
+    case (SDLK_w):
+        return "W";
+    case (SDLK_x):
+        return "X";
+    case (SDLK_y):
+        return "Y";
+    case (SDLK_z):
+        return "Z";
+    case (SDLK_LEFTBRACKET):
+        return "[";
+    case (SDLK_BACKSLASH):
+        return "\\";
+    case (SDLK_RIGHTBRACKET):
+        return "]";
+    case (SDLK_CARET):
+        return "^";
+    case (SDLK_UNDERSCORE):
+        return "_";
+    case (SDLK_BACKQUOTE):
+        return "`";
+    case (SDLK_UP):
+        return "Up";
+    case (SDLK_DOWN):
+        return "Down";
+    case (SDLK_RIGHT):
+        return "Right";
+    case (SDLK_LEFT):
+        return "Left";
+    case (SDLK_INSERT):
+        return "Ins";
+    case (SDLK_HOME):
+        return "Home";
+    case (SDLK_END):
+        return "End";
+    case (SDLK_PAGEUP):
+        return "PgUp";
+    case (SDLK_PAGEDOWN):
+        return "PgDn";
+    case (SDLK_DELETE):
+        return "Del";
+    case (SDLK_F1):
+        return "F1";
+    case (SDLK_F2):
+        return "F2";
+    case (SDLK_F3):
+        return "F3";
+    case (SDLK_F4):
+        return "F4";
+    case (SDLK_F5):
+        return "F5";
+    case (SDLK_F6):
+        return "F6";
+    case (SDLK_F7):
+        return "F7";
+    case (SDLK_F8):
+        return "F8";
+    case (SDLK_F9):
+        return "F9";
+    case (SDLK_F10):
+        return "F10";
+    case (SDLK_F11):
+        return "F11";
+    case (SDLK_F12):
+        return "F12";
+    case (SDLK_NUMLOCKCLEAR):
+        return "NumLk";
+    case (SDLK_CAPSLOCK):
+        return "CapsLk";
+    case (SDLK_SCROLLLOCK):
+        return "ScrlLk";
+    case (SDLK_RSHIFT):
+        return "RShft";
+    case (SDLK_LSHIFT):
+        return "Shift";
+    case (SDLK_RCTRL):
+        return "RCtrl";
+    case (SDLK_LCTRL):
+        return "Ctrl";
+    case (SDLK_RALT):
+        return "RAlt";
+    case (SDLK_LALT):
+        return "Alt";
+    case (SDLK_PRINTSCREEN):
+        return "PrtSc";
+    case (SDLK_KP_0):
+        return "KP 0";
+    case (SDLK_KP_1):
+        return "KP 1";
+    case (SDLK_KP_2):
+        return "KP 2";
+    case (SDLK_KP_3):
+        return "KP 3";
+    case (SDLK_KP_4):
+        return "KP 4";
+    case (SDLK_KP_5):
+        return "KP 5";
+    case (SDLK_KP_6):
+        return "KP 6";
+    case (SDLK_KP_7):
+        return "KP 7";
+    case (SDLK_KP_8):
+        return "KP 8";
+    case (SDLK_KP_9):
+        return "KP 9";
+    case (SDLK_KP_DIVIDE):
+        return "KP /";
+    case (SDLK_KP_MULTIPLY):
+        return "KP *";
+    case (SDLK_KP_MINUS):
+        return "KP -";
+    case (SDLK_KP_PLUS):
+        return "KP +";
+    case (SDLK_KP_PERIOD):
+        return "KP .";
+    default:
+        return "?";
     }
 }
 
@@ -4826,15 +5119,18 @@ IN_GetScanName(ScanCode scan) {
 // CHECK FOR PAUSE KEY (FOR MUSIC ONLY)
 //
 ///////////////////////////////////////////////////////////////////////////
-void CheckPause(void) {
-    if (Paused) {
-        switch (SoundStatus) {
-            case 0:
-                SD_MusicOn();
-                break;
-            case 1:
-                SD_MusicOff();
-                break;
+void CheckPause(void)
+{
+    if (Paused)
+    {
+        switch (SoundStatus)
+        {
+        case 0:
+            SD_MusicOn();
+            break;
+        case 1:
+            SD_MusicOff();
+            break;
         }
 
         SoundStatus ^= 1;
@@ -4849,7 +5145,8 @@ void CheckPause(void) {
 // DRAW GUN CURSOR AT CORRECT POSITION IN MENU
 //
 ///////////////////////////////////////////////////////////////////////////
-void DrawMenuGun(CP_iteminfo *iteminfo) {
+void DrawMenuGun(CP_iteminfo *iteminfo)
+{
     int x, y;
 
     x = iteminfo->x;
@@ -4862,17 +5159,19 @@ void DrawMenuGun(CP_iteminfo *iteminfo) {
 // DRAW SCREEN TITLE STRIPES
 //
 ///////////////////////////////////////////////////////////////////////////
-void DrawStripes(int y) {
+void DrawStripes(int y)
+{
 #ifndef SPEAR
     VWB_Bar(0, y, 320, 24, 0);
     VWB_Hlin(0, 319, y + 22, STRIPE);
 #else
-                                                                                                                            VWB_Bar(0, y, 320, 22, 0);
-	VWB_Hlin(0, 319, y + 23, 0);
+    VWB_Bar(0, y, 320, 22, 0);
+    VWB_Hlin(0, 319, y + 23, 0);
 #endif
 }
 
-void ShootSnd(void) {
+void ShootSnd(void)
+{
     SD_PlaySound(SHOOTSND);
 }
 
@@ -4881,28 +5180,34 @@ void ShootSnd(void) {
 // CHECK FOR EPISODES
 //
 ///////////////////////////////////////////////////////////////////////////
-void CheckForEpisodes(void) {
+void CheckForEpisodes(void)
+{
     struct stat statbuf;
 
     // On Linux like systems, the configdir defaults to $HOME/.wolf4sdl
 #if !defined(_WIN32) && !defined(_arch_dreamcast)
-    if (configdir[0] == 0) {
+    if (configdir[0] == 0)
+    {
         // Set config location to home directory for multi-user support
         char *homedir = getenv("HOME");
-        if (homedir == NULL) {
+        if (homedir == NULL)
+        {
             Quit("Your $HOME directory is not defined. You must set this before playing.");
         }
 #define WOLFDIR "/.wolf4sdl"
-        if (strlen(homedir) + sizeof(WOLFDIR) > sizeof(configdir)) {
+        if (strlen(homedir) + sizeof(WOLFDIR) > sizeof(configdir))
+        {
             Quit("Your $HOME directory path is too long. It cannot be used for saving games.");
         }
         snprintf(configdir, sizeof(configdir), "%s" WOLFDIR, homedir);
     }
 #endif
 
-    if (configdir[0] != 0) {
+    if (configdir[0] != 0)
+    {
         // Ensure config directory exists and create if necessary
-        if (stat(configdir, &statbuf) != 0) {
+        if (stat(configdir, &statbuf) != 0)
+        {
 #ifdef _WIN32
             if (_mkdir(configdir) != 0)
 #else
@@ -4918,51 +5223,57 @@ void CheckForEpisodes(void) {
     // JAPANESE VERSION
     //
 #ifdef JAPAN
-                                                                                                                            #ifdef JAPDEMO
-	if (!stat("vswap.wj1", &statbuf))
-	{
-		strcpy(extension, "wj1");
+#ifdef JAPDEMO
+    if (!stat("vswap.wj1", &statbuf))
+    {
+        strcpy(extension, "wj1");
 #else
-	if (!stat("vswap.wj6", &statbuf))
-	{
-		strcpy(extension, "wj6");
+    if (!stat("vswap.wj6", &statbuf))
+    {
+        strcpy(extension, "wj6");
 #endif
-		strcat(configname, extension);
-		strcat(SaveName, extension);
-		strcat(demoname, extension);
-		EpisodeSelect[1] =
-			EpisodeSelect[2] = EpisodeSelect[3] = EpisodeSelect[4] = EpisodeSelect[5] = 1;
-	}
-	else
-		Quit("NO JAPANESE WOLFENSTEIN 3-D DATA FILES to be found!");
-	strcpy(graphext, extension);
-	strcpy(audioext, extension);
+        strcat(configname, extension);
+        strcat(SaveName, extension);
+        strcat(demoname, extension);
+        EpisodeSelect[1] =
+            EpisodeSelect[2] = EpisodeSelect[3] = EpisodeSelect[4] = EpisodeSelect[5] = 1;
+    }
+    else
+        Quit("NO JAPANESE WOLFENSTEIN 3-D DATA FILES to be found!");
+    strcpy(graphext, extension);
+    strcpy(audioext, extension);
 #else
 
 //
 // ENGLISH
 //
 #ifdef UPLOAD
-                                                                                                                            if (!stat("vswap.wl1", &statbuf))
-		strcpy(extension, "wl1");
-	else
-		Quit("NO WOLFENSTEIN 3-D DATA FILES to be found!");
+    if (!stat("vswap.wl1", &statbuf))
+        strcpy(extension, "wl1");
+    else
+        Quit("NO WOLFENSTEIN 3-D DATA FILES to be found!");
 #else
 #ifndef SPEAR
-    if (!stat("vswap.wl6", &statbuf)) {
+    if (!stat("vswap.wl6", &statbuf))
+    {
         strcpy(extension, "wl6");
         NewEmenu[2].active =
-        NewEmenu[4].active =
-        NewEmenu[6].active =
-        NewEmenu[8].active =
-        NewEmenu[10].active =
-        EpisodeSelect[1] =
-        EpisodeSelect[2] = EpisodeSelect[3] = EpisodeSelect[4] = EpisodeSelect[5] = 1;
-    } else {
-        if (!stat("vswap.wl3", &statbuf)) {
+            NewEmenu[4].active =
+                NewEmenu[6].active =
+                    NewEmenu[8].active =
+                        NewEmenu[10].active =
+                            EpisodeSelect[1] =
+                                EpisodeSelect[2] = EpisodeSelect[3] = EpisodeSelect[4] = EpisodeSelect[5] = 1;
+    }
+    else
+    {
+        if (!stat("vswap.wl3", &statbuf))
+        {
             strcpy(extension, "wl3");
             NewEmenu[2].active = NewEmenu[4].active = EpisodeSelect[1] = EpisodeSelect[2] = 1;
-        } else {
+        }
+        else
+        {
             if (!stat("vswap.wl1", &statbuf))
                 strcpy(extension, "wl1");
             else
@@ -4973,48 +5284,48 @@ void CheckForEpisodes(void) {
 #endif
 
 #ifdef SPEAR
-                                                                                                                            #ifndef SPEARDEMO
-	if (param_mission == 0)
-	{
-		if (!stat("vswap.sod", &statbuf))
-			strcpy(extension, "sod");
-		else
-			Quit("NO SPEAR OF DESTINY DATA FILES TO BE FOUND!");
-	}
-	else if (param_mission == 1)
-	{
-		if (!stat("vswap.sd1", &statbuf))
-			strcpy(extension, "sd1");
-		else
-			Quit("NO SPEAR OF DESTINY DATA FILES TO BE FOUND!");
-	}
-	else if (param_mission == 2)
-	{
-		if (!stat("vswap.sd2", &statbuf))
-			strcpy(extension, "sd2");
-		else
-			Quit("NO SPEAR OF DESTINY DATA FILES TO BE FOUND!");
-	}
-	else if (param_mission == 3)
-	{
-		if (!stat("vswap.sd3", &statbuf))
-			strcpy(extension, "sd3");
-		else
-			Quit("NO SPEAR OF DESTINY DATA FILES TO BE FOUND!");
-	}
-	else
-		Quit("UNSUPPORTED MISSION!");
-	strcpy(graphext, "sod");
-	strcpy(audioext, "sod");
+#ifndef SPEARDEMO
+    if (param_mission == 0)
+    {
+        if (!stat("vswap.sod", &statbuf))
+            strcpy(extension, "sod");
+        else
+            Quit("NO SPEAR OF DESTINY DATA FILES TO BE FOUND!");
+    }
+    else if (param_mission == 1)
+    {
+        if (!stat("vswap.sd1", &statbuf))
+            strcpy(extension, "sd1");
+        else
+            Quit("NO SPEAR OF DESTINY DATA FILES TO BE FOUND!");
+    }
+    else if (param_mission == 2)
+    {
+        if (!stat("vswap.sd2", &statbuf))
+            strcpy(extension, "sd2");
+        else
+            Quit("NO SPEAR OF DESTINY DATA FILES TO BE FOUND!");
+    }
+    else if (param_mission == 3)
+    {
+        if (!stat("vswap.sd3", &statbuf))
+            strcpy(extension, "sd3");
+        else
+            Quit("NO SPEAR OF DESTINY DATA FILES TO BE FOUND!");
+    }
+    else
+        Quit("UNSUPPORTED MISSION!");
+    strcpy(graphext, "sod");
+    strcpy(audioext, "sod");
 #else
-	if (!stat("vswap.sdm", &statbuf))
-	{
-		strcpy(extension, "sdm");
-	}
-	else
-		Quit("NO SPEAR OF DESTINY DEMO DATA FILES TO BE FOUND!");
-	strcpy(graphext, "sdm");
-	strcpy(audioext, "sdm");
+    if (!stat("vswap.sdm", &statbuf))
+    {
+        strcpy(extension, "sdm");
+    }
+    else
+        Quit("NO SPEAR OF DESTINY DEMO DATA FILES TO BE FOUND!");
+    strcpy(graphext, "sdm");
+    strcpy(audioext, "sdm");
 #endif
 #else
     strcpy(graphext, extension);

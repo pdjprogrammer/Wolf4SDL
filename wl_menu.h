@@ -247,7 +247,7 @@ void DefineKeyBtns(int);
 void DefineJoyBtns(int);
 #endif
 
-void EnterCtrlData(int index, CustomCtrls *cust, void (*DrawRtn)(int), void (*PrintRtn)(int), int type);
+void EnterCtrlData(int index, CustomCtrls *cust, void (*DrawRtn)(int), void (*PrintRtn)(int), int type, bool keyboardMoveControls, bool advControls);
 
 void DrawMainMenu(void);
 void DrawSoundMenu(void);

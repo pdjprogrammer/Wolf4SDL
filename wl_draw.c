@@ -65,7 +65,7 @@ void CalcTics(void);
 void ThreeDRefresh(void);
 
 // WSJ's message feature
-void GetMessage(char *lastmessage);
+void GetMessage(char *lastmessage, int color);
 void DrawMessage(void);
 void DrawRatios(void);
 
@@ -1766,11 +1766,12 @@ void DrawMessage(void)
 
 void GetTimer(int seconds, int eventtype)
 {
+     int t = 0;
     if (gamestate.activetimers > MAXTIMERS)
         return;
 
     // Find if a timer for the event exists
-    for (int t = 0; t < gamestate.activetimers; t++)
+    for (t = 0; t < gamestate.activetimers; t++)
     {
         if (gamestate.timers[t].type == eventtype)
         {
@@ -1811,14 +1812,16 @@ int lastsec = -1;
 
 void DrawTimer(void)
 {
-    for (int x = 0; x < gamestate.activetimers; x++)
+     int x = 0;
+    for (x = 0; x < gamestate.activetimers; x++)
     {
         // Calculate timer values (tics -> min/sec)
         if (gamestate.timers[x].tics <= 0)
         { // a timer is done
             gamestate.activetimers--;
 
-            for (int t = x; t < gamestate.activetimers; t++)
+            int t = x;
+            for (t = x; t < gamestate.activetimers; t++)
             { // shift the relatively new timers up
                 gamestate.timers[t].tics = gamestate.timers[t + 1].tics;
                 gamestate.timers[t].color = gamestate.timers[t + 1].color;
