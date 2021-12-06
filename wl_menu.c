@@ -275,6 +275,7 @@ CP_itemtype CusMenu[] = {
 	{1, "", 0}
 };
 
+#ifdef USE_MODERN_OPTIONS
 CP_itemtype CtlMouseMenu[] = {
 	{1, STR_CRUN, 0},
 	{1, STR_COPEN, 0},
@@ -285,7 +286,6 @@ CP_itemtype CtlMouseMenu[] = {
 	{1, STR_SENS, MouseSensitivity}
 };
 
-#ifdef USE_MODERN_OPTIONS
 CP_itemtype CtlKeyboardMoveMenu[] = {
 	{1, STR_FRWD, 0},
 	{1, STR_BKWD, 0},
@@ -327,6 +327,15 @@ CP_itemtype CtlAdvancedMenu[] = {
 	{1, STR_ADV_CTL_10, 0}
 };
 #endif
+#else
+CP_itemtype CtlMouseMenu[] = {
+	{1, STR_CRUN, 0},
+	{1, STR_COPEN, 0},
+	{1, STR_CFIRE, 0},
+	{1, STR_CSTRAFE, 0},
+	{0, "", 0},
+	{1, STR_SENS, MouseSensitivity}
+};
 #endif
 
 CP_itemtype OptMenu[] = {
@@ -2279,7 +2288,7 @@ void DefineMouseBtns(int value)
 void DefineMouseBtns(void)
 {
 	CustomCtrls mouseallowed = { 0, 1, 1, 1 };
-	EnterCtrlData(2, &mouseallowed, DrawCustMouse, PrintCustMouse, MOUSE, false);
+	EnterCtrlData(2, &mouseallowed, DrawCustMouse, PrintCustMouse, MOUSE, false, false);
 }
 #endif
 
@@ -2313,7 +2322,7 @@ void DefineJoyBtns(int value)
 void DefineJoyBtns(void)
 {
 	CustomCtrls joyallowed = { 1, 1, 1, 1 };
-	EnterCtrlData(5, &joyallowed, DrawCustJoy, PrintCustJoy, JOYSTICK, false);
+	EnterCtrlData(5, &joyallowed, DrawCustJoy, PrintCustJoy, JOYSTICK, false, false);
 }
 #endif
 
@@ -2346,7 +2355,7 @@ void DefineKeyBtns(int value)
 void DefineKeyBtns(void)
 {
 	CustomCtrls keyallowed = { 1, 1, 1, 1 };
-	EnterCtrlData(8, &keyallowed, DrawCustKeybd, PrintCustKeybd, KEYBOARDBTNS, false);
+	EnterCtrlData(8, &keyallowed, DrawCustKeybd, PrintCustKeybd, KEYBOARDBTNS, false, false);
 }
 #endif
 
@@ -2379,7 +2388,7 @@ void DefineKeyMove(int value)
 void DefineKeyMove(void)
 {
 	CustomCtrls keyallowed = { 1, 1, 1, 1 };
-	EnterCtrlData(10, &keyallowed, DrawCustKeys, PrintCustKeys, KEYBOARDMOVE, false);
+	EnterCtrlData(10, &keyallowed, DrawCustKeys, PrintCustKeys, KEYBOARDMOVE, false, false);
 }
 #endif
 
@@ -2392,8 +2401,8 @@ void DefineKeyMove(void)
 enum { FWRD, RIGHT, BKWD, LEFT, STF_LEFT, STF_RIGHT };
 int moveorder[6] = { FWRD, BKWD, LEFT, RIGHT, STF_LEFT, STF_RIGHT };
 #else
-int moveorder[4] = { LEFT, RIGHT, FWRD, BKWD };
 enum { LEFT, RIGHT, FWRD, BKWD };
+int moveorder[4] = { LEFT, RIGHT, FWRD, BKWD };
 #endif
 
 #ifdef USE_MODERN_OPTIONS
@@ -2444,9 +2453,7 @@ int CP_KeyboardMoveCtl(int blank)
 
 	} while (which >= 0);
 
-	//MenuFadeOut();
 	DrawCtlScreen();
-	//MenuFadeIn();
 
 	return 0;
 }
@@ -2490,9 +2497,7 @@ int CP_KeyboardActionCtl(int blank)
 
 	} while (which >= 0);
 
-	//MenuFadeOut();
 	DrawCtlScreen();
-	//MenuFadeIn();
 
 	return 0;
 }
@@ -2663,7 +2668,7 @@ void EnterCtrlData(int index, CustomCtrls* cust, void (*DrawRtn) (int), void (*P
 	ShootSnd();
 
 #ifndef USE_MODERN_OPTIONS
-	int amount = 4;
+	amount = 4;
 	PrintY = CST_Y + 13 * index;
 #else
 	if (keyboardMoveControls) {
@@ -3725,7 +3730,7 @@ DrawCustKeys(int hilight)
 	PrintX = CTL_MOUSE_X;
 	amount = 6;
 #else
-	PrintY = CST_Y + 13 * 10;	
+	PrintY = CST_Y + 13 * 10;
 #endif
 	for (i = 0; i < amount; i++)
 		PrintCustKeys(i);
@@ -4648,30 +4653,30 @@ Confirm(const char* string)
 #ifdef SPANISH
 	} while (!Keyboard(sc_S) && !Keyboard(sc_N) && !Keyboard(sc_Escape));
 #else
-} while (!Keyboard(sc_Y) && !Keyboard(sc_N) && !Keyboard(sc_Escape) && !ci.button0 && !ci.button1);
+	} while (!Keyboard(sc_Y) && !Keyboard(sc_N) && !Keyboard(sc_Escape) && !ci.button0 && !ci.button1);
 #endif
 
 #ifdef SPANISH
-if (Keyboard(sc_S) || ci.button0)
-{
-	xit = 1;
-	ShootSnd();
-}
+	if (Keyboard(sc_S) || ci.button0)
+	{
+		xit = 1;
+		ShootSnd();
+	}
 #else
-if (Keyboard(sc_Y) || ci.button0)
-{
-	xit = 1;
-	ShootSnd();
-}
+	if (Keyboard(sc_Y) || ci.button0)
+	{
+		xit = 1;
+		ShootSnd();
+	}
 #endif
 
-IN_ClearKeysDown();
-WaitKeyUp();
+	IN_ClearKeysDown();
+	WaitKeyUp();
 
-SD_PlaySound((soundnames)whichsnd[xit]);
+	SD_PlaySound((soundnames)whichsnd[xit]);
 
-return xit;
-	}
+	return xit;
+}
 
 #ifdef JAPAN
 ////////////////////////////////////////////////////////////////////
@@ -5161,8 +5166,8 @@ CheckForEpisodes(void)
 			{
 				Quit("The configuration directory \"%s\" could not be created.", configdir);
 			}
-			}
 		}
+	}
 
 	//
 	// JAPANESE VERSION
@@ -5289,4 +5294,4 @@ CheckForEpisodes(void)
 	strcat(endfilename, extension);
 #endif
 #endif
-	}
+}

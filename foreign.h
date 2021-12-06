@@ -32,20 +32,21 @@
 #define	STR_BD						"Back to Demo"
 #define STR_QT						"Quit"
 
+#define STR_OP_SND					"Sound Options"
+#define STR_OP_CTL					"Control Options"
+
 #ifdef USE_MODERN_OPTIONS
 #define STR_OP						"Options"
 #define STR_OP_GAME					"Game Options"
-#define STR_OP_SND					"Sound Options"
-#define STR_OP_CTL					"Control Options"
+
 
 #define STR_OP_MOUSE				"Mouse Controls"
 #define STR_OP_KEYBOARD				"Keyboard Controls"
 #define STR_OP_JOYSTICK				"Joystick Controls"
 
 #define STR_ALWAYS_RUN				"Always Run"
-#define	STR_SENS					"Mouse Sensitivity"
+
 #define	STR_MOUSEMOVEMENT			"Enable Mouse Y Axis"
-#define	STR_CUSTOM					"Customize controls"
 
 #define STR_ACTION_KEYS				"Action Keys"
 #define STR_MOVEMENT_KEYS			"Movement Keys"
@@ -88,6 +89,9 @@
 #define	STR_DISNEY					"Disney Sound Source"
 #define	STR_SB						"Sound Blaster"
 
+#define	STR_CUSTOM					"Customize controls"
+
+#define	STR_SENS					"Mouse Sensitivity"
 #define	STR_MOUSEEN					"Mouse Enabled"
 #define	STR_JOYEN					"Joystick Enabled"
 #define	STR_PORT2					"Use joystick port 2"
