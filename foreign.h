@@ -32,44 +32,6 @@
 #define	STR_BD						"Back to Demo"
 #define STR_QT						"Quit"
 
-#define STR_OP_SND					"Sound Options"
-#define STR_OP_CTL					"Control Options"
-
-#ifdef USE_MODERN_OPTIONS
-#define STR_OP						"Options"
-#define STR_OP_GAME					"Game Options"
-
-
-#define STR_OP_MOUSE				"Mouse Controls"
-#define STR_OP_KEYBOARD				"Keyboard Controls"
-#define STR_OP_JOYSTICK				"Joystick Controls"
-
-#define STR_ALWAYS_RUN				"Always Run"
-
-#define	STR_MOUSEMOVEMENT			"Enable Mouse Y Axis"
-
-#define STR_ACTION_KEYS				"Action Keys"
-#define STR_MOVEMENT_KEYS			"Movement Keys"
-
-#define STR_STF_LEFT				"Strafe L"
-#define STR_STF_RIGHT				"Strafe R"
-
-#ifdef SHOW_ADVANCED_CONTROLS
-#define STR_ADVANCED_CONTROLS		"Advanced Controls"
-
-#define STR_ADV_CTL_1				"Cus Ctl 1"
-#define STR_ADV_CTL_2				"Cus Ctl 2"
-#define STR_ADV_CTL_3				"Cus Ctl 3"
-#define STR_ADV_CTL_4				"Cus Ctl 4"
-#define STR_ADV_CTL_5				"Cus Ctl 5"
-#define STR_ADV_CTL_6				"Cus Ctl 6"
-#define STR_ADV_CTL_7				"Cus Ctl 7"
-#define STR_ADV_CTL_8				"Cus Ctl 8"
-#define STR_ADV_CTL_9				"Cus Ctl 9"
-#define STR_ADV_CTL_10				"Cus Ctl 10"
-#endif
-#endif
-
 #define STR_LOADING					"Loading"
 #define STR_SAVING					"Saving"
 
@@ -83,13 +45,15 @@
 #define STR_MOVEJOY2				 "Move joystick to\nlower right and\npress button 1\n"
 #define STR_ESCEXIT					"ESC to exit"
 
+#define STR_OP_SND					"Sound Options"
+#define STR_OP_CTL					"Control Options"
+#define	STR_CUSTOM					"Customize controls"
+
 #define STR_NONE					"None"
 #define	STR_PC						"PC Speaker"
 #define	STR_ALSB					"AdLib/Sound Blaster"
 #define	STR_DISNEY					"Disney Sound Source"
 #define	STR_SB						"Sound Blaster"
-
-#define	STR_CUSTOM					"Customize controls"
 
 #define	STR_SENS					"Mouse Sensitivity"
 #define	STR_MOUSEEN					"Mouse Enabled"
@@ -154,6 +118,41 @@
 #define STR_SAVECHT4	"play anyway...."
 
 #define	STR_SEEAGAIN	"Let's see that again!"
+
+#ifdef USE_MODERN_OPTIONS
+#define STR_OP						"Options"
+#define STR_OP_GAME					"Game Options"
+
+
+#define STR_OP_MOUSE				"Mouse Controls"
+#define STR_OP_KEYBOARD				"Keyboard Controls"
+#define STR_OP_JOYSTICK				"Joystick Controls"
+
+#define STR_ALWAYS_RUN				"Always Run"
+
+#define	STR_MOUSEMOVEMENT			"Enable Mouse Y Axis"
+
+#define STR_ACTION_KEYS				"Action Keys"
+#define STR_MOVEMENT_KEYS			"Movement Keys"
+
+#define STR_STF_LEFT				"Strafe L"
+#define STR_STF_RIGHT				"Strafe R"
+
+#ifdef SHOW_CUSTOM_CONTROLS
+#define STR_CUS_CONTROLS		"Custom Controls"
+
+#define STR_CUS_CTL_1				"Cus Ctl 1"
+#define STR_CUS_CTL_2				"Cus Ctl 2"
+#define STR_CUS_CTL_3				"Cus Ctl 3"
+#define STR_CUS_CTL_4				"Cus Ctl 4"
+#define STR_CUS_CTL_5				"Cus Ctl 5"
+#define STR_CUS_CTL_6				"Cus Ctl 6"
+#define STR_CUS_CTL_7				"Cus Ctl 7"
+#define STR_CUS_CTL_8				"Cus Ctl 8"
+#define STR_CUS_CTL_9				"Cus Ctl 9"
+#define STR_CUS_CTL_10				"Cus Ctl 10"
+#endif
+#endif
 
 #ifdef SPEAR
 #define ENDSTR1 "Heroes don't quit, but\ngo ahead and press " YESBUTTONNAME "\nif you aren't one."

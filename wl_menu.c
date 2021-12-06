@@ -25,9 +25,9 @@ extern int lastgamemusicoffset;
 int  CP_ReadThis(int);
 void SetTextColor(CP_itemtype* items, int hlight);
 
-const int MAX_ADVANCED_CONTROLS = 10;
-const int ADV_CTL_ARRAY_RANGE_START = 19;
-const int ADV_CTL_ARRAY_RANGE_END = 29;
+const int MAX_CUSTOM_CONTROLS = 10;
+const int CUS_CTL_ARRAY_RANGE_START = 19;
+const int CUS_CTL_ARRAY_RANGE_END = 29;
 
 #ifdef SPEAR
 #define STARTITEM       newgame
@@ -138,7 +138,7 @@ enum { CTL_MOUSE_RUN, CTL_MOUSE_OPEN, CTL_MOUSE_FIRE, CTL_MOUSE_STRAFE, CTL_SPAC
 enum { CTL_KB_MOVE_FWRD, CTL_KB_MOVE_BWRD, CTL_KB_MOVE_LEFT, CTL_KB_MOVE_RIGHT, CTL_KB_STRAFE_LEFT, CTL_KB_STRAFE_RIGHT, CTL_SPACE_KB_MOVE, CTL_ACTIONKEYS };
 enum { CTL_KB_ACTION_RUN, CTL_KB_ACTION_OPEN, CTL_KB_ACTION_FIRE, CTL_KB_ACTION_STRAFE, CTL_SPACE_KB_ACTION, CTL_MOVEMENTKEYS };
 enum { CTL_JOYSTICK_RUN, CTL_JOYSTICK_OPEN, CTL_JOYSTICK_FIRE, CTL_JOYSTICK_STRAFE };
-#ifdef SHOW_ADVANCED_CONTROLS
+#ifdef SHOW_CUSTOM_CONTROLS
 enum { CTL_ADV_1, CTL_ADV_2, CTL_ADV_3, CTL_ADV_4, CTL_ADV_5, CTL_ADV_6, CTL_ADV_7, CTL_ADV_8, CTL_ADV_9, CTL_ADV_10 };
 #endif
 #else
@@ -168,8 +168,8 @@ CP_itemtype CtlMenu[] = {
 	{1, STR_OP_MOUSE, CP_MouseCtl},
 	{1, STR_OP_KEYBOARD, CP_KeyboardMoveCtl},
 	{1, STR_OP_JOYSTICK, CP_JoystickCtl},
-#ifdef SHOW_ADVANCED_CONTROLS
-	{1, STR_ADVANCED_CONTROLS, CP_AdvancedCtl}
+#ifdef SHOW_CUSTOM_CONTROLS
+	{1, STR_CUS_CONTROLS, CP_CustomCtl}
 #endif
 #endif
 #endif
@@ -313,18 +313,18 @@ CP_itemtype CtlJoystickMenu[] = {
 	{1, STR_CSTRAFE, 0}
 };
 
-#ifdef SHOW_ADVANCED_CONTROLS
-CP_itemtype CtlAdvancedMenu[] = {
-	{1, STR_ADV_CTL_1, 0},
-	{1, STR_ADV_CTL_2, 0},
-	{1, STR_ADV_CTL_3, 0},
-	{1, STR_ADV_CTL_4, 0},
-	{1, STR_ADV_CTL_5, 0},
-	{1, STR_ADV_CTL_6, 0},
-	{1, STR_ADV_CTL_7, 0},
-	{1, STR_ADV_CTL_8, 0},
-	{1, STR_ADV_CTL_9, 0},
-	{1, STR_ADV_CTL_10, 0}
+#ifdef SHOW_CUSTOM_CONTROLS
+CP_itemtype CusCtlMenu[] = {
+	{1, STR_CUS_CTL_1, 0},
+	{1, STR_CUS_CTL_2, 0},
+	{1, STR_CUS_CTL_3, 0},
+	{1, STR_CUS_CTL_4, 0},
+	{1, STR_CUS_CTL_5, 0},
+	{1, STR_CUS_CTL_6, 0},
+	{1, STR_CUS_CTL_7, 0},
+	{1, STR_CUS_CTL_8, 0},
+	{1, STR_CUS_CTL_9, 0},
+	{1, STR_CUS_CTL_10, 0}
 };
 #endif
 #else
@@ -367,8 +367,8 @@ CusMouseItems = { OPT_MOUSE_X, OPT_MOUSE_Y, lengthof(CtlMouseMenu), 0, 54 },
 CusKeyboardMoveItems = { OPT_KEYBOARD_MOVE_X, OPT_KEYBOARD_MOVE_Y + 4, lengthof(CtlKeyboardMoveMenu), 0, 54 },
 CusKeyboardActionItems = { OPT_KEYBOARD_X, OPT_KEYBOARD_Y, lengthof(CtlKeyboardActionMenu), 0, 54 },
 CusJoystickItems = { OPT_JOYSTICK_X, OPT_JOYSTICK_Y, lengthof(CtlJoystickMenu), 0, 54 },
-#ifdef SHOW_ADVANCED_CONTROLS
-CusAdvancedCtlItems = { OPT_ADV_TEXT_X, OPT_ADV_TEXT_Y, lengthof(CtlAdvancedMenu), 0, 54 },
+#ifdef SHOW_CUSTOM_CONTROLS
+CusCtlItems = { CUS_CTL_TEXT_X, CUS_CTL_TEXT_Y, lengthof(CusCtlMenu), 0, 54 },
 #endif
 #endif
 SndItems = { SM_X, SM_Y1, lengthof(SndMenu), 0, 52 },
@@ -2156,10 +2156,10 @@ DrawOptScreen(void)
 ////////////////////////////////////////////////////////////////////
 enum
 {
-	FIRE, STRAFE, RUN, OPEN
+	FIRE, STRAFE, RUN, OPEN, PREV_WEP, NEXT_WEP
 };
 char mbarray[4][11] = { "Left Bt", "Right Bt", "Middle Bt", "Top Bt" };
-int8_t order[4] = { RUN, OPEN, FIRE, STRAFE };
+int8_t order[6] = { RUN, OPEN, FIRE, STRAFE, PREV_WEP, NEXT_WEP };
 
 int CP_MouseCtl(int blank)
 {
@@ -2554,21 +2554,21 @@ int CP_JoystickCtl(int blank)
 	return 0;
 }
 
-#ifdef SHOW_ADVANCED_CONTROLS
+#ifdef SHOW_CUSTOM_CONTROLS
 enum
 {
 	ADV_CTL_1, ADV_CTL_2, ADV_CTL_3, ADV_CTL_4, ADV_CTL_5, ADV_CTL_6, ADV_CTL_7, ADV_CTL_8, ADV_CTL_9, ADV_CTL_10
 };
 int8_t advorder[10] = { ADV_CTL_1, ADV_CTL_2, ADV_CTL_3, ADV_CTL_4, ADV_CTL_5, ADV_CTL_6, ADV_CTL_7, ADV_CTL_8, ADV_CTL_9, ADV_CTL_10 };
 
-void DefineAdvancedCtl(int value)
+void DefineCustomCtl(int value)
 {
 	CustomCtrls keyallowed;
 	int i;
 
 	--value;
 
-	for (i = 0; i < MAX_ADVANCED_CONTROLS; i++)
+	for (i = 0; i < MAX_CUSTOM_CONTROLS; i++)
 	{
 		if (i == value) {
 			keyallowed.allowed[i] = 1;
@@ -2579,61 +2579,61 @@ void DefineAdvancedCtl(int value)
 	}
 
 	++value;
-	EnterCtrlData(value, &keyallowed, DrawAdvancedCtlKeys, PrintAdvancedCtlKeys, ADVANCED, false, true);
+	EnterCtrlData(value, &keyallowed, DrawCustomCtlKeys, PrintCustomCtlKeys, CUSTOMCTL, false, true);
 }
 
-int CP_AdvancedCtl(int blank)
+int CP_CustomCtl(int blank)
 {
 	int which;
 
-	DrawAdvancedCtlScreen();
+	DrawCustomCtlScreen();
 	WaitKeyUp();
 
 	do
 	{
-		which = HandleMenu(&CusAdvancedCtlItems, &CtlAdvancedMenu[0], NULL);
+		which = HandleMenu(&CusCtlItems, &CusCtlMenu[0], NULL);
 
 		switch (which)
 		{
 		case CTL_ADV_1:
-			DefineAdvancedCtl(1);
-			DrawAdvancedCtlKeys(1);
+			DefineCustomCtl(1);
+			DrawCustomCtlKeys(1);
 			break;
 		case CTL_ADV_2:
-			DefineAdvancedCtl(2);
-			DrawAdvancedCtlKeys(2);
+			DefineCustomCtl(2);
+			DrawCustomCtlKeys(2);
 			break;
 		case CTL_ADV_3:
-			DefineAdvancedCtl(3);
-			DrawAdvancedCtlKeys(3);
+			DefineCustomCtl(3);
+			DrawCustomCtlKeys(3);
 			break;
 		case CTL_ADV_4:
-			DefineAdvancedCtl(4);
-			DrawAdvancedCtlKeys(4);
+			DefineCustomCtl(4);
+			DrawCustomCtlKeys(4);
 			break;
 		case CTL_ADV_5:
-			DefineAdvancedCtl(5);
-			DrawAdvancedCtlKeys(5);
+			DefineCustomCtl(5);
+			DrawCustomCtlKeys(5);
 			break;
 		case CTL_ADV_6:
-			DefineAdvancedCtl(6);
-			DrawAdvancedCtlKeys(6);
+			DefineCustomCtl(6);
+			DrawCustomCtlKeys(6);
 			break;
 		case CTL_ADV_7:
-			DefineAdvancedCtl(7);
-			DrawAdvancedCtlKeys(7);
+			DefineCustomCtl(7);
+			DrawCustomCtlKeys(7);
 			break;
 		case CTL_ADV_8:
-			DefineAdvancedCtl(8);
-			DrawAdvancedCtlKeys(8);
+			DefineCustomCtl(8);
+			DrawCustomCtlKeys(8);
 			break;
 		case CTL_ADV_9:
-			DefineAdvancedCtl(9);
-			DrawAdvancedCtlKeys(9);
+			DefineCustomCtl(9);
+			DrawCustomCtlKeys(9);
 			break;
 		case CTL_ADV_10:
-			DefineAdvancedCtl(10);
-			DrawAdvancedCtlKeys(10);
+			DefineCustomCtl(10);
+			DrawCustomCtlKeys(10);
 			break;
 		default:
 			which = -1;
@@ -2641,7 +2641,7 @@ int CP_AdvancedCtl(int blank)
 		}
 
 		if (which != -1)
-			DrawAdvancedCtlScreen();
+			DrawCustomCtlScreen();
 
 	} while (which >= 0);
 
@@ -2679,10 +2679,10 @@ void EnterCtrlData(int index, CustomCtrls* cust, void (*DrawRtn) (int), void (*P
 		start = 0;
 		amount = 6;
 	}
-#ifdef SHOW_ADVANCED_CONTROLS
+#ifdef SHOW_CUSTOM_CONTROLS
 	if (advControls) {
-		start = ADV_CTL_ARRAY_RANGE_START;
-		amount = ADV_CTL_ARRAY_RANGE_END;
+		start = CUS_CTL_ARRAY_RANGE_START;
+		amount = CUS_CTL_ARRAY_RANGE_END;
 	}
 #endif
 #endif
@@ -2719,10 +2719,10 @@ void EnterCtrlData(int index, CustomCtrls* cust, void (*DrawRtn) (int), void (*P
 				y = CST_START;
 				w = CST_SPC;
 			}
-#ifdef SHOW_ADVANCED_CONTROLS
+#ifdef SHOW_CUSTOM_CONTROLS
 			if (advControls) {
-				x = OPT_ADV_RIGHT_TEXT_X;
-				y = OPT_ADV_TEXT_Y;
+				x = CUS_CTL_RIGHT_TEXT_X;
+				y = CUS_CTL_TEXT_Y;
 				w = 75;
 			}
 #endif
@@ -2758,14 +2758,14 @@ void EnterCtrlData(int index, CustomCtrls* cust, void (*DrawRtn) (int), void (*P
 		//
 		// CHANGE BUTTON VALUE?
 		//
-		if ((type != KEYBOARDBTNS && type != KEYBOARDMOVE && type != ADVANCED) && (ci.button0 | ci.button1 | ci.button2 | ci.button3) ||
-			((type == KEYBOARDBTNS || type == KEYBOARDMOVE || type == ADVANCED) && LastScan == sc_Enter))
+		if ((type != KEYBOARDBTNS && type != KEYBOARDMOVE && type != CUSTOMCTL) && (ci.button0 | ci.button1 | ci.button2 | ci.button3) ||
+			((type == KEYBOARDBTNS || type == KEYBOARDMOVE || type == CUSTOMCTL) && LastScan == sc_Enter))
 		{
 			lastFlashTime = GetTimeCount();
 			tick = picked = 0;
 			SETFONTCOLOR(0, TEXTCOLOR);
 
-			if (type == KEYBOARDBTNS || type == KEYBOARDMOVE || type == ADVANCED)
+			if (type == KEYBOARDBTNS || type == KEYBOARDMOVE || type == CUSTOMCTL)
 				IN_ClearKeysDown();
 
 			while (1)
@@ -2862,7 +2862,7 @@ void EnterCtrlData(int index, CustomCtrls* cust, void (*DrawRtn) (int), void (*P
 					if (LastScan && LastScan != sc_Escape)
 					{
 #ifdef USE_MODERN_OPTIONS
-						for (size_t i = 0; i < 4; i++)
+						for (size_t i = 0; i < 6; i++)
 							if (buttonscan[order[i]] == LastScan)
 								buttonscan[order[i]] = bt_nobutton;
 
@@ -2870,8 +2870,8 @@ void EnterCtrlData(int index, CustomCtrls* cust, void (*DrawRtn) (int), void (*P
 							if (dirscan[moveorder[i]] == LastScan)
 								dirscan[moveorder[i]] = bt_nobutton;
 
-#ifdef SHOW_ADVANCED_CONTROLS
-						for (size_t i = 0; i < MAX_ADVANCED_CONTROLS; i++)
+#ifdef SHOW_CUSTOM_CONTROLS
+						for (size_t i = 0; i < MAX_CUSTOM_CONTROLS; i++)
 							if (buttonscan[18 + advorder[i]] == LastScan)
 								buttonscan[18 + advorder[i]] = bt_nobutton;
 #endif
@@ -2890,15 +2890,15 @@ void EnterCtrlData(int index, CustomCtrls* cust, void (*DrawRtn) (int), void (*P
 					if (LastScan && LastScan != sc_Escape)
 					{
 #ifdef USE_MODERN_OPTIONS
-						for (size_t i = 0; i < 4; i++)
+						for (size_t i = 0; i < 6; i++)
 							if (buttonscan[order[i]] == LastScan)
 								buttonscan[order[i]] = bt_nobutton;
 
 						for (size_t i = 0; i < 6; i++)
 							if (dirscan[moveorder[i]] == LastScan)
 								dirscan[moveorder[i]] = bt_nobutton;
-#ifdef SHOW_ADVANCED_CONTROLS
-						for (size_t i = 0; i < MAX_ADVANCED_CONTROLS; i++)
+#ifdef SHOW_CUSTOM_CONTROLS
+						for (size_t i = 0; i < MAX_CUSTOM_CONTROLS; i++)
 							if (buttonscan[18 + advorder[i]] == LastScan)
 								buttonscan[18 + advorder[i]] = bt_nobutton;
 #endif
@@ -2914,11 +2914,11 @@ void EnterCtrlData(int index, CustomCtrls* cust, void (*DrawRtn) (int), void (*P
 					}
 					break;
 
-#ifdef SHOW_ADVANCED_CONTROLS
-				case ADVANCED:
+#ifdef SHOW_CUSTOM_CONTROLS
+				case CUSTOMCTL:
 					if (LastScan && LastScan != sc_Escape)
 					{
-						for (size_t i = 0; i < 4; i++)
+						for (size_t i = 0; i < 6; i++)
 							if (buttonscan[order[i]] == LastScan)
 								buttonscan[order[i]] = bt_nobutton;
 
@@ -2926,7 +2926,7 @@ void EnterCtrlData(int index, CustomCtrls* cust, void (*DrawRtn) (int), void (*P
 							if (dirscan[moveorder[i]] == LastScan)
 								dirscan[moveorder[i]] = bt_nobutton;
 
-						for (size_t i = 0; i < MAX_ADVANCED_CONTROLS; i++)
+						for (size_t i = 0; i < MAX_CUSTOM_CONTROLS; i++)
 							if (buttonscan[18 + advorder[i]] == LastScan)
 								buttonscan[18 + advorder[i]] = bt_nobutton;
 
@@ -3258,12 +3258,12 @@ void DrawKeyboardActionCtlScreen(void)
 	MenuFadeIn();
 }
 
-#ifdef SHOW_ADVANCED_CONTROLS
+#ifdef SHOW_CUSTOM_CONTROLS
 ////////////////////////
 //
-// DRAW ADVANCED CONTROLS SCREEN
+// DRAW CUSTOM CONTROLS SCREEN
 //
-void DrawAdvancedCtlScreen(void)
+void DrawCustomCtlScreen(void)
 {
 	int i;
 	int which;
@@ -3292,11 +3292,11 @@ void DrawAdvancedCtlScreen(void)
 
 	SETFONTCOLOR(TEXTCOLOR, BKGDCOLOR);
 
-	DrawWindow(OPT_ADV_X - 8, OPT_ADV_Y, OPT_ADV_W, OPT_ADV_H, BKGDCOLOR);
-	DrawMenuGun(&CusAdvancedCtlItems);
+	DrawWindow(CUS_CTL_X - 8, CUS_CTL_Y, CUS_CTL_W, CUS_CTL_H, BKGDCOLOR);
+	DrawMenuGun(&CusCtlItems);
 
-	DrawMenu(&CusAdvancedCtlItems, CtlAdvancedMenu);
-	DrawAdvancedCtlKeys(0);
+	DrawMenu(&CusCtlItems, CusCtlMenu);
+	DrawCustomCtlKeys(0);
 
 	WaitKeyUp();
 	US_Print("\n");
@@ -3304,11 +3304,11 @@ void DrawAdvancedCtlScreen(void)
 	//
 	// PICK STARTING POINT IN MENU
 	//
-	if (CusAdvancedCtlItems.curpos < 0)
-		for (i = 0; i < CusAdvancedCtlItems.amount; i++)
-			if (CtlAdvancedMenu[i].active)
+	if (CusCtlItems.curpos < 0)
+		for (i = 0; i < CusCtlItems.amount; i++)
+			if (CusCtlMenu[i].active)
 			{
-				CusAdvancedCtlItems.curpos = i;
+				CusCtlItems.curpos = i;
 				break;
 			}
 
@@ -3698,7 +3698,6 @@ DrawCustKeybd(int hilight)
 #else
 	PrintX = CTL_MOUSE_X;
 #endif
-
 	for (i = 0; i < 4; i++)
 		PrintCustKeybd(i);
 }
@@ -3737,16 +3736,16 @@ DrawCustKeys(int hilight)
 }
 
 #ifdef USE_MODERN_OPTIONS
-#ifdef SHOW_ADVANCED_CONTROLS
-void PrintAdvancedCtlKeys(int i)
+#ifdef SHOW_CUSTOM_CONTROLS
+void PrintCustomCtlKeys(int i)
 {
-	PrintX = OPT_ADV_RIGHT_TEXT_X;
+	PrintX = CUS_CTL_RIGHT_TEXT_X;
 	PrintY = CST_START + (CST_SPC_Y * i);
-	PrintY = OPT_ADV_TEXT_Y + (CST_SPC_Y * i);
+	PrintY = CUS_CTL_TEXT_Y + (CST_SPC_Y * i);
 	US_Print((const char*)IN_GetScanName(buttonscan[18 + advorder[i]]));
 }
 
-void DrawAdvancedCtlKeys(int hilight)
+void DrawCustomCtlKeys(int hilight)
 {
 	int i, color;
 
@@ -3757,8 +3756,8 @@ void DrawAdvancedCtlKeys(int hilight)
 
 	PrintX = CTL_MOUSE_X;
 
-	for (i = 0; i < MAX_ADVANCED_CONTROLS; i++)
-		PrintAdvancedCtlKeys(i);
+	for (i = 0; i < MAX_CUSTOM_CONTROLS; i++)
+		PrintCustomCtlKeys(i);
 }
 #endif
 #endif
@@ -4390,7 +4389,6 @@ DrawHalfStep(int x, int y)
 	SD_PlaySound(MOVEGUN1SND);
 	SDL_Delay(8 * 100 / 7);
 }
-
 
 //
 // DRAW GUN AT NEW POSITION

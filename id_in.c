@@ -282,11 +282,19 @@ static int
 INL_GetMouseButtons(void)
 {
     int buttons = SDL_GetMouseState(NULL, NULL);
+    int mouse4Pressed = buttons & SDL_BUTTON(SDL_BUTTON_X1);
+    int mouse5Pressed = buttons & SDL_BUTTON(SDL_BUTTON_X2);
     int middlePressed = buttons & SDL_BUTTON(SDL_BUTTON_MIDDLE);
     int rightPressed = buttons & SDL_BUTTON(SDL_BUTTON_RIGHT);
-    buttons &= ~(SDL_BUTTON(SDL_BUTTON_MIDDLE) | SDL_BUTTON(SDL_BUTTON_RIGHT));
+    buttons &= ~(SDL_BUTTON(SDL_BUTTON_MIDDLE) | SDL_BUTTON(SDL_BUTTON_RIGHT) | SDL_BUTTON(SDL_BUTTON_X1) | SDL_BUTTON(SDL_BUTTON_X2));
     if(middlePressed) buttons |= 1 << 2;
     if(rightPressed) buttons |= 1 << 1;
+
+    if (mouse4Pressed)
+        GetMessage("Mouse 4 Pressed", DEF_MSG_CLR);
+
+    if (mouse5Pressed)
+        GetMessage("Mouse 5 Pressed", DEF_MSG_CLR);
 
     return buttons;
 }

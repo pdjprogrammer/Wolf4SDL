@@ -831,8 +831,8 @@ enum
 	bt_readypistol,
 	bt_readymachinegun,
 	bt_readychaingun,
-	bt_nextweapon,
 	bt_prevweapon,
+	bt_nextweapon,
 	bt_esc,
 	bt_pause,
 	bt_strafeleft,
@@ -841,17 +841,17 @@ enum
 	bt_movebackward,
 	bt_turnleft,
 	bt_turnright,
-#ifdef SHOW_ADVANCED_CONTROLS
-	bt_adv_1,
-	bt_adv_2,
-	bt_adv_3,
-	bt_adv_4,
-	bt_adv_5,
-	bt_adv_6,
-	bt_adv_7,
-	bt_adv_8,
-	bt_adv_9,
-	bt_adv_10,
+#ifdef SHOW_CUSTOM_CONTROLS
+	bt_cus_ctl_1,
+	bt_cus_ctl_2,
+	bt_cus_ctl_3,
+	bt_cus_ctl_4,
+	bt_cus_ctl_5,
+	bt_cus_ctl_6,
+	bt_cus_ctl_7,
+	bt_cus_ctl_8,
+	bt_cus_ctl_9,
+	bt_cus_ctl_10,
 #endif
 	NUMBUTTONS
 };
@@ -1084,8 +1084,8 @@ extern  int         lastgamemusicoffset;
 //
 #ifdef USE_MODERN_OPTIONS
 extern  boolean     mouseenabled, mouseYAxis, joystickenabled, alwaysRun;
-#ifdef SHOW_ADVANCED_CONTROLS
-extern  int         advancedcontrols[10];
+#ifdef SHOW_CUSTOM_CONTROLS
+extern  int         customControls[10];
 #endif
 #else
 extern  boolean     mouseenabled, joystickenabled;
