@@ -31,6 +31,10 @@ int CP_ReadThis(int);
 void SetTextColor(CP_itemtype* items, int hlight);
 
 int menuExit = 0;
+
+const int MORE_ACTIONS_ARRAY_START = 5;
+const int MORE_ACTIONS_ARRAY_END = 12;
+
 const int MAX_CUSTOM_CONTROLS = 10;
 const int CUS_CTL_ARRAY_RANGE_START = 19;
 const int CUS_CTL_ARRAY_RANGE_END = 29;
@@ -2918,8 +2922,8 @@ void EnterCtrlData(int index, CustomCtrls* cust, void (*DrawRtn)(int), void (*Pr
 		amount = 8;
 		break;
 	case KEYBOARDMOREACTIONS:
-		start = 5;
-		amount = 12;
+		start = MORE_ACTIONS_ARRAY_START;
+		amount = MORE_ACTIONS_ARRAY_END;
 		break;
 #ifdef SHOW_CUSTOM_CONTROLS
 	case CUSTOMCONTROLS:
@@ -5391,22 +5395,37 @@ void ShootSnd(void)
 void CheckKeyConflict(void)
 {
 	int i = 0;
+	int arrayEnd = 0;
+
 	for (i = 0; i < 8; i++)
 		if (buttonscan[order[i]] == LastScan)
 			buttonscan[order[i]] = bt_nobutton;
+
+	arrayEnd = 0;
 
 	for (i = 0; i < 6; i++)
 		if (dirscan[moveorder[i]] == LastScan)
 			dirscan[moveorder[i]] = bt_nobutton;
 
-	for (i = 0; i < 7; i++)
+	arrayEnd = 0;
+
+	//TODO DemolitionDerby - Finish
+	arrayEnd = MORE_ACTIONS_ARRAY_END - MORE_ACTIONS_ARRAY_START;
+
+	for (i = 0; i < arrayEnd; i++)
 		if (buttonscan[4 + actionorder[i]] == LastScan)
 			buttonscan[4 + actionorder[i]] = bt_nobutton;
 
+	arrayEnd = 0;
+
 #ifdef SHOW_CUSTOM_CONTROLS
-	for (i = 0; i < MAX_CUSTOM_CONTROLS; i++)
+	arrayEnd = CUS_CTL_ARRAY_RANGE_END - CUS_CTL_ARRAY_RANGE_START;
+
+	for (i = 0; i < arrayEnd; i++)
 		if (buttonscan[19 + advorder[i]] == LastScan)
 			buttonscan[19 + advorder[i]] = bt_nobutton;
+
+	arrayEnd = 0;
 #endif
 }
 #endif

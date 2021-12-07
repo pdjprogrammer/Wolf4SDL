@@ -61,7 +61,7 @@ boolean mouseenabled, joystickenabled;
 #endif
 
 #ifdef USE_MODERN_OPTIONS
-int dirscan[6] = {sc_UpArrow, sc_RightArrow, sc_DownArrow, sc_LeftArrow, sc_StrafeLeft, sc_StrafeRight};
+int dirscan[6] = {sc_W, sc_RightArrow, sc_S, sc_LeftArrow, sc_StrafeLeft, sc_StrafeRight};
 #ifndef SHOW_CUSTOM_CONTROLS
 int buttonscan[NUMBUTTONS] = { sc_Control, sc_Alt, sc_LShift, sc_Space, sc_1, sc_2, sc_3, sc_4, sc_LeftBracket, sc_RightBracket, sc_Tab, sc_Escape, sc_None, sc_None, sc_None, sc_None, sc_None, sc_None };
 #else
