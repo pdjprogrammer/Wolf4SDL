@@ -28,8 +28,6 @@ extern int lastgamemusicoffset;
 //
 int CP_ReadThis(int);
 
-
-
 void SetTextColor(CP_itemtype* items, int hlight);
 
 int menuExit = 0;
@@ -2720,15 +2718,15 @@ int CP_KeyboardMoreActionCtl(int blank)
 
 void ExitMenu(void) {
 	if (menuExit <= 2) {
-		if (menuExit == 1)
-			MenuFadeOut();
+		if (menuExit == 1) {
+			menuExit++;
+			MenuFadeOut();			
+		}
 
-		menuExit++;
-
-		DrawCtlScreen();
-
-		if (menuExit == 2)
+		if (menuExit == 2) {
+			DrawCtlScreen();
 			MenuFadeIn();
+		}			
 	}
 }
 
@@ -3173,7 +3171,7 @@ void EnterCtrlData(int index, CustomCtrls* cust, void (*DrawRtn)(int), void (*Pr
 					{
 						CheckKeyConflict();
 
-						buttonscan[18 + advorder[which]] = LastScan;
+						buttonscan[19 + advorder[which]] = LastScan;
 
 						picked = 1;
 						SD_PlaySound(SHOOTDOORSND);
@@ -4050,7 +4048,7 @@ void PrintCustomCtlKeys(int i)
 	PrintX = CUS_CTL_RIGHT_TEXT_X;
 	PrintY = CST_START + (CST_SPC_Y * i);
 	PrintY = CUS_CTL_TEXT_Y + (CST_SPC_Y * i);
-	US_Print((const char*)IN_GetScanName(buttonscan[18 + advorder[i]]));
+	US_Print((const char*)IN_GetScanName(buttonscan[19 + advorder[i]]));
 }
 
 void DrawCustomCtlKeys(int hilight)
@@ -5407,8 +5405,8 @@ void CheckKeyConflict(void)
 
 #ifdef SHOW_CUSTOM_CONTROLS
 	for (i = 0; i < MAX_CUSTOM_CONTROLS; i++)
-		if (buttonscan[18 + advorder[i]] == LastScan)
-			buttonscan[18 + advorder[i]] = bt_nobutton;
+		if (buttonscan[19 + advorder[i]] == LastScan)
+			buttonscan[19 + advorder[i]] = bt_nobutton;
 #endif
 }
 #endif

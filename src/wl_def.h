@@ -1219,7 +1219,7 @@ enum
 	bt_readymachinegun,
 	bt_readychaingun,
 	bt_prevweapon,
-	bt_nextweapon,
+	bt_nextweapon,	
 	bt_automap,
 	bt_esc,
 	bt_pause,

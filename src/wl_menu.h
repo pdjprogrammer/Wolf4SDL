@@ -195,7 +195,7 @@ typedef struct
 typedef struct
 {
 #ifdef USE_MODERN_OPTIONS
-	short allowed[12];
+	short allowed[14];
 #else
 	short allowed[4];
 #endif
