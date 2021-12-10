@@ -2917,6 +2917,10 @@ void EnterCtrlData(int index, CustomCtrls* cust, void (*DrawRtn)(int), void (*Pr
 	PrintY = CST_Y + 13 * index;
 #else
 	switch (type) {
+	case JOYSTICK:
+		start = 0;
+		amount = 4;
+		break;
 	case KEYBOARDMOVE:
 		start = 0;
 		amount = 8;
