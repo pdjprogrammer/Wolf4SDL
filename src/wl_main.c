@@ -48,8 +48,8 @@ extern byte signon[];
 */
 
 char str[80];
-int dirangle[9] = {0, ANGLES / 8, 2 * ANGLES / 8, 3 * ANGLES / 8, 4 * ANGLES / 8,
-				   5 * ANGLES / 8, 6 * ANGLES / 8, 7 * ANGLES / 8, ANGLES};
+int dirangle[9] = { 0, ANGLES / 8, 2 * ANGLES / 8, 3 * ANGLES / 8, 4 * ANGLES / 8,
+				   5 * ANGLES / 8, 6 * ANGLES / 8, 7 * ANGLES / 8, ANGLES };
 
 //
 // proejection variables
@@ -71,7 +71,7 @@ int timerPrintY;
 int ratioPrintX;
 int ratioPrintY;
 
-void Quit(const char *error, ...);
+void Quit(const char* error, ...);
 
 boolean startgame;
 boolean loadedgame;
@@ -164,11 +164,14 @@ void ReadConfig(void)
 #ifdef USE_MODERN_OPTIONS
 		read(file, &mouseYAxis, sizeof(mouseYAxis));
 		read(file, &alwaysRun, sizeof(alwaysRun));
+		read(file, &controllerEnabled, sizeof(controllerEnabled));
 #ifdef SHOW_CUSTOM_CONTROLS
 		read(file, customControls, sizeof(customControls));
 #endif
-#endif
+#else
 		read(file, &joystickenabled, sizeof(joystickenabled));
+#endif
+
 		boolean dummyJoypadEnabled;
 		read(file, &dummyJoypadEnabled, sizeof(dummyJoypadEnabled));
 		boolean dummyJoystickProgressive;
@@ -204,15 +207,27 @@ void ReadConfig(void)
 			mouseYAxis = true;
 		if (alwaysRun)
 			alwaysRun = true;
-#endif
+
+		if (controllerEnabled)
+			controllerEnabled = true;
+#else
 		if (joystickenabled)
 			joystickenabled = true;
+#endif
+
 
 		if (!MousePresent)
 			mouseenabled = false;
 
+#ifdef USE_MODERN_OPTIONS
+		if (!IN_ControllerPresent())
+			controllerEnabled = false;
+#else
 		if (!IN_JoyPresent())
 			joystickenabled = false;
+#endif
+
+
 
 		if (mouseadjustment < 0)
 			mouseadjustment = 0;
@@ -257,9 +272,13 @@ void ReadConfig(void)
 #endif
 		}
 
+#ifdef USE_MODERN_OPTIONS
+		if (IN_ControllerPresent())
+			controllerEnabled = true;
+#else
 		if (IN_JoyPresent())
 			joystickenabled = true;
-
+#endif
 		viewsize = 19; // start with a good size
 		mouseadjustment = 5;
 	}
@@ -305,11 +324,14 @@ void WriteConfig(void)
 #ifdef USE_MODERN_OPTIONS
 		write(file, &mouseYAxis, sizeof(mouseYAxis));
 		write(file, &alwaysRun, sizeof(alwaysRun));
+		write(file, &controllerEnabled, sizeof(controllerEnabled));
 #ifdef SHOW_CUSTOM_CONTROLS
 		write(file, customControls, sizeof(customControls));
 #endif
-#endif
+#else
 		write(file, &joystickenabled, sizeof(joystickenabled));
+#endif
+		
 		boolean dummyJoypadEnabled = false;
 		write(file, &dummyJoypadEnabled, sizeof(dummyJoypadEnabled));
 		boolean dummyJoystickProgressive = false;
@@ -371,7 +393,7 @@ void DiskFlopAnim(int x, int y)
 	which ^= 1;
 }
 
-int32_t DoChecksum(byte *source, unsigned size, int32_t checksum)
+int32_t DoChecksum(byte* source, unsigned size, int32_t checksum)
 {
 	unsigned i;
 
@@ -392,12 +414,12 @@ int32_t DoChecksum(byte *source, unsigned size, int32_t checksum)
 extern statetype s_grdstand;
 extern statetype s_player;
 
-boolean SaveTheGame(FILE *file, int x, int y)
+boolean SaveTheGame(FILE* file, int x, int y)
 {
 	int i, j;
 	int checksum;
 	word actnum, laststatobjnum;
-	objtype *ob;
+	objtype* ob;
 	objtype nullobj;
 	statobj_t nullstat;
 
@@ -405,19 +427,19 @@ boolean SaveTheGame(FILE *file, int x, int y)
 
 	DiskFlopAnim(x, y);
 	fwrite(&gamestate, sizeof(gamestate), 1, file);
-	checksum = DoChecksum((byte *)&gamestate, sizeof(gamestate), checksum);
+	checksum = DoChecksum((byte*)&gamestate, sizeof(gamestate), checksum);
 
 	DiskFlopAnim(x, y);
 	fwrite(&LevelRatios[0], sizeof(LRstruct) * LRpack, 1, file);
-	checksum = DoChecksum((byte *)&LevelRatios[0], sizeof(LRstruct) * LRpack, checksum);
+	checksum = DoChecksum((byte*)&LevelRatios[0], sizeof(LRstruct) * LRpack, checksum);
 
 	DiskFlopAnim(x, y);
 	fwrite(tilemap, sizeof(tilemap), 1, file);
-	checksum = DoChecksum((byte *)tilemap, sizeof(tilemap), checksum);
+	checksum = DoChecksum((byte*)tilemap, sizeof(tilemap), checksum);
 #ifdef REVEALMAP
 	DiskFlopAnim(x, y);
 	fwrite(mapseen, sizeof(mapseen), 1, file);
-	checksum = DoChecksum((byte *)mapseen, sizeof(mapseen), checksum);
+	checksum = DoChecksum((byte*)mapseen, sizeof(mapseen), checksum);
 #endif
 	DiskFlopAnim(x, y);
 
@@ -431,7 +453,7 @@ boolean SaveTheGame(FILE *file, int x, int y)
 			else
 				actnum = (word)(uintptr_t)ob;
 			fwrite(&actnum, sizeof(actnum), 1, file);
-			checksum = DoChecksum((byte *)&actnum, sizeof(actnum), checksum);
+			checksum = DoChecksum((byte*)&actnum, sizeof(actnum), checksum);
 		}
 	}
 
@@ -444,14 +466,14 @@ boolean SaveTheGame(FILE *file, int x, int y)
 	ob = player;
 	DiskFlopAnim(x, y);
 	memcpy(&nullobj, ob, sizeof(nullobj));
-	nullobj.state = (statetype *)((uintptr_t)nullobj.state - (uintptr_t)&s_player);
+	nullobj.state = (statetype*)((uintptr_t)nullobj.state - (uintptr_t)&s_player);
 	fwrite(&nullobj, sizeof(nullobj), 1, file);
 
 	DiskFlopAnim(x, y);
 	for (ob = ob->next; ob; ob = ob->next)
 	{
 		memcpy(&nullobj, ob, sizeof(nullobj));
-		nullobj.state = (statetype *)((uintptr_t)nullobj.state - (uintptr_t)&s_grdstand);
+		nullobj.state = (statetype*)((uintptr_t)nullobj.state - (uintptr_t)&s_grdstand);
 		fwrite(&nullobj, sizeof(nullobj), 1, file);
 	}
 	nullobj.active = ac_badobject; // end of file marker
@@ -461,37 +483,37 @@ boolean SaveTheGame(FILE *file, int x, int y)
 	DiskFlopAnim(x, y);
 	laststatobjnum = (word)(laststatobj - statobjlist);
 	fwrite(&laststatobjnum, sizeof(laststatobjnum), 1, file);
-	checksum = DoChecksum((byte *)&laststatobjnum, sizeof(laststatobjnum), checksum);
+	checksum = DoChecksum((byte*)&laststatobjnum, sizeof(laststatobjnum), checksum);
 
 	DiskFlopAnim(x, y);
 	for (i = 0; i < MAXSTATS; i++)
 	{
 		memcpy(&nullstat, statobjlist + i, sizeof(nullstat));
-		nullstat.visspot = (byte *)((uintptr_t)nullstat.visspot - (uintptr_t)spotvis);
+		nullstat.visspot = (byte*)((uintptr_t)nullstat.visspot - (uintptr_t)spotvis);
 		fwrite(&nullstat, sizeof(nullstat), 1, file);
-		checksum = DoChecksum((byte *)&nullstat, sizeof(nullstat), checksum);
+		checksum = DoChecksum((byte*)&nullstat, sizeof(nullstat), checksum);
 	}
 
 	DiskFlopAnim(x, y);
 	fwrite(doorposition, sizeof(doorposition), 1, file);
-	checksum = DoChecksum((byte *)doorposition, sizeof(doorposition), checksum);
+	checksum = DoChecksum((byte*)doorposition, sizeof(doorposition), checksum);
 	DiskFlopAnim(x, y);
 	fwrite(doorobjlist, sizeof(doorobjlist), 1, file);
-	checksum = DoChecksum((byte *)doorobjlist, sizeof(doorobjlist), checksum);
+	checksum = DoChecksum((byte*)doorobjlist, sizeof(doorobjlist), checksum);
 
 	DiskFlopAnim(x, y);
 	fwrite(&pwallstate, sizeof(pwallstate), 1, file);
-	checksum = DoChecksum((byte *)&pwallstate, sizeof(pwallstate), checksum);
+	checksum = DoChecksum((byte*)&pwallstate, sizeof(pwallstate), checksum);
 	fwrite(&pwalltile, sizeof(pwalltile), 1, file);
-	checksum = DoChecksum((byte *)&pwalltile, sizeof(pwalltile), checksum);
+	checksum = DoChecksum((byte*)&pwalltile, sizeof(pwalltile), checksum);
 	fwrite(&pwallx, sizeof(pwallx), 1, file);
-	checksum = DoChecksum((byte *)&pwallx, sizeof(pwallx), checksum);
+	checksum = DoChecksum((byte*)&pwallx, sizeof(pwallx), checksum);
 	fwrite(&pwally, sizeof(pwally), 1, file);
-	checksum = DoChecksum((byte *)&pwally, sizeof(pwally), checksum);
+	checksum = DoChecksum((byte*)&pwally, sizeof(pwally), checksum);
 	fwrite(&pwalldir, sizeof(pwalldir), 1, file);
-	checksum = DoChecksum((byte *)&pwalldir, sizeof(pwalldir), checksum);
+	checksum = DoChecksum((byte*)&pwalldir, sizeof(pwalldir), checksum);
 	fwrite(&pwallpos, sizeof(pwallpos), 1, file);
-	checksum = DoChecksum((byte *)&pwallpos, sizeof(pwallpos), checksum);
+	checksum = DoChecksum((byte*)&pwallpos, sizeof(pwallpos), checksum);
 
 	//
 	// WRITE OUT CHECKSUM
@@ -513,7 +535,7 @@ boolean SaveTheGame(FILE *file, int x, int y)
 ==================
 */
 
-boolean LoadTheGame(FILE *file, int x, int y)
+boolean LoadTheGame(FILE* file, int x, int y)
 {
 	int i, j;
 	int actnum = 0;
@@ -526,22 +548,22 @@ boolean LoadTheGame(FILE *file, int x, int y)
 
 	DiskFlopAnim(x, y);
 	fread(&gamestate, sizeof(gamestate), 1, file);
-	checksum = DoChecksum((byte *)&gamestate, sizeof(gamestate), checksum);
+	checksum = DoChecksum((byte*)&gamestate, sizeof(gamestate), checksum);
 
 	DiskFlopAnim(x, y);
 	fread(&LevelRatios[0], sizeof(LRstruct) * LRpack, 1, file);
-	checksum = DoChecksum((byte *)&LevelRatios[0], sizeof(LRstruct) * LRpack, checksum);
+	checksum = DoChecksum((byte*)&LevelRatios[0], sizeof(LRstruct) * LRpack, checksum);
 
 	DiskFlopAnim(x, y);
 	SetupGameLevel();
 
 	DiskFlopAnim(x, y);
 	fread(tilemap, sizeof(tilemap), 1, file);
-	checksum = DoChecksum((byte *)tilemap, sizeof(tilemap), checksum);
+	checksum = DoChecksum((byte*)tilemap, sizeof(tilemap), checksum);
 #ifdef REVEALMAP
 	DiskFlopAnim(x, y);
 	fread(mapseen, sizeof(mapseen), 1, file);
-	checksum = DoChecksum((byte *)mapseen, sizeof(mapseen), checksum);
+	checksum = DoChecksum((byte*)mapseen, sizeof(mapseen), checksum);
 #endif
 	DiskFlopAnim(x, y);
 
@@ -550,11 +572,11 @@ boolean LoadTheGame(FILE *file, int x, int y)
 		for (j = 0; j < mapheight; j++)
 		{
 			fread(&actnum, sizeof(word), 1, file);
-			checksum = DoChecksum((byte *)&actnum, sizeof(word), checksum);
+			checksum = DoChecksum((byte*)&actnum, sizeof(word), checksum);
 			if (actnum & 0x8000)
 				actorat[i][j] = objlist + (actnum & 0x7fff);
 			else
-				actorat[i][j] = (objtype *)(uintptr_t)actnum;
+				actorat[i][j] = (objtype*)(uintptr_t)actnum;
 		}
 	}
 
@@ -564,7 +586,7 @@ boolean LoadTheGame(FILE *file, int x, int y)
 	InitActorList();
 	DiskFlopAnim(x, y);
 	fread(player, sizeof(*player), 1, file);
-	player->state = (statetype *)((uintptr_t)player->state + (uintptr_t)&s_player);
+	player->state = (statetype*)((uintptr_t)player->state + (uintptr_t)&s_player);
 
 	while (1)
 	{
@@ -573,7 +595,7 @@ boolean LoadTheGame(FILE *file, int x, int y)
 		if (nullobj.active == ac_badobject)
 			break;
 		GetNewActor();
-		nullobj.state = (statetype *)((uintptr_t)nullobj.state + (uintptr_t)&s_grdstand);
+		nullobj.state = (statetype*)((uintptr_t)nullobj.state + (uintptr_t)&s_grdstand);
 		// don't copy over the links
 		memcpy(newobj, &nullobj, sizeof(nullobj) - 8);
 	}
@@ -581,41 +603,41 @@ boolean LoadTheGame(FILE *file, int x, int y)
 	DiskFlopAnim(x, y);
 	fread(&laststatobjnum, sizeof(laststatobjnum), 1, file);
 	laststatobj = statobjlist + laststatobjnum;
-	checksum = DoChecksum((byte *)&laststatobjnum, sizeof(laststatobjnum), checksum);
+	checksum = DoChecksum((byte*)&laststatobjnum, sizeof(laststatobjnum), checksum);
 
 	DiskFlopAnim(x, y);
 	for (i = 0; i < MAXSTATS; i++)
 	{
 		fread(&nullstat, sizeof(nullstat), 1, file);
-		checksum = DoChecksum((byte *)&nullstat, sizeof(nullstat), checksum);
-		nullstat.visspot = (byte *)((uintptr_t)nullstat.visspot + (uintptr_t)spotvis);
+		checksum = DoChecksum((byte*)&nullstat, sizeof(nullstat), checksum);
+		nullstat.visspot = (byte*)((uintptr_t)nullstat.visspot + (uintptr_t)spotvis);
 		memcpy(statobjlist + i, &nullstat, sizeof(nullstat));
 	}
 
 	DiskFlopAnim(x, y);
 	fread(doorposition, sizeof(doorposition), 1, file);
-	checksum = DoChecksum((byte *)doorposition, sizeof(doorposition), checksum);
+	checksum = DoChecksum((byte*)doorposition, sizeof(doorposition), checksum);
 	DiskFlopAnim(x, y);
 	fread(doorobjlist, sizeof(doorobjlist), 1, file);
-	checksum = DoChecksum((byte *)doorobjlist, sizeof(doorobjlist), checksum);
+	checksum = DoChecksum((byte*)doorobjlist, sizeof(doorobjlist), checksum);
 
 	DiskFlopAnim(x, y);
 	fread(&pwallstate, sizeof(pwallstate), 1, file);
-	checksum = DoChecksum((byte *)&pwallstate, sizeof(pwallstate), checksum);
+	checksum = DoChecksum((byte*)&pwallstate, sizeof(pwallstate), checksum);
 	fread(&pwalltile, sizeof(pwalltile), 1, file);
-	checksum = DoChecksum((byte *)&pwalltile, sizeof(pwalltile), checksum);
+	checksum = DoChecksum((byte*)&pwalltile, sizeof(pwalltile), checksum);
 	fread(&pwallx, sizeof(pwallx), 1, file);
-	checksum = DoChecksum((byte *)&pwallx, sizeof(pwallx), checksum);
+	checksum = DoChecksum((byte*)&pwallx, sizeof(pwallx), checksum);
 	fread(&pwally, sizeof(pwally), 1, file);
-	checksum = DoChecksum((byte *)&pwally, sizeof(pwally), checksum);
+	checksum = DoChecksum((byte*)&pwally, sizeof(pwally), checksum);
 	fread(&pwalldir, sizeof(pwalldir), 1, file);
-	checksum = DoChecksum((byte *)&pwalldir, sizeof(pwalldir), checksum);
+	checksum = DoChecksum((byte*)&pwalldir, sizeof(pwalldir), checksum);
 	fread(&pwallpos, sizeof(pwallpos), 1, file);
-	checksum = DoChecksum((byte *)&pwallpos, sizeof(pwallpos), checksum);
+	checksum = DoChecksum((byte*)&pwallpos, sizeof(pwallpos), checksum);
 
 	if (gamestate.secretcount) // assign valid floorcodes under moved pushwalls
 	{
-		word *map, *obj;
+		word* map, * obj;
 		word tile, sprite;
 		map = mapsegs[0];
 		obj = mapsegs[1];
@@ -660,7 +682,7 @@ boolean LoadTheGame(FILE *file, int x, int y)
 		gamestate.lives = 1;
 		gamestate.weapon =
 			gamestate.chosenweapon =
-				gamestate.bestweapon = wp_pistol;
+			gamestate.bestweapon = wp_pistol;
 		gamestate.ammo = 8;
 	}
 
@@ -912,119 +934,119 @@ void FinishSignon(void)
 //   1: boss weapons
 
 static int wolfdigimap[] =
-	{
-// These first sounds are in the upload version
-#ifndef SPEAR
-		HALTSND, 0, -1,
-		DOGBARKSND, 1, -1,
-		CLOSEDOORSND, 2, -1,
-		OPENDOORSND, 3, -1,
-		ATKMACHINEGUNSND, 4, 0,
-		ATKPISTOLSND, 5, 0,
-		ATKGATLINGSND, 6, 0,
-		SCHUTZADSND, 7, -1,
-		GUTENTAGSND, 8, -1,
-		MUTTISND, 9, -1,
-		BOSSFIRESND, 10, 1,
-		SSFIRESND, 11, -1,
-		DEATHSCREAM1SND, 12, -1,
-		DEATHSCREAM2SND, 13, -1,
-		DEATHSCREAM3SND, 13, -1,
-		TAKEDAMAGESND, 14, -1,
-		PUSHWALLSND, 15, -1,
+{
+	// These first sounds are in the upload version
+	#ifndef SPEAR
+			HALTSND, 0, -1,
+			DOGBARKSND, 1, -1,
+			CLOSEDOORSND, 2, -1,
+			OPENDOORSND, 3, -1,
+			ATKMACHINEGUNSND, 4, 0,
+			ATKPISTOLSND, 5, 0,
+			ATKGATLINGSND, 6, 0,
+			SCHUTZADSND, 7, -1,
+			GUTENTAGSND, 8, -1,
+			MUTTISND, 9, -1,
+			BOSSFIRESND, 10, 1,
+			SSFIRESND, 11, -1,
+			DEATHSCREAM1SND, 12, -1,
+			DEATHSCREAM2SND, 13, -1,
+			DEATHSCREAM3SND, 13, -1,
+			TAKEDAMAGESND, 14, -1,
+			PUSHWALLSND, 15, -1,
 
-		LEBENSND, 20, -1,
-		NAZIFIRESND, 21, -1,
-		SLURPIESND, 22, -1,
+			LEBENSND, 20, -1,
+			NAZIFIRESND, 21, -1,
+			SLURPIESND, 22, -1,
 
-		YEAHSND, 32, -1,
+			YEAHSND, 32, -1,
 
-#ifndef UPLOAD
-		// These are in all other episodes
-		DOGDEATHSND, 16, -1,
-		AHHHGSND, 17, -1,
-		DIESND, 18, -1,
-		EVASND, 19, -1,
+	#ifndef UPLOAD
+			// These are in all other episodes
+			DOGDEATHSND, 16, -1,
+			AHHHGSND, 17, -1,
+			DIESND, 18, -1,
+			EVASND, 19, -1,
 
-		TOT_HUNDSND, 23, -1,
-		MEINGOTTSND, 24, -1,
-		SCHABBSHASND, 25, -1,
-		HITLERHASND, 26, -1,
-		SPIONSND, 27, -1,
-		NEINSOVASSND, 28, -1,
-		DOGATTACKSND, 29, -1,
-		LEVELDONESND, 30, -1,
-		MECHSTEPSND, 31, -1,
+			TOT_HUNDSND, 23, -1,
+			MEINGOTTSND, 24, -1,
+			SCHABBSHASND, 25, -1,
+			HITLERHASND, 26, -1,
+			SPIONSND, 27, -1,
+			NEINSOVASSND, 28, -1,
+			DOGATTACKSND, 29, -1,
+			LEVELDONESND, 30, -1,
+			MECHSTEPSND, 31, -1,
 
-		SCHEISTSND, 33, -1,
-		DEATHSCREAM4SND, 34, -1, // AIIEEE
-		DEATHSCREAM5SND, 35, -1, // DEE-DEE
-		DONNERSND, 36, -1,		 // EPISODE 4 BOSS DIE
-		EINESND, 37, -1,		 // EPISODE 4 BOSS SIGHTING
-		ERLAUBENSND, 38, -1,	 // EPISODE 6 BOSS SIGHTING
-		DEATHSCREAM6SND, 39, -1, // FART
-		DEATHSCREAM7SND, 40, -1, // GASP
-		DEATHSCREAM8SND, 41, -1, // GUH-BOY!
-		DEATHSCREAM9SND, 42, -1, // AH GEEZ!
-		KEINSND, 43, -1,		 // EPISODE 5 BOSS SIGHTING
-		MEINSND, 44, -1,		 // EPISODE 6 BOSS DIE
-		ROSESND, 45, -1,		 // EPISODE 5 BOSS DIE
+			SCHEISTSND, 33, -1,
+			DEATHSCREAM4SND, 34, -1, // AIIEEE
+			DEATHSCREAM5SND, 35, -1, // DEE-DEE
+			DONNERSND, 36, -1,		 // EPISODE 4 BOSS DIE
+			EINESND, 37, -1,		 // EPISODE 4 BOSS SIGHTING
+			ERLAUBENSND, 38, -1,	 // EPISODE 6 BOSS SIGHTING
+			DEATHSCREAM6SND, 39, -1, // FART
+			DEATHSCREAM7SND, 40, -1, // GASP
+			DEATHSCREAM8SND, 41, -1, // GUH-BOY!
+			DEATHSCREAM9SND, 42, -1, // AH GEEZ!
+			KEINSND, 43, -1,		 // EPISODE 5 BOSS SIGHTING
+			MEINSND, 44, -1,		 // EPISODE 6 BOSS DIE
+			ROSESND, 45, -1,		 // EPISODE 5 BOSS DIE
 
-#endif
-#else
-		//
-		// SPEAR OF DESTINY DIGISOUNDS
-		//
-		HALTSND, 0, -1,
-		CLOSEDOORSND, 2, -1,
-		OPENDOORSND, 3, -1,
-		ATKMACHINEGUNSND, 4, 0,
-		ATKPISTOLSND, 5, 0,
-		ATKGATLINGSND, 6, 0,
-		SCHUTZADSND, 7, -1,
-		BOSSFIRESND, 8, 1,
-		SSFIRESND, 9, -1,
-		DEATHSCREAM1SND, 10, -1,
-		DEATHSCREAM2SND, 11, -1,
-		TAKEDAMAGESND, 12, -1,
-		PUSHWALLSND, 13, -1,
-		AHHHGSND, 15, -1,
-		LEBENSND, 16, -1,
-		NAZIFIRESND, 17, -1,
-		SLURPIESND, 18, -1,
-		LEVELDONESND, 22, -1,
-		DEATHSCREAM4SND, 23, -1, // AIIEEE
-		DEATHSCREAM3SND, 23, -1, // DOUBLY-MAPPED!!!
-		DEATHSCREAM5SND, 24, -1, // DEE-DEE
-		DEATHSCREAM6SND, 25, -1, // FART
-		DEATHSCREAM7SND, 26, -1, // GASP
-		DEATHSCREAM8SND, 27, -1, // GUH-BOY!
-		DEATHSCREAM9SND, 28, -1, // AH GEEZ!
-		GETGATLINGSND, 38, -1,	 // Got Gat replacement
+	#endif
+	#else
+			//
+			// SPEAR OF DESTINY DIGISOUNDS
+			//
+			HALTSND, 0, -1,
+			CLOSEDOORSND, 2, -1,
+			OPENDOORSND, 3, -1,
+			ATKMACHINEGUNSND, 4, 0,
+			ATKPISTOLSND, 5, 0,
+			ATKGATLINGSND, 6, 0,
+			SCHUTZADSND, 7, -1,
+			BOSSFIRESND, 8, 1,
+			SSFIRESND, 9, -1,
+			DEATHSCREAM1SND, 10, -1,
+			DEATHSCREAM2SND, 11, -1,
+			TAKEDAMAGESND, 12, -1,
+			PUSHWALLSND, 13, -1,
+			AHHHGSND, 15, -1,
+			LEBENSND, 16, -1,
+			NAZIFIRESND, 17, -1,
+			SLURPIESND, 18, -1,
+			LEVELDONESND, 22, -1,
+			DEATHSCREAM4SND, 23, -1, // AIIEEE
+			DEATHSCREAM3SND, 23, -1, // DOUBLY-MAPPED!!!
+			DEATHSCREAM5SND, 24, -1, // DEE-DEE
+			DEATHSCREAM6SND, 25, -1, // FART
+			DEATHSCREAM7SND, 26, -1, // GASP
+			DEATHSCREAM8SND, 27, -1, // GUH-BOY!
+			DEATHSCREAM9SND, 28, -1, // AH GEEZ!
+			GETGATLINGSND, 38, -1,	 // Got Gat replacement
 
-#ifndef SPEARDEMO
-		DOGBARKSND, 1, -1,
-		DOGDEATHSND, 14, -1,
-		SPIONSND, 19, -1,
-		NEINSOVASSND, 20, -1,
-		DOGATTACKSND, 21, -1,
-		TRANSSIGHTSND, 29, -1,	 // Trans Sight
-		TRANSDEATHSND, 30, -1,	 // Trans Death
-		WILHELMSIGHTSND, 31, -1, // Wilhelm Sight
-		WILHELMDEATHSND, 32, -1, // Wilhelm Death
-		UBERDEATHSND, 33, -1,	 // Uber Death
-		KNIGHTSIGHTSND, 34, -1,	 // Death Knight Sight
-		KNIGHTDEATHSND, 35, -1,	 // Death Knight Death
-		ANGELSIGHTSND, 36, -1,	 // Angel Sight
-		ANGELDEATHSND, 37, -1,	 // Angel Death
-		GETSPEARSND, 39, -1,	 // Got Spear replacement
-#endif
-#endif
-		LASTSOUND};
+	#ifndef SPEARDEMO
+			DOGBARKSND, 1, -1,
+			DOGDEATHSND, 14, -1,
+			SPIONSND, 19, -1,
+			NEINSOVASSND, 20, -1,
+			DOGATTACKSND, 21, -1,
+			TRANSSIGHTSND, 29, -1,	 // Trans Sight
+			TRANSDEATHSND, 30, -1,	 // Trans Death
+			WILHELMSIGHTSND, 31, -1, // Wilhelm Sight
+			WILHELMDEATHSND, 32, -1, // Wilhelm Death
+			UBERDEATHSND, 33, -1,	 // Uber Death
+			KNIGHTSIGHTSND, 34, -1,	 // Death Knight Sight
+			KNIGHTDEATHSND, 35, -1,	 // Death Knight Death
+			ANGELSIGHTSND, 36, -1,	 // Angel Sight
+			ANGELDEATHSND, 37, -1,	 // Angel Death
+			GETSPEARSND, 39, -1,	 // Got Spear replacement
+	#endif
+	#endif
+			LASTSOUND };
 
 void InitDigiMap(void)
 {
-	int *map;
+	int* map;
 
 	for (map = wolfdigimap; *map != LASTSOUND; map += 3)
 	{
@@ -1035,42 +1057,42 @@ void InitDigiMap(void)
 }
 
 #ifndef SPEAR
-CP_iteminfo MusicItems = {CTL_X, CTL_Y, 6, 0, 32};
+CP_iteminfo MusicItems = { CTL_X, CTL_Y, 6, 0, 32 };
 CP_itemtype MusicMenu[] =
-	{
-		{1, "Get Them!", 0},
-		{1, "Searching", 0},
-		{1, "P.O.W.", 0},
-		{1, "Suspense", 0},
-		{1, "War March", 0},
-		{1, "Around The Corner!", 0},
+{
+	{1, "Get Them!", 0},
+	{1, "Searching", 0},
+	{1, "P.O.W.", 0},
+	{1, "Suspense", 0},
+	{1, "War March", 0},
+	{1, "Around The Corner!", 0},
 
-		{1, "Nazi Anthem", 0},
-		{1, "Lurking...", 0},
-		{1, "Going After Hitler", 0},
-		{1, "Pounding Headache", 0},
-		{1, "Into the Dungeons", 0},
-		{1, "Ultimate Conquest", 0},
+	{1, "Nazi Anthem", 0},
+	{1, "Lurking...", 0},
+	{1, "Going After Hitler", 0},
+	{1, "Pounding Headache", 0},
+	{1, "Into the Dungeons", 0},
+	{1, "Ultimate Conquest", 0},
 
-		{1, "Kill the S.O.B.", 0},
-		{1, "The Nazi Rap", 0},
-		{1, "Twelfth Hour", 0},
-		{1, "Zero Hour", 0},
-		{1, "Ultimate Conquest", 0},
-		{1, "Wolfpack", 0}};
+	{1, "Kill the S.O.B.", 0},
+	{1, "The Nazi Rap", 0},
+	{1, "Twelfth Hour", 0},
+	{1, "Zero Hour", 0},
+	{1, "Ultimate Conquest", 0},
+	{1, "Wolfpack", 0} };
 #else
-CP_iteminfo MusicItems = {CTL_X, CTL_Y - 20, 9, 0, 32};
+CP_iteminfo MusicItems = { CTL_X, CTL_Y - 20, 9, 0, 32 };
 CP_itemtype MusicMenu[] =
-	{
-		{1, "Funky Colonel Bill", 0},
-		{1, "Death To The Nazis", 0},
-		{1, "Tiptoeing Around", 0},
-		{1, "Is This THE END?", 0},
-		{1, "Evil Incarnate", 0},
-		{1, "Jazzin' Them Nazis", 0},
-		{1, "Puttin' It To The Enemy", 0},
-		{1, "The SS Gonna Get You", 0},
-		{1, "Towering Above", 0}};
+{
+	{1, "Funky Colonel Bill", 0},
+	{1, "Death To The Nazis", 0},
+	{1, "Tiptoeing Around", 0},
+	{1, "Is This THE END?", 0},
+	{1, "Evil Incarnate", 0},
+	{1, "Jazzin' Them Nazis", 0},
+	{1, "Puttin' It To The Enemy", 0},
+	{1, "The SS Gonna Get You", 0},
+	{1, "Towering Above", 0} };
 #endif
 
 #ifndef SPEARDEMO
@@ -1079,7 +1101,7 @@ void DoJukebox(void)
 	int which, lastsong = -1;
 	unsigned start;
 	unsigned songs[] =
-		{
+	{
 #ifndef SPEAR
 			GETTHEM_MUS,
 			SEARCHN_MUS,
@@ -1112,7 +1134,7 @@ void DoJukebox(void)
 			XGETYOU_MUS,  // 22
 			XTOWER2_MUS	  // 23
 #endif
-		};
+	};
 
 	IN_ClearKeysDown();
 	if (!AdLibPresent && !SoundBlasterPresent)
@@ -1234,7 +1256,7 @@ static void InitGame()
 	if (mminfo.mainmem < 257000L && !MS_CheckParm("debugmode"))
 #endif
 	{
-		byte *screen;
+		byte* screen;
 
 		screen = grsegs[ERRORSCREEN];
 		ShutdownId();
@@ -1273,7 +1295,7 @@ static void InitGame()
 		IntroScreen();
 
 #ifdef _arch_dreamcast
-		//TODO: VMU Selection Screen
+	//TODO: VMU Selection Screen
 #endif
 
 	//
@@ -1294,8 +1316,8 @@ static void InitGame()
 		FinishSignon();
 
 #ifdef NOTYET
-	vdisp = (byte *)(0xa0000 + PAGE1START);
-	vbuf = (byte *)(0xa0000 + PAGE2START);
+	vdisp = (byte*)(0xa0000 + PAGE1START);
+	vbuf = (byte*)(0xa0000 + PAGE2START);
 #endif
 }
 
@@ -1406,10 +1428,10 @@ void NewViewSize(int width)
 ==========================
 */
 
-void Quit(const char *errorStr, ...)
+void Quit(const char* errorStr, ...)
 {
 #ifdef NOTYET
-	byte *screen;
+	byte* screen;
 #endif
 	char error[256];
 	if (errorStr != NULL)
@@ -1457,7 +1479,7 @@ void Quit(const char *errorStr, ...)
 	if (error && *error)
 	{
 #ifdef NOTYET
-		memcpy((byte *)0xb8000, screen + 7, 7 * 160);
+		memcpy((byte*)0xb8000, screen + 7, 7 * 160);
 		SetTextCursor(9, 3);
 #endif
 		puts(error);
@@ -1470,7 +1492,7 @@ void Quit(const char *errorStr, ...)
 	{
 #ifdef NOTYET
 #ifndef JAPAN
-		memcpy((byte *)0xb8000, screen + 7, 24 * 160); // 24 for SPEAR/UPLOAD compatibility
+		memcpy((byte*)0xb8000, screen + 7, 24 * 160); // 24 for SPEAR/UPLOAD compatibility
 #endif
 		SetTextCursor(0, 23);
 #endif
@@ -1593,9 +1615,9 @@ static void DemoLoop()
 			if (IN_UserInput(TickBase * 10))
 				break;
 #endif
-				//
-				// demo
-				//
+			//
+			// demo
+			//
 
 #ifndef SPEARDEMO
 			PlayDemo(LastDemo++ % 4);
@@ -1638,7 +1660,7 @@ static void DemoLoop()
 
 #define IFARG(str) if (!strcmp(arg, (str)))
 
-void CheckParameters(int argc, char *argv[])
+void CheckParameters(int argc, char* argv[])
 {
 	bool hasError = false, showHelp = false;
 	bool sampleRateGiven = false, audioBufferGiven = false;
@@ -1646,205 +1668,205 @@ void CheckParameters(int argc, char *argv[])
 
 	for (i = 1; i < argc; i++)
 	{
-		char *arg = argv[i];
+		char* arg = argv[i];
 #ifndef SPEAR
 		IFARG("--goobers")
 #else
 		IFARG("--debugmode")
 #endif
-		param_debugmode = true;
-		else IFARG("--baby")
-			param_difficulty = 0;
+			param_debugmode = true;
+else IFARG("--baby")
+param_difficulty = 0;
 		else IFARG("--easy")
-			param_difficulty = 1;
+		param_difficulty = 1;
 		else IFARG("--normal")
-			param_difficulty = 2;
+		param_difficulty = 2;
 		else IFARG("--hard")
-			param_difficulty = 3;
+		param_difficulty = 3;
 		else IFARG("--nowait")
-			param_nowait = true;
+		param_nowait = true;
 		else IFARG("--tedlevel")
 		{
-			if (++i >= argc)
-			{
-				printf("The tedlevel option is missing the level argument!\n");
-				hasError = true;
-			}
-			else
-				param_tedlevel = atoi(argv[i]);
+		if (++i >= argc)
+		{
+			printf("The tedlevel option is missing the level argument!\n");
+			hasError = true;
+		}
+		else
+			param_tedlevel = atoi(argv[i]);
 		}
 		else IFARG("--windowed")
-			fullscreen = false;
+		fullscreen = false;
 		else IFARG("--windowed-mouse")
 		{
-			fullscreen = false;
-			forcegrabmouse = true;
+		fullscreen = false;
+		forcegrabmouse = true;
 		}
 		else IFARG("--res")
 		{
-			if (i + 2 >= argc)
-			{
-				printf("The res option needs the width and/or the height argument!\n");
-				hasError = true;
-			}
-			else
-			{
-				screenWidth = atoi(argv[++i]);
-				screenHeight = atoi(argv[++i]);
-				unsigned factor = screenWidth / 320;
-				if (screenWidth % 320 || screenHeight != 200 * factor && screenHeight != 240 * factor)
-					printf("Screen size must be a multiple of 320x200 or 320x240!\n"), hasError = true;
-			}
+		if (i + 2 >= argc)
+		{
+			printf("The res option needs the width and/or the height argument!\n");
+			hasError = true;
+		}
+		else
+		{
+			screenWidth = atoi(argv[++i]);
+			screenHeight = atoi(argv[++i]);
+			unsigned factor = screenWidth / 320;
+			if (screenWidth % 320 || screenHeight != 200 * factor && screenHeight != 240 * factor)
+				printf("Screen size must be a multiple of 320x200 or 320x240!\n"), hasError = true;
+		}
 		}
 		else IFARG("--resf")
 		{
-			if (i + 2 >= argc)
-			{
-				printf("The resf option needs the width and/or the height argument!\n");
-				hasError = true;
-			}
-			else
-			{
-				screenWidth = atoi(argv[++i]);
-				screenHeight = atoi(argv[++i]);
-				if (screenWidth < 320)
-					printf("Screen width must be at least 320!\n"), hasError = true;
-				if (screenHeight < 200)
-					printf("Screen height must be at least 200!\n"), hasError = true;
-			}
+		if (i + 2 >= argc)
+		{
+			printf("The resf option needs the width and/or the height argument!\n");
+			hasError = true;
+		}
+		else
+		{
+			screenWidth = atoi(argv[++i]);
+			screenHeight = atoi(argv[++i]);
+			if (screenWidth < 320)
+				printf("Screen width must be at least 320!\n"), hasError = true;
+			if (screenHeight < 200)
+				printf("Screen height must be at least 200!\n"), hasError = true;
+		}
 		}
 		else IFARG("--bits")
 		{
-			if (++i >= argc)
+		if (++i >= argc)
+		{
+			printf("The bits option is missing the color depth argument!\n");
+			hasError = true;
+		}
+		else
+		{
+			screenBits = atoi(argv[i]);
+			switch (screenBits)
 			{
-				printf("The bits option is missing the color depth argument!\n");
-				hasError = true;
-			}
-			else
-			{
-				screenBits = atoi(argv[i]);
-				switch (screenBits)
-				{
-				case 8:
-				case 16:
-				case 24:
-				case 32:
-					break;
+			case 8:
+			case 16:
+			case 24:
+			case 32:
+				break;
 
-				default:
-					printf("Screen color depth must be 8, 16, 24, or 32!\n");
-					hasError = true;
-					break;
-				}
+			default:
+				printf("Screen color depth must be 8, 16, 24, or 32!\n");
+				hasError = true;
+				break;
 			}
 		}
+		}
 		else IFARG("--nodblbuf")
-			usedoublebuffering = false;
+		usedoublebuffering = false;
 		else IFARG("--extravbls")
 		{
-			if (++i >= argc)
+		if (++i >= argc)
+		{
+			printf("The extravbls option is missing the vbls argument!\n");
+			hasError = true;
+		}
+		else
+		{
+			extravbls = atoi(argv[i]);
+			if (extravbls < 0)
 			{
-				printf("The extravbls option is missing the vbls argument!\n");
+				printf("Extravbls must be positive!\n");
 				hasError = true;
 			}
-			else
-			{
-				extravbls = atoi(argv[i]);
-				if (extravbls < 0)
-				{
-					printf("Extravbls must be positive!\n");
-					hasError = true;
-				}
-			}
+		}
 		}
 		else IFARG("--joystick")
 		{
-			if (++i >= argc)
-			{
-				printf("The joystick option is missing the index argument!\n");
-				hasError = true;
-			}
-			else
-				param_joystickindex = atoi(argv[i]); // index is checked in InitGame
+		if (++i >= argc)
+		{
+			printf("The joystick option is missing the index argument!\n");
+			hasError = true;
+		}
+		else
+			param_joystickindex = atoi(argv[i]); // index is checked in InitGame
 		}
 		else IFARG("--joystickhat")
 		{
-			if (++i >= argc)
-			{
-				printf("The joystickhat option is missing the index argument!\n");
-				hasError = true;
-			}
-			else
-				param_joystickhat = atoi(argv[i]);
+		if (++i >= argc)
+		{
+			printf("The joystickhat option is missing the index argument!\n");
+			hasError = true;
+		}
+		else
+			param_joystickhat = atoi(argv[i]);
 		}
 		else IFARG("--samplerate")
 		{
-			if (++i >= argc)
-			{
-				printf("The samplerate option is missing the rate argument!\n");
-				hasError = true;
-			}
-			else
-				param_samplerate = atoi(argv[i]);
-			sampleRateGiven = true;
+		if (++i >= argc)
+		{
+			printf("The samplerate option is missing the rate argument!\n");
+			hasError = true;
+		}
+		else
+			param_samplerate = atoi(argv[i]);
+		sampleRateGiven = true;
 		}
 		else IFARG("--audiobuffer")
 		{
-			if (++i >= argc)
-			{
-				printf("The audiobuffer option is missing the size argument!\n");
-				hasError = true;
-			}
-			else
-				param_audiobuffer = atoi(argv[i]);
-			audioBufferGiven = true;
+		if (++i >= argc)
+		{
+			printf("The audiobuffer option is missing the size argument!\n");
+			hasError = true;
+		}
+		else
+			param_audiobuffer = atoi(argv[i]);
+		audioBufferGiven = true;
 		}
 		else IFARG("--mission")
 		{
-			if (++i >= argc)
+		if (++i >= argc)
+		{
+			printf("The mission option is missing the mission argument!\n");
+			hasError = true;
+		}
+		else
+		{
+			param_mission = atoi(argv[i]);
+			if (param_mission < 0 || param_mission > 3)
 			{
-				printf("The mission option is missing the mission argument!\n");
+				printf("The mission option must be between 0 and 3!\n");
 				hasError = true;
 			}
-			else
-			{
-				param_mission = atoi(argv[i]);
-				if (param_mission < 0 || param_mission > 3)
-				{
-					printf("The mission option must be between 0 and 3!\n");
-					hasError = true;
-				}
-			}
+		}
 		}
 		else IFARG("--configdir")
 		{
-			if (++i >= argc)
+		if (++i >= argc)
+		{
+			printf("The configdir option is missing the dir argument!\n");
+			hasError = true;
+		}
+		else
+		{
+			size_t len = strlen(argv[i]);
+			if (len + 2 > sizeof(configdir))
 			{
-				printf("The configdir option is missing the dir argument!\n");
+				printf("The config directory is too long!\n");
 				hasError = true;
 			}
 			else
 			{
-				size_t len = strlen(argv[i]);
-				if (len + 2 > sizeof(configdir))
-				{
-					printf("The config directory is too long!\n");
-					hasError = true;
-				}
-				else
-				{
-					strcpy(configdir, argv[i]);
-					if (argv[i][len] != '/' && argv[i][len] != '\\')
-						strcat(configdir, "/");
-				}
+				strcpy(configdir, argv[i]);
+				if (argv[i][len] != '/' && argv[i][len] != '\\')
+					strcat(configdir, "/");
 			}
 		}
+		}
 		else IFARG("--goodtimes")
-			param_goodtimes = true;
+		param_goodtimes = true;
 		else IFARG("--ignorenumchunks")
-			param_ignorenumchunks = true;
+		param_ignorenumchunks = true;
 		else IFARG("--help")
-			showHelp = true;
+		showHelp = true;
 		else hasError = true;
 	}
 	if (hasError || showHelp)
@@ -1911,7 +1933,7 @@ void CheckParameters(int argc, char *argv[])
 ==========================
 */
 
-int main(int argc, char *argv[])
+int main(int argc, char* argv[])
 {
 #ifdef _DEBUG
 	printf("\n");

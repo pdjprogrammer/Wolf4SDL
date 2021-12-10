@@ -33,14 +33,14 @@ static musicnames lastmusicchunk = (musicnames)0;
 int DebugOk;
 
 objtype objlist[MAXACTORS];
-objtype *newobj, *obj, *player, *lastobj, *objfreelist, *killerobj;
+objtype* newobj, * obj, * player, * lastobj, * objfreelist, * killerobj;
 
 boolean singlestep, godmode, noclip, ammocheat, mapreveal;
 int extravbls;
 
 tiletype tilemap[MAPSIZE][MAPSIZE]; // wall values only
 bool spotvis[MAPSIZE][MAPSIZE];
-objtype *actorat[MAPSIZE][MAPSIZE];
+objtype* actorat[MAPSIZE][MAPSIZE];
 #ifdef REVEALMAP
 bool mapseen[MAPSIZE][MAPSIZE];
 #endif
@@ -55,13 +55,13 @@ unsigned tics;
 // control info
 //
 #ifdef USE_MODERN_OPTIONS
-boolean mouseenabled, mouseYAxis, joystickenabled, alwaysRun;
+boolean mouseenabled, mouseYAxis, controllerEnabled, alwaysRun;
 #else
 boolean mouseenabled, joystickenabled;
 #endif
 
 #ifdef USE_MODERN_OPTIONS
-int dirscan[6] = {sc_W, sc_RightArrow, sc_S, sc_LeftArrow, sc_StrafeLeft, sc_StrafeRight};
+int dirscan[6] = { sc_W, sc_RightArrow, sc_S, sc_LeftArrow, sc_StrafeLeft, sc_StrafeRight };
 #ifndef SHOW_CUSTOM_CONTROLS
 int buttonscan[NUMBUTTONS] = { sc_Control, sc_Alt, sc_LShift, sc_Space, sc_1, sc_2, sc_3, sc_4, sc_LeftBracket, sc_RightBracket, sc_Tab, sc_Escape, sc_None, sc_None, sc_None, sc_None, sc_None, sc_None };
 #else
@@ -70,27 +70,27 @@ int customControls[10] = { bt_cus_ctl_1, bt_cus_ctl_2, bt_cus_ctl_3, bt_cus_ctl_
 #endif
 #else
 int buttonscan[NUMBUTTONS] = { sc_Control, sc_Alt, sc_LShift, sc_Space, sc_1, sc_2, sc_3, sc_4 };
-int dirscan[4] = {sc_UpArrow, sc_RightArrow, sc_DownArrow, sc_LeftArrow};
+int dirscan[4] = { sc_UpArrow, sc_RightArrow, sc_DownArrow, sc_LeftArrow };
 #endif
-int buttonmouse[4] = {bt_attack, bt_strafe, bt_use, bt_nobutton};
+int buttonmouse[4] = { bt_attack, bt_strafe, bt_use, bt_nobutton };
 int buttonjoy[32] = {
 #ifdef _arch_dreamcast
 	bt_attack, bt_strafe, bt_use, bt_run, bt_esc, bt_prevweapon, bt_nobutton, bt_nextweapon,
 	bt_pause, bt_strafeleft, bt_straferight, bt_nobutton, bt_nobutton, bt_nobutton, bt_nobutton, bt_nobutton,
 #else
-	bt_attack, bt_strafe, bt_use, bt_run, bt_strafeleft, bt_straferight, bt_esc, bt_pause,
-	bt_prevweapon, bt_nextweapon, bt_nobutton, bt_nobutton, bt_nobutton, bt_nobutton, bt_nobutton, bt_nobutton,
+	bt_moveforward, bt_movebackward, bt_turnleft, bt_turnright, bt_strafeleft, bt_straferight, bt_attack, bt_strafe, bt_use, bt_run, bt_esc, bt_pause,
+	bt_prevweapon, bt_nextweapon, bt_nobutton, bt_nobutton,
 #endif
 	bt_nobutton, bt_nobutton, bt_nobutton, bt_nobutton, bt_nobutton, bt_nobutton, bt_nobutton, bt_nobutton,
-	bt_nobutton, bt_nobutton, bt_nobutton, bt_nobutton, bt_nobutton, bt_nobutton, bt_nobutton, bt_nobutton};
+	bt_nobutton, bt_nobutton, bt_nobutton, bt_nobutton, bt_nobutton, bt_nobutton, bt_nobutton, bt_nobutton };
 
 int viewsize;
 
 boolean buttonheld[NUMBUTTONS];
 
 boolean demorecord, demoplayback;
-int8_t *demoptr, *lastdemoptr;
-void *demobuffer;
+int8_t* demoptr, * lastdemoptr;
+void* demobuffer;
 
 //
 // current user input
@@ -107,7 +107,7 @@ int lastgamemusicoffset = 0;
 
 void CenterWindow(word w, word h);
 void InitObjList(void);
-void RemoveObj(objtype *gone);
+void RemoveObj(objtype* gone);
 void PollControls(void);
 int StopMusic(void);
 void StartMusic(void);
@@ -299,12 +299,12 @@ void PollMouseButtons(void)
 		buttonstate[buttonmouse[2]] = true;
 }
 /*
-	===================
-	=
-	= PollJoystickButtons
-	=
-	===================
-	*/
+===================
+=
+= PollJoystickButtons
+=
+===================
+*/
 
 void PollJoystickButtons(void)
 {
@@ -318,12 +318,12 @@ void PollJoystickButtons(void)
 }
 
 /*
-	===================
-	=
-	= PollKeyboardMove
-	=
-	===================
-	*/
+===================
+=
+= PollKeyboardMove
+=
+===================
+*/
 #ifndef USE_MODERN_OPTIONS
 void PollKeyboardMove(void)
 {
@@ -340,12 +340,12 @@ void PollKeyboardMove(void)
 }
 #endif
 /*
-	===================
-	=
-	= PollCustomKeyboardMove
-	=
-	===================
-	*/
+===================
+=
+= PollCustomKeyboardMove
+=
+===================
+*/
 #ifdef USE_MODERN_OPTIONS
 void PollCustomKeyboardMove(void)
 {
@@ -358,20 +358,16 @@ void PollCustomKeyboardMove(void)
 		controly = ((alwaysRun && buttonstate[bt_run]) || (!alwaysRun && !buttonstate[bt_run])) ? BASEMOVE * tics : RUNMOVE * tics;
 
 	if (Keyboard(dirscan[di_west]))
-	{
 		if (buttonstate[bt_strafe])
 			controlx = ((alwaysRun && buttonstate[bt_run]) || (!alwaysRun && !buttonstate[bt_run])) ? -BASEMOVE * tics : -RUNMOVE * tics;
 		else
 			controlh = (buttonstate[bt_run]) ? -RUNMOVE * tics : -BASEMOVE * tics;
-	}
 
 	if (Keyboard(dirscan[di_east]))
-	{
 		if (buttonstate[bt_strafe])
 			controlx = ((alwaysRun && buttonstate[bt_run]) || (!alwaysRun && !buttonstate[bt_run])) ? BASEMOVE * tics : RUNMOVE * tics;
 		else
 			controlh = (buttonstate[bt_run]) ? RUNMOVE * tics : BASEMOVE * tics;
-	}
 
 	if (Keyboard(dirscan[di_st_east]))
 		controlx = ((alwaysRun && buttonstate[bt_run]) || (!alwaysRun && !buttonstate[bt_run])) ? -BASEMOVE * tics : -RUNMOVE * tics;
@@ -382,12 +378,12 @@ void PollCustomKeyboardMove(void)
 
 #ifdef SHOW_CUSTOM_CONTROLS
 /*
-	===================
-	=
-	= PollCustomControls
-	=
-	===================
-	*/
+===================
+=
+= PollCustomControls
+=
+===================
+*/
 void PollCustomControls(void)
 {
 	if (Keyboard(buttonscan[bt_cus_ctl_1]))
@@ -428,12 +424,12 @@ void PollCustomControls(void)
 #endif
 
 /*
-	===================
-	=
-	= PollMouseMove
-	=
-	===================
-	*/
+===================
+=
+= PollMouseMove
+=
+===================
+*/
 
 void PollMouseMove(void)
 {
@@ -464,13 +460,63 @@ void PollMouseMove(void)
 #endif
 }
 
+#ifdef USE_MODERN_OPTIONS
 /*
-	===================
-	=
-	= PollJoystickMove
-	=
-	===================
-	*/
+===================
+=
+= PollGameControllerMove
+=
+===================
+*/
+void PollGameControllerMove(void)
+{
+	int analog0X, analog0Y, analog1X, analog1Y;
+
+	IN_GetGameControllerDelta(&analog0X, &analog0Y, &analog1X, &analog1Y);
+
+	int delta = buttonstate[bt_run] ? RUNMOVE * tics : BASEMOVE * tics;
+
+	//Left Analog Stick
+	if (analog0X > CONTROLLER_DEAD_ZONE) {
+		printf("\nAnalog Stick 0 (Left) - X Axis Right");
+		controlh += delta;
+	}
+	else if (analog0X < -CONTROLLER_DEAD_ZONE) {
+		printf("\nAnalog Stick 0 (Left) - X Axis Left");
+		controlh -= delta;
+	}
+	if (analog0Y > CONTROLLER_DEAD_ZONE) {
+		printf("\nAnalog Stick 0 (Left) - Y Axis Down");
+		
+		controly += delta;
+	}
+	else if (analog0Y < -CONTROLLER_DEAD_ZONE) {
+		printf("\nAnalog Stick 0 (Left) - Y Axis Up");
+		controly -= delta;
+	}
+
+	//Right Analog Stick
+	if (analog1X > CONTROLLER_DEAD_ZONE) {
+		printf("\nAnalog Stick 1 (Right) - X Axis Right");
+	}
+	else if (analog1X < -CONTROLLER_DEAD_ZONE) {
+		printf("\nAnalog Stick 1 (Right) - X Axis Left");
+	}
+	if (analog1Y > CONTROLLER_DEAD_ZONE) {
+		printf("\nAnalog Stick 1 (Right) - Y Axis Down");
+	}
+	else if (analog1Y < -CONTROLLER_DEAD_ZONE) {
+		printf("\nAnalog Stick 1 (Right) - Y Axis Up");		
+	}
+}
+#else
+/*
+===================
+=
+= PollJoystickMove
+=
+===================
+*/
 
 void PollJoystickMove(void)
 {
@@ -481,29 +527,30 @@ void PollJoystickMove(void)
 	int delta = buttonstate[bt_run] ? RUNMOVE * tics : BASEMOVE * tics;
 
 	if (joyx > 64 || buttonstate[bt_turnright])
-		controlx += delta;
+		controlh += delta;
 	else if (joyx < -64 || buttonstate[bt_turnleft])
-		controlx -= delta;
+		controlh -= delta;
 	if (joyy > 64 || buttonstate[bt_movebackward])
 		controly += delta;
 	else if (joyy < -64 || buttonstate[bt_moveforward])
 		controly -= delta;
 }
+#endif
 
 /*
-	===================
-	=
-	= PollControls
-	=
-	= Gets user or demo input, call once each frame
-	=
-	= controlx              set between -100 and 100 per tic
-	= controly
-	= buttonheld[]  the state of the buttons LAST frame
-	= buttonstate[] the state of the buttons THIS frame
-	=
-	===================
-	*/
+===================
+=
+= PollControls
+=
+= Gets user or demo input, call once each frame
+=
+= controlx              set between -100 and 100 per tic
+= controly
+= buttonheld[]  the state of the buttons LAST frame
+= buttonstate[] the state of the buttons THIS frame
+=
+===================
+*/
 
 void PollControls(void)
 {
@@ -584,12 +631,16 @@ void PollControls(void)
 	if (mouseenabled && IN_IsInputGrabbed())
 		PollMouseButtons();
 
+#ifdef USE_MODERN_OPTIONS
+
+#else
 	if (joystickenabled)
 		PollJoystickButtons();
-
-		//
-		// get movements
-		//
+#endif 
+	// !
+	//
+	// get movements
+	//
 #ifdef USE_MODERN_OPTIONS
 	PollCustomKeyboardMove();
 #else
@@ -599,9 +650,13 @@ void PollControls(void)
 	if (mouseenabled && IN_IsInputGrabbed())
 		PollMouseMove();
 
+#ifdef USE_MODERN_OPTIONS
+	if (controllerEnabled)
+		PollGameControllerMove();
+#else
 	if (joystickenabled)
 		PollJoystickMove();
-
+#endif
 	//
 	// bound movement to a maximum
 	//
@@ -651,7 +706,7 @@ void PollControls(void)
 		*demoptr++ = controlx;
 		*demoptr++ = controly;
 #ifdef USE_MODERN_OPTIONS
-		*demoptr++ = controlh;
+		* demoptr++ = controlh;
 #endif
 
 		if (demoptr >= lastdemoptr - 8)
@@ -784,9 +839,9 @@ void CheckKeys(void)
 		ClearSplitVWB();
 
 		Message("Commander Keen is also\n"
-				"available from Apogee, but\n"
-				"then, you already know\n"
-				"that - right, Cheatmeister?!");
+			"available from Apogee, but\n"
+			"then, you already know\n"
+			"that - right, Cheatmeister?!");
 
 		IN_ClearKeysDown();
 		IN_Ack();
@@ -916,16 +971,16 @@ void CheckKeys(void)
 	#############################################################################
 	*/
 
-/*
-	=========================
-	=
-	= InitActorList
-	=
-	= Call to clear out the actor object lists returning them all to the free
-	= list.  Allocates a special spot for the player.
-	=
-	=========================
-	*/
+	/*
+		=========================
+		=
+		= InitActorList
+		=
+		= Call to clear out the actor object lists returning them all to the free
+		= list.  Allocates a special spot for the player.
+		=
+		=========================
+		*/
 
 int objcount;
 
@@ -1004,7 +1059,7 @@ void GetNewActor(void)
 	=========================
 	*/
 
-void RemoveObj(objtype *gone)
+void RemoveObj(objtype* gone)
 {
 	if (gone == player)
 		Quit("RemoveObj: Tried to remove the player!");
@@ -1015,7 +1070,7 @@ void RemoveObj(objtype *gone)
 	// fix the next object's back link
 	//
 	if (gone == lastobj)
-		lastobj = (objtype *)gone->prev;
+		lastobj = (objtype*)gone->prev;
 	else
 		gone->next->prev = gone->prev;
 
@@ -1041,13 +1096,13 @@ void RemoveObj(objtype *gone)
 	=============================================================================
 	*/
 
-/*
-	=================
-	=
-	= StopMusic
-	=
-	=================
-	*/
+	/*
+		=================
+		=
+		= StopMusic
+		=
+		=================
+		*/
 int StopMusic(void)
 {
 	int lastoffs = SD_MusicOff();
@@ -1112,7 +1167,7 @@ boolean palshifted;
 
 void InitRedShifts(void)
 {
-	SDL_Color *workptr, *baseptr;
+	SDL_Color* workptr, * baseptr;
 	int i, j, delta;
 
 	//
@@ -1276,17 +1331,17 @@ void FinishPaletteShifts(void)
 	=============================================================================
 	*/
 
-/*
-	=====================
-	=
-	= DoActor
-	=
-	=====================
-	*/
+	/*
+		=====================
+		=
+		= DoActor
+		=
+		=====================
+		*/
 
-void DoActor(objtype *ob)
+void DoActor(objtype* ob)
 {
-	void (*think)(objtype *);
+	void (*think)(objtype*);
 
 	if (!ob->active && ob->areanumber < NUMAREAS && !areabyplayer[ob->areanumber])
 		return;
@@ -1300,7 +1355,7 @@ void DoActor(objtype *ob)
 
 	if (!ob->ticcount)
 	{
-		think = (void (*)(objtype *))ob->state->think;
+		think = (void (*)(objtype*))ob->state->think;
 		if (think)
 		{
 			think(ob);
@@ -1327,7 +1382,7 @@ void DoActor(objtype *ob)
 	ob->ticcount -= (short)tics;
 	while (ob->ticcount <= 0)
 	{
-		think = (void (*)(objtype *))ob->state->action; // end of state action
+		think = (void (*)(objtype*))ob->state->action; // end of state action
 		if (think)
 		{
 			think(ob);
@@ -1359,7 +1414,7 @@ think:
 	//
 	// think
 	//
-	think = (void (*)(objtype *))ob->state->think;
+	think = (void (*)(objtype*))ob->state->think;
 	if (think)
 	{
 		think(ob);

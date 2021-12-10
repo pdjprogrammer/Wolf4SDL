@@ -1921,13 +1921,24 @@ int CP_Control(int blank)
 			CusItems.curpos = -1;
 			ShootSnd();
 			break;
+#ifdef USE_MODERN_OPTIONS
+		case CTL_JOYENABLE:
+			controllerEnabled ^= 1;
+			DrawCtlScreen();
+			CusItems.curpos = -1;
+			ShootSnd();
+			break;
+#else
 		case CTL_JOYENABLE:
 			joystickenabled ^= 1;
 			DrawCtlScreen();
 			CusItems.curpos = -1;
 			ShootSnd();
 			break;
+#endif
+
 #ifdef USE_MODERN_OPTIONS
+		
 		case CTL_ALWAYSRUN:
 			alwaysRun ^= 1;
 			DrawCtlScreen();
@@ -2118,8 +2129,13 @@ void DrawCtlScreen(void)
 	WindowW = 320;
 	SETFONTCOLOR(TEXTCOLOR, BKGDCOLOR);
 
+#ifdef USE_MODERN_OPTIONS
+	if (IN_ControllerPresent())
+		CtlMenu[CTL_JOYENABLE].active = 1;
+#else
 	if (IN_JoyPresent())
 		CtlMenu[CTL_JOYENABLE].active = 1;
+#endif
 
 	if (MousePresent)
 	{
@@ -2131,9 +2147,10 @@ void DrawCtlScreen(void)
 	}
 #ifndef USE_MODERN_OPTIONS
 	CtlMenu[CTL_MOUSESENS].active = mouseenabled;
+	CtlMenu[CTL_JOYSTICKOPTIONS].active = joystickenabled;
 #else
 	CtlMenu[CTL_MOUSEOPTIONS].active = mouseenabled;
-	CtlMenu[CTL_JOYSTICKOPTIONS].active = joystickenabled;
+	CtlMenu[CTL_JOYSTICKOPTIONS].active = controllerEnabled;
 #endif
 
 	DrawMenu(&CtlItems, CtlMenu);
@@ -2150,13 +2167,21 @@ void DrawCtlScreen(void)
 	y = CTL_Y + 16;
 #else
 	y = CTL_Y + 29;
-#endif
+#endif	
+
+#ifdef USE_MODERN_OPTIONS
+#ifdef USE_MODERN_OPTIONS
+	if (controllerEnabled)
+		VWB_DrawPic(x, y, C_SELECTEDPIC);
+	else
+		VWB_DrawPic(x, y, C_NOTSELECTEDPIC);
+#else
 	if (joystickenabled)
 		VWB_DrawPic(x, y, C_SELECTEDPIC);
 	else
 		VWB_DrawPic(x, y, C_NOTSELECTEDPIC);
+#endif // USE_MODERN_OPTIONS
 
-#ifdef USE_MODERN_OPTIONS
 	y = CTL_Y + 29;
 
 	if (alwaysRun)
@@ -3947,6 +3972,15 @@ void DrawCustJoy(int hilight)
 		color = HIGHLIGHT;
 	SETFONTCOLOR(color, BKGDCOLOR);
 
+#ifdef USE_MODERN_OPTIONS
+	if (!controllerEnabled)
+	{
+		SETFONTCOLOR(DEACTIVE, BKGDCOLOR);
+		CusMenu[3].active = 0;
+	}
+	else
+		CusMenu[3].active = 1;
+#else
 	if (!joystickenabled)
 	{
 		SETFONTCOLOR(DEACTIVE, BKGDCOLOR);
@@ -3954,6 +3988,7 @@ void DrawCustJoy(int hilight)
 	}
 	else
 		CusMenu[3].active = 1;
+#endif	
 
 #ifndef USE_MODERN_OPTIONS
 	PrintY = CST_Y + 13 * 5;
@@ -4291,8 +4326,15 @@ void IntroScreen(void)
 	if (MousePresent)
 		VWB_Bar(164, 82, 12, 2, FILLCOLOR);
 
+#ifdef USE_MODERN_OPTIONS
+	if (IN_ControllerPresent())
+		VWB_Bar(164, 105, 12, 2, FILLCOLOR);
+#else
 	if (IN_JoyPresent())
 		VWB_Bar(164, 105, 12, 2, FILLCOLOR);
+#endif // USE_MODERN_OPTIONS
+
+	
 
 	if (AdLibPresent && !SoundBlasterPresent)
 		VWB_Bar(164, 128, 12, 2, FILLCOLOR);
@@ -4864,6 +4906,21 @@ void ReadAnyControl(ControlInfo* ci)
 		}
 	}
 
+#ifdef USE_MODERN_OPTIONS
+	int a0x, a0y;
+	int a1x, a1y;
+
+	IN_GetGameControllerDelta(&a0x, &a0y, &a1x, &a1y);
+
+	if (a0y < -CONTROLLER_DEAD_ZONE)
+		ci->dir = dir_North;
+	else if (a0y > CONTROLLER_DEAD_ZONE)
+		ci->dir = dir_South;
+	if (a0x < -CONTROLLER_DEAD_ZONE)
+		ci->dir = dir_West;
+	else if (a0x > CONTROLLER_DEAD_ZONE)
+		ci->dir = dir_East;
+#else
 	if (joystickenabled && !mouseactive)
 	{
 		int jx, jy, jb;
@@ -4888,6 +4945,7 @@ void ReadAnyControl(ControlInfo* ci)
 			ci->button3 = jb & 8;
 		}
 	}
+#endif
 }
 
 ////////////////////////////////////////////////////////////////////

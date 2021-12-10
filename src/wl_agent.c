@@ -1221,7 +1221,7 @@ void Cmd_Use(void)
 	else
 		SD_PlaySound(DONOTHINGSND);
 #endif
-	GetMessage("You pressed space", DEF_MSG_CLR);
+	GetMessage("Use pressed.", DEF_MSG_CLR);
 }
 
 /*

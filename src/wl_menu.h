@@ -41,6 +41,8 @@
 #define INTROSONG XTOWER2_MUS
 #endif
 
+#define CONTROLLER_DEAD_ZONE 8000
+
 #define SENSITIVE 60
 #define CENTERX ((int)screenWidth / 2)
 #define CENTERY ((int)screenHeight / 2)
