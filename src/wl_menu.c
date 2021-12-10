@@ -2641,7 +2641,7 @@ int CP_KeyboardActionCtl(int blank)
 			break;
 		}
 
-		if (which != -1 && menuExit == 0)
+		if (which != -1)
 			DrawKeyboardActionCtlScreen();
 
 	} while (which >= 0);
@@ -2710,7 +2710,7 @@ int CP_KeyboardMoreActionCtl(int blank)
 			break;
 		}
 
-		if (which != -1 && menuExit == 0)
+		if (which != -1)
 			DrawKeyboardMoreActionCtlScreen();
 
 	} while (which >= 0);
@@ -2829,6 +2829,7 @@ void DefineCustomCtl(int value)
 int CP_CustomCtl(int blank)
 {
 	int which;
+	menuExit = 0;
 
 	DrawCustomCtlScreen();
 	WaitKeyUp();
@@ -2881,6 +2882,7 @@ int CP_CustomCtl(int blank)
 			break;
 		default:
 			which = -1;
+			menuExit++;
 			break;
 		}
 
@@ -2889,9 +2891,7 @@ int CP_CustomCtl(int blank)
 
 	} while (which >= 0);
 
-	MenuFadeOut();
-	DrawCtlScreen();
-	MenuFadeIn();
+	ExitMenu();
 
 	return 0;
 }
