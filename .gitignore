@@ -70,3 +70,5 @@ Makefile.win
 ##############
 /.vscode
 /build
+
+/_base
