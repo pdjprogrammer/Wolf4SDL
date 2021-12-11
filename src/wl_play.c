@@ -54,13 +54,13 @@ unsigned tics;
 //
 // control info
 //
-#ifdef USE_MODERN_OPTIONS
+#ifdef USE_MODERN_CONTROLS
 boolean mouseenabled, mouseYAxis, controllerEnabled, alwaysRun;
 #else
 boolean mouseenabled, joystickenabled;
 #endif
 
-#ifdef USE_MODERN_OPTIONS
+#ifdef USE_MODERN_CONTROLS
 int dirscan[6] = { sc_W, sc_RightArrow, sc_S, sc_LeftArrow, sc_StrafeLeft, sc_StrafeRight };
 #ifndef SHOW_CUSTOM_CONTROLS
 int buttonscan[NUMBUTTONS] = { sc_Control, sc_Alt, sc_LShift, sc_Space, sc_1, sc_2, sc_3, sc_4, sc_LeftBracket, sc_RightBracket, sc_Tab, sc_Escape, sc_None, sc_None, sc_None, sc_None, sc_None, sc_None };
@@ -73,7 +73,7 @@ int buttonscan[NUMBUTTONS] = { sc_Control, sc_Alt, sc_LShift, sc_Space, sc_1, sc
 int dirscan[4] = { sc_UpArrow, sc_RightArrow, sc_DownArrow, sc_LeftArrow };
 #endif
 int buttonmouse[4] = { bt_attack, bt_strafe, bt_use, bt_nobutton };
-#ifdef USE_MODERN_OPTIONS
+#ifdef USE_MODERN_CONTROLS
 int buttoncontroller[15] = {
 	bt_attack, bt_strafe, bt_use, bt_run, bt_esc, bt_nobutton, bt_pause, bt_nobutton, bt_nobutton, bt_prevweapon, bt_nextweapon, bt_nobutton, bt_nobutton,
 	bt_strafeleft, bt_straferight };
@@ -102,7 +102,7 @@ void* demobuffer;
 // current user input
 //
 int controlx, controly; // range from -100 to 100 per tic
-#ifdef USE_MODERN_OPTIONS
+#ifdef USE_MODERN_CONTROLS
 int controlh; // range from -100 to 100
 #endif
 boolean buttonstate[NUMBUTTONS];
@@ -305,7 +305,7 @@ void PollMouseButtons(void)
 		buttonstate[buttonmouse[2]] = true;
 }
 
-#ifdef USE_MODERN_OPTIONS
+#ifdef USE_MODERN_CONTROLS
 /*
 ===================
 =
@@ -350,7 +350,7 @@ void PollJoystickButtons(void)
 =
 ===================
 */
-#ifndef USE_MODERN_OPTIONS
+#ifndef USE_MODERN_CONTROLS
 void PollKeyboardMove(void)
 {
 	int delta = buttonstate[bt_run] ? RUNMOVE * tics : BASEMOVE * tics;
@@ -372,18 +372,18 @@ void PollKeyboardMove(void)
 =
 ===================
 */
-#ifdef USE_MODERN_OPTIONS
+#ifdef USE_MODERN_CONTROLS
 void PollCustomKeyboardMove(void)
 {
 	int delta = buttonstate[bt_run] || alwaysRun ? RUNMOVE * tics : BASEMOVE * tics;
 
-	if (param_debugmode) {
-		if (buttonstate[bt_run])
-			GetMessage("Run Button Pressed", DEF_MSG_CLR);
+#ifdef _DEBUG
+	if (buttonstate[bt_run])
+		GetMessage("Run Button Pressed", DEF_MSG_CLR);
 
-		if (buttonstate[bt_strafe])
-			GetMessage("Strafe Button Pressed", DEF_MSG_CLR);
-	}	
+	if (buttonstate[bt_strafe])
+		GetMessage("Strafe Button Pressed", DEF_MSG_CLR);
+#endif
 
 	if (Keyboard(dirscan[di_north]))
 		controly = ((alwaysRun && buttonstate[bt_run]) || (!alwaysRun && !buttonstate[bt_run])) ? -BASEMOVE * tics : -RUNMOVE * tics;
@@ -482,7 +482,7 @@ void PollMouseMove(void)
 	SDL_GetRelativeMouseState(&mousexmove, &mouseymove);
 #endif
 
-#ifdef USE_MODERN_OPTIONS
+#ifdef USE_MODERN_CONTROLS
 	if (mouseYAxis)
 		controly += mouseymove * 20 / (13 - mouseadjustment);
 
@@ -496,7 +496,7 @@ void PollMouseMove(void)
 #endif
 }
 
-#ifdef USE_MODERN_OPTIONS
+#ifdef USE_MODERN_CONTROLS
 /*
 ===================
 =
@@ -629,7 +629,7 @@ void PollControls(void)
 
 	controlx = 0;
 	controly = 0;
-#ifdef USE_MODERN_OPTIONS
+#ifdef USE_MODERN_CONTROLS
 	controlh = 0;
 #endif
 
@@ -650,7 +650,7 @@ void PollControls(void)
 
 		controlx = *demoptr++;
 		controly = *demoptr++;
-#ifdef USE_MODERN_OPTIONS
+#ifdef USE_MODERN_CONTROLS
 		controlh = *demoptr++;
 #endif
 		if (demoptr == lastdemoptr)
@@ -658,7 +658,7 @@ void PollControls(void)
 
 		controlx *= (int)tics;
 		controly *= (int)tics;
-#ifdef USE_MODERN_OPTIONS
+#ifdef USE_MODERN_CONTROLS
 		controlh *= (int)tics;
 #endif
 
@@ -670,7 +670,7 @@ void PollControls(void)
 	//
 	PollKeyboardButtons();
 
-#ifdef USE_MODERN_OPTIONS
+#ifdef USE_MODERN_CONTROLS
 #ifdef SHOW_CUSTOM_CONTROLS
 	PollCustomControls();
 #endif
@@ -679,7 +679,7 @@ void PollControls(void)
 	if (mouseenabled && IN_IsInputGrabbed())
 		PollMouseButtons();
 
-#ifdef USE_MODERN_OPTIONS
+#ifdef USE_MODERN_CONTROLS
 	if (controllerEnabled)
 		PollGameControllerButtons();
 #else
@@ -690,7 +690,7 @@ void PollControls(void)
 	//
 	// get movements
 	//
-#ifdef USE_MODERN_OPTIONS
+#ifdef USE_MODERN_CONTROLS
 	PollCustomKeyboardMove();
 #else
 	PollKeyboardMove();
@@ -699,7 +699,7 @@ void PollControls(void)
 	if (mouseenabled && IN_IsInputGrabbed())
 		PollMouseMove();
 
-#ifdef USE_MODERN_OPTIONS
+#ifdef USE_MODERN_CONTROLS
 	if (controllerEnabled)
 		PollGameControllerMove();
 #else
@@ -714,7 +714,7 @@ void PollControls(void)
 	rmax = max << 4;
 	rmin = -rmax;
 
-#ifdef USE_MODERN_OPTIONS
+#ifdef USE_MODERN_CONTROLS
 	if (controlh > rmax)
 		controlh = rmax;
 	else if (controlh < rmin)
@@ -738,7 +738,7 @@ void PollControls(void)
 		//
 		controlx /= (int)tics;
 		controly /= (int)tics;
-#ifdef USE_MODERN_OPTIONS
+#ifdef USE_MODERN_CONTROLS
 		controlh /= (int)tics;
 #endif
 		buttonbits = 0;
@@ -754,7 +754,7 @@ void PollControls(void)
 		*demoptr++ = buttonbits;
 		*demoptr++ = controlx;
 		*demoptr++ = controly;
-#ifdef USE_MODERN_OPTIONS
+#ifdef USE_MODERN_CONTROLS
 		* demoptr++ = controlh;
 #endif
 
@@ -764,7 +764,7 @@ void PollControls(void)
 		{
 			controlx *= (int)tics;
 			controly *= (int)tics;
-#ifdef USE_MODERN_OPTIONS
+#ifdef USE_MODERN_CONTROLS
 			controlh *= (int)tics;
 #endif
 		}

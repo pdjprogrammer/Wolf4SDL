@@ -114,18 +114,22 @@ void CheckWeaponChange(void)
 
 	if (buttonstate[bt_nextweapon] && !buttonheld[bt_nextweapon])
 	{
-		if (param_debugmode)
-			GetMessage("Pressed Next Weapon", DEF_MSG_CLR);
-			
+#ifdef USE_MODERN_CONTROLS
+#ifdef _DEBUG
+		GetMessage("Pressed Next Weapon", DEF_MSG_CLR);
+#endif	
+#endif
 		newWeapon = gamestate.weapon + 1;
 		if (newWeapon > gamestate.bestweapon)
 			newWeapon = 0;
 	}
 	else if (buttonstate[bt_prevweapon] && !buttonheld[bt_prevweapon])
 	{
-		if (param_debugmode)
+#ifdef USE_MODERN_CONTROLS
+#ifdef _DEBUG
 			GetMessage("Pressed Previous Weapon", DEF_MSG_CLR);
-
+#endif
+#endif
 		newWeapon = gamestate.weapon - 1;
 		if (newWeapon < 0)
 			newWeapon = gamestate.bestweapon;
@@ -163,7 +167,7 @@ void CheckWeaponChange(void)
 =
 =======================
 */
-#ifdef USE_MODERN_OPTIONS
+#ifdef USE_MODERN_CONTROLS
 void ControlMovement(objtype *ob)
 {
 	int32_t oldx, oldy;
@@ -1133,9 +1137,11 @@ void Cmd_Fire(void)
 {
 	buttonheld[bt_attack] = true;
 
-	if (param_debugmode)
-		if (buttonstate[bt_attack])
-			GetMessage("Attack Button Pressed", DEF_MSG_CLR);
+#ifdef USE_MODERN_CONTROLS
+#ifdef _DEBUG
+	GetMessage("Attack Button Pressed", DEF_MSG_CLR);
+#endif
+#endif
 
 	gamestate.weaponframe = 0;
 
@@ -1229,8 +1235,11 @@ void Cmd_Use(void)
 	else
 		SD_PlaySound(DONOTHINGSND);
 #endif
-	if (param_debugmode)
-		GetMessage("Use pressed.", DEF_MSG_CLR);
+#ifdef USE_MODERN_CONTROLS
+#ifdef _DEBUG
+	GetMessage("Use pressed.", DEF_MSG_CLR);
+#endif
+#endif
 }
 
 /*

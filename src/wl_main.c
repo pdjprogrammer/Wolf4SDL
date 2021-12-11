@@ -161,7 +161,7 @@ void ReadConfig(void)
 		read(file, &sds, sizeof(sds));
 
 		read(file, &mouseenabled, sizeof(mouseenabled));
-#ifdef USE_MODERN_OPTIONS
+#ifdef USE_MODERN_CONTROLS
 		read(file, &mouseYAxis, sizeof(mouseYAxis));
 		read(file, &alwaysRun, sizeof(alwaysRun));
 		read(file, &controllerEnabled, sizeof(controllerEnabled));
@@ -182,7 +182,7 @@ void ReadConfig(void)
 		read(file, dirscan, sizeof(dirscan));
 		read(file, buttonscan, sizeof(buttonscan));
 		read(file, buttonmouse, sizeof(buttonmouse));
-#ifdef USE_MODERN_OPTIONS
+#ifdef USE_MODERN_CONTROLS
 		read(file, buttoncontroller, sizeof(buttoncontroller));
 #else
 		read(file, buttonjoy, sizeof(buttonjoy));
@@ -205,7 +205,7 @@ void ReadConfig(void)
 
 		if (mouseenabled)
 			mouseenabled = true;
-#ifdef USE_MODERN_OPTIONS
+#ifdef USE_MODERN_CONTROLS
 		if (mouseYAxis)
 			mouseYAxis = true;
 		if (alwaysRun)
@@ -222,7 +222,7 @@ void ReadConfig(void)
 		if (!MousePresent)
 			mouseenabled = false;
 
-#ifdef USE_MODERN_OPTIONS
+#ifdef USE_MODERN_CONTROLS
 		if (!IN_ControllerPresent())
 			controllerEnabled = false;
 #else
@@ -270,11 +270,11 @@ void ReadConfig(void)
 		if (MousePresent)
 		{
 			mouseenabled = true;
-#ifdef USE_MODERN_OPTIONS
+#ifdef USE_MODERN_CONTROLS
 			mouseYAxis = false;
 #endif
 		}
-#ifdef USE_MODERN_OPTIONS
+#ifdef USE_MODERN_CONTROLS
 		if (IN_ControllerPresent())
 			controllerEnabled = true;
 #else
@@ -323,7 +323,7 @@ void WriteConfig(void)
 		write(file, &DigiMode, sizeof(DigiMode));
 
 		write(file, &mouseenabled, sizeof(mouseenabled));
-#ifdef USE_MODERN_OPTIONS
+#ifdef USE_MODERN_CONTROLS
 		write(file, &mouseYAxis, sizeof(mouseYAxis));
 		write(file, &alwaysRun, sizeof(alwaysRun));
 		write(file, &controllerEnabled, sizeof(controllerEnabled));
@@ -344,7 +344,7 @@ void WriteConfig(void)
 		write(file, dirscan, sizeof(dirscan));
 		write(file, buttonscan, sizeof(buttonscan));
 		write(file, buttonmouse, sizeof(buttonmouse));
-#ifdef USE_MODERN_OPTIONS
+#ifdef USE_MODERN_CONTROLS
 		write(file, buttoncontroller, sizeof(buttoncontroller));
 #else
 		write(file, buttonjoy, sizeof(buttonjoy));

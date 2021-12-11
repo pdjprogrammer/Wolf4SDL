@@ -60,14 +60,16 @@ static KeyboardDef KbdDefs = {
 
 static SDL_Joystick* Joystick;
 
-#ifdef USE_MODERN_OPTIONS
+#ifdef USE_MODERN_CONTROLS
 static SDL_GameController* GameController;
 int GameControllerNumButtons = 16;
+static int GameControllerNumHats;
 #else
 int JoyNumButtons;
+static int JoyNumHats;
 #endif
 
-static int JoyNumHats;
+
 
 static bool GrabInput = false;
 
@@ -427,18 +429,19 @@ static int INL_GetMouseButtons(void)
 	if (rightPressed)
 		buttons |= 1 << 1;
 
-	if (param_debugmode) {
-		if (mouse4Pressed)
-			GetMessage("Mouse 4 Pressed", DEF_MSG_CLR);
+#ifdef USE_MODERN_CONTROLS
+#ifdef _DEBUG
+	if (mouse4Pressed)
+		GetMessage("Mouse 4 Pressed", DEF_MSG_CLR);
 
-		if (mouse5Pressed)
-			GetMessage("Mouse 5 Pressed", DEF_MSG_CLR);
-	}
-
+	if (mouse5Pressed)
+		GetMessage("Mouse 5 Pressed", DEF_MSG_CLR);
+#endif
+#endif
 	return buttons;
 }
 
-#ifdef USE_MODERN_OPTIONS
+#ifdef USE_MODERN_CONTROLS
 
 ///////////////////////////////////////////////////////////////////////////
 //
@@ -465,6 +468,22 @@ void IN_GetGameControllerDelta(int* analog0X, int* analog0Y, int* analog1X, int*
 
 	int a1X = SDL_GameControllerGetAxis(GameController, SDL_CONTROLLER_AXIS_RIGHTX);
 	int a1Y = SDL_GameControllerGetAxis(GameController, SDL_CONTROLLER_AXIS_RIGHTY);
+
+	int hatState = SDL_JoystickGetHat(Joystick, 0);
+#ifdef _DEBUG
+	if (hatState & SDL_HAT_RIGHT) {
+		GetMessage("D-Pad Right Pressed", DEF_MSG_CLR);
+	}
+	else if (hatState & SDL_HAT_LEFT) {
+		GetMessage("D-Pad Left Pressed", DEF_MSG_CLR);
+	}
+	if (hatState & SDL_HAT_DOWN) {
+		GetMessage("D-Pad Down Pressed", DEF_MSG_CLR);
+	}
+	else if (hatState & SDL_HAT_UP) {
+		GetMessage("D-Pad Up Pressed", DEF_MSG_CLR);
+	}
+#endif
 
 	if (a0X & SDL_CONTROLLER_AXIS_LEFTX)
 		a0X += 127;
@@ -495,14 +514,19 @@ void IN_GetGameControllerDelta(int* analog0X, int* analog0Y, int* analog1X, int*
 
 void IN_GetGameControllerHat(int* dpadUp, int* dpadDown, int* dpadLeft, int* dpadRight) {
 	int hatState = SDL_JoystickGetHat(Joystick, 0);
-	if (hatState & SDL_HAT_RIGHT)
+	if (hatState & SDL_HAT_RIGHT) {
 		dpadRight = hatState;
-	else if (hatState & SDL_HAT_LEFT)
+	}
+	else if (hatState & SDL_HAT_LEFT) {
 		dpadLeft = hatState;
-	if (hatState & SDL_HAT_DOWN)
+	}
+
+	if (hatState & SDL_HAT_DOWN) {
 		dpadDown = hatState;
-	else if (hatState & SDL_HAT_UP)
+	}
+	else if (hatState & SDL_HAT_UP) {
 		dpadUp = hatState;
+	}
 }
 
 /*
@@ -802,26 +826,28 @@ void IN_ProcessEvents()
 ///////////////////////////////////////////////////////////////////////////
 void IN_Startup(void)
 {
-	printf("\n\nIN_Startup Start.\n");
-
 	if (IN_Started)
 		return;
 
 	IN_ClearKeysDown();
 
-#ifdef USE_MODERN_OPTIONS
-	if (SDL_Init(SDL_INIT_GAMECONTROLLER) < 0)
-		printf("\nSDL GameController initialization error! SDL Error: %s\n", SDL_GetError());
-	else
-		printf("\nSDL GameController initialized!\n");
-
+#ifdef USE_MODERN_CONTROLS
 	GameController = SDL_GameControllerOpen(0);
 	Joystick = SDL_JoystickOpen(0);
-
+#ifdef USE_MODERN_CONTROLS
+#ifdef _DEBUG
 	if (GameController)
-		printf("Game Controller opened.\n");
+		printf("\n\nGame Controller found and opened!\n");
 	else
-		printf("Warning: Unable to open game controller! SDL Error: %s\n", SDL_GetError());
+		printf("\n\nNo Game Controller found! - [SDL Error: %s]\n", SDL_GetError());
+
+	GameControllerNumHats = SDL_JoystickNumHats(Joystick);
+
+	if (GameControllerNumHats > 0)
+		printf("\nGame Controller hats (D-Pad) found!\n");
+#endif	
+#endif	
+
 #else
 	if (param_joystickindex >= 0 && param_joystickindex < SDL_NumJoysticks())
 	{

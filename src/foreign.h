@@ -21,7 +21,7 @@
 #define STR_CL "Control"
 #define STR_LG "Load Game"
 #define STR_SG "Save Game"
-#ifndef USE_MODERN_OPTIONS
+#ifndef USE_MODERN_CONTROLS
 #define STR_CV "Change View"
 #else
 #define STR_CV "View Size"
@@ -57,7 +57,7 @@
 
 #define STR_SENS "Mouse Sensitivity"
 #define STR_MOUSEEN "Mouse Enabled"
-#define STR_JOYEN "Joystick Enabled"
+
 #define STR_PORT2 "Use joystick port 2"
 #define STR_GAMEPAD "Gravis GamePad Enabled"
 #define STR_DADDY "Can I play, Daddy?"
@@ -119,13 +119,15 @@
 
 #define STR_SEEAGAIN "Let's see that again!"
 
-#ifdef USE_MODERN_OPTIONS
+#ifdef USE_MODERN_CONTROLS
 #define STR_OP "Options"
 #define STR_OP_GAME "Game Options"
 
-#define STR_OP_MOUSE "Mouse Controls"
-#define STR_OP_KEYBOARD "Keyboard Controls"
-#define STR_OP_JOYSTICK "Joystick Controls"
+#define STR_JOYEN "Controller Enabled"
+
+#define STR_OP_MOUSE "Mouse Config"
+#define STR_OP_KEYBOARD "Keyboard Config"
+#define STR_OP_JOYSTICK "Controller Config"
 
 #define STR_ALWAYS_RUN "Always Run"
 
@@ -145,7 +147,8 @@
 #define STR_NEXT_WPN "Next Wpn"
 #define STR_AUTOMAP "Automap"
 
-
+#else
+#define STR_JOYEN "Joystick Enabled"
 #ifdef SHOW_CUSTOM_CONTROLS
 #define STR_CUS_CONTROLS "Custom Controls"
 

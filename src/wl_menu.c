@@ -76,7 +76,7 @@ CP_itemtype MainMenu[] = {
 	{1, "", 0},
 	{1, "", 0}
 #else
-#ifdef USE_MODERN_OPTIONS
+#ifdef USE_MODERN_CONTROLS
 	{1, STR_NG, CP_NewGame},
 	{1, STR_LG, CP_LoadGame},
 	{0, STR_SG, CP_SaveGame},
@@ -148,7 +148,7 @@ enum
 	CTL_CUSTOMIZE
 };
 #else
-#ifdef USE_MODERN_OPTIONS
+#ifdef USE_MODERN_CONTROLS
 enum
 {
 	CTL_MOUSEENABLE,
@@ -245,7 +245,7 @@ CP_itemtype CtlMenu[] = {
 	{1, "", CustomControls}
 #else
 	{0, STR_MOUSEEN, 0},
-#ifndef USE_MODERN_OPTIONS
+#ifndef USE_MODERN_CONTROLS
 	{0, STR_SENS, MouseSensitivity},
 	{0, STR_JOYEN, 0},
 	{1, STR_CUSTOM, CustomControls}
@@ -384,7 +384,7 @@ CP_itemtype CusMenu[] = {
 	{0, "", 0},
 	{1, "", 0} };
 
-#ifdef USE_MODERN_OPTIONS
+#ifdef USE_MODERN_CONTROLS
 CP_itemtype CtlMouseMenu[] = {
 	{1, STR_CRUN, 0},
 	{1, STR_COPEN, 0},
@@ -466,7 +466,7 @@ CP_itemtype OptMenu[] = {
 #else
 	{1, STR_OP_SND, CP_Sound},
 	{1, STR_OP_CTL, CP_Control},
-#ifdef USE_MODERN_OPTIONS
+#ifdef USE_MODERN_CONTROLS
 #ifdef SHOW_GAME_OPTIONS
 	{1, STR_CV, CP_ChangeView},
 	{1, STR_OP_GAME, 0}
@@ -484,7 +484,7 @@ CP_itemtype OptMenu[] = {
 CP_iteminfo MainItems = { MENU_X, MENU_Y, lengthof(MainMenu), STARTITEM, 24 },
 OptItems = { OPT_X, OPT_Y, lengthof(OptMenu), 0, 32 },
 
-#ifdef USE_MODERN_OPTIONS
+#ifdef USE_MODERN_CONTROLS
 CusMouseItems = { OPT_MOUSE_X, OPT_MOUSE_Y, lengthof(CtlMouseMenu), 0, 54 },
 CusKeyboardMoveItems = { OPT_KEYBOARD_MOVE_X, OPT_KEYBOARD_MOVE_Y + 4, lengthof(CtlKeyboardMoveMenu), 0, 54 },
 CusKeyboardActionItems = { OPT_KEYBOARD_ACTION_X, OPT_KEYBOARD_ACTION_Y, lengthof(CtlKeyboardActionMenu), 0, 54 },
@@ -1921,7 +1921,7 @@ int CP_Control(int blank)
 			CusItems.curpos = -1;
 			ShootSnd();
 			break;
-#ifdef USE_MODERN_OPTIONS
+#ifdef USE_MODERN_CONTROLS
 		case CTL_JOYENABLE:
 			controllerEnabled ^= 1;
 			DrawCtlScreen();
@@ -1937,7 +1937,7 @@ int CP_Control(int blank)
 			break;
 #endif
 
-#ifdef USE_MODERN_OPTIONS
+#ifdef USE_MODERN_CONTROLS
 		
 		case CTL_ALWAYSRUN:
 			alwaysRun ^= 1;
@@ -2129,7 +2129,7 @@ void DrawCtlScreen(void)
 	WindowW = 320;
 	SETFONTCOLOR(TEXTCOLOR, BKGDCOLOR);
 
-#ifdef USE_MODERN_OPTIONS
+#ifdef USE_MODERN_CONTROLS
 	if (IN_ControllerPresent())
 		CtlMenu[CTL_JOYENABLE].active = 1;
 #else
@@ -2139,13 +2139,13 @@ void DrawCtlScreen(void)
 
 	if (MousePresent)
 	{
-#ifndef USE_MODERN_OPTIONS
+#ifndef USE_MODERN_CONTROLS
 		CtlMenu[CTL_MOUSESENS].active = CtlMenu[CTL_MOUSEENABLE].active = 1;
 #else
 		CtlMenu[CTL_MOUSEENABLE].active = CtlMenu[CTL_MOUSEENABLE].active = 1;
 #endif
 	}
-#ifndef USE_MODERN_OPTIONS
+#ifndef USE_MODERN_CONTROLS
 	CtlMenu[CTL_MOUSESENS].active = mouseenabled;
 	CtlMenu[CTL_JOYSTICKOPTIONS].active = joystickenabled;
 #else
@@ -2163,14 +2163,14 @@ void DrawCtlScreen(void)
 	else
 		VWB_DrawPic(x, y, C_NOTSELECTEDPIC);
 
-#ifdef USE_MODERN_OPTIONS
+#ifdef USE_MODERN_CONTROLS
 	y = CTL_Y + 16;
 #else
 	y = CTL_Y + 29;
 #endif	
 
-#ifdef USE_MODERN_OPTIONS
-#ifdef USE_MODERN_OPTIONS
+#ifdef USE_MODERN_CONTROLS
+#ifdef USE_MODERN_CONTROLS
 	if (controllerEnabled)
 		VWB_DrawPic(x, y, C_SELECTEDPIC);
 	else
@@ -2180,7 +2180,7 @@ void DrawCtlScreen(void)
 		VWB_DrawPic(x, y, C_SELECTEDPIC);
 	else
 		VWB_DrawPic(x, y, C_NOTSELECTEDPIC);
-#endif // USE_MODERN_OPTIONS
+#endif
 
 	y = CTL_Y + 29;
 
@@ -2251,7 +2251,7 @@ void DrawOptScreen(void)
 	VW_UpdateScreen();
 }
 
-#ifdef USE_MODERN_OPTIONS
+#ifdef USE_MODERN_CONTROLS
 
 ////////////////////////////////////////////////////////////////////
 //
@@ -2371,7 +2371,7 @@ int CustomControls(int blank)
 
 #endif
 
-#ifdef USE_MODERN_OPTIONS
+#ifdef USE_MODERN_CONTROLS
 
 ////////////////////////
 //
@@ -2413,7 +2413,7 @@ void DefineMouseBtns(void)
 //
 // DEFINE THE JOYSTICK BUTTONS
 //
-#ifdef USE_MODERN_OPTIONS
+#ifdef USE_MODERN_CONTROLS
 
 void DefineJoyBtns(int value)
 {
@@ -2451,7 +2451,7 @@ void DefineJoyBtns(void)
 //
 // DEFINE THE KEYBOARD BUTTONS
 //
-#ifdef USE_MODERN_OPTIONS
+#ifdef USE_MODERN_CONTROLS
 void DefineKeyBtns(int value)
 {
 	CustomCtrls keyallowed;
@@ -2486,7 +2486,7 @@ void DefineKeyBtns(void)
 //
 // DEFINE THE KEYBOARD BUTTONS
 //
-#ifdef USE_MODERN_OPTIONS
+#ifdef USE_MODERN_CONTROLS
 
 void DefineKeyMove(int value)
 {
@@ -2523,7 +2523,7 @@ void DefineKeyMove(void)
 //
 // DEFINE THE KEYBOARD MORE ACTIONS BUTTONS
 //
-#ifdef USE_MODERN_OPTIONS
+#ifdef USE_MODERN_CONTROLS
 void DefineKeyMoreActionsBtns(int value)
 {
 	CustomCtrls keyallowed;
@@ -2553,7 +2553,7 @@ void DefineKeyMoreActionsBtns(int value)
 // ENTER CONTROL DATA FOR ANY TYPE OF CONTROL
 //
 
-#ifdef USE_MODERN_OPTIONS
+#ifdef USE_MODERN_CONTROLS
 enum
 {
 	FWRD,
@@ -2575,7 +2575,7 @@ enum
 int moveorder[4] = { LEFT, RIGHT, FWRD, BKWD };
 #endif
 
-#ifdef USE_MODERN_OPTIONS
+#ifdef USE_MODERN_CONTROLS
 
 int CP_KeyboardMoveCtl(int blank)
 {
@@ -2937,7 +2937,7 @@ void EnterCtrlData(int index, CustomCtrls* cust, void (*DrawRtn)(int), void (*Pr
 
 	ShootSnd();
 
-#ifndef USE_MODERN_OPTIONS
+#ifndef USE_MODERN_CONTROLS
 	amount = 4;
 	PrintY = CST_Y + 13 * index;
 #else
@@ -2986,7 +2986,7 @@ void EnterCtrlData(int index, CustomCtrls* cust, void (*DrawRtn)(int), void (*Pr
 	{
 		if (redraw)
 		{
-#ifndef USE_MODERN_OPTIONS
+#ifndef USE_MODERN_CONTROLS
 			x = CST_START + CST_SPC * which;
 			DrawWindow(5, PrintY - 1, 310, 13, BKGDCOLOR);
 #else
@@ -3017,7 +3017,7 @@ void EnterCtrlData(int index, CustomCtrls* cust, void (*DrawRtn)(int), void (*Pr
 #endif
 			DrawRtn(1);
 
-#ifndef USE_MODERN_OPTIONS
+#ifndef USE_MODERN_CONTROLS
 			DrawWindow(x - 2, PrintY, CST_SPC, 11, TEXTCOLOR);
 			DrawOutline(x - 2, PrintY, CST_SPC, 11, 0, HIGHLIGHT);
 #else
@@ -3069,7 +3069,7 @@ void EnterCtrlData(int index, CustomCtrls* cust, void (*DrawRtn)(int), void (*Pr
 					switch (tick)
 					{
 					case 0:
-#ifndef USE_MODERN_OPTIONS
+#ifndef USE_MODERN_CONTROLS
 						w = CST_SPC;
 #endif
 						VWB_Bar(x, PrintY + 1, w - 2, 10, TEXTCOLOR);
@@ -3120,7 +3120,7 @@ void EnterCtrlData(int index, CustomCtrls* cust, void (*DrawRtn)(int), void (*Pr
 						SD_PlaySound(SHOOTDOORSND);
 					}
 					break;
-#ifdef USE_MODERN_OPTIONS
+#ifdef USE_MODERN_CONTROLS
 				case CONTROLLER:
 				
 					break;
@@ -3155,7 +3155,7 @@ void EnterCtrlData(int index, CustomCtrls* cust, void (*DrawRtn)(int), void (*Pr
 				case KEYBOARDBTNS:
 					if (LastScan && LastScan != sc_Escape)
 					{
-#ifdef USE_MODERN_OPTIONS
+#ifdef USE_MODERN_CONTROLS
 						CheckKeyConflict();
 #endif
 						buttonscan[order[which]] = LastScan;
@@ -3163,7 +3163,7 @@ void EnterCtrlData(int index, CustomCtrls* cust, void (*DrawRtn)(int), void (*Pr
 						picked = 1;
 						SD_PlaySound(SHOOTDOORSND);
 						IN_ClearKeysDown();
-#ifdef USE_MODERN_OPTIONS
+#ifdef USE_MODERN_CONTROLS
 						exit = 1;
 #endif
 					}
@@ -3172,7 +3172,7 @@ void EnterCtrlData(int index, CustomCtrls* cust, void (*DrawRtn)(int), void (*Pr
 				case KEYBOARDMOVE:
 					if (LastScan && LastScan != sc_Escape)
 					{
-#ifdef USE_MODERN_OPTIONS
+#ifdef USE_MODERN_CONTROLS
 						CheckKeyConflict();
 #endif
 						dirscan[moveorder[which]] = LastScan;
@@ -3180,13 +3180,13 @@ void EnterCtrlData(int index, CustomCtrls* cust, void (*DrawRtn)(int), void (*Pr
 						picked = 1;
 						SD_PlaySound(SHOOTDOORSND);
 						IN_ClearKeysDown();
-#ifdef USE_MODERN_OPTIONS
+#ifdef USE_MODERN_CONTROLS
 						exit = 1;
 #endif
 					}
 					break;
 
-#ifdef USE_MODERN_OPTIONS
+#ifdef USE_MODERN_CONTROLS
 				case KEYBOARDMOREACTIONS:
 					if (LastScan && LastScan != sc_Escape)
 					{
@@ -3285,7 +3285,7 @@ void EnterCtrlData(int index, CustomCtrls* cust, void (*DrawRtn)(int), void (*Pr
 	SD_PlaySound(ESCPRESSEDSND);
 	WaitKeyUp();
 
-#ifndef USE_MODERN_OPTIONS
+#ifndef USE_MODERN_CONTROLS
 	DrawWindow(5, PrintY - 1, 310, 13, BKGDCOLOR);
 #endif
 }
@@ -3357,7 +3357,7 @@ void FixupCustom(int w)
 	lastwhich = w;
 }
 
-#ifdef USE_MODERN_OPTIONS
+#ifdef USE_MODERN_CONTROLS
 
 ////////////////////////
 //
@@ -3900,7 +3900,7 @@ void DrawCustomScreen(void)
 	MenuFadeIn();
 }
 
-#endif // USE_MODERN_OPTIONS
+#endif
 
 void PrintCustMouse(int i)
 {
@@ -3909,7 +3909,7 @@ void PrintCustMouse(int i)
 	for (j = 0; j < 4; j++)
 		if (order[i] == buttonmouse[j])
 		{
-#ifndef USE_MODERN_OPTIONS
+#ifndef USE_MODERN_CONTROLS
 			PrintX = CST_START + CST_SPC * i;
 #else
 			PrintX = CTL_MOUSE_X;
@@ -3937,7 +3937,7 @@ void DrawCustMouse(int highlight)
 	else
 		CtlMouseMenu[0].active = 1;
 
-#ifndef USE_MODERN_OPTIONS
+#ifndef USE_MODERN_CONTROLS
 	PrintY = CST_Y + 13 * 2;
 #else
 	PrintX = CTL_MOUSE_X;
@@ -3946,7 +3946,7 @@ void DrawCustMouse(int highlight)
 		PrintCustMouse(i);
 }
 
-#ifdef USE_MODERN_OPTIONS
+#ifdef USE_MODERN_CONTROLS
 void PrintCustJoy(int i)
 {
 	int j;
@@ -3955,7 +3955,7 @@ void PrintCustJoy(int i)
 	{
 		if (order[i] == buttoncontroller[j])
 		{
-#ifndef USE_MODERN_OPTIONS
+#ifndef USE_MODERN_CONTROLS
 			PrintX = CST_START + CST_SPC * i;
 			US_Print(mbarray[j]);
 #else
@@ -3976,7 +3976,7 @@ void DrawCustJoy(int hilight)
 		color = HIGHLIGHT;
 	SETFONTCOLOR(color, BKGDCOLOR);
 
-#ifdef USE_MODERN_OPTIONS
+#ifdef USE_MODERN_CONTROLS
 	if (!controllerEnabled)
 	{
 		SETFONTCOLOR(DEACTIVE, BKGDCOLOR);
@@ -3994,7 +3994,7 @@ void DrawCustJoy(int hilight)
 		CusMenu[3].active = 1;
 #endif	
 
-#ifndef USE_MODERN_OPTIONS
+#ifndef USE_MODERN_CONTROLS
 	PrintY = CST_Y + 13 * 5;
 #else
 	PrintX = CTL_MOUSE_X;
@@ -4012,7 +4012,7 @@ void PrintCustJoy(int i)
 	{
 		if (order[i] == buttonjoy[j])
 		{
-#ifndef USE_MODERN_OPTIONS
+#ifndef USE_MODERN_CONTROLS
 			PrintX = CST_START + CST_SPC * i;
 			US_Print(mbarray[j]);
 #else
@@ -4034,7 +4034,7 @@ void DrawCustJoy(int hilight)
 		color = HIGHLIGHT;
 	SETFONTCOLOR(color, BKGDCOLOR);
 
-#ifdef USE_MODERN_OPTIONS
+#ifdef USE_MODERN_CONTROLS
 	if (!controllerEnabled)
 	{
 		SETFONTCOLOR(DEACTIVE, BKGDCOLOR);
@@ -4052,7 +4052,7 @@ void DrawCustJoy(int hilight)
 		CusMenu[3].active = 1;
 #endif	
 
-#ifndef USE_MODERN_OPTIONS
+#ifndef USE_MODERN_CONTROLS
 	PrintY = CST_Y + 13 * 5;
 #else
 	PrintX = CTL_MOUSE_X;
@@ -4061,13 +4061,13 @@ void DrawCustJoy(int hilight)
 	for (i = 0; i < 4; i++)
 		PrintCustJoy(i);
 }
-#endif // USE_MODERN_OPTIONS
+#endif
 
 
 
 void PrintCustKeybd(int i)
 {
-#ifndef USE_MODERN_OPTIONS
+#ifndef USE_MODERN_CONTROLS
 	PrintX = CST_START + CST_SPC * i;
 #else
 	PrintX = CTL_MOUSE_X;
@@ -4084,7 +4084,7 @@ void DrawCustKeybd(int hilight)
 	if (hilight)
 		color = HIGHLIGHT;
 	SETFONTCOLOR(color, BKGDCOLOR);
-#ifndef USE_MODERN_OPTIONS
+#ifndef USE_MODERN_CONTROLS
 	PrintY = CST_Y + 13 * 8;
 #else
 	PrintX = CTL_MOUSE_X;
@@ -4095,7 +4095,7 @@ void DrawCustKeybd(int hilight)
 
 void PrintCustKeys(int i)
 {
-#ifndef USE_MODERN_OPTIONS
+#ifndef USE_MODERN_CONTROLS
 	PrintX = CST_START + CST_SPC * i;
 #else
 	PrintX = OPT_KB_MOVE_KEYS_X;
@@ -4115,7 +4115,7 @@ void DrawCustKeys(int hilight)
 
 	int amount = 4;
 
-#ifdef USE_MODERN_OPTIONS
+#ifdef USE_MODERN_CONTROLS
 	PrintX = CTL_MOUSE_X;
 	amount = 6;
 #else
@@ -4125,7 +4125,7 @@ void DrawCustKeys(int hilight)
 		PrintCustKeys(i);
 }
 
-#ifdef USE_MODERN_OPTIONS
+#ifdef USE_MODERN_CONTROLS
 void PrintMoreActionsKeys(int i)
 {
 	PrintX = OPT_KEYBOARD_MORE_ACTION_RIGHT_TEXT_X;
@@ -4391,13 +4391,13 @@ void IntroScreen(void)
 	if (MousePresent)
 		VWB_Bar(164, 82, 12, 2, FILLCOLOR);
 
-#ifdef USE_MODERN_OPTIONS
+#ifdef USE_MODERN_CONTROLS
 	if (IN_ControllerPresent())
 		VWB_Bar(164, 105, 12, 2, FILLCOLOR);
 #else
 	if (IN_JoyPresent())
 		VWB_Bar(164, 105, 12, 2, FILLCOLOR);
-#endif // USE_MODERN_OPTIONS
+#endif
 
 	
 
@@ -4971,7 +4971,7 @@ void ReadAnyControl(ControlInfo* ci)
 		}
 	}
 
-#ifdef USE_MODERN_OPTIONS
+#ifdef USE_MODERN_CONTROLS
 	int a0x, a0y;
 	int a1x, a1y;
 
@@ -5543,7 +5543,7 @@ void ShootSnd(void)
 	SD_PlaySound(SHOOTSND);
 }
 
-#ifdef USE_MODERN_OPTIONS
+#ifdef USE_MODERN_CONTROLS
 void CheckKeyConflict(void)
 {
 	int i = 0;

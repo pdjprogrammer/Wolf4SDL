@@ -75,7 +75,7 @@
 #else
 #define CTL_Y 72
 #endif
-#ifdef USE_MODERN_OPTIONS
+#ifdef USE_MODERN_CONTROLS
 #define CTL_X 43
 #ifdef SHOW_CUSTOM_CONTROLS
 #define CTL_H 114
@@ -121,7 +121,7 @@
 #define CST_X 20
 #define CST_Y 48
 
-#ifndef USE_MODERN_OPTIONS
+#ifndef USE_MODERN_CONTROLS
 #define CST_START 60
 #define CST_SPC 60
 #else
@@ -129,7 +129,7 @@
 #define CST_SPC 95
 #endif
 
-#ifdef USE_MODERN_OPTIONS
+#ifdef USE_MODERN_CONTROLS
 #define OPT_MOUSE_X 26
 #define OPT_MOUSE_Y 72
 #define OPT_MOUSE_W 284
@@ -196,7 +196,7 @@ typedef struct
 
 typedef struct
 {
-#ifdef USE_MODERN_OPTIONS
+#ifdef USE_MODERN_CONTROLS
 	short allowed[14];
 #else
 	short allowed[4];
@@ -252,7 +252,7 @@ void DrawHalfStep(int x, int y);
 void EraseGun(CP_iteminfo *item_i, CP_itemtype *items, int x, int y, int which);
 void DrawMenuGun(CP_iteminfo *iteminfo);
 void DrawStripes(int y);
-#ifndef USE_MODERN_OPTIONS
+#ifndef USE_MODERN_CONTROLS
 void DefineMouseBtns(void);
 void DefineKeyMove(void);
 void DefineKeyBtns(void);
@@ -276,7 +276,7 @@ void DrawMouseSens(void);
 void DrawCtlScreen(void);
 void DrawCustomScreen(void);
 void DrawMouseCtlScreen(void);
-#ifdef USE_MODERN_OPTIONS
+#ifdef USE_MODERN_CONTROLS
 void DrawKeyboardMoveCtlScreen(void);
 void DrawKeyboardActionCtlScreen(void);
 void DrawKeyboardMoreActionCtlScreen(void);
@@ -327,7 +327,7 @@ int CP_EndGame(int);
 int CP_CheckQuick(ScanCode scancode);
 int Controls(int);
 int MouseSensitivity(int);
-#ifdef USE_MODERN_OPTIONS
+#ifdef USE_MODERN_CONTROLS
 int CP_MouseCtl(int);
 int CP_KeyboardMoveCtl(int);
 int CP_KeyboardActionCtl(int);
@@ -358,13 +358,13 @@ enum
 enum menuitems
 {
 	newgame,
-#ifndef USE_MODERN_OPTIONS
+#ifndef USE_MODERN_CONTROLS
 	soundmenu,
 	control,
 #endif
 	loadgame,
 	savegame,
-#ifndef USE_MODERN_OPTIONS
+#ifndef USE_MODERN_CONTROLS
 	changeview,
 #else
 	options,

@@ -50,7 +50,7 @@ typedef int ScanCode;
 #define sc_DownArrow SDLK_DOWN
 #define sc_LeftArrow SDLK_LEFT
 #define sc_RightArrow SDLK_RIGHT
-#ifdef USE_MODERN_OPTIONS
+#ifdef USE_MODERN_CONTROLS
 #define sc_StrafeLeft SDLK_a
 #define sc_StrafeRight SDLK_d
 #define sc_LeftBracket SDLK_LEFTBRACKET
@@ -197,7 +197,7 @@ extern boolean MousePresent;
 extern volatile boolean Paused;
 extern volatile char LastASCII;
 extern volatile ScanCode LastScan;
-#ifdef USE_MODERN_OPTIONS
+#ifdef USE_MODERN_CONTROLS
 extern int GameControllerNumButtons;
 #else
 extern int JoyNumButtons;
@@ -237,7 +237,7 @@ void IN_ProcessEvents();
 
 int IN_MouseButtons(void);
 
-#ifdef USE_MODERN_OPTIONS
+#ifdef USE_MODERN_CONTROLS
 void IN_GetGameControllerDelta(int* analog0X, int* analog0Y, int* analog1X, int* analog1Y);
 void IN_GetGameControllerHat(int* dpadUp, int* dpadDown, int* dpadLeft, int* dpadRight);
 int IN_GameControllerButtons(void);

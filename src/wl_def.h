@@ -1465,7 +1465,7 @@ extern int lastgamemusicoffset;
 //
 // control info
 //
-#ifdef USE_MODERN_OPTIONS
+#ifdef USE_MODERN_CONTROLS
 extern boolean mouseenabled, mouseYAxis, controllerEnabled, alwaysRun;
 #ifdef SHOW_CUSTOM_CONTROLS
 extern int customControls[10];
@@ -1474,7 +1474,7 @@ extern int customControls[10];
 extern boolean mouseenabled, joystickenabled;
 #endif
 
-#ifdef USE_MODERN_OPTIONS
+#ifdef USE_MODERN_CONTROLS
 extern int dirscan[6];
 #else
 extern int dirscan[4];
@@ -1482,7 +1482,7 @@ extern int dirscan[4];
 extern int buttonscan[NUMBUTTONS];
 extern int buttonmouse[4];
 
-#ifdef USE_MODERN_OPTIONS
+#ifdef USE_MODERN_CONTROLS
 extern int buttoncontroller[15];
 #else
 extern int buttonjoy[32];
@@ -1496,7 +1496,7 @@ extern int viewsize;
 // current user input
 //
 extern int controlx, controly; // range from -100 to 100
-#ifdef USE_MODERN_OPTIONS
+#ifdef USE_MODERN_CONTROLS
 extern int controlh; // range from -100 to 100
 #endif
 extern boolean buttonstate[NUMBUTTONS];
