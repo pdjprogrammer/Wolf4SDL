@@ -466,16 +466,6 @@ void IN_GetGameControllerDelta(int* analog0X, int* analog0Y, int* analog1X, int*
 	int a1X = SDL_GameControllerGetAxis(GameController, SDL_CONTROLLER_AXIS_RIGHTX);
 	int a1Y = SDL_GameControllerGetAxis(GameController, SDL_CONTROLLER_AXIS_RIGHTY);
 
-	int hatState = SDL_JoystickGetHat(Joystick, 0);
-	if (hatState & SDL_HAT_RIGHT)
-		printf("\nD-Pad Right");
-	else if (hatState & SDL_HAT_LEFT)
-		printf("\nD-Pad Left");
-	if (hatState & SDL_HAT_DOWN)
-		printf("\nD-Pad Down");
-	else if (hatState & SDL_HAT_UP)
-		printf("\nD-Pad Up");
-
 	if (a0X & SDL_CONTROLLER_AXIS_LEFTX)
 		a0X += 127;
 	else if (SDL_CONTROLLER_AXIS_LEFTX)
@@ -501,6 +491,18 @@ void IN_GetGameControllerDelta(int* analog0X, int* analog0Y, int* analog1X, int*
 
 	*analog0X = a0X;
 	*analog0Y = a0Y;
+}
+
+void IN_GetGameControllerHat(int* dpadUp, int* dpadDown, int* dpadLeft, int* dpadRight) {
+	int hatState = SDL_JoystickGetHat(Joystick, 0);
+	if (hatState & SDL_HAT_RIGHT)
+		dpadRight = hatState;
+	else if (hatState & SDL_HAT_LEFT)
+		dpadLeft = hatState;
+	if (hatState & SDL_HAT_DOWN)
+		dpadDown = hatState;
+	else if (hatState & SDL_HAT_UP)
+		dpadUp = hatState;
 }
 
 /*

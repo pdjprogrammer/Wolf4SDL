@@ -4975,7 +4975,10 @@ void ReadAnyControl(ControlInfo* ci)
 	int a0x, a0y;
 	int a1x, a1y;
 
+	int a, b, c, d;
 	int gcb;
+
+	gcb = IN_GameControllerButtons();
 
 	IN_GetGameControllerDelta(&a0x, &a0y, &a1x, &a1y);
 
@@ -4988,7 +4991,17 @@ void ReadAnyControl(ControlInfo* ci)
 	else if (a0x > CONTROLLER_DEAD_ZONE)
 		ci->dir = dir_East;
 
-	gcb = IN_GameControllerButtons();
+	IN_GetGameControllerHat(&a, &b, &c, &d);
+
+	//if (a & SDL_HAT_UP)
+	//	ci->dir = dir_North;
+	//else if (b & SDL_HAT_DOWN)
+	//	ci->dir = dir_South;
+
+	//if (c & -SDL_HAT_LEFT)
+	//	ci->dir = dir_West;
+	//else if (c & SDL_HAT_RIGHT)
+	//	ci->dir = dir_East;
 
 	if (gcb)
 	{

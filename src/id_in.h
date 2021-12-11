@@ -238,7 +238,10 @@ void IN_ProcessEvents();
 int IN_MouseButtons(void);
 
 #ifdef USE_MODERN_OPTIONS
+void IN_GetGameControllerDelta(int* analog0X, int* analog0Y, int* analog1X, int* analog1Y);
+void IN_GetGameControllerHat(int* dpadUp, int* dpadDown, int* dpadLeft, int* dpadRight);
 int IN_GameControllerButtons(void);
+
 boolean IN_ControllerPresent();
 #else
 int IN_JoyButtons(void);
@@ -254,7 +257,4 @@ void IN_StartAck(void);
 boolean IN_CheckAck(void);
 bool IN_IsInputGrabbed();
 void IN_CenterMouse();
-
-void IN_GetGameControllerDelta(int* analog0X, int* analog0Y, int* analog1X, int* analog1Y);
-
 #endif
