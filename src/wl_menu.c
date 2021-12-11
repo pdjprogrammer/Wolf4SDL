@@ -4975,6 +4975,8 @@ void ReadAnyControl(ControlInfo* ci)
 	int a0x, a0y;
 	int a1x, a1y;
 
+	int gcb;
+
 	IN_GetGameControllerDelta(&a0x, &a0y, &a1x, &a1y);
 
 	if (a0y < -CONTROLLER_DEAD_ZONE)
@@ -4985,6 +4987,16 @@ void ReadAnyControl(ControlInfo* ci)
 		ci->dir = dir_West;
 	else if (a0x > CONTROLLER_DEAD_ZONE)
 		ci->dir = dir_East;
+
+	gcb = IN_GameControllerButtons();
+
+	if (gcb)
+	{
+		ci->button0 = gcb & 1;
+		ci->button1 = gcb & 2;
+		ci->button2 = gcb & 4;
+		ci->button3 = gcb & 8;
+	}
 #else
 	if (joystickenabled && !mouseactive)
 	{
