@@ -271,10 +271,9 @@ void ReadConfig(void)
 		{
 			mouseenabled = true;
 #ifdef USE_MODERN_OPTIONS
-			mouseYAxis = true;
+			mouseYAxis = false;
 #endif
 		}
-
 #ifdef USE_MODERN_OPTIONS
 		if (IN_ControllerPresent())
 			controllerEnabled = true;
