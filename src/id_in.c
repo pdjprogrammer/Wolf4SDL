@@ -59,14 +59,19 @@ static KeyboardDef KbdDefs = {
 };
 
 static SDL_Joystick* Joystick;
+
+#ifdef USE_MODERN_OPTIONS
+static SDL_GameController* GameController;
+int GameControllerNumButtons = 16;
+#else
 int JoyNumButtons;
+#endif
+
 static int JoyNumHats;
 
 static bool GrabInput = false;
 
-#ifdef USE_MODERN_OPTIONS
-static SDL_GameController* GameController;
-#endif // USE_MODERN_OPTIONS
+
 
 
 /*
@@ -422,18 +427,22 @@ static int INL_GetMouseButtons(void)
 	if (rightPressed)
 		buttons |= 1 << 1;
 
-	if (mouse4Pressed)
-		GetMessage("Mouse 4 Pressed", DEF_MSG_CLR);
+	if (param_debugmode) {
+		if (mouse4Pressed)
+			GetMessage("Mouse 4 Pressed", DEF_MSG_CLR);
 
-	if (mouse5Pressed)
-		GetMessage("Mouse 5 Pressed", DEF_MSG_CLR);
+		if (mouse5Pressed)
+			GetMessage("Mouse 5 Pressed", DEF_MSG_CLR);
+	}
 
 	return buttons;
 }
 
+#ifdef USE_MODERN_OPTIONS
+
 ///////////////////////////////////////////////////////////////////////////
 //
-//	IN_GetJoyDelta() - Returns the relative movement of the specified
+//	IN_GetGameControllerDelta() - Returns the relative movement of the specified
 //		joystick (from +/-127)
 //
 ///////////////////////////////////////////////////////////////////////////
@@ -456,6 +465,16 @@ void IN_GetGameControllerDelta(int* analog0X, int* analog0Y, int* analog1X, int*
 
 	int a1X = SDL_GameControllerGetAxis(GameController, SDL_CONTROLLER_AXIS_RIGHTX);
 	int a1Y = SDL_GameControllerGetAxis(GameController, SDL_CONTROLLER_AXIS_RIGHTY);
+
+	int hatState = SDL_JoystickGetHat(Joystick, 0);
+	if (hatState & SDL_HAT_RIGHT)
+		printf("\nD-Pad Right");
+	else if (hatState & SDL_HAT_LEFT)
+		printf("\nD-Pad Left");
+	if (hatState & SDL_HAT_DOWN)
+		printf("\nD-Pad Down");
+	else if (hatState & SDL_HAT_UP)
+		printf("\nD-Pad Up");
 
 	if (a0X & SDL_CONTROLLER_AXIS_LEFTX)
 		a0X += 127;
@@ -484,6 +503,35 @@ void IN_GetGameControllerDelta(int* analog0X, int* analog0Y, int* analog1X, int*
 	*analog0Y = a0Y;
 }
 
+/*
+===================
+=
+= IN_GameControllerButtons
+=
+===================
+*/
+
+int IN_GameControllerButtons()
+{
+	int i;
+
+	if (!GameController)
+		return 0;
+
+	SDL_GameControllerUpdate();
+
+	int res = 0;
+	for (i = 0; i < GameControllerNumButtons && i < 16; i++)
+		res |= SDL_GameControllerGetButton(GameController, i) << i;
+
+	return res;
+}
+
+boolean IN_ControllerPresent()
+{
+	return GameController != NULL;
+}
+#else
 ///////////////////////////////////////////////////////////////////////////
 //
 //	IN_GetJoyDelta() - Returns the relative movement of the specified
@@ -572,7 +620,6 @@ void IN_GetJoyFineDelta(int* dx, int* dy)
 =
 ===================
 */
-
 int IN_JoyButtons()
 {
 	int i;
@@ -588,17 +635,11 @@ int IN_JoyButtons()
 	return res;
 }
 
-#ifdef USE_MODERN_OPTIONS
-boolean IN_ControllerPresent()
-{
-	return GameController != NULL;
-}
-#else
 boolean IN_JoyPresent()
 {
 	return Joystick != NULL;
 }
-#endif // USE_MODERN_OPTIONS
+#endif
 
 static void processEvent(SDL_Event* event)
 {
@@ -729,7 +770,7 @@ static void processEvent(SDL_Event* event)
 		break;
 #endif
 	}
-}
+	}
 
 void IN_WaitAndProcessEvents()
 {
@@ -766,18 +807,20 @@ void IN_Startup(void)
 
 	IN_ClearKeysDown();
 
+#ifdef USE_MODERN_OPTIONS
 	if (SDL_Init(SDL_INIT_GAMECONTROLLER) < 0)
 		printf("\nSDL GameController initialization error! SDL Error: %s\n", SDL_GetError());
 	else
 		printf("\nSDL GameController initialized!\n");
 
 	GameController = SDL_GameControllerOpen(0);
+	Joystick = SDL_JoystickOpen(0);
 
-	if (GameController == NULL)
-		printf("Warning: Unable to open game controller! SDL Error: %s\n", SDL_GetError());
-	else
+	if (GameController)
 		printf("Game Controller opened.\n");
-
+	else
+		printf("Warning: Unable to open game controller! SDL Error: %s\n", SDL_GetError());
+#else
 	if (param_joystickindex >= 0 && param_joystickindex < SDL_NumJoysticks())
 	{
 		Joystick = SDL_JoystickOpen(param_joystickindex);
@@ -791,6 +834,7 @@ void IN_Startup(void)
 				Quit("The joystickhat param must be between 0 and %i!", JoyNumHats - 1);
 		}
 	}
+#endif
 
 	SDL_EventState(SDL_MOUSEMOTION, SDL_IGNORE);
 
@@ -829,6 +873,7 @@ void IN_Shutdown(void)
 	if (Joystick)
 		SDL_JoystickClose(Joystick);
 
+	//Crashes SDL2 on quit
 	/*if (GameController)
 		SDL_JoystickClose(GameController);*/
 
@@ -956,7 +1001,7 @@ void IN_StartAck(void)
 	IN_ClearKeysDown();
 	memset(btnstate, 0, sizeof(btnstate));
 
-	int buttons = IN_JoyButtons() << 4;
+	int buttons = IN_GameControllerButtons();
 
 	if (MousePresent)
 		buttons |= IN_MouseButtons();
@@ -977,7 +1022,7 @@ boolean IN_CheckAck(void)
 	if (LastScan)
 		return true;
 
-	int buttons = IN_JoyButtons() << 4;
+	int buttons = IN_GameControllerButtons() << 4;
 
 	if (MousePresent)
 		buttons |= IN_MouseButtons();
@@ -992,7 +1037,7 @@ boolean IN_CheckAck(void)
 				do
 				{
 					IN_WaitAndProcessEvents();
-					buttons = IN_JoyButtons() << 4;
+					buttons = IN_GameControllerButtons() << 4;
 
 					if (MousePresent)
 						buttons |= IN_MouseButtons();

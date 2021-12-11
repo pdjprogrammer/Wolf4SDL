@@ -73,16 +73,22 @@ int buttonscan[NUMBUTTONS] = { sc_Control, sc_Alt, sc_LShift, sc_Space, sc_1, sc
 int dirscan[4] = { sc_UpArrow, sc_RightArrow, sc_DownArrow, sc_LeftArrow };
 #endif
 int buttonmouse[4] = { bt_attack, bt_strafe, bt_use, bt_nobutton };
+#ifdef USE_MODERN_OPTIONS
+int buttoncontroller[15] = {
+	bt_attack, bt_strafe, bt_use, bt_run, bt_esc, bt_nobutton, bt_pause, bt_nobutton, bt_nobutton, bt_prevweapon, bt_nextweapon, bt_nobutton, bt_nobutton,
+	bt_strafeleft, bt_straferight };
+#else
 int buttonjoy[32] = {
 #ifdef _arch_dreamcast
 	bt_attack, bt_strafe, bt_use, bt_run, bt_esc, bt_prevweapon, bt_nobutton, bt_nextweapon,
 	bt_pause, bt_strafeleft, bt_straferight, bt_nobutton, bt_nobutton, bt_nobutton, bt_nobutton, bt_nobutton,
 #else
-	bt_moveforward, bt_movebackward, bt_turnleft, bt_turnright, bt_strafeleft, bt_straferight, bt_attack, bt_strafe, bt_use, bt_run, bt_esc, bt_pause,
-	bt_prevweapon, bt_nextweapon, bt_nobutton, bt_nobutton,
+	bt_attack, bt_strafe, bt_use, bt_run, bt_esc, bt_pause, bt_nobutton, bt_nobutton, bt_nobutton, bt_prevweapon, bt_nextweapon,
+	bt_nobutton, bt_nobutton, bt_strafeleft, bt_straferight,
 #endif
 	bt_nobutton, bt_nobutton, bt_nobutton, bt_nobutton, bt_nobutton, bt_nobutton, bt_nobutton, bt_nobutton,
 	bt_nobutton, bt_nobutton, bt_nobutton, bt_nobutton, bt_nobutton, bt_nobutton, bt_nobutton, bt_nobutton };
+#endif
 
 int viewsize;
 
@@ -298,6 +304,25 @@ void PollMouseButtons(void)
 	if (buttons & 4)
 		buttonstate[buttonmouse[2]] = true;
 }
+
+#ifdef USE_MODERN_OPTIONS
+/*
+===================
+=
+= PollGameControllerButtons
+=
+===================
+*/
+
+void PollGameControllerButtons(void)
+{
+	int i, val, buttons = IN_GameControllerButtons();
+
+	for (i = 0, val = 1; i < 16; i++, val <<= 1)
+		if (buttons & val)
+			buttonstate[buttoncontroller[i]] = true;
+}
+#else
 /*
 ===================
 =
@@ -316,6 +341,7 @@ void PollJoystickButtons(void)
 			buttonstate[buttonjoy[i]] = true;
 	}
 }
+#endif
 
 /*
 ===================
@@ -350,6 +376,14 @@ void PollKeyboardMove(void)
 void PollCustomKeyboardMove(void)
 {
 	int delta = buttonstate[bt_run] || alwaysRun ? RUNMOVE * tics : BASEMOVE * tics;
+
+	if (param_debugmode) {
+		if (buttonstate[bt_run])
+			GetMessage("Run Button Pressed", DEF_MSG_CLR);
+
+		if (buttonstate[bt_strafe])
+			GetMessage("Strafe Button Pressed", DEF_MSG_CLR);
+	}	
 
 	if (Keyboard(dirscan[di_north]))
 		controly = ((alwaysRun && buttonstate[bt_run]) || (!alwaysRun && !buttonstate[bt_run])) ? -BASEMOVE * tics : -RUNMOVE * tics;
@@ -386,39 +420,41 @@ void PollCustomKeyboardMove(void)
 */
 void PollCustomControls(void)
 {
-	if (Keyboard(buttonscan[bt_cus_ctl_1]))
-		GetMessage("Adv Ctl 1", DEF_MSG_CLR);
+	if (param_debugmode) {
+		if (Keyboard(buttonscan[bt_cus_ctl_1]))
+			GetMessage("Adv Ctl 1", DEF_MSG_CLR);
 
-	if (Keyboard(buttonscan[bt_cus_ctl_2]))
-		GetMessage("Adv Ctl 2", DEF_MSG_CLR);
+		if (Keyboard(buttonscan[bt_cus_ctl_2]))
+			GetMessage("Adv Ctl 2", DEF_MSG_CLR);
 
-	if (Keyboard(buttonscan[bt_cus_ctl_3]))
-		GetMessage("Adv Ctl 3", DEF_MSG_CLR);
+		if (Keyboard(buttonscan[bt_cus_ctl_3]))
+			GetMessage("Adv Ctl 3", DEF_MSG_CLR);
 
-	if (Keyboard(buttonscan[bt_cus_ctl_4]))
-		GetMessage("Adv Ctl 4", DEF_MSG_CLR);
+		if (Keyboard(buttonscan[bt_cus_ctl_4]))
+			GetMessage("Adv Ctl 4", DEF_MSG_CLR);
 
-	if (Keyboard(buttonscan[bt_cus_ctl_5]))
-		GetMessage("Adv Ctl 5", DEF_MSG_CLR);
+		if (Keyboard(buttonscan[bt_cus_ctl_5]))
+			GetMessage("Adv Ctl 5", DEF_MSG_CLR);
 
-	if (Keyboard(buttonscan[bt_cus_ctl_6]))
-		GetMessage("Adv Ctl 6", DEF_MSG_CLR);
+		if (Keyboard(buttonscan[bt_cus_ctl_6]))
+			GetMessage("Adv Ctl 6", DEF_MSG_CLR);
 
-	if (Keyboard(buttonscan[bt_cus_ctl_7]))
-		GetMessage("Adv Ctl 7", DEF_MSG_CLR);
+		if (Keyboard(buttonscan[bt_cus_ctl_7]))
+			GetMessage("Adv Ctl 7", DEF_MSG_CLR);
 
-	if (Keyboard(buttonscan[bt_cus_ctl_8]))
-		GetMessage("Adv Ctl 8", DEF_MSG_CLR);
+		if (Keyboard(buttonscan[bt_cus_ctl_8]))
+			GetMessage("Adv Ctl 8", DEF_MSG_CLR);
 
-	if (Keyboard(buttonscan[bt_cus_ctl_9]))
-		GetMessage("Adv Ctl 9", DEF_MSG_CLR);
+		if (Keyboard(buttonscan[bt_cus_ctl_9]))
+			GetMessage("Adv Ctl 9", DEF_MSG_CLR);
 
-	if (Keyboard(buttonscan[bt_cus_ctl_10]))
-		GetMessage("Adv Ctl 10", DEF_MSG_CLR);
+		if (Keyboard(buttonscan[bt_cus_ctl_10]))
+			GetMessage("Adv Ctl 10", DEF_MSG_CLR);
 
-	//TODO DemolitionDerby - Move somewhere else
-	if (Keyboard(buttonscan[bt_automap]))
-		GetMessage("Automap Pressed", DEF_MSG_CLR);
+		//TODO DemolitionDerby - Move somewhere else
+		if (Keyboard(buttonscan[bt_automap]))
+			GetMessage("Automap Pressed", DEF_MSG_CLR);
+	}	
 }
 #endif
 #endif
@@ -478,36 +514,48 @@ void PollGameControllerMove(void)
 
 	//Left Analog Stick
 	if (analog0X > CONTROLLER_DEAD_ZONE) {
-		printf("\nAnalog Stick 0 (Left) - X Axis Right");
-		controlh += delta;
+		//printf("\nAnalog Stick 0 (Left) - X Axis Right");
+		controlx += delta;
 	}
 	else if (analog0X < -CONTROLLER_DEAD_ZONE) {
-		printf("\nAnalog Stick 0 (Left) - X Axis Left");
-		controlh -= delta;
+		//printf("\nAnalog Stick 0 (Left) - X Axis Left");
+		controlx -= delta;
 	}
 	if (analog0Y > CONTROLLER_DEAD_ZONE) {
-		printf("\nAnalog Stick 0 (Left) - Y Axis Down");
-		
+		//printf("\nAnalog Stick 0 (Left) - Y Axis Down");
 		controly += delta;
 	}
 	else if (analog0Y < -CONTROLLER_DEAD_ZONE) {
-		printf("\nAnalog Stick 0 (Left) - Y Axis Up");
+		//printf("\nAnalog Stick 0 (Left) - Y Axis Up");
 		controly -= delta;
 	}
 
 	//Right Analog Stick
 	if (analog1X > CONTROLLER_DEAD_ZONE) {
-		printf("\nAnalog Stick 1 (Right) - X Axis Right");
+		controlh += delta;
+		//printf("\nAnalog Stick 1 (Right) - X Axis Right");
 	}
 	else if (analog1X < -CONTROLLER_DEAD_ZONE) {
-		printf("\nAnalog Stick 1 (Right) - X Axis Left");
+		controlh -= delta;
+		//printf("\nAnalog Stick 1 (Right) - X Axis Left");
 	}
 	if (analog1Y > CONTROLLER_DEAD_ZONE) {
-		printf("\nAnalog Stick 1 (Right) - Y Axis Down");
+		//printf("\nAnalog Stick 1 (Right) - Y Axis Down");
 	}
 	else if (analog1Y < -CONTROLLER_DEAD_ZONE) {
-		printf("\nAnalog Stick 1 (Right) - Y Axis Up");		
+		//printf("\nAnalog Stick 1 (Right) - Y Axis Up");
 	}
+
+	if (buttonstate[bt_strafeleft]) {
+		//printf("\nLeft Strafe Pressed");
+	}
+
+	if (buttonstate[bt_straferight]) {
+
+		//printf("\nRight Strafe Pressed");
+	}
+
+
 }
 #else
 /*
@@ -632,7 +680,8 @@ void PollControls(void)
 		PollMouseButtons();
 
 #ifdef USE_MODERN_OPTIONS
-
+	if (controllerEnabled)
+		PollGameControllerButtons();
 #else
 	if (joystickenabled)
 		PollJoystickButtons();

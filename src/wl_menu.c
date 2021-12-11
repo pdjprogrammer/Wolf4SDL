@@ -3120,7 +3120,11 @@ void EnterCtrlData(int index, CustomCtrls* cust, void (*DrawRtn)(int), void (*Pr
 						SD_PlaySound(SHOOTDOORSND);
 					}
 					break;
-
+#ifdef USE_MODERN_OPTIONS
+				case CONTROLLER:
+				
+					break;
+#else
 				case JOYSTICK:
 					if (ci.button0)
 						result = 1;
@@ -3147,7 +3151,7 @@ void EnterCtrlData(int index, CustomCtrls* cust, void (*DrawRtn)(int), void (*Pr
 						SD_PlaySound(SHOOTDOORSND);
 					}
 					break;
-
+#endif
 				case KEYBOARDBTNS:
 					if (LastScan && LastScan != sc_Escape)
 					{
@@ -3942,6 +3946,64 @@ void DrawCustMouse(int highlight)
 		PrintCustMouse(i);
 }
 
+#ifdef USE_MODERN_OPTIONS
+void PrintCustJoy(int i)
+{
+	int j;
+
+	for (j = 0; j < 4; j++)
+	{
+		if (order[i] == buttoncontroller[j])
+		{
+#ifndef USE_MODERN_OPTIONS
+			PrintX = CST_START + CST_SPC * i;
+			US_Print(mbarray[j]);
+#else
+			PrintX = CTL_MOUSE_X;
+			PrintY = CST_START + (CST_SPC_Y * i);
+			US_Print(jbarray[j]);
+#endif
+			break;
+		}
+	}
+}
+void DrawCustJoy(int hilight)
+{
+	int i, color;
+
+	color = TEXTCOLOR;
+	if (hilight)
+		color = HIGHLIGHT;
+	SETFONTCOLOR(color, BKGDCOLOR);
+
+#ifdef USE_MODERN_OPTIONS
+	if (!controllerEnabled)
+	{
+		SETFONTCOLOR(DEACTIVE, BKGDCOLOR);
+		CusMenu[3].active = 0;
+	}
+	else
+		CusMenu[3].active = 1;
+#else
+	if (!joystickenabled)
+	{
+		SETFONTCOLOR(DEACTIVE, BKGDCOLOR);
+		CusMenu[3].active = 0;
+	}
+	else
+		CusMenu[3].active = 1;
+#endif	
+
+#ifndef USE_MODERN_OPTIONS
+	PrintY = CST_Y + 13 * 5;
+#else
+	PrintX = CTL_MOUSE_X;
+#endif
+
+	for (i = 0; i < 4; i++)
+		PrintCustJoy(i);
+}
+#else
 void PrintCustJoy(int i)
 {
 	int j;
@@ -3999,6 +4061,9 @@ void DrawCustJoy(int hilight)
 	for (i = 0; i < 4; i++)
 		PrintCustJoy(i);
 }
+#endif // USE_MODERN_OPTIONS
+
+
 
 void PrintCustKeybd(int i)
 {

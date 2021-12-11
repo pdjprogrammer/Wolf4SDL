@@ -182,8 +182,11 @@ void ReadConfig(void)
 		read(file, dirscan, sizeof(dirscan));
 		read(file, buttonscan, sizeof(buttonscan));
 		read(file, buttonmouse, sizeof(buttonmouse));
+#ifdef USE_MODERN_OPTIONS
+		read(file, buttoncontroller, sizeof(buttoncontroller));
+#else
 		read(file, buttonjoy, sizeof(buttonjoy));
-
+#endif
 		read(file, &viewsize, sizeof(viewsize));
 		read(file, &mouseadjustment, sizeof(mouseadjustment));
 
@@ -331,7 +334,7 @@ void WriteConfig(void)
 #else
 		write(file, &joystickenabled, sizeof(joystickenabled));
 #endif
-		
+
 		boolean dummyJoypadEnabled = false;
 		write(file, &dummyJoypadEnabled, sizeof(dummyJoypadEnabled));
 		boolean dummyJoystickProgressive = false;
@@ -342,8 +345,11 @@ void WriteConfig(void)
 		write(file, dirscan, sizeof(dirscan));
 		write(file, buttonscan, sizeof(buttonscan));
 		write(file, buttonmouse, sizeof(buttonmouse));
+#ifdef USE_MODERN_OPTIONS
+		write(file, buttoncontroller, sizeof(buttoncontroller));
+#else
 		write(file, buttonjoy, sizeof(buttonjoy));
-
+#endif
 		write(file, &viewsize, sizeof(viewsize));
 		write(file, &mouseadjustment, sizeof(mouseadjustment));
 
@@ -1196,7 +1202,7 @@ void DoJukebox(void)
 
 	MenuFadeOut();
 	IN_ClearKeysDown();
-}
+	}
 #endif
 
 /*
@@ -1224,6 +1230,7 @@ static void InitGame()
 	atexit(SDL_Quit);
 
 	int numJoysticks = SDL_NumJoysticks();
+
 	if (param_joystickindex && (param_joystickindex < -1 || param_joystickindex >= numJoysticks))
 	{
 		if (!numJoysticks)
@@ -1458,7 +1465,7 @@ void Quit(const char* errorStr, ...)
 #endif
 		}
 		exit(1);
-	}
+		}
 
 	if (!error || !*error)
 	{
@@ -1499,7 +1506,7 @@ void Quit(const char* errorStr, ...)
 	}
 
 	exit(0);
-}
+	}
 
 //===========================================================================
 

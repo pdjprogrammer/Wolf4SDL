@@ -197,7 +197,11 @@ extern boolean MousePresent;
 extern volatile boolean Paused;
 extern volatile char LastASCII;
 extern volatile ScanCode LastScan;
+#ifdef USE_MODERN_OPTIONS
+extern int GameControllerNumButtons;
+#else
 extern int JoyNumButtons;
+#endif
 extern boolean forcegrabmouse;
 
 // Function prototypes
@@ -213,15 +217,13 @@ extern boolean forcegrabmouse;
 extern void IN_Startup(void), IN_Shutdown(void);
 extern void IN_ClearKeysDown(void);
 extern void IN_ReadControl(int, ControlInfo *);
-extern void IN_GetJoyAbs(word joy, word *xp, word *yp);
-extern void IN_SetupJoy(word joy, word minx, word maxx,
-						word miny, word maxy);
-extern void IN_StopDemo(void), IN_FreeDemoBuffer(void),
-	IN_Ack(void);
+//extern void IN_GetJoyAbs(word joy, word *xp, word *yp);
+//extern void IN_SetupJoy(word joy, word minx, word maxx,	word miny, word maxy);
+extern void IN_Ack(void); //IN_StopDemo(void), IN_FreeDemoBuffer(void);
 extern boolean IN_UserInput(longword delay);
 extern char IN_WaitForASCII(void);
 extern ScanCode IN_WaitForKey(void);
-extern word IN_GetJoyButtonsDB(word joy);
+//extern word IN_GetJoyButtonsDB(word joy);
 extern const char *IN_GetScanName(ScanCode);
 
 boolean Keyboard(int key);
@@ -236,13 +238,15 @@ void IN_ProcessEvents();
 int IN_MouseButtons(void);
 
 #ifdef USE_MODERN_OPTIONS
+int IN_GameControllerButtons(void);
 boolean IN_ControllerPresent();
 #else
-boolean IN_JoyPresent();
-#endif // !USE_MODERN_OPTIONS
-
-void IN_SetJoyCurrent(int joyIndex);
 int IN_JoyButtons(void);
+boolean IN_JoyPresent();
+#endif
+
+//void IN_SetJoyCurrent(int joyIndex);
+
 void IN_GetJoyDelta(int *dx, int *dy);
 void IN_GetJoyFineDelta(int *dx, int *dy);
 

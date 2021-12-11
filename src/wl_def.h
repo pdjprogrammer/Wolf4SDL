@@ -1219,7 +1219,7 @@ enum
 	bt_readymachinegun,
 	bt_readychaingun,
 	bt_prevweapon,
-	bt_nextweapon,	
+	bt_nextweapon,
 	bt_automap,
 	bt_esc,
 	bt_pause,
@@ -1481,7 +1481,12 @@ extern int dirscan[4];
 #endif
 extern int buttonscan[NUMBUTTONS];
 extern int buttonmouse[4];
+
+#ifdef USE_MODERN_OPTIONS
+extern int buttoncontroller[15];
+#else
 extern int buttonjoy[32];
+#endif
 
 extern boolean buttonheld[NUMBUTTONS];
 
