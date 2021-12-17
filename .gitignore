@@ -71,4 +71,9 @@ Makefile.win
 /.vscode
 /build
 
+# CLion Code Files & Folders #
+/.idea
+/cmake-build-debug
+/cmake-build-release
+
 /_base
