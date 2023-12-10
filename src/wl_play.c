@@ -379,10 +379,10 @@ void PollCustomKeyboardMove(void)
 
 #ifdef _DEBUG
 	if (buttonstate[bt_run])
-		GetMessage("Run Button Pressed", DEF_MSG_CLR);
+		printf("\nRun Button Pressed");
 
 	if (buttonstate[bt_strafe])
-		GetMessage("Strafe Button Pressed", DEF_MSG_CLR);
+		printf("\nStrafe Button Pressed");
 #endif
 
 	if (Keyboard(dirscan[di_north]))

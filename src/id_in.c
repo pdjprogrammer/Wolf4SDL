@@ -432,10 +432,10 @@ static int INL_GetMouseButtons(void)
 #ifdef USE_MODERN_CONTROLS
 #ifdef _DEBUG
 	if (mouse4Pressed)
-		GetMessage("Mouse 4 Pressed", DEF_MSG_CLR);
+		printf("\nMouse 4 Pressed");
 
 	if (mouse5Pressed)
-		GetMessage("Mouse 5 Pressed", DEF_MSG_CLR);
+		printf("\nMouse 5 Pressed");
 #endif
 #endif
 	return buttons;
@@ -472,16 +472,16 @@ void IN_GetGameControllerDelta(int* analog0X, int* analog0Y, int* analog1X, int*
 	int hatState = SDL_JoystickGetHat(Joystick, 0);
 #ifdef _DEBUG
 	if (hatState & SDL_HAT_RIGHT) {
-		GetMessage("D-Pad Right Pressed", DEF_MSG_CLR);
+		printf("\nD-Pad Right Pressed");
 	}
 	else if (hatState & SDL_HAT_LEFT) {
-		GetMessage("D-Pad Left Pressed", DEF_MSG_CLR);
+		printf("\nD-Pad Left Pressed");
 	}
 	if (hatState & SDL_HAT_DOWN) {
-		GetMessage("D-Pad Down Pressed", DEF_MSG_CLR);
+		printf("\nD-Pad Down Pressed");
 	}
 	else if (hatState & SDL_HAT_UP) {
-		GetMessage("D-Pad Up Pressed", DEF_MSG_CLR);
+		printf("\nD-Pad Up Pressed");
 	}
 #endif
 
@@ -514,6 +514,7 @@ void IN_GetGameControllerDelta(int* analog0X, int* analog0Y, int* analog1X, int*
 
 void IN_GetGameControllerHat(int* dpadUp, int* dpadDown, int* dpadLeft, int* dpadRight) {
 	int hatState = SDL_JoystickGetHat(Joystick, 0);
+
 	if (hatState & SDL_HAT_RIGHT) {
 		dpadRight = hatState;
 	}

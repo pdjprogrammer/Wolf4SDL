@@ -116,7 +116,7 @@ void CheckWeaponChange(void)
 	{
 #ifdef USE_MODERN_CONTROLS
 #ifdef _DEBUG
-		GetMessage("Pressed Next Weapon", DEF_MSG_CLR);
+		printf("\nNext Weapon Pressed");
 #endif	
 #endif
 		newWeapon = gamestate.weapon + 1;
@@ -127,7 +127,7 @@ void CheckWeaponChange(void)
 	{
 #ifdef USE_MODERN_CONTROLS
 #ifdef _DEBUG
-			GetMessage("Pressed Previous Weapon", DEF_MSG_CLR);
+		printf("\nPrevious Weapon Pressed");
 #endif
 #endif
 		newWeapon = gamestate.weapon - 1;
@@ -1139,7 +1139,7 @@ void Cmd_Fire(void)
 
 #ifdef USE_MODERN_CONTROLS
 #ifdef _DEBUG
-	GetMessage("Attack Button Pressed", DEF_MSG_CLR);
+	printf("\nAttack Button Pressed");
 #endif
 #endif
 
@@ -1237,7 +1237,7 @@ void Cmd_Use(void)
 #endif
 #ifdef USE_MODERN_CONTROLS
 #ifdef _DEBUG
-	GetMessage("Use pressed.", DEF_MSG_CLR);
+	printf("\nUse Pressed");
 #endif
 #endif
 }

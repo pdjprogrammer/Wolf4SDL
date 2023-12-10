@@ -20,15 +20,22 @@ The overall work to get to where we are would not be possible without the follow
 
 <p>To avoid any confusion and for both versions to be easily identifiable, I just added.</p>
 
-<p>In order to preserve the original Wolf3D feel, all of the features added in Wolf4SDL+ version can be enabled or disabled using flags in version.h so the original Wolf4SDL has been left untouched.</p>
+<p>In order to preserve everything of the original Wolf3D (and Wolf4SDL) feel, all of the features added in Wolf4SDL+ version can be enabled or disabled using flags in version.h.</p>
 
 <p>The releases are also marked accordingly.</p>
 
 <h2><em>Main features (Wolf4SDL+)</em></h2>
 
 * Overhaul of the Input system
-  - Full gamepad support.
-  - Every in-game buttons can be remapped.
+  - Full game controller support (tested with XBox One Controller).
+    - Controls currently hard-coded.
+      - Right/Left Triggers and Shoulders
+      - 2 Analog Sticks (including click)
+      - D-Pad
+      - Back/Start Button
+      - 4 Action Buttons
+  - Every in-game buttons can be remapped.*
+    - Except game controller (menu incomplete).
   - WASD movement key (dedicated buttons).
     - Can still use left/right keys. 
   - Mouse support overhaul.
@@ -36,26 +43,17 @@ The overall work to get to where we are would not be possible without the follow
     - Mouse button support for the following actions : 
       - Run, Open, Fire, Strafe    
   - Set of 10 customizable "actions" and menu to assign/remap those buttons.
-     - For modders to add their own actions more easily (Feature flag, code changes required to implement custom actions).
+     - For modders to add their own actions more easily (Code changes required to implement custom actions).
 
 - Overhaul of the Menu system
   - New menu for each input type.
-    - Keyboard / Mouse / Gamepad.
-  - Game options menu (Incomplete).
+    - Keyboard / Mouse / Game controller (incomplete).
+  - Game options menu (incomplete).
     - Menu to enable / disable certain flags in-game.
   - Custom controls menu
     - Menu to remap the Custom Actions.
 
-Main features (Wolf4SDL):
----
-* Cross-platform:
-  * Supported operating systems are at least:
-    * Windows 98, Windows ME, Windows 2000, Windows XP, Windows Vista (32 and 64 bit), Windows 7 (32 and 64 bit), Windows 10 (32 and 64 bit)
-    * Linux
-    * BSD variants
-    * Mac OS X (x86)
-    * KallistiOS (used for Dreamcast)
-    * Only little endian platforms like x86, ARM and SH-4 are currently supported.
+<h2><em>Main features (Wolf4SDL)</em></h2>
 
 - AdLib sounds and music:
   - This port includes the OPL2 emulator from MAME, so you can not only hear the AdLib sounds but also music without any AdLib-compatible soundcard in near to perfect quality!
@@ -67,8 +65,8 @@ Main features (Wolf4SDL):
   - Aside from the original 320x200 resolution, Wolf4SDL currently supports any resolutions being multiples of 320x200 or 320x240, the default being 640x400.
   - Unlike some other ports, Wolf4SDL does NOT apply any bilinear or similar filtering, so the graphics are NOT blurred but pixelated just as we love it.
 
-Additional features:
----
+<h2><em>Additional features</em></h2>
+
 * Two additional view sizes:
   - Wolf4SDL supports one view size using the full width of the screen and showing the status bar, like in Mac-enstein, and one view size filling the whole screen (press TAB to see the status bar).
 
@@ -101,8 +99,26 @@ The following versions of Wolfenstein 3D data files are currently supported by t
  - Spear of Destiny - Mission 3: Ultimate Challenge (not tested)
 ```
 
-How to play:
----
+<h2><em>Operating system support</em></h2>
+
+Currently supported operating systems : 
+```
+- Windows 98
+- Windows ME
+- Windows 2000
+- Windows XP
+- Windows Vista (32 and 64 bits)
+- Windows 7 (32 and 64 bits)
+- Windows 10 (32 and 64 bits)
+- Windows 11 (32 and 64 bits)
+- Linux
+- BSD variants
+- Mac OS X (x86)
+- Only little endian platforms like x86, ARM and SH-4 are currently supported.
+```
+
+<h2><em>How to play</em></h2>
+
 To play Wolfenstein 3D with Wolf4SDL, you just have to copy the original data
 files (e.g. *.WL6) into the same directory as the Wolf4SDL executable.
 Please make sure, that you use the correct version of the executable with the
@@ -111,9 +127,9 @@ according data files version as the differences are hardcoded into the binary!
 If you play in windowed mode (--windowed parameter), press SCROLLLOCK or F12
 to grab the mouse. Press it again to release the mouse.
 
-Usage:
-------
-Wolf4SDL supports the following command line options:
+<h2><em>Usage</em></h2>
+
+Wolf4SDL supports the following command line options :
 ```
  --help                 This help page
  --tedlevel <level>     Starts the game in the given level
@@ -151,60 +167,64 @@ For Spear of Destiny the following additional options are available:
  --goodtimes            Disable copy protection quiz
 ```
 
-Compiling from source code:
----------------------------
+<h2><em>Compiling from source code</em></h2>
+
 The current version of the source code is available on GitHub at: https://github.com/brosseaualex/Wolf4SDL
 
 **_Preferred methods for compiling the source code:_**
 
-```
-- Visual C++ 2022 (Wolf4SDL.VC2022.sln and Wolf4SDL.VC2022.vcproj) (see README-VC.txt)
-- Visual C++ 2019 (Wolf4SDL.VC2019.sln and Wolf4SDL.VC2019.vcproj) (see README-VC.txt)
-- Code::Blocks 8.02 (Wolf4SDL.cbp)
-- Dev-C++ 5.0 Beta 9.2 (4.9.9.2) (Wolf4SDL.dev) (see README-devcpp.txt)
-- CMake (Jetbrains Clion)
-- Makefile (for Linux, BSD variants and MinGW/MSYS)
- ```
+- Visual C++ (2019/2022)
+  - [VS 2022] - Wolf4SDL.VC2022.sln
+  - [VS 2019] - Wolf4SDL.VC2019.sln
+    - README-VC.txt
+- Dev-C++ 5.0 Beta 9.2 (4.9.9.2)
+  - Wolf4SDL.dev
+    - README-devcpp.txt
+- Code::Blocks 8.02
+  - Wolf4SDL.cbp
+    - README-codeblocks.txt
+- [Untested] CMake
+- [Untested] Makefile (for Linux, BSD variants and MinGW/MSYS)
+- [Untested] Xcode (for Mac OS X, macosx/Wolf4SDL.xcodeproj/project.pbxproj)
 
-**_Deprecated, projects most likely broken, would only need an update. Unsupported for now._**
+**_Deprecated, untested, broken and/or unsupported._**
 ```
-- Xcode (for Mac OS X, macosx/Wolf4SDL.xcodeproj/project.pbxproj)
 - Special compiling for Dreamcast (see README-dc.txt)
 - Special compiling for GP2X (see README-GP2X.txt)
 ```
 
-To compile the source code you need the development libraries for SDL2 and SDL2_
+IMPORTANT: Do not forget to take care of version.h! By default it compiles for "Wolfenstein 3D v1.4 full GT/ID/Activision"!
+
+<h2><em>SDL Libraries</em></h2>
+
+The required SDL libraries are already included in the folder "libraries" and it is not required to download them.
+
+See the readme for the compiler you are using for more information on how to use those libraries.
+
+The SDL and SDL_Mixer versions used in this project are the following :
  - SDL2 2.0.18 (https://www.libsdl.org/release/)
  - SDL2_mixer 2.0.4 (https://www.libsdl.org/projects/SDL_mixer/release/)
 
-You also need to adjust the include and library paths in the projects accordingly.
+<h2><em>TODOs</em></h2>
 
-Please note, that there is no official SDL_mixer development pack for MinGW,
-yet, but you can get the needed files from a Dev-C++ package here:
-http://sourceforge.net/project/showfiles.php?group_id=94270&package_id=151751
-Just rename the file extension from ".devpack" to ".tar.bz2" and unpack it
-with for example WinRAR. Then add the directories include/SDL and lib to the
-according search paths in your project.
-
-IMPORTANT: Do not forget to take care of version.h!
-   By default it compiles for "Wolfenstein 3D v1.4 full GT/ID/Activision"!
-
-TODOs:
-------
+ - Controller menu
+ - Game options menu
+ - Test and fix CMake and Makefile project
+ - Test Linux build
  - Center non-ingame screens for resolutions being a multiple of 320x240
  - Add support for any graphic resolution >= 320x200
 
-Known bugs:
------------
- - None! ;D
+<h2><em>Known issues</em></h2>
 
-Troubleshooting:
-----------------
+ - None
+
+<h2><em>Troubleshooting</em></h2>
+
  - If your frame rate is low, consider using the original screen resolution
    (--res 320 200) or lowering the sound quality (--samplerate 22050)
 
-Credits:
---------
+<h2><em>Credits</em></h2>
+
  - Special thanks to id Software! Without the source code we would still have
    to pelt Wolfenstein 3D with hex editors and disassemblers ;D
  - Special thanks to the DOSBox team for providing a GPL'ed OPL2/3 emulator!
@@ -219,13 +239,15 @@ Credits:
  - Thanks to Xilinx, Inc. for providing a list of maximum-length LFSR counters
    used for higher resolutions of fizzle fade
 
-Licenses:
----------
- - The original source code of Wolfenstein 3D:
-     At your choice:
-     - license-id.txt or
-     - license-gpl.txt
- - The OPL2 emulator:
-     At your choice:
-     - license-mame.txt (fmopl.cpp)
-     - license-gpl.txt (dbopl.cpp, USE_GPL define in version.h or set GPL=1 for Makefile)
+<h2><em>Licenses</em></h2>
+
+ - The original source code of Wolfenstein 3D (at your choice) :
+   - license-id.txt
+   - license-gpl.txt
+ - SDL
+   - license-sdl.txt
+ - SDL_Mixer
+   - license-sdl_mixer.txt
+ - The OPL2 emulator (at your choice) :
+   - license-mame.txt (fmopl.cpp)
+   - license-gpl.txt (dbopl.cpp, USE_GPL define in version.h or set GPL=1 for Makefile)
