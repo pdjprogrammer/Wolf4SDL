@@ -29,11 +29,15 @@ The overall work to get to where we are would not be possible without the follow
 * Overhaul of the Input system
   - Full game controller support (tested with XBox One Controller).
     - Controls currently hard-coded.
-      - Right/Left Triggers and Shoulders
-      - 2 Analog Sticks (including click)
-      - D-Pad
+      - Left analog stick : Move/Strafe
+      - Right analog stick : Turn
+      - Left / Right shoulders : Previous and Next weapon
       - Back/Start Button
-      - 4 Action Buttons
+      - 4 Action Buttons (XBox controller scheme)
+        - A : Fire
+        - B : Strafe (mapped to key but not useful for now with controller)
+        - Y : Run
+        - X : Open door
   - Every in-game buttons can be remapped.*
     - Except game controller (menu incomplete).
   - WASD movement key (dedicated buttons).
@@ -119,13 +123,19 @@ Currently supported operating systems :
 
 <h2><em>How to play</em></h2>
 
-To play Wolfenstein 3D with Wolf4SDL, you just have to copy the original data
-files (e.g. *.WL6) into the same directory as the Wolf4SDL executable.
-Please make sure, that you use the correct version of the executable with the
-according data files version as the differences are hardcoded into the binary!
+<p>To play Wolfenstein 3D with Wolf4SDL, you just have to copy the original data files (e.g. *.WL6) into the same directory as the Wolf4SDL executable.</p>
 
-If you play in windowed mode (--windowed parameter), press SCROLLLOCK or F12
-to grab the mouse. Press it again to release the mouse.
+<p>Please make sure, that you use the correct version of the executable with the according data files version as the differences are hardcoded into the binary!</p>
+
+<p>You also need to have SDL2.dll (2.0.18) and SDL_Mixer.dll (2.0.4) in the same directory as the EXE.</p>
+
+<p>If you play in windowed mode (--windowed parameter), press SCROLLLOCK or F12 to grab the mouse. Press it again to release the mouse.</p>
+
+<h2><em>Important</em></h2>
+
+If the _CONFIG.WL6_ file exists while you switch between Wolf4SDL and Wolf4SDL+ or vice-versa, **_you have to delete it so the game can re-create it._**
+
+**_There will be issues with controls if this step is not done._**
 
 <h2><em>Usage</em></h2>
 
@@ -207,12 +217,12 @@ The SDL and SDL_Mixer versions used in this project are the following :
 
 <h2><em>TODOs</em></h2>
 
- - Controller menu
- - Game options menu
- - Test and fix CMake and Makefile project
- - Test Linux build
- - Center non-ingame screens for resolutions being a multiple of 320x240
- - Add support for any graphic resolution >= 320x200
+ - Finish controller support.
+ - Game options menu.
+ - Test and fix CMake and Makefile project.
+ - Test Linux build.
+ - Center non-ingame screens for resolutions being a multiple of 320x240.
+ - Add support for any graphic resolution >= 320x200.
 
 <h2><em>Known issues</em></h2>
 

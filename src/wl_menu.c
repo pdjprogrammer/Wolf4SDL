@@ -476,7 +476,6 @@ CP_itemtype OptMenu[] = {
 #else
 	{1, STR_CV, CP_ChangeView},
 #endif
-
 #endif
 };
 
@@ -1157,6 +1156,7 @@ int CP_NewGame(int blank)
 	firstpart :
 
 	DrawNewEpisode();
+
 	do
 	{
 		which = HandleMenu(&NewEitems, &NewEmenu[0], NULL);
@@ -1165,7 +1165,6 @@ int CP_NewGame(int blank)
 		case -1:
 			MenuFadeOut();
 			return 0;
-
 		default:
 			if (!EpisodeSelect[which / 2])
 			{
@@ -1348,6 +1347,7 @@ void DrawNewGameDiff(int w)
 int CP_Sound(int blank)
 {
 	int which;
+	menuExit = 0;
 
 	DrawSoundMenu();
 	MenuFadeIn();
@@ -1361,6 +1361,9 @@ int CP_Sound(int blank)
 		//
 		switch (which)
 		{
+		case -1:
+			MenuFadeOut();
+			break;
 			//
 			// SOUND EFFECTS
 			//
@@ -1440,10 +1443,10 @@ int CP_Sound(int blank)
 				StartCPMusic(MENUSONG);
 			}
 			break;
+		default:
+			break;
 		}
 	} while (which >= 0);
-
-	MenuFadeOut();
 
 	return 0;
 }
@@ -1913,6 +1916,10 @@ int CP_Control(int blank)
 		which = HandleMenu(&CtlItems, CtlMenu, NULL);
 		switch (which)
 		{
+		case -1:
+			MenuFadeOut();
+			return 0;
+			break;
 		case CTL_MOUSEENABLE:
 			mouseenabled ^= 1;
 			if (IN_IsInputGrabbed())
@@ -1956,8 +1963,6 @@ int CP_Control(int blank)
 		}
 	} while (which >= 0);
 
-	MenuFadeOut();
-
 	return 0;
 }
 
@@ -1969,6 +1974,7 @@ int CP_Control(int blank)
 int CP_Options(int blank)
 {
 	int which;
+	menuExit = 0;
 
 	DrawOptScreen();
 	MenuFadeIn();
@@ -1977,8 +1983,13 @@ int CP_Options(int blank)
 	do
 	{
 		which = HandleMenu(&OptItems, OptMenu, NULL);
+
 		switch (which)
 		{
+		case -1:
+			MenuFadeOut();
+			return 0;
+			break;
 		default:
 			DrawOptScreen();
 			MenuFadeIn();
@@ -1986,8 +1997,6 @@ int CP_Options(int blank)
 			break;
 		}
 	} while (which >= 0);
-
-	MenuFadeOut();
 
 	return 0;
 }
@@ -2310,12 +2319,11 @@ int CP_MouseCtl(int blank)
 			break;
 		}
 
-		if (which != -1)
-			DrawMouseCtlScreen();		
-
+		//if (which != -1)
+		//	DrawMouseCtlScreen();
 	} while (which >= 0);
 
-	ExitMenu();
+	ExitToControlScreen();
 
 	return 0;
 }
@@ -2626,7 +2634,7 @@ int CP_KeyboardMoveCtl(int blank)
 
 	} while (which >= 0);
 
-	ExitMenu();
+	ExitToControlScreen();
 
 	return 0;
 }
@@ -2671,7 +2679,7 @@ int CP_KeyboardActionCtl(int blank)
 
 	} while (which >= 0);
 
-	ExitMenu();
+	ExitToControlScreen();
 
 	return 0;
 }
@@ -2740,12 +2748,12 @@ int CP_KeyboardMoreActionCtl(int blank)
 
 	} while (which >= 0);
 
-	ExitMenu();
+	ExitToControlScreen();
 
 	return 0;
 }
 
-void ExitMenu(void) {
+void ExitToControlScreen(void) {
 	if (menuExit <= 2) {
 		if (menuExit == 1) {
 			menuExit++;
@@ -2755,7 +2763,7 @@ void ExitMenu(void) {
 		if (menuExit == 2) {
 			DrawCtlScreen();
 			MenuFadeIn();
-		}			
+		}
 	}
 }
 
@@ -2780,6 +2788,9 @@ int CP_JoystickCtl(int blank)
 
 		switch (which)
 		{
+		case -1:
+			MenuFadeOut();
+			break;
 		case CTL_JOYSTICK_RUN:
 			DefineJoyBtns(1);
 			DrawCustJoy(1);
@@ -2800,11 +2811,10 @@ int CP_JoystickCtl(int blank)
 			break;
 		}
 
-		DrawJoystickScreen();
-
+		//if(which >= 0)
+		//  DrawJoystickScreen();
 	} while (which >= 0);
 
-	MenuFadeOut();
 	DrawCtlScreen();
 	MenuFadeIn();
 
@@ -4978,8 +4988,6 @@ void ReadAnyControl(ControlInfo* ci)
 	int a, b, c, d;
 	int gcb;
 
-	gcb = IN_GameControllerButtons();
-
 	IN_GetGameControllerDelta(&a0x, &a0y, &a1x, &a1y);
 
 	if (a0y < -CONTROLLER_DEAD_ZONE)
@@ -5003,12 +5011,15 @@ void ReadAnyControl(ControlInfo* ci)
 	//else if (c & SDL_HAT_RIGHT)
 	//	ci->dir = dir_East;
 
+	gcb = IN_GameControllerButtons();
 	if (gcb)
 	{
 		ci->button0 = gcb & 1;
 		ci->button1 = gcb & 2;
 		ci->button2 = gcb & 4;
 		ci->button3 = gcb & 8;
+
+		printf("gcb");
 	}
 #else
 	if (joystickenabled && !mouseactive)

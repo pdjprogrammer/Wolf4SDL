@@ -206,7 +206,7 @@ typedef struct
 extern CP_itemtype MainMenu[];
 extern CP_iteminfo MainItems;
 
-void ExitMenu(void);
+void ExitToControlScreen(void);
 
 #ifdef SHOW_CUSTOM_CONTROLS
 extern const int MAX_CUSTOM_CONTROLS;
