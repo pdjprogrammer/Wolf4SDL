@@ -18,7 +18,7 @@ The overall work to get to where we are would not be possible without the follow
 <h2><em>Wolf4SDL+?</em></h2>
 <p>The overall goal of Wolf4SDL+ was to "modernize" the engine with (in my opinion) some long overdue QOL improvements, without sacrificing the old-school feel while opening the engine to a broader audience.</p>
 
-<p>To avoid any confusion and for both versions to be easily identifiable, I just added.</p>
+<p>To avoid any confusion and for both versions to be easily identifiable, I just added a +.</p>
 
 <p>In order to preserve everything of the original Wolf3D (and Wolf4SDL) feel, all of the features added in Wolf4SDL+ version can be enabled or disabled using flags in version.h.</p>
 
@@ -198,10 +198,9 @@ The current version of the source code is available on GitHub at: https://github
 - [Untested] Xcode (for Mac OS X, macosx/Wolf4SDL.xcodeproj/project.pbxproj)
 
 **_Deprecated, untested, broken and/or unsupported._**
-```
+
 - Special compiling for Dreamcast (see README-dc.txt)
 - Special compiling for GP2X (see README-GP2X.txt)
-```
 
 IMPORTANT: Do not forget to take care of version.h! By default it compiles for "Wolfenstein 3D v1.4 full GT/ID/Activision"!
 
