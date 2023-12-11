@@ -2179,21 +2179,19 @@ void DrawCtlScreen(void)
 #endif	
 
 #ifdef USE_MODERN_CONTROLS
-#ifdef USE_MODERN_CONTROLS
 	if (controllerEnabled)
+		VWB_DrawPic(x, y, C_SELECTEDPIC);
+	else
+		VWB_DrawPic(x, y, C_NOTSELECTEDPIC);
+
+	y = CTL_Y + 29;
+
+	if (alwaysRun)
 		VWB_DrawPic(x, y, C_SELECTEDPIC);
 	else
 		VWB_DrawPic(x, y, C_NOTSELECTEDPIC);
 #else
 	if (joystickenabled)
-		VWB_DrawPic(x, y, C_SELECTEDPIC);
-	else
-		VWB_DrawPic(x, y, C_NOTSELECTEDPIC);
-#endif
-
-	y = CTL_Y + 29;
-
-	if (alwaysRun)
 		VWB_DrawPic(x, y, C_SELECTEDPIC);
 	else
 		VWB_DrawPic(x, y, C_NOTSELECTEDPIC);

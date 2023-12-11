@@ -35,7 +35,7 @@
 //#define NO_TIME_WASTE		 // Disables the FadeIn and FadeOut delay, useful when debugging
 #define USE_MODERN_CONTROLS	 // !!!!! DELETE CONFIG.WL6 AFTER CHANGING !!!!! - Enables Modern Control Scheme
 //#define SHOW_CUSTOM_CONTROLS // !!!!! DELETE CONFIG.WL6 AFTER CHANGING !!!!! - Needs #USE_MODERN_CONTROLS flag enabled and code tweaks to customize the keys. See documentation for explanation.
-#define SHOW_GAME_OPTIONS	 // Needs #USE_MODERN_CONTROLS flag enabled. \
+//#define SHOW_GAME_OPTIONS	 // Needs #USE_MODERN_CONTROLS flag enabled. \
 							 // Enables game options for certain features (enable/disable shading, textured floor and ceiling, precipitation (rain, snow)
 
 #define DISABLE_WALLSOUND // Disables wall hit and space bar sounds

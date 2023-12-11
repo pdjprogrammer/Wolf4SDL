@@ -832,23 +832,16 @@ void IN_Startup(void)
 
 	IN_ClearKeysDown();
 
-#ifdef USE_MODERN_CONTROLS
-	GameController = SDL_GameControllerOpen(0);
 	Joystick = SDL_JoystickOpen(0);
 #ifdef USE_MODERN_CONTROLS
-#ifdef _DEBUG
+	GameController = SDL_GameControllerOpen(0);	
+	GameControllerNumHats = SDL_JoystickNumHats(Joystick);
+
 	if (GameController)
 		printf("\n\nGame Controller found and opened!\n");
-	else
-		printf("\n\nNo Game Controller found! - [SDL Error: %s]\n", SDL_GetError());
-
-	GameControllerNumHats = SDL_JoystickNumHats(Joystick);
 
 	if (GameControllerNumHats > 0)
 		printf("\nGame Controller hats (D-Pad) found!\n");
-#endif	
-#endif	
-
 #else
 	if (param_joystickindex >= 0 && param_joystickindex < SDL_NumJoysticks())
 	{
