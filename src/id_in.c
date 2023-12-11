@@ -1030,7 +1030,11 @@ void IN_StartAck(void)
 	IN_ClearKeysDown();
 	memset(btnstate, 0, sizeof(btnstate));
 
-	int buttons = IN_GameControllerButtons();
+	int buttons = 0;
+
+#ifdef USE_MODERN_CONTROLS
+	buttons = IN_GameControllerButtons();
+#endif // USE_MODERN_CONTROLS
 
 	if (MousePresent)
 		buttons |= IN_MouseButtons();
@@ -1051,7 +1055,11 @@ boolean IN_CheckAck(void)
 	if (LastScan)
 		return true;
 
-	int buttons = IN_GameControllerButtons() << 4;
+	int buttons = 0;
+
+#ifdef USE_MODERN_CONTROLS
+	buttons = IN_GameControllerButtons() << 4;
+#endif
 
 	if (MousePresent)
 		buttons |= IN_MouseButtons();
@@ -1066,8 +1074,11 @@ boolean IN_CheckAck(void)
 				do
 				{
 					IN_WaitAndProcessEvents();
-					buttons = IN_GameControllerButtons() << 4;
+					buttons = 0;
 
+#ifdef USE_MODERN_CONTROLS
+					buttons = IN_GameControllerButtons() << 4;
+#endif
 					if (MousePresent)
 						buttons |= IN_MouseButtons();
 				} while (buttons & (1 << i));

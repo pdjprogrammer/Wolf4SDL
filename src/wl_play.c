@@ -575,9 +575,9 @@ void PollJoystickMove(void)
 	int delta = buttonstate[bt_run] ? RUNMOVE * tics : BASEMOVE * tics;
 
 	if (joyx > 64 || buttonstate[bt_turnright])
-		controlh += delta;
+		controlx += delta;
 	else if (joyx < -64 || buttonstate[bt_turnleft])
-		controlh -= delta;
+		controlx -= delta;
 	if (joyy > 64 || buttonstate[bt_movebackward])
 		controly += delta;
 	else if (joyy < -64 || buttonstate[bt_moveforward])

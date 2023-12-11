@@ -2156,7 +2156,7 @@ void DrawCtlScreen(void)
 	}
 #ifndef USE_MODERN_CONTROLS
 	CtlMenu[CTL_MOUSESENS].active = mouseenabled;
-	CtlMenu[CTL_JOYSTICKOPTIONS].active = joystickenabled;
+	CtlMenu[CTL_JOYENABLE].active = joystickenabled;
 #else
 	CtlMenu[CTL_MOUSEOPTIONS].active = mouseenabled;
 	CtlMenu[CTL_JOYSTICKOPTIONS].active = controllerEnabled;
