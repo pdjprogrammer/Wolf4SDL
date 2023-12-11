@@ -217,8 +217,6 @@ void ReadConfig(void)
 		if (joystickenabled)
 			joystickenabled = true;
 #endif
-
-
 		if (!MousePresent)
 			mouseenabled = false;
 
@@ -229,9 +227,6 @@ void ReadConfig(void)
 		if (!IN_JoyPresent())
 			joystickenabled = false;
 #endif
-
-
-
 		if (mouseadjustment < 0)
 			mouseadjustment = 0;
 		else if (mouseadjustment > 9)

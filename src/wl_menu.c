@@ -2156,12 +2156,10 @@ void DrawCtlScreen(void)
 	}
 #ifndef USE_MODERN_CONTROLS
 	CtlMenu[CTL_MOUSESENS].active = mouseenabled;
-	CtlMenu[CTL_JOYENABLE].active = joystickenabled;
 #else
 	CtlMenu[CTL_MOUSEOPTIONS].active = mouseenabled;
 	CtlMenu[CTL_JOYSTICKOPTIONS].active = controllerEnabled;
 #endif
-
 	DrawMenu(&CtlItems, CtlMenu);
 
 	x = CTL_X + CtlItems.indent - 24;
@@ -4980,7 +4978,7 @@ void ReadAnyControl(ControlInfo* ci)
 	}
 
 #ifdef USE_MODERN_CONTROLS
-	if (controllerEnabled)
+	if (controllerEnabled && !mouseactive)
 	{
 		int a0x, a0y;
 		int a1x, a1y;
@@ -4999,18 +4997,6 @@ void ReadAnyControl(ControlInfo* ci)
 		else if (a0x > CONTROLLER_DEAD_ZONE)
 			ci->dir = dir_East;
 
-		IN_GetGameControllerHat(&a, &b, &c, &d);
-
-		//if (a & SDL_HAT_UP)
-		//	ci->dir = dir_North;
-		//else if (b & SDL_HAT_DOWN)
-		//	ci->dir = dir_South;
-
-		//if (c & -SDL_HAT_LEFT)
-		//	ci->dir = dir_West;
-		//else if (c & SDL_HAT_RIGHT)
-		//	ci->dir = dir_East;
-
 		gcb = IN_GameControllerButtons();
 		if (gcb)
 		{
@@ -5018,8 +5004,6 @@ void ReadAnyControl(ControlInfo* ci)
 			ci->button1 = gcb & 2;
 			ci->button2 = gcb & 4;
 			ci->button3 = gcb & 8;
-
-			printf("gcb");
 		}
 	}
 #else

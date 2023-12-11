@@ -470,20 +470,6 @@ void IN_GetGameControllerDelta(int* analog0X, int* analog0Y, int* analog1X, int*
 	int a1Y = SDL_GameControllerGetAxis(GameController, SDL_CONTROLLER_AXIS_RIGHTY);
 
 	int hatState = SDL_JoystickGetHat(Joystick, 0);
-#ifdef _DEBUG
-	if (hatState & SDL_HAT_RIGHT) {
-		printf("\nD-Pad Right Pressed");
-	}
-	else if (hatState & SDL_HAT_LEFT) {
-		printf("\nD-Pad Left Pressed");
-	}
-	if (hatState & SDL_HAT_DOWN) {
-		printf("\nD-Pad Down Pressed");
-	}
-	else if (hatState & SDL_HAT_UP) {
-		printf("\nD-Pad Up Pressed");
-	}
-#endif
 
 	if (a0X & SDL_CONTROLLER_AXIS_LEFTX)
 		a0X += 127;
@@ -505,6 +491,15 @@ void IN_GetGameControllerDelta(int* analog0X, int* analog0Y, int* analog1X, int*
 	else if (SDL_CONTROLLER_AXIS_RIGHTY)
 		a1Y -= 127;
 
+	if (hatState & SDL_HAT_RIGHT)
+		a0X += 127;
+	else if (hatState & SDL_HAT_LEFT)
+		a0X -= 127;
+	if (hatState & SDL_HAT_DOWN)
+		a0Y += 127;
+	else if (hatState & SDL_HAT_UP)
+		a0Y -= 127;
+
 	*analog1X = a1X;
 	*analog1Y = a1Y;
 
@@ -517,16 +512,20 @@ void IN_GetGameControllerHat(int* dpadUp, int* dpadDown, int* dpadLeft, int* dpa
 
 	if (hatState & SDL_HAT_RIGHT) {
 		dpadRight = hatState;
+		printf("\nD-Pad Right Pressed");
 	}
 	else if (hatState & SDL_HAT_LEFT) {
 		dpadLeft = hatState;
+		printf("\nD-Pad Left Pressed");
 	}
 
 	if (hatState & SDL_HAT_DOWN) {
 		dpadDown = hatState;
+		printf("\nD-Pad Down Pressed");
 	}
 	else if (hatState & SDL_HAT_UP) {
 		dpadUp = hatState;
+		printf("\nD-Pad Up Pressed");
 	}
 }
 
@@ -831,18 +830,18 @@ void IN_Startup(void)
 		return;
 
 	IN_ClearKeysDown();
-
-	Joystick = SDL_JoystickOpen(0);
+	
 #ifdef USE_MODERN_CONTROLS
-	GameController = SDL_GameControllerOpen(0);	
 	GameControllerNumHats = SDL_JoystickNumHats(Joystick);
+	GameController = SDL_GameControllerOpen(param_joystickindex);
 
-	if (GameController)
-		printf("\n\nGame Controller found and opened!\n");
-
-	if (GameControllerNumHats > 0)
+	if (GameControllerNumHats > 0) {
 		printf("\nGame Controller hats (D-Pad) found!\n");
+	}
+		
 #else
+	Joystick = SDL_JoystickOpen(0);
+
 	if (param_joystickindex >= 0 && param_joystickindex < SDL_NumJoysticks())
 	{
 		Joystick = SDL_JoystickOpen(param_joystickindex);
