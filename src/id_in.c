@@ -424,19 +424,24 @@ static int INL_GetMouseButtons(void)
 	int middlePressed = buttons & SDL_BUTTON(SDL_BUTTON_MIDDLE);
 	int rightPressed = buttons & SDL_BUTTON(SDL_BUTTON_RIGHT);
 	buttons &= ~(SDL_BUTTON(SDL_BUTTON_MIDDLE) | SDL_BUTTON(SDL_BUTTON_RIGHT) | SDL_BUTTON(SDL_BUTTON_X1) | SDL_BUTTON(SDL_BUTTON_X2));
+
 	if (middlePressed)
 		buttons |= 1 << 2;
 	if (rightPressed)
 		buttons |= 1 << 1;
 
 #ifdef USE_MODERN_CONTROLS
-#ifdef _DEBUG
+	if (rightPressed)
+		printf("\nMouse Right Pressed");
+
+	if (middlePressed)
+		printf("\nMouse Middle Pressed");
+
 	if (mouse4Pressed)
 		printf("\nMouse 4 Pressed");
 
 	if (mouse5Pressed)
 		printf("\nMouse 5 Pressed");
-#endif
 #endif
 	return buttons;
 }
@@ -840,8 +845,6 @@ void IN_Startup(void)
 	}
 		
 #else
-	Joystick = SDL_JoystickOpen(0);
-
 	if (param_joystickindex >= 0 && param_joystickindex < SDL_NumJoysticks())
 	{
 		Joystick = SDL_JoystickOpen(param_joystickindex);
@@ -891,12 +894,13 @@ void IN_Shutdown(void)
 	if (!IN_Started)
 		return;
 
+#ifdef USE_MODERN_CONTROLS
+	if (GameController)
+		SDL_GameControllerClose(GameController);
+#else
 	if (Joystick)
 		SDL_JoystickClose(Joystick);
-
-	//Crashes SDL2 on quit
-	/*if (GameController)
-		SDL_JoystickClose(GameController);*/
+#endif
 
 	IN_Started = false;
 }

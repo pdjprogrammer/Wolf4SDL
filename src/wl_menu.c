@@ -2315,8 +2315,8 @@ int CP_MouseCtl(int blank)
 			break;
 		}
 
-		//if (which != -1)
-		//	DrawMouseCtlScreen();
+		if (which != -1)
+			DrawMouseCtlScreen();
 	} while (which >= 0);
 
 	ExitToControlScreen();
@@ -2440,7 +2440,7 @@ void DefineJoyBtns(int value)
 
 	++value;
 
-	EnterCtrlData(value, &joyallowed, DrawCustJoy, PrintCustJoy, JOYSTICK);
+	EnterCtrlData(value, &joyallowed, DrawCustJoy, PrintCustJoy, CONTROLLER);
 }
 
 #else
@@ -2784,9 +2784,6 @@ int CP_JoystickCtl(int blank)
 
 		switch (which)
 		{
-		case -1:
-			MenuFadeOut();
-			break;
 		case CTL_JOYSTICK_RUN:
 			DefineJoyBtns(1);
 			DrawCustJoy(1);
@@ -2802,6 +2799,9 @@ int CP_JoystickCtl(int blank)
 		case CTL_JOYSTICK_STRAFE:
 			DefineJoyBtns(4);
 			DrawCustJoy(4);
+			break;
+		case -1:
+			MenuFadeOut();
 			break;
 		default:
 			break;
@@ -3099,6 +3099,7 @@ void EnterCtrlData(int index, CustomCtrls* cust, void (*DrawRtn)(int), void (*Pr
 				{
 				case MOUSE:
 					button = IN_MouseButtons();
+
 					switch (button)
 					{
 					case 1:
