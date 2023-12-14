@@ -115,9 +115,9 @@ void CheckWeaponChange(void)
 	if (buttonstate[bt_nextweapon] && !buttonheld[bt_nextweapon])
 	{
 #ifdef USE_MODERN_CONTROLS
-#ifdef _DEBUG
+/*#ifdef _DEBUG
 		printf("\nNext Weapon Pressed");
-#endif	
+#endif*/	
 #endif
 		newWeapon = gamestate.weapon + 1;
 		if (newWeapon > gamestate.bestweapon)
@@ -126,9 +126,9 @@ void CheckWeaponChange(void)
 	else if (buttonstate[bt_prevweapon] && !buttonheld[bt_prevweapon])
 	{
 #ifdef USE_MODERN_CONTROLS
-#ifdef _DEBUG
-		printf("\nPrevious Weapon Pressed");
-#endif
+//#ifdef _DEBUG
+//		printf("\nPrevious Weapon Pressed");
+//#endif
 #endif
 		newWeapon = gamestate.weapon - 1;
 		if (newWeapon < 0)
@@ -1138,9 +1138,9 @@ void Cmd_Fire(void)
 	buttonheld[bt_attack] = true;
 
 #ifdef USE_MODERN_CONTROLS
-#ifdef _DEBUG
-	printf("\nAttack Button Pressed");
-#endif
+//#ifdef _DEBUG
+//	printf("\nAttack Button Pressed");
+//#endif
 #endif
 
 	gamestate.weaponframe = 0;
@@ -1236,9 +1236,9 @@ void Cmd_Use(void)
 		SD_PlaySound(DONOTHINGSND);
 #endif
 #ifdef USE_MODERN_CONTROLS
-#ifdef _DEBUG
-	printf("\nUse Pressed");
-#endif
+//#ifdef _DEBUG
+//	printf("\nUse Pressed");
+//#endif
 #endif
 }
 

@@ -61,7 +61,7 @@ boolean mouseenabled, joystickenabled;
 #endif
 
 #ifdef USE_MODERN_CONTROLS
-int dirscan[6] = { sc_W, sc_RightArrow, sc_S, sc_LeftArrow, sc_StrafeLeft, sc_StrafeRight };
+int dirscan[6] = { sc_W, sc_E, sc_S, sc_Q, sc_StrafeLeft, sc_StrafeRight };
 #ifndef SHOW_CUSTOM_CONTROLS
 int buttonscan[NUMBUTTONS] = { sc_Control, sc_Alt, sc_LShift, sc_Space, sc_1, sc_2, sc_3, sc_4, sc_LeftBracket, sc_RightBracket, sc_Tab, sc_Escape, sc_None, sc_None, sc_None, sc_None, sc_None, sc_None };
 #else
@@ -377,13 +377,13 @@ void PollCustomKeyboardMove(void)
 {
 	int delta = buttonstate[bt_run] || alwaysRun ? RUNMOVE * tics : BASEMOVE * tics;
 
-#ifdef _DEBUG
-	if (buttonstate[bt_run])
-		printf("\nRun Button Pressed");
-
-	if (buttonstate[bt_strafe])
-		printf("\nStrafe Button Pressed");
-#endif
+//#ifdef _DEBUG
+//	if (buttonstate[bt_run])
+//		printf("\nRun Button Pressed");
+//
+//	if (buttonstate[bt_strafe])
+//		printf("\nStrafe Button Pressed");
+//#endif
 
 	if (Keyboard(dirscan[di_north]))
 		controly = ((alwaysRun && buttonstate[bt_run]) || (!alwaysRun && !buttonstate[bt_run])) ? -BASEMOVE * tics : -RUNMOVE * tics;

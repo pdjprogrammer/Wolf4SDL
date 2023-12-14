@@ -2807,8 +2807,8 @@ int CP_JoystickCtl(int blank)
 			break;
 		}
 
-		//if(which >= 0)
-		//  DrawJoystickScreen();
+		if (which != -1)
+			DrawJoystickScreen();
 	} while (which >= 0);
 
 	DrawCtlScreen();
@@ -2952,6 +2952,10 @@ void EnterCtrlData(int index, CustomCtrls* cust, void (*DrawRtn)(int), void (*Pr
 		start = 0;
 		amount = 4;
 		break;
+	case CONTROLLER:
+		start = 0;
+		amount = 4;
+		break;
 	case KEYBOARDMOVE:
 		start = 0;
 		amount = 8;
@@ -3042,7 +3046,7 @@ void EnterCtrlData(int index, CustomCtrls* cust, void (*DrawRtn)(int), void (*Pr
 		SDL_Delay(5);
 		ReadAnyControl(&ci);
 
-		if (type == MOUSE || type == JOYSTICK)
+		if (type == MOUSE || type == JOYSTICK || type == CONTROLLER)
 			if (IN_KeyDown(sc_Enter) || IN_KeyDown(sc_Control) || IN_KeyDown(sc_Alt))
 			{
 				IN_ClearKeysDown();
@@ -3129,7 +3133,30 @@ void EnterCtrlData(int index, CustomCtrls* cust, void (*DrawRtn)(int), void (*Pr
 					break;
 #ifdef USE_MODERN_CONTROLS
 				case CONTROLLER:
-				
+					if (ci.button0)
+						result = 1;
+					else if (ci.button1)
+						result = 2;
+					else if (ci.button2)
+						result = 3;
+					else if (ci.button3)
+						result = 4;
+
+					if (result)
+					{
+						for (z = 0; z < 4; z++)
+						{
+							if (order[which] == buttoncontroller[z])
+							{
+								buttoncontroller[z] = bt_nobutton;
+								break;
+							}
+						}
+
+						buttoncontroller[result - 1] = order[which];
+						picked = 1;
+						SD_PlaySound(SHOOTDOORSND);
+					}
 					break;
 #else
 				case JOYSTICK:
@@ -3230,7 +3257,7 @@ void EnterCtrlData(int index, CustomCtrls* cust, void (*DrawRtn)(int), void (*Pr
 				//
 				// EXIT INPUT?
 				//
-				if (IN_KeyDown(sc_Escape) || type != JOYSTICK && ci.button1)
+				if (IN_KeyDown(sc_Escape) || type != JOYSTICK && ci.button1 || type != CONTROLLER && ci.button1)
 				{
 					picked = 1;
 					SD_PlaySound(ESCPRESSEDSND);

@@ -430,19 +430,19 @@ static int INL_GetMouseButtons(void)
 	if (rightPressed)
 		buttons |= 1 << 1;
 
-#ifdef USE_MODERN_CONTROLS
-	if (rightPressed)
-		printf("\nMouse Right Pressed");
-
-	if (middlePressed)
-		printf("\nMouse Middle Pressed");
-
-	if (mouse4Pressed)
-		printf("\nMouse 4 Pressed");
-
-	if (mouse5Pressed)
-		printf("\nMouse 5 Pressed");
-#endif
+//#ifdef USE_MODERN_CONTROLS
+//	if (rightPressed)
+//		printf("\nMouse Right Pressed");
+//
+//	if (middlePressed)
+//		printf("\nMouse Middle Pressed");
+//
+//	if (mouse4Pressed)
+//		printf("\nMouse 4 Pressed");
+//
+//	if (mouse5Pressed)
+//		printf("\nMouse 5 Pressed");
+//#endif
 	return buttons;
 }
 
@@ -517,20 +517,20 @@ void IN_GetGameControllerHat(int* dpadUp, int* dpadDown, int* dpadLeft, int* dpa
 
 	if (hatState & SDL_HAT_RIGHT) {
 		dpadRight = hatState;
-		printf("\nD-Pad Right Pressed");
+		//printf("\nD-Pad Right Pressed");
 	}
 	else if (hatState & SDL_HAT_LEFT) {
 		dpadLeft = hatState;
-		printf("\nD-Pad Left Pressed");
+		//printf("\nD-Pad Left Pressed");
 	}
 
 	if (hatState & SDL_HAT_DOWN) {
 		dpadDown = hatState;
-		printf("\nD-Pad Down Pressed");
+		//printf("\nD-Pad Down Pressed");
 	}
 	else if (hatState & SDL_HAT_UP) {
 		dpadUp = hatState;
-		printf("\nD-Pad Up Pressed");
+		//printf("\nD-Pad Up Pressed");
 	}
 }
 
