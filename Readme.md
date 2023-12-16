@@ -27,8 +27,7 @@ The overall work to get to where we are would not be possible without the follow
 <h2><em>Main features (Wolf4SDL+)</em></h2>
 
 * Overhaul of the Input system
-  - WASD movement key (dedicated buttons).
-    - Can still use left/right keys. 
+  - Dedicated strafe keys.
   - Can disable Y axis on mouse.
   - Better controller support (tested with XBox One Controller).
     - Controls currently hard-coded.
