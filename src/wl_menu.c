@@ -197,7 +197,7 @@ enum
 	CTL_KB_MORE_ACTION_WEP4,
 	CTL_KB_MORE_ACTION_PREV_WEP,
 	CTL_KB_MORE_ACTION_NEXT_WEP,
-	CTL_KB_MORE_ACTION_AUTOMAP,
+	//CTL_KB_MORE_ACTION_AUTOMAP,
 	CTL_SPACE_KB_MORE_ACTION,
 	CTL_BACK_ACTIONKEYS
 };
@@ -420,7 +420,7 @@ CP_itemtype CtlKeyboardMoreActionMenu[] = {
 	{1, STR_WPN_4, 0},
 	{1, STR_PREV_WPN, 0},
 	{1, STR_NEXT_WPN, 0},
-	{1, STR_AUTOMAP, 0},
+	//{1, STR_AUTOMAP, 0},
 	{0, "", 0},
 	{1, STR_ACTION_KEYS, CP_KeyboardActionCtl} };
 
@@ -2535,7 +2535,7 @@ void DefineKeyMoreActionsBtns(int value)
 
 	--value;
 
-	for (i = 0; i < 10; i++)
+	for (i = 0; i < 9; i++)
 	{
 		if (i == value)
 		{
@@ -2687,10 +2687,10 @@ enum
 	WEP3,
 	WEP4,
 	PREVWEP,
-	NEXTWEP,
-	AUTOMAP
+	NEXTWEP//,
+	//AUTOMAP
 };
-int actionorder[7] = { WEP1, WEP2, WEP3, WEP4, PREVWEP, NEXTWEP, AUTOMAP };
+int actionorder[6] = { WEP1, WEP2, WEP3, WEP4, PREVWEP, NEXTWEP/*, AUTOMAP*/};
 
 int CP_KeyboardMoreActionCtl(int blank)
 {
@@ -2729,10 +2729,10 @@ int CP_KeyboardMoreActionCtl(int blank)
 			DefineKeyMoreActionsBtns(6);
 			DrawMoreActionsKeys(6);
 			break;
-		case CTL_KB_MORE_ACTION_AUTOMAP:
-			DefineKeyMoreActionsBtns(7);
-			DrawMoreActionsKeys(7);
-			break;
+		//case CTL_KB_MORE_ACTION_AUTOMAP:
+		//	DefineKeyMoreActionsBtns(7);
+		//	DrawMoreActionsKeys(7);
+		//	break;
 		default:
 			which = -1;
 			menuExit++;
@@ -4179,7 +4179,7 @@ void DrawMoreActionsKeys(int hilight)
 
 	PrintX = CTL_MOUSE_X;
 
-	for (i = 0; i < 7; i++)
+	for (i = 0; i < 6; i++)
 		PrintMoreActionsKeys(i);
 }
 

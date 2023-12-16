@@ -981,7 +981,7 @@ void CheckKeys(void)
 #endif
 
 #ifdef VIEWMAP
-	if (Keyboard(buttonscan[bt_automap]))
+	if (Keyboard(sc_O))
 	{
 		ViewMap();
 
