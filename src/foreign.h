@@ -45,8 +45,8 @@
 #define STR_MOVEJOY2 "Move joystick to\nlower right and\npress button 1\n"
 #define STR_ESCEXIT "ESC to exit"
 
-#define STR_OP_SND "Sound Options"
-#define STR_OP_CTL "Control Options"
+#define STR_OP_SND "Sound options"
+#define STR_OP_CTL "Control options"
 #define STR_CUSTOM "Customize controls"
 
 #define STR_NONE "None"
