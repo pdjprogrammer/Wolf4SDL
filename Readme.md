@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://github.com/brosseaualex/Wolf4SDL-Docs/blob/main/images/wolf4sdl_logo.png">
+  <img src="images/wolf4sdl_logo.png">
 </p>
 
 
@@ -22,40 +22,35 @@ The overall work to get to where we are would not be possible without the follow
 
 <p>In order to preserve everything of the original Wolf3D (and Wolf4SDL) feel, all of the features added in Wolf4SDL+ version can be enabled or disabled using flags in version.h.</p>
 
-<p>The releases are also marked accordingly.</p>
+<p>Random bits and pieces of code were taken from various Wolf4SDL sources. Credits to all of those who contributed to the project throughout the years.</p>
 
 <h2><em>Main features (Wolf4SDL+)</em></h2>
 
 * Overhaul of the Input system
-  - Full game controller support (tested with XBox One Controller).
+  - WASD movement key (dedicated buttons).
+    - Can still use left/right keys. 
+  - Can disable Y axis on mouse.
+  - Better controller support (tested with XBox One Controller).
     - Controls currently hard-coded.
       - Left analog stick : Move/Strafe
-      - Right analog stick : Turn
+      - Right analog stick : Rotate
       - Left / Right shoulders : Previous and Next weapon
       - Back/Start Button
-      - 4 Action Buttons (XBox controller scheme)
+      - 4 Action Buttons (Can be remapped)
         - A : Fire
         - B : Strafe (mapped to key but not useful for now with controller)
         - Y : Run
         - X : Open door
-  - Every in-game buttons can be remapped.*
-    - Except game controller (menu incomplete).
-  - WASD movement key (dedicated buttons).
-    - Can still use left/right keys. 
-  - Mouse support overhaul.
-    - Setting to Disable Y axis on mouse.
-    - Mouse button support for the following actions : 
-      - Run, Open, Fire, Strafe    
   - Set of 10 customizable "actions" and menu to assign/remap those buttons.
      - For modders to add their own actions more easily (Code changes required to implement custom actions).
 
 - Overhaul of the Menu system
   - New menu for each input type.
-    - Keyboard / Mouse / Game controller (incomplete).
-  - Game options menu (incomplete).
-    - Menu to enable / disable certain flags in-game.
+    - Keyboard / Mouse / Game controller.
   - Custom controls menu
     - Menu to remap the Custom Actions.
+  - Game options menu (incomplete).
+    - Menu to enable / disable certain flags in-game.
 
 <h2><em>Main features (Wolf4SDL)</em></h2>
 
@@ -216,7 +211,6 @@ The SDL and SDL_Mixer versions used in this project are the following :
 
 <h2><em>TODOs</em></h2>
 
- - Finish controller support.
  - Game options menu.
  - Test and fix CMake and Makefile project.
  - Test Linux build.
