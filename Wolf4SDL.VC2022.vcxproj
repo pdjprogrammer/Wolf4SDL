@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectName>Wolf4SDL</ProjectName>
+    <ProjectGuid>{411B026A-F58B-4E25-840B-4FE67710F762}</ProjectGuid>
+    <RootNamespace>Wolf4SDL</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>16.0.29911.84</_ProjectFileVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir>$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir>$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>$(SolutionDir)libraries\vc\include\SDL2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_NONSTDC_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;WINDOWS_IGNORE_PACKING_MISMATCH;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>SDL2.lib;SDL2_mixer.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)\libraries\vc\lib\SDL2;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention />
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(SolutionDir)libraries\vc\include\SDL2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_NONSTDC_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;WINDOWS_IGNORE_PACKING_MISMATCH;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>SDL2.lib;SDL2_mixer.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)libraries\vc\lib\SDL2;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <EntryPointSymbol />
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention />
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="src\audiosod.h" />
+    <ClInclude Include="src\audiowl6.h" />
+    <ClInclude Include="src\dc\dc_main.h" />
+    <ClInclude Include="src\dc\dc_vmu.h" />
+    <ClInclude Include="src\dosbox\dbopl.h" />
+    <ClInclude Include="src\foreign.h" />
+    <ClInclude Include="src\f_spear.h" />
+    <ClInclude Include="src\gfxv_apo.h" />
+    <ClInclude Include="src\gfxv_jap.h" />
+    <ClInclude Include="src\gfxv_sod.h" />
+    <ClInclude Include="src\gfxv_wl6.h" />
+    <ClInclude Include="src\gp2x.h" />
+    <ClInclude Include="src\id_ca.h" />
+    <ClInclude Include="src\id_in.h" />
+    <ClInclude Include="src\id_pm.h" />
+    <ClInclude Include="src\id_sd.h" />
+    <ClInclude Include="src\id_us.h" />
+    <ClInclude Include="src\id_vh.h" />
+    <ClInclude Include="src\id_vl.h" />
+    <ClInclude Include="src\mame\fmopl.h" />
+    <ClInclude Include="src\sdl_wrap.h" />
+    <ClInclude Include="src\version.h" />
+    <ClInclude Include="src\wl_atmos.h" />
+    <ClInclude Include="src\wl_cloudsky.h" />
+    <ClInclude Include="src\wl_def.h" />
+    <ClInclude Include="src\wl_menu.h" />
+    <ClInclude Include="src\wl_shade.h" />
+    <ClInclude Include="src\wl_utils.h" />
+    <ClInclude Include="win\resource.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="win\Wolf4SDL.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Changes.txt" />
+    <Text Include="README.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="win\Wolf4SDL.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\dc\dc_cd.c" />
+    <ClCompile Include="src\dc\dc_main.c" />
+    <ClCompile Include="src\dc\dc_maple.c" />
+    <ClCompile Include="src\dc\dc_video.c" />
+    <ClCompile Include="src\dc\dc_vmu.c" />
+    <ClCompile Include="src\dosbox\dbopl.cpp" />
+    <ClCompile Include="src\id_ca.c" />
+    <ClCompile Include="src\id_in.c" />
+    <ClCompile Include="src\id_pm.c" />
+    <ClCompile Include="src\id_sd.c" />
+    <ClCompile Include="src\id_us.c" />
+    <ClCompile Include="src\id_vh.c" />
+    <ClCompile Include="src\id_vl.c" />
+    <ClCompile Include="src\mame\fmopl.c" />
+    <ClCompile Include="src\sdl_winmain.c" />
+    <ClCompile Include="src\sdl_wrap.c" />
+    <ClCompile Include="src\signon.c" />
+    <ClCompile Include="src\wl_act1.c" />
+    <ClCompile Include="src\wl_act2.c" />
+    <ClCompile Include="src\wl_agent.c" />
+    <ClCompile Include="src\wl_atmos.c" />
+    <ClCompile Include="src\wl_cloudsky.c" />
+    <ClCompile Include="src\wl_debug.c" />
+    <ClCompile Include="src\wl_draw.c" />
+    <ClCompile Include="src\wl_game.c" />
+    <ClCompile Include="src\wl_inter.c" />
+    <ClCompile Include="src\wl_main.c" />
+    <ClCompile Include="src\wl_menu.c" />
+    <ClCompile Include="src\wl_parallax.c" />
+    <ClCompile Include="src\wl_plane.c" />
+    <ClCompile Include="src\wl_play.c" />
+    <ClCompile Include="src\wl_scale.c" />
+    <ClCompile Include="src\wl_shade.c" />
+    <ClCompile Include="src\wl_state.c" />
+    <ClCompile Include="src\wl_text.c" />
+    <ClCompile Include="src\wl_utils.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\sodpal.inc" />
+    <None Include="src\wolfpal.inc" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
