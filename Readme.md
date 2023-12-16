@@ -2,10 +2,7 @@
   <img src="images/wolf4sdl_logo.png">
 </p>
 
-
 <h1 align="center"><em>Wolf4SDL+</em></h1>
-
-<h2><em>Wolf4SDL</em></h2>
 
 Wolf4SDL is an open-source port of id Software's classic first-person shooter Wolfenstein 3D to the cross-platform multimedia library "Simple DirectMedia Layer (SDL)" (http://www.libsdl.org). It is meant to keep the original feel while taking advantage of some improvements mentioned in the list below.
 
@@ -15,16 +12,7 @@ The overall work to get to where we are would not be possible without the follow
 - Wolf4SDL by Moritz "Ripper" Kroll (http://www.chaos-software.de.vu - OFFLINE)
 - Modifications to r262 by Andy_Nonymous and others (http://diehardwolfers.areyep.com/viewtopic.php?t=6693)
 
-<h2><em>Wolf4SDL+?</em></h2>
-<p>The overall goal of Wolf4SDL+ was to "modernize" the engine with (in my opinion) some long overdue QOL improvements, without sacrificing the old-school feel while opening the engine to a broader audience.</p>
-
-<p>To avoid any confusion and for both versions to be easily identifiable, I just added a +.</p>
-
-<p>In order to preserve everything of the original Wolf3D (and Wolf4SDL) feel, all of the features added in Wolf4SDL+ version can be enabled or disabled using flags in version.h.</p>
-
-<p>Random bits and pieces of code were taken from various Wolf4SDL sources. Credits to all of those who contributed to the project throughout the years.</p>
-
-<h2><em>Main features (Wolf4SDL+)</em></h2>
+<h2><em>New features (v2.1)</em></h2>
 
 * Overhaul of the Input system
   - Dedicated strafing keys.
@@ -49,8 +37,6 @@ The overall work to get to where we are would not be possible without the follow
     - Keyboard / Mouse / Game controller.
   - Custom controls menu
     - Menu to remap the Custom Actions.
-  - Game options menu (incomplete).
-    - Menu to enable / disable certain flags in-game.
 
 ```Uncomment #define USE_MODERN_CONTROLS in version.h to enable.```
 
@@ -146,28 +132,19 @@ Wolf4SDL supports the following command line options :
  --hard                 Sets the difficulty to hard for tedlevel
  --nowait               Skips intro screens
  --windowed[-mouse]     Starts the game in a window [and grabs mouse]
- --res <width> <height> Sets the screen resolution
-                        (must be multiple of 320x200 or 320x240)
- --resf <w> <h>         Sets any screen resolution >= 320x200
-                        (which may result in graphic errors)
- --bits <b>             Sets the screen color depth
-                        (Use this when you have palette/fading problem
-                        or perhaps to optimize speed on old systems.
-                        Allowed: 8, 16, 24, 32, default: "best" depth)
+ --res <width> <height> Sets the screen resolution (must be multiple of 320x200 or 320x240)
+ --resf <w> <h>         Sets any screen resolution >= 320x200 (which may result in graphic errors)
+ --bits <b>             Sets the screen color depth (Use this when you have palette/fading problem or perhaps to optimize speed on old systems.)
+                        Allowed: 8, 16, 24, 32, default: "best" depth.
  --nodblbuf             Don't use SDL's double buffering
- --extravbls <vbls>     Sets a delay after each frame, which may help to
-                        reduce flickering (SDL does not support vsync...)
+ --extravbls <vbls>     Sets a delay after each frame, which may help to reduce flickering (SDL does not support vsync...)
                         (unit is currently 8 ms, default: 0)
  --joystick <index>     Use the index-th joystick if available
  --joystickhat <index>  Enables movement with the given coolie hat
  --samplerate <rate>    Sets the sound sample rate (given in Hz)
- --audiobuffer <size>   Sets the size of the audio buffer (-> sound latency)
-                        (given in bytes)
- --ignorenumchunks      Ignores the number of chunks in VGAHEAD.*
-                        (may be useful for some broken mods)
- --configdir <dir>      Directory where config file and save games are stored
-                        (Windows default: current directory,
-                        others: $HOME/.wolf4sdl)
+ --audiobuffer <size>   Sets the size of the audio buffer (-> sound latency, given in bytes)
+ --ignorenumchunks      Ignores the number of chunks in VGAHEAD.* (may be useful for some broken mods)
+ --configdir <dir>      Directory where config file and save games are stored (Windows default: current directory, others: $HOME/.wolf4sdl)
 
 For Spear of Destiny the following additional options are available:
  --mission <mission>    Mission number to play (1-3)
@@ -194,7 +171,7 @@ The current version of the source code is available on GitHub at: https://github
 - [Untested] Makefile (for Linux, BSD variants and MinGW/MSYS)
 - [Untested] Xcode (for Mac OS X, macosx/Wolf4SDL.xcodeproj/project.pbxproj)
 
-**_Deprecated, untested, broken and/or unsupported._**
+**_Deprecated / outdated / unsupported / possibly broken_**
 
 - Special compiling for Dreamcast (see README-dc.txt)
 - Special compiling for GP2X (see README-GP2X.txt)
@@ -213,36 +190,24 @@ The SDL and SDL_Mixer versions used in this project are the following :
 
 <h2><em>TODOs</em></h2>
 
- - Game options menu.
- - Test and fix CMake and Makefile project.
- - Test Linux build.
  - Center non-ingame screens for resolutions being a multiple of 320x240.
  - Add support for any graphic resolution >= 320x200.
 
-<h2><em>Known issues</em></h2>
-
- - None
-
 <h2><em>Troubleshooting</em></h2>
 
- - If your frame rate is low, consider using the original screen resolution
-   (--res 320 200) or lowering the sound quality (--samplerate 22050)
+ - If your frame rate is low, consider using the original screen resolution (--res 320 200) or lowering the sound quality (--samplerate 22050)
 
 <h2><em>Credits</em></h2>
 
- - Special thanks to id Software! Without the source code we would still have
-   to pelt Wolfenstein 3D with hex editors and disassemblers ;D
+ - Special thanks to id Software! Without the source code we would still have to pelt Wolfenstein 3D with hex editors and disassemblers ;D
  - Special thanks to the DOSBox team for providing a GPL'ed OPL2/3 emulator!
- - Special thanks to the MAME developer team for providing the source code
-   of the OPL2 emulator!
- - Many thanks to "Der Tron" for hosting the svn repository, making Wolf4SDL
-   FreeBSD compatible, testing, bugfixing and cleaning up the code!
- - Thanks to Chris Chokan for his improvements on Wolf4GW (base of Wolf4SDL)
- - Thanks to Pickle for the GP2X support and help on 320x240 support
- - Thanks to fackue for the Dreamcast support
- - Thanks to Chris Ballinger for the Mac OS X support
- - Thanks to Xilinx, Inc. for providing a list of maximum-length LFSR counters
-   used for higher resolutions of fizzle fade
+ - Special thanks to the MAME developer team for providing the source code of the OPL2 emulator!
+ - Many thanks to "Der Tron" for hosting the svn repository, making Wolf4SDL FreeBSD compatible, testing, bugfixing and cleaning up the code!
+ - Thanks to Chris Chokan for his improvements on Wolf4GW (base of Wolf4SDL)!
+ - Thanks to Pickle for the GP2X support and help on 320x240 support!
+ - Thanks to fackue for the Dreamcast support!
+ - Thanks to Chris Ballinger for the Mac OS X support!
+ - Thanks to Xilinx, Inc. for providing a list of maximum-length LFSR counters used for higher resolutions of fizzle fade!
 
 <h2><em>Licenses</em></h2>
 
