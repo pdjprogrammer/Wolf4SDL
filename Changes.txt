@@ -1,3 +1,25 @@
+Wolf4SDL v2.1
+ - Overhaul of the Input system
+   - Dedicated strafing keys.
+     - WASD controls.
+ - Can disable Y axis on mouse.
+ - Better controller support (tested with XBox One Controller).
+   - Controls currently hard-coded.
+     - Left analog stick : Move/Strafe
+     - Right analog stick : Rotate
+     - Left / Right shoulders : Previous and Next weapon
+     - Back/Start button
+     - 4 Action buttons
+       - A : Fire
+       - B : Strafe (mapped to key but not useful with Modern Controls)
+       - Y : Run
+       - X : Open door
+ - Options menu rework
+   - Made some changes to all the options menu to better fit new features.
+- 10 customizable controls for modders with menu.
+  - Menu with a set of 10 customizable and remappable keyboard actions.
+  - Code changes required to fully use feature.
+
 Wolf4SDL v2.0
  - Added SDL2 support (thanks to zZeck)
  - TAB-T RESTORED! Yes!
