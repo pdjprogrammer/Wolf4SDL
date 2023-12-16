@@ -52,6 +52,8 @@ The overall work to get to where we are would not be possible without the follow
   - Game options menu (incomplete).
     - Menu to enable / disable certain flags in-game.
 
+```Uncomment #define USE_MODERN_CONTROLS in version.h to enable.```
+
 <h2><em>Main features (Wolf4SDL)</em></h2>
 
 - AdLib sounds and music:
