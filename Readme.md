@@ -2,7 +2,7 @@
   <img src="images/wolf4sdl_logo.png">
 </p>
 
-<h1 align="center"><em>Wolf4SDL+</em></h1>
+<h1 align="center"><em>Wolf4SDL</em></h1>
 
 Wolf4SDL is an open-source port of id Software's classic first-person shooter Wolfenstein 3D to the cross-platform multimedia library "Simple DirectMedia Layer (SDL)" (http://www.libsdl.org). It is meant to keep the original feel while taking advantage of some improvements mentioned in the list below.
 

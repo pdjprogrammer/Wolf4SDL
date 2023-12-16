@@ -1875,7 +1875,7 @@ param_difficulty = 0;
 		if (hasError)
 			printf("\n");
 		printf(
-			"Wolf4SDL v2.0\n"
+			"Wolf4SDL v2.1\n"
 			"Ported by Chaos-Software, additions by the community\n"
 			"Original Wolfenstein 3D by id Software\n\n"
 			"Usage: Wolf4SDL [options]\n"
