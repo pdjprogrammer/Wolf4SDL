@@ -2,6 +2,17 @@ This file explains how you can compile Wolf4SDL using CodeBlocks 20.03 x86 with 
 
 The steps explained in this document have been tested on Windows 10 and 11 x64.
 
+Please make sure that you review the "Troubleshooting" section at the end of
+the file should you get any issues when compiling.
+
+--------------
+| Important: |
+--------------
+- To avoid possible conflicts between the DevCpp compiler and Code::Blocks Compiler,
+  it is not recommended to install both DevCpp and Code::Blocks.
+
+  The recommended IDE is Code::Blocks.
+
 -----------------
 | Needed files: |
 -----------------
@@ -19,13 +30,13 @@ The steps explained in this document have been tested on Windows 10 and 11 x64.
 --------------
 Code::Blocks will look for libraries inside the following folders:
 
-'\libraries\mingw\include\'
-'\libraries\mingw\lib\'
+- [Wolf4SDL Project Path]\libraries\mingw\include\
+- [Wolf4SDL Project Path]\libraries\mingw\lib\
 
 SDL2 has to be inside its own folders such as:
 
-'\libraries\mingw\include\SDL2'
-'\libraries\mingw\lib\SDL2'
+- [Wolf4SDL Project Path]\libraries\mingw\include\SDL2
+- [Wolf4SDL Project Path]\libraries\mingw\lib\SDL2
 
 Use x86 Libraries ONLY!
 
@@ -38,11 +49,14 @@ Use x86 Libraries ONLY!
 | CodeBlocks Settings |
 -----------------------
 - Open "Wolf4SDL.cbp".
+
 - Go to "Settings" -> "Compiler".
+
 - Find the tab "Toolchain Executables".
+
 - Click on "Auto-detect".
   - You should see a message box confirming "Auto-detected installation path of "GNU GCC Compiler"...
-  - Path should be the Code::Blocks path with "\MinGW".
+  - Path should be the Code::Blocks path with "[Code::Blocks Path]\MinGW".
   - See Troubleshooting if getting another message.
    
 -----------------------
@@ -60,7 +74,7 @@ Use x86 Libraries ONLY!
     message when auto-detecting in Toolchain executables.
   
 - Solution: 
-  - Navigate to the Code::Blocks installation path in [CodeBlocks_20.03_Installation_Folder]\share\CodeBlocks\compilers".
+  - Navigate to the Code::Blocks installation path in "[Code::Blocks Path]\share\CodeBlocks\compilers".
   - Open the file "options_gcc.xml" in Notepad.
     - Will usually require to be run as administrator in order to be able to save the file.
 

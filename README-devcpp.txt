@@ -2,8 +2,16 @@ This file explains how you can compile Wolf4SDL using Bloodshed's Dev-C++.
 
 The steps explained in this document have been tested on Windows 10 and 11 x64.
 
-Please make sure that you review the "Troubleshooting" section at the
-end of the file should you get any issues when compiling.
+Please make sure that you review the "Troubleshooting" section at the end of
+the file should you get any issues when compiling.
+
+--------------
+| Important: |
+--------------
+- To avoid possible conflicts between the DevCpp compiler and Code::Blocks Compiler,
+  it is not recommended to install both DevCpp and Code::Blocks.
+
+  The recommended IDE is Code::Blocks.
 
 -----------------
 | Needed files: |
@@ -20,20 +28,20 @@ end of the file should you get any issues when compiling.
 ----------------
 | Installation |
 ----------------
- - Install Dev-C++ to 'C:\Dev-Cpp'
+ - Install Dev-C++ to "C:\Dev-Cpp"
 
  - Extract SDL2 and SDL2_Mixer on your desktop.
 
- - SDL2 and SDL2_Mixer 'include' folder:
-   - Inside the SDL2 folder/archive, navigate to '\i686-w64-mingw32\include\'
-   - Copy and paste the SDL2 folder (THE ENTIRE FOLDER, NOT THE CONTENT) into 'C:\Dev-Cpp\include\'
-   - SDL2 includes should be in 'C:\Dev-Cpp\include\SDL2'
+ - SDL2 and SDL2_Mixer "include" folder:
+   - Inside the SDL2 folder/archive, navigate to "\i686-w64-mingw32\include\"
+   - Copy and paste the SDL2 folder (THE ENTIRE FOLDER, NOT THE CONTENT) into "C:\Dev-Cpp\include\"
+   - SDL2 includes should be in "C:\Dev-Cpp\include\SDL2"
    - Repeat same steps for SDL2_Mixer.
 
- - SDL2 and SDL2_Mixer 'lib' folder:
-   - Create a folder called 'SDL2' inside 'C:\Dev-Cpp\lib\'
-   - Inside the SDL2 folder/archive, navigate to '\i686-w64-mingw32\lib\'
-   - Take all the FILES ONLY (no folders) (files with .a and .la extensions) and copy them into 'C:\Dev-Cpp\lib\SDL2'
+ - SDL2 and SDL2_Mixer "lib" folder:
+   - Create a folder called "SDL2" inside "C:\Dev-Cpp\lib\"
+   - Inside the SDL2 folder/archive, navigate to "\i686-w64-mingw32\lib\"
+   - Take all the FILES ONLY (no folders) (files with .a and .la extensions) and copy them into "C:\Dev-Cpp\lib\SDL2"
    - Repeat same steps for SDL2_Mixer.
 
  - Open Wolf4SDL.dev and compile!

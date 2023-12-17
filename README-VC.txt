@@ -1,12 +1,12 @@
 Visual Studio projects will look for the following folders to include libraries:
 
-'\libraries\vc\include\'
-'\libraries\vc\lib\'
+- [Wolf4SDL Project Path]\libraries\vc\include\
+- [Wolf4SDL Project Path]\libraries\vc\lib\
 
 SDL2 has to be inside its own folders such as:
 
-'\libraries\vc\include\SDL2'
-'\libraries\vc\lib\SDL2'
+- [Wolf4SDL Project Path]\libraries\vc\include\SDL2
+- [Wolf4SDL Project Path]\libraries\vc\lib\SDL2
 
 Use x86 Libraries ONLY!
 
