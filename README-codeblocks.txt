@@ -1,59 +1,91 @@
-This file explains how you can compile Wolf4SDL using CodeBlocks 20.03.
+This file explains how you can compile Wolf4SDL using CodeBlocks 20.03 x86 with MinGW.
 
-The steps explained in this document have been tested on Windows 10 x64.
-
-If there are any issues with compilation, please refer to the "Troubleshooting"
-section of the README-devcpp.txt
-
----------------
-| *IMPORTANT* |
----------------
- Due to the fact that the latest versions of CodeBlocks also have updated compilers,
- there are issues compiling the project if we use newer versions of Mingw32.
-
- In order to be able to compile sucessfully using CodeBlocks, it will be required to
- install Dev-C++ 5.0 Beta 9.2 (4.9.9.2).
-
- In order to prepare Dev-C++ to be usable with CodeBlocks, please refer to the
- README-devcpp.txt.
-
- You only need to complete the "Needed Files" and "Installation" part.
+The steps explained in this document have been tested on Windows 10 and 11 x64.
 
 -----------------
 | Needed files: |
 -----------------
- - "CodeBlocks 20.03" (codeblocks-20.03-setup.exe) (about 35 MB)
-   http://www.codeblocks.org/downloads/binaries
-   (You do not need to download the version with Mingw32 as we will not use it)
+- CodeBlocks 20.03 x86 with MinGW (codeblocks-20.03mingw-32bit-setup.exe)
+  http://www.codeblocks.org/downloads/binaries
+
+- SDL2-2.0.18 for MinGW
+  https://www.libsdl.org/release/SDL2-devel-2.0.18-mingw.tar.gz
+
+- SDL2_mixer-2.0.4 for MinGW
+  https://www.libsdl.org/projects/SDL_mixer/release/SDL2_mixer-devel-2.0.4-mingw.tar.gz
+
+--------------
+| Libraries: |
+--------------
+Code::Blocks will look for libraries inside the following folders:
+
+'\libraries\mingw\include\'
+'\libraries\mingw\lib\'
+
+SDL2 has to be inside its own folders such as:
+
+'\libraries\mingw\include\SDL2'
+'\libraries\mingw\lib\SDL2'
+
+Use x86 Libraries ONLY!
 
 ----------------
 | Installation |
 ----------------
- - Complete the "Needed Files" and "Installation" part of the README-devcpp.txt
- - Install CodeBlocks 20.03 - Directory has no importance
+- Install CodeBlocks 20.03 - Directory has no importance.
 
 -----------------------
 | CodeBlocks Settings |
 -----------------------
- - Open "Wolf4SDL.cbp"
- - Go to "Settings" -> "Compiler"
- - Find the tab "Toolchain Executables"
- - The "Compiler Installation Directories" should be pointed to "C:\Dev-Cpp\bin"
-   (this assumes that you have installed Dev-C++ in the default directory)
+- Open "Wolf4SDL.cbp".
+- Go to "Settings" -> "Compiler".
+- Find the tab "Toolchain Executables".
+- Click on "Auto-detect".
+  - You should see a message box confirming "Auto-detected installation path of "GNU GCC Compiler"...
+  - Path should be the Code::Blocks path with "\MinGW".
+  - See Troubleshooting if getting another message.
    
 -----------------------
 | Compiling Wolf4SDL: |
 -----------------------
- - Compile via "Build" -> "Build"
- - No errors should be displayed
+- Compile via "Build" -> "Build"
+- No errors should be displayed
 
 --------------------
 | Troubleshooting: |
 --------------------
- - Issue #1:
-   - Possible to get an error related to "Makefile"
+
+| Issue #1 |
+  - Could not auto-detect installation path of "GNU GCC Compiler"
+    message when auto-detecting in Toolchain executables.
+  
+- Solution: 
+  - Navigate to the Code::Blocks installation path in [CodeBlocks_20.03_Installation_Folder]\share\CodeBlocks\compilers".
+  - Open the file "options_gcc.xml" in Notepad.
+    - Will usually require to be run as administrator in order to be able to save the file.
+
+  - In the upper part, in the section "<if platform="windows">" remove the prefix "mingw32-" (including the minus) for the C, CPP and LD entry.
+    - After modifications, the block should look like this:
+
+    --------------------------------------------------------------
+    <if platform="windows">
+        <Program name="C"         value="gcc.exe"/>
+        <Program name="CPP"       value="g++.exe"/>
+        <Program name="LD"        value="g++.exe"/>
+        <Program name="DBGconfig" value="gdb_debugger:Default"/>
+        <Program name="LIB"       value="ar.exe"/>
+        <Program name="WINDRES"   value="windres.exe"/>
+        <Program name="MAKE"      value="mingw32-make.exe"/>
+    </if>
+    --------------------------------------------------------------
+
+- RESTART THE EDITOR
+  - Retry the auto-detection, it should work.
+
+| Issue #2 |
+- Possible to get an error related to "Makefile"
    
- - Solution: 
-   - Go to the root directory of the source repository
-   - Delete "Makefile", "Makefile.dc" and "Makefile.win"
-   - Try to compile again and it will work.
+- Solution: 
+  - Go to the root directory of the source repository
+  - Delete "Makefile", "Makefile.dc" and "Makefile.win"
+  - Try to compile again and it will work.
