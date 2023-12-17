@@ -75,5 +75,7 @@ Makefile.win
 /.idea
 /cmake-build-debug
 /cmake-build-release
+/cmake-build-debug-mingw
+/cmake-build-release-mingw
 
 /_base

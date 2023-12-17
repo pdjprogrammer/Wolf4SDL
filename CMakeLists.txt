@@ -1,3 +1,5 @@
+#Tested with MinGW and SDL2 (x86) installed through MSYS2
+
 cmake_minimum_required(VERSION 3.16)
 
 set(
