@@ -157,7 +157,7 @@ The current version of the source code is available on GitHub at: https://github
 - Code::Blocks 8.02
   - Wolf4SDL.cbp
     - README-codeblocks.txt
-- [Untested] CMake
+- CMake (tested with MSYS2 and MinGW)
 - [Untested] Makefile (for Linux, BSD variants and MinGW/MSYS)
 - [Untested] Xcode (for Mac OS X, macosx/Wolf4SDL.xcodeproj/project.pbxproj)
 
