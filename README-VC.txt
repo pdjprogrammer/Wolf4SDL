@@ -1,5 +1,20 @@
-SDL-1.2.15 for Visual Studio
-https://www.libsdl.org/release/SDL-devel-1.2.15-VC.zip
+--------------
+| Important: |
+--------------
+YOU HAVE TO USE THE CORRECT LIBRARIES ACCORDING TO THE PLATFORM YOU ARE COMPILING FOR (x86 or x64)
 
-SDL_mixer-1.2.6 for Visual Studio
-https://www.libsdl.org/projects/SDL_mixer/release/SDL_mixer-devel-1.2.6-VC6.zip
+Visual Studio projects will look for the following folders to include libraries:
+
+- [Wolf4SDL Project Path]\libraries\vc\include\
+- [Wolf4SDL Project Path]\libraries\vc\lib\[PLATFORM (x86 or x64)]\
+
+SDL2 has to be inside its own folders such as:
+
+- [Wolf4SDL Project Path]\libraries\vc\include\SDL2
+- [Wolf4SDL Project Path]\libraries\vc\lib\[PLATFORM (x86 or x64)]\SDL2
+
+SDL2-2.0.18 for Visual Studio
+https://www.libsdl.org/release/SDL2-devel-2.0.18-VC.zip
+
+SDL2_mixer-2.0.4 for Visual Studio
+https://www.libsdl.org/projects/SDL_mixer/release/SDL2_mixer-devel-2.0.4-VC.zip

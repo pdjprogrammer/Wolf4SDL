@@ -2,7 +2,7 @@
   <img src="images/wolf4sdl_logo.png">
 </p>
 
-<h1 align="center"><em>Wolf4SDL+</em></h1>
+<h1 align="center"><em>Wolf4SDL</em></h1>
 
 Wolf4SDL is an open-source port of id Software's classic first-person shooter Wolfenstein 3D to the cross-platform multimedia library "Simple DirectMedia Layer (SDL)" (http://www.libsdl.org). It is meant to keep the original feel while taking advantage of some improvements mentioned in the list below.
 
@@ -12,35 +12,23 @@ The overall work to get to where we are would not be possible without the follow
 - Wolf4SDL by Moritz "Ripper" Kroll (http://www.chaos-software.de.vu - OFFLINE)
 - Modifications to r262 by Andy_Nonymous and others (http://diehardwolfers.areyep.com/viewtopic.php?t=6693)
 
-<h2><em>New features (v2.1)</em></h2>
+<h2><em>Main features</em></h2>
 
-* Overhaul of the Input system
-  - Dedicated strafing keys.
-    - WASD controls.
-  - Can disable Y axis on mouse.
-  - Better controller support (tested with XBox One Controller).
-    - Controls currently hard-coded.
-      - Left analog stick : Move/Strafe
-      - Right analog stick : Rotate
-      - Left / Right shoulders : Previous and Next weapon
-      - Back/Start Button
-      - 4 Action Buttons (Can be remapped)
-        - A : Fire
-        - B : Strafe (mapped to key but not useful for now with controller)
-        - Y : Run
-        - X : Open door
-  - Set of 10 customizable "actions" and menu to assign/remap those buttons.
-     - For modders to add their own actions more easily (Code changes required to implement custom actions).
-
-- Overhaul of the Menu system
-  - New menu for each input type.
-    - Keyboard / Mouse / Game controller.
-  - Custom controls menu
-    - Menu to remap the Custom Actions.
-
-```Uncomment #define USE_MODERN_CONTROLS in version.h to enable.```
-
-<h2><em>Main features (Wolf4SDL)</em></h2>
+* Modern control scheme (OPTIONAL).
+  - Dedicated strafing buttons (WASD).
+  - Can disable mouse Y axis.
+  - #MODERN_CONTROL flag in version.h to enable or disable.
+    - Original control scheme available.
+* Better controller support (only action button can be remapped).
+  - Left analog stick : Move/Strafe
+  - Right analog stick : Rotate
+  - Left / Right shoulders : Previous and Next weapon
+  - Back/Start Button
+  - 4 Action Buttons (Can be remapped)
+    - A : Fire
+    - B : Strafe (mapped to key but not useful for now with controller)
+    - Y : Run
+    - X : Open door
 
 - AdLib sounds and music:
   - This port includes the OPL2 emulator from MAME, so you can not only hear the AdLib sounds but also music without any AdLib-compatible soundcard in near to perfect quality!
@@ -68,6 +56,9 @@ The overall work to get to where we are would not be possible without the follow
 
 * Optional integrated features for mod developers:
   - Wolf4SDL already contains the shading, directional 3D sprites, floor and ceiling textures, high resolution textures/sprites, parallax sky, cloud sky and outside atmosphere features, which can be easily activated in version.h.
+
+- Set of 10 customizable "actions" and menu to assign/remap those buttons.
+  - For modders to add their own actions more easily (Code changes required to implement custom actions).
 
 The following versions of Wolfenstein 3D data files are currently supported by the source code (choose the version by commenting/uncommenting lines in version.h as described in that file):
 
@@ -114,12 +105,6 @@ Currently supported operating systems :
 
 <p>If you play in windowed mode (--windowed parameter), press SCROLLLOCK or F12 to grab the mouse. Press it again to release the mouse.</p>
 
-<h2><em>Important</em></h2>
-
-If the _CONFIG.WL6_ file exists while you switch between Wolf4SDL and Wolf4SDL+ or vice-versa, **_you have to delete it so the game can re-create it._**
-
-**_There will be issues with controls if this step is not done._**
-
 <h2><em>Usage</em></h2>
 
 Wolf4SDL supports the following command line options :
@@ -155,6 +140,11 @@ For Spear of Destiny the following additional options are available:
 
 The current version of the source code is available on GitHub at: https://github.com/brosseaualex/Wolf4SDL
 
+**_What you need:_**
+
+- C++ Compiler
+- SDL 2 Libraries
+
 **_Preferred methods for compiling the source code:_**
 
 - Visual C++ (2019/2022)
@@ -167,7 +157,7 @@ The current version of the source code is available on GitHub at: https://github
 - Code::Blocks 8.02
   - Wolf4SDL.cbp
     - README-codeblocks.txt
-- [Untested] CMake
+- CMake (tested with MSYS2 and MinGW)
 - [Untested] Makefile (for Linux, BSD variants and MinGW/MSYS)
 - [Untested] Xcode (for Mac OS X, macosx/Wolf4SDL.xcodeproj/project.pbxproj)
 
@@ -176,7 +166,15 @@ The current version of the source code is available on GitHub at: https://github
 - Special compiling for Dreamcast (see README-dc.txt)
 - Special compiling for GP2X (see README-GP2X.txt)
 
-IMPORTANT: Do not forget to take care of version.h! By default it compiles for "Wolfenstein 3D v1.4 full GT/ID/Activision"!
+<h2><em>Important</em></h2>
+
+Do not forget to take care of version.h!
+
+By default it compiles for "Wolfenstein 3D 1.4 full GT/ID/Activision"!
+
+If _CONFIG.WL6_ exists while you switch between the 'USE_MODERN_CONTROLS' flag, **_you have to delete the file so the game can re-create it._**
+
+**_There will be issues with controls if this step is not done._**
 
 <h2><em>SDL Libraries</em></h2>
 
@@ -186,16 +184,20 @@ See the readme for the compiler you are using for more information on how to use
 
 The SDL and SDL_Mixer versions used in this project are the following :
  - SDL2 2.0.18 (https://www.libsdl.org/release/)
+   - Visual Studio: _SDL2-devel-2.0.18-VC.zip_
+   - Other: _SDL2-devel-2.0.18-mingw.tar.gz_
  - SDL2_mixer 2.0.4 (https://www.libsdl.org/projects/SDL_mixer/release/)
+   - Visual Studio: _SDL2_mixer-devel-2.0.4-VC.zip_
+   - Other: _SDL2_mixer-devel-2.0.4-mingw.tar.gz_
+
+<h2><em>Troubleshooting</em></h2>
+
+ - If your frame rate is low, consider using the original screen resolution (--res 320 200) or lowering the sound quality (--samplerate 22050)
 
 <h2><em>TODOs</em></h2>
 
  - Center non-ingame screens for resolutions being a multiple of 320x240.
  - Add support for any graphic resolution >= 320x200.
-
-<h2><em>Troubleshooting</em></h2>
-
- - If your frame rate is low, consider using the original screen resolution (--res 320 200) or lowering the sound quality (--samplerate 22050)
 
 <h2><em>Credits</em></h2>
 

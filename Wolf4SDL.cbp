@@ -27,6 +27,7 @@
 			<Add directory="libraries/mingw/include/SDL2" />
 		</Compiler>
 		<Linker>
+			<Add option="-lmingw32 -lSDL2main -lSDL2" />
 			<Add library="mingw32" />
 			<Add library="SDL2" />
 			<Add library="SDL2_mixer" />
