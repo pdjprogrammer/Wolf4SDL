@@ -11,12 +11,14 @@ the file should you get any issues when compiling.
 - To avoid possible conflicts between the DevCpp compiler and Code::Blocks Compiler,
   it is not recommended to install both DevCpp and Code::Blocks.
 
-  The recommended IDE is Code::Blocks.
+  The recommended IDE is Code::Blocks or Visual Studio.
+
+  YOU HAVE TO USE THE CORRECT LIBRARIES ACCORDING TO THE PLATFORM YOU ARE COMPILING FOR (x86 or x64)
 
 -----------------
 | Needed files: |
 -----------------
-- CodeBlocks 20.03 x86 with MinGW (codeblocks-20.03mingw-32bit-setup.exe)
+- CodeBlocks 20.03 with MinGW
   http://www.codeblocks.org/downloads/binaries
 
 - SDL2-2.0.18 for MinGW
@@ -30,15 +32,13 @@ the file should you get any issues when compiling.
 --------------
 Code::Blocks will look for libraries inside the following folders:
 
-- [Wolf4SDL Project Path]\libraries\mingw\include\
-- [Wolf4SDL Project Path]\libraries\mingw\lib\
+- [MinGW Path]\include\
+- [MinGW Path]\lib\
 
 SDL2 has to be inside its own folders such as:
 
-- [Wolf4SDL Project Path]\libraries\mingw\include\SDL2
-- [Wolf4SDL Project Path]\libraries\mingw\lib\SDL2
-
-Use x86 Libraries ONLY!
+- [MinGW Path]\include\SDL2\
+- [MinGW Path]\lib\SDL2\
 
 ----------------
 | Installation |

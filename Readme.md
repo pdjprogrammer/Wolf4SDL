@@ -12,13 +12,13 @@ The overall work to get to where we are would not be possible without the follow
 - Wolf4SDL by Moritz "Ripper" Kroll (http://www.chaos-software.de.vu - OFFLINE)
 - Modifications to r262 by Andy_Nonymous and others (http://diehardwolfers.areyep.com/viewtopic.php?t=6693)
 
-<h2><em>Version 2.1</em></h2>
+<h2><em>Main features</em></h2>
 
-**_Input system changes_**
-
-* Dedicated strafing keys.
-  - WASD controls.
-* Can disable Y axis on mouse.
+* Modern control scheme (OPTIONAL).
+  - Dedicated strafing buttons (WASD).
+  - Can disable mouse Y axis.
+  - #MODERN_CONTROL flag in version.h to enable or disable.
+    - Original control scheme available.
 * Better controller support (only action button can be remapped).
   - Left analog stick : Move/Strafe
   - Right analog stick : Rotate
@@ -29,17 +29,6 @@ The overall work to get to where we are would not be possible without the follow
     - B : Strafe (mapped to key but not useful for now with controller)
     - Y : Run
     - X : Open door
-* Set of 10 customizable "actions" and menu to assign/remap those buttons.
-   - For modders to add their own actions more easily (Code changes required to implement custom actions).
-
-**_Menu changes_**
-
-- New menu for each input type.
-  - Keyboard / Mouse / Game controller.
-- Custom controls menu
-  - Menu to remap the Custom Actions.
-
-<h2><em>Main features</em></h2>
 
 - AdLib sounds and music:
   - This port includes the OPL2 emulator from MAME, so you can not only hear the AdLib sounds but also music without any AdLib-compatible soundcard in near to perfect quality!
@@ -67,6 +56,9 @@ The overall work to get to where we are would not be possible without the follow
 
 * Optional integrated features for mod developers:
   - Wolf4SDL already contains the shading, directional 3D sprites, floor and ceiling textures, high resolution textures/sprites, parallax sky, cloud sky and outside atmosphere features, which can be easily activated in version.h.
+
+- Set of 10 customizable "actions" and menu to assign/remap those buttons.
+  - For modders to add their own actions more easily (Code changes required to implement custom actions).
 
 The following versions of Wolfenstein 3D data files are currently supported by the source code (choose the version by commenting/uncommenting lines in version.h as described in that file):
 

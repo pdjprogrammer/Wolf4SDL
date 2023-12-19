@@ -11,7 +11,11 @@ the file should you get any issues when compiling.
 - To avoid possible conflicts between the DevCpp compiler and Code::Blocks Compiler,
   it is not recommended to install both DevCpp and Code::Blocks.
 
-  The recommended IDE is Code::Blocks.
+  The recommended IDE is Code::Blocks or Visual Studio.
+
+  YOU HAVE TO USE THE CORRECT LIBRARIES ACCORDING TO THE PLATFORM YOU ARE COMPILING FOR (x86 or x64)
+
+  Dev-C++ only comes with a x86 compiler. Make sure you use the x86 SDL2 Libraries.
 
 -----------------
 | Needed files: |
