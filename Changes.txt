@@ -1,7 +1,6 @@
 Wolf4SDL v2.1
- - Overhaul of the Input system
-   - Dedicated strafing keys.
-     - WASD controls.
+ - Dedicated strafing keys.
+   - WASD controls.
  - Can disable Y axis on mouse.
  - Better controller support (tested with XBox One Controller).
    - Controls currently hard-coded.

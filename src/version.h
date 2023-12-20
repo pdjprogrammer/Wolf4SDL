@@ -35,7 +35,7 @@
 //#define USE_MODERN_CONTROLS							// !!!!! DELETE CONFIG.WL6 AFTER CHANGING !!!!! - Enables Modern Control Scheme
 //#define SHOW_CUSTOM_CONTROLS						// !!!!! DELETE CONFIG.WL6 AFTER CHANGING !!!!! - Needs #USE_MODERN_CONTROLS flag enabled and code tweaks to customize the keys. 
 													// See documentation for explanation.
-//#define SHOW_GAME_OPTIONS							// Needs #USE_MODERN_CONTROLS flag enabled.
+//#define SHOW_GAME_OPTIONS (Incomplete)			// Needs #USE_MODERN_CONTROLS flag enabled.
 													// Enables game options for certain features (enable/disable shading, textured floor and ceiling, precipitation (rain, snow)
 
 #define DISABLE_WALLSOUND							// Disables wall hit and space bar sounds
@@ -43,9 +43,10 @@
 //#define USE_SHADING								// Enables shading support (see wl_shade.c)
 //#define USE_DIR3DSPR								// Enables directional 3d sprites
 //#define USE_FLOORCEILINGTEX						// Enables texture-mapped floors and ceilings (see wl_plane.c)
+//#define USE_HIRES									// NOT REQUIRED ANYMORE - Wolf4SDL supports textures up to 256x256 dynamically.
 //#define USE_MULTIFLATS							// Enables floor and ceiling textures stored in the third mapplane
 //#define USE_PARALLAX 16							// Enables parallax sky with 16 textures per sky (see wl_parallax.c)
-//#define USE_SKYWALLPARALLAX 16						// Enables parallax sky on walls with 16 repeats of sky texture
+//#define USE_SKYWALLPARALLAX 16					// Enables parallax sky on walls with 16 repeats of sky texture
 //#define USE_CLOUDSKY								// Enables cloud sky support (see wl_cloudsky.c)
 //#define USE_STARSKY								// Enables star sky support (see wl_atmos.c)
 //#define USE_RAIN									// Enables rain support (see wl_atmos.c)
