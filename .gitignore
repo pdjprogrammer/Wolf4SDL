@@ -77,3 +77,4 @@ Makefile.win
 /cmake-build-release
 
 /libraries
+/_workingdir

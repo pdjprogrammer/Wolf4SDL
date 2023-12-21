@@ -1,5 +1,3 @@
-#Tested with MinGW and SDL2 installed through MSYS2
-
 cmake_minimum_required(VERSION 3.16)
 
 set(
@@ -18,8 +16,9 @@ project(${project_name})
 
 set(CMAKE_CXX_STANDARD 14)
 
-include_directories(libraries/mingw/include/SDL2)
-#include_directories(libraries/mingw/lib/SDL2)
+set(SDL2_INCLUDE_DIRS "${CMAKE_CURRENT_LIST_DIR}/libraries/mingw/include/SDL2")
+
+include_directories(${SDL2_INCLUDE_DIRS})
 
 add_executable(${project_name} ${source_files})
 
@@ -28,6 +27,6 @@ target_link_libraries(
         -lSDL2main
         -lSDL2
         -lSDL2_mixer
-        #-static-libgcc
-        #-static-libstdc++
+        -static-libgcc
+        -static-libstdc++
 )
