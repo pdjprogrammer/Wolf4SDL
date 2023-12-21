@@ -19,7 +19,7 @@ project(${project_name})
 set(CMAKE_CXX_STANDARD 14)
 
 include_directories(libraries/mingw/include/SDL2)
-include_directories(libraries/mingw/lib/SDL2)
+#include_directories(libraries/mingw/lib/SDL2)
 
 add_executable(${project_name} ${source_files})
 
@@ -28,6 +28,6 @@ target_link_libraries(
         -lSDL2main
         -lSDL2
         -lSDL2_mixer
-        -static-libgcc
-        -static-libstdc++
+        #-static-libgcc
+        #-static-libstdc++
 )

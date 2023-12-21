@@ -50,14 +50,18 @@
 #define MENU_X 76
 #define MENU_Y 55
 #define MENU_W 178
-#ifndef SPEAR
-#ifndef GOODTIMES
+#ifndef USE_MODERN_CONTROLS
+#ifdef USE_READTHIS
 #define MENU_H 13 * 10 + 6
 #else
 #define MENU_H 13 * 9 + 6
 #endif
 #else
-#define MENU_H 13 * 9 + 6
+#ifdef USE_READTHIS
+#define MENU_H 13 * 8 + 6
+#else
+#define MENU_H 13 * 7 + 6
+#endif
 #endif
 
 #define SM_X 48
@@ -370,10 +374,8 @@ enum menuitems
 	options,
 #endif
 
-#ifndef GOODTIMES
-#ifndef SPEAR
+#ifdef USE_READTHIS
 	readthis,
-#endif
 #endif
 	viewscores,
 	backtodemo,

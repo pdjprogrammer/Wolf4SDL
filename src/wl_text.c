@@ -25,8 +25,6 @@ TEXT FORMATTING COMMANDS
 =============================================================================
 */
 
-#ifndef SPEAR
-
 #define BACKCOLOR 0x11
 
 #define WORDLIMIT 80
@@ -413,10 +411,13 @@ void PageLayout(boolean shownumber)
     // clear the screen
     //
     VWB_Bar(0, 0, 320, 200, BACKCOLOR);
+
+#ifndef SPEAR //SOD does not have any textures files dedicated to the ReadThis screen
     VWB_DrawPic(0, 0, H_TOPWINDOWPIC);
     VWB_DrawPic(0, 8, H_LEFTWINDOWPIC);
     VWB_DrawPic(312, 8, H_RIGHTWINDOWPIC);
     VWB_DrawPic(8, 176, H_BOTTOMINFOPIC);
+#endif
 
     for (i = 0; i < TEXTROWS; i++)
     {
@@ -726,7 +727,6 @@ char helpfilename[13] = "HELPART.",
 =
 =================
 */
-#ifndef SPEAR
 void HelpScreens(void)
 {
     int artnum;
@@ -760,7 +760,6 @@ void HelpScreens(void)
     FreeMusic();
 #endif
 }
-#endif
 
 //
 // END ARTICLES
@@ -812,4 +811,3 @@ void EndText(void)
     FreeMusic();
 #endif
 }
-#endif

@@ -39,16 +39,10 @@ const int MAX_CUSTOM_CONTROLS = 10;
 const int CUS_CTL_ARRAY_RANGE_START = 19;
 const int CUS_CTL_ARRAY_RANGE_END = 29;
 
-#ifdef SPEAR
-#define STARTITEM newgame
-
+#ifdef USE_READTHIS
+#define STARTITEM       readthis
 #else
-#ifdef GOODTIMES
-#define STARTITEM newgame
-
-#else
-#define STARTITEM readthis
-#endif
+#define STARTITEM       newgame
 #endif
 
 // ENDSTRx constants are defined in foreign.h
@@ -89,16 +83,11 @@ CP_itemtype MainMenu[] = {
 	{0, STR_SG, CP_SaveGame},
 	{1, STR_CV, CP_ChangeView},
 #endif
-
-#ifndef GOODTIMES
-#ifndef SPEAR
-
+#ifdef USE_READTHIS
 #ifdef SPANISH
 	{2, "Ve esto!", CP_ReadThis},
 #else
 	{2, "Read This!", CP_ReadThis},
-#endif
-
 #endif
 #endif
 	{1, STR_VS, CP_ViewScores},
@@ -661,10 +650,10 @@ void US_ControlPanel(ScanCode scancode)
 	switch (scancode)
 	{
 	case sc_F1:
-#if defined(SPEAR) || defined(GOODTIMES)
-		BossKey();
-#else
+#ifdef USE_READTHIS
 		HelpScreens();
+#else
+		BossKey();
 #endif
 		goto finishup;
 
@@ -860,8 +849,7 @@ void DrawMainMenu(void)
 	VW_UpdateScreen();
 }
 
-#ifndef GOODTIMES
-#ifndef SPEAR
+#ifdef USE_READTHIS
 ////////////////////////////////////////////////////////////////////
 //
 // READ THIS!
@@ -869,12 +857,15 @@ void DrawMainMenu(void)
 ////////////////////////////////////////////////////////////////////
 int CP_ReadThis(int blank)
 {
+#ifndef SPEAR
 	StartCPMusic(CORNER_MUS);
+#else
+	StartCPMusic(GETTHEM_MUS);
+#endif
 	HelpScreens();
 	StartCPMusic(MENUSONG);
 	return true;
 }
-#endif
 #endif
 
 #if defined(SPEAR) || defined(GOODTIMES)
@@ -1243,10 +1234,8 @@ int CP_NewGame(int blank)
 	//
 	// CHANGE "READ THIS!" TO NORMAL COLOR
 	//
-#ifndef SPEAR
-#ifndef GOODTIMES
+#ifdef USE_READTHIS
 	MainMenu[readthis].active = 1;
-#endif
 #endif
 
 	pickquick = 0;
@@ -1677,10 +1666,8 @@ int CP_LoadGame(int quick)
 			// CHANGE "READ THIS!" TO NORMAL COLOR
 			//
 
-#ifndef SPEAR
-#ifndef GOODTIMES
+#ifdef USE_READTHIS
 			MainMenu[readthis].active = 1;
-#endif
 #endif
 
 			exit = 1;
@@ -5767,11 +5754,9 @@ void CheckForEpisodes(void)
 	strcat(SaveName, extension);
 	strcat(demoname, extension);
 
-#ifndef SPEAR
-#ifndef GOODTIMES
+#ifdef USE_READTHIS
 	strcat(helpfilename, extension);
 #endif
 	strcat(endfilename, extension);
-#endif
 #endif
 	}
