@@ -13,12 +13,10 @@
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Compiler>
-					<Add directory="C:/Dev-Cpp/include/SDL" />
-					<Add directory="C:/Dev-Cpp/include/SDL_mixer" />
+					<Add directory="libraries/mingw/include/SDL2" />
 				</Compiler>
 				<Linker>
-					<Add directory="C:/Dev-Cpp/lib/SDL" />
-					<Add directory="C:/Dev-Cpp/lib/SDL_mixer" />
+					<Add directory="libraries/mingw/lib/SDL2/x86" />
 				</Linker>
 			</Target>
 		</Build>
