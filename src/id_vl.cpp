@@ -218,9 +218,9 @@ void VL_SetVGAPlaneMode(void)
     printHorizAdjust = picHorizAdjust / scaleFactor;
     printVertAdjust = picVertAdjust / scaleFactor;
 
-    ylookup = SafeMalloc(screenHeight * sizeof(*ylookup));
-    pixelangle = SafeMalloc(screenWidth * sizeof(*pixelangle));
-    wallheight = SafeMalloc(screenWidth * sizeof(*wallheight));
+    ylookup = (uint32_t*)SafeMalloc(screenHeight * sizeof(*ylookup));
+    pixelangle = (short*)SafeMalloc(screenWidth * sizeof(*pixelangle));
+    wallheight = (int16_t*)SafeMalloc(screenWidth * sizeof(*wallheight));
 #if defined(USE_FLOORCEILINGTEX) || defined(USE_CLOUDSKY)
     spanstart = SafeMalloc((screenHeight / 2) * sizeof(*spanstart));
 #endif
@@ -692,7 +692,7 @@ void VL_DePlaneVGA(byte *source, int width, int height)
     if (width & 3)
         Quit("DePlaneVGA: width not divisible by 4!");
 
-    temp = SafeMalloc(size);
+    temp = (byte*)SafeMalloc(size);
 
     //
     // munge pic into the temp buffer

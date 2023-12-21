@@ -845,7 +845,7 @@ void DrawScaleds(void)
         if ((visptr->shapenum = obj->state->shapenum) == 0)
             continue; // no shape
 
-        visspot = &spotvis[obj->tilex][obj->tiley];
+        visspot = (byte*)&spotvis[obj->tilex][obj->tiley];
         tilespot = &tilemap[obj->tilex][obj->tiley];
 
         //

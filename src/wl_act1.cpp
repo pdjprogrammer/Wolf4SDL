@@ -147,7 +147,7 @@ void SpawnStatic(int tilex, int tiley, int type)
     laststatobj->shapenum = statinfo[type].picnum;
     laststatobj->tilex = tilex;
     laststatobj->tiley = tiley;
-    laststatobj->visspot = &spotvis[tilex][tiley];
+    laststatobj->visspot = (byte*) & spotvis[tilex][tiley];
     laststatobj->itemnumber = statinfo[type].type;
 
     switch (statinfo[type].type)
@@ -241,7 +241,7 @@ void PlaceItemType(int itemtype, int tilex, int tiley)
     spot->shapenum = statinfo[type].picnum;
     spot->tilex = tilex;
     spot->tiley = tiley;
-    spot->visspot = &spotvis[tilex][tiley];
+    spot->visspot = (byte*)&spotvis[tilex][tiley];
     spot->flags = FL_BONUS | statinfo[type].specialFlags;
     spot->itemnumber = statinfo[type].type;
 }

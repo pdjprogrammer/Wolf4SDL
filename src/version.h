@@ -15,7 +15,7 @@
 //#define APOGEE_1_2
 //#define JAPAN
 
-//#define SEAMLESSLEVELS							// Only has effect on Wolf3d
+//#define SEAMLESSLEVELS							// Only works on Wolf3d
 
 /*
 	Wolf3d Full v1.1 Apogee (with ReadThis)			- define CARMACIZED and APOGEE_1_1
@@ -32,13 +32,6 @@
 */
 
 #endif
-
-//#define NO_TIME_WASTE								// Disables the FadeIn and FadeOut delay, useful when debugging
-//#define USE_MODERN_CONTROLS							// !!!!! DELETE CONFIG.WL6 AFTER CHANGING !!!!! - Enables Modern Control Scheme
-//#define SHOW_CUSTOM_CONTROLS						// !!!!! DELETE CONFIG.WL6 AFTER CHANGING !!!!! - Needs #USE_MODERN_CONTROLS flag enabled and code tweaks to customize the keys. 
-													// See documentation for explanation.
-//#define SHOW_GAME_OPTIONS (Incomplete)			// Needs #USE_MODERN_CONTROLS flag enabled.
-													// Enables game options for certain features (enable/disable shading, textured floor and ceiling, precipitation (rain, snow)
 
 #define DISABLE_WALLSOUND							// Disables wall hit and space bar sounds
 //#define USE_FEATUREFLAGS							// Enables the level feature flags (see bottom of wl_def.h)
@@ -57,15 +50,16 @@
 //#define FIXRAINSNOWLEAKS							// Enables leaking ceilings fix (by Adam Biser, only needed if maps with rain/snow and ceilings exist)
 //#define VIEWMAP									// Enables the overhead map
 //#define REVEALMAP									// Enables showing only the areas of the overhead map that have been seen
-//#define USE_READTHIS								// Enables help text in the main menu
+//#define USE_READTHIS								// Enables help text in the main menu, also works on SPEAR but there are no textures for the ReadThis frame.
+
 
 #define DEBUGKEYS									// Comment this out to compile without the Tab debug keys
 //#define ARTSEXTERN
 #define DEMOSEXTERN
-#define PLAYDEMOLIKEORIGINAL						// When playing or recording demos, several bug fixes do not take       \
-													// effect to let the original demos work as in the original Wolf3D v1.4 \
+#define PLAYDEMOLIKEORIGINAL						// When playing or recording demos, several bug fixes do not take
+													// effect to let the original demos work as in the original Wolf3D v1.4
 													// (actually better, as the second demo rarely worked)
-// 
+
 //#define USE_GPL									// Replaces the MAME OPL emulator by the DosBox one, which is under a GPL license
 
 #define ADDEDFIX									// Post-revision 262 fixes described in http://diehardwolfers.areyep.com/viewtopic.php?t=6693
@@ -74,4 +68,9 @@
 
 //#define BANDEDHOLOWALLS							// Use the old DOS-style "banded" wall drawing behaviour when inside walls
 
+//#define NO_TIME_WASTE								// Disables the FadeIn and FadeOut delay, useful when debugging
+//#define USE_MODERN_CONTROLS						// !!!!! DELETE CONFIG.WL6 AFTER CHANGING !!!!! - Enables Modern Control Scheme
+//#define SHOW_CUSTOM_CONTROLS						// !!!!! DELETE CONFIG.WL6 AFTER CHANGING !!!!! - Needs #USE_MODERN_CONTROLS flag enabled and code changes to customize the keys.
+//#define SHOW_GAME_OPTIONS (Incomplete)			// Needs #USE_MODERN_CONTROLS flag enabled.
+                                                    // Enables game options for certain features (enable/disable shading, textured floor and ceiling, precipitation (rain, snow)
 #endif

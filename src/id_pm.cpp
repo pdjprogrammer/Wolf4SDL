@@ -49,14 +49,14 @@ void PM_Startup(void)
     //
     // read in the chunk offsets
     //
-    pageOffsets = SafeMalloc((ChunksInFile + 1) * sizeof(*pageOffsets));
+    pageOffsets = (uint32_t*)SafeMalloc((ChunksInFile + 1) * sizeof(*pageOffsets));
 
     fread(pageOffsets, sizeof(*pageOffsets), ChunksInFile, file);
 
     //
     // read in the chunk lengths
     //
-    pageLengths = SafeMalloc(ChunksInFile * sizeof(*pageLengths));
+    pageLengths = (word*)SafeMalloc(ChunksInFile * sizeof(*pageLengths));
 
     fread(pageLengths, sizeof(*pageLengths), ChunksInFile, file);
 
@@ -101,13 +101,13 @@ void PM_Startup(void)
     //
     // allocate enough memory to hold the whole page file
     //
-    PMPageData = SafeMalloc(datasize + padding);
+    PMPageData = (byte*)SafeMalloc(datasize + padding);
 
     //
     // [ChunksInFile + 1] pointers to page starts
     // the last pointer points one byte after the last page
     //
-    PMPages = SafeMalloc((ChunksInFile + 1) * sizeof(*PMPages));
+    PMPages = (byte**)SafeMalloc((ChunksInFile + 1) * sizeof(*PMPages));
 
     //
     // load pages and initialize PMPages pointers

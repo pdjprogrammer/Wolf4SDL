@@ -501,9 +501,9 @@ void CAL_SetupGrFile(void)
     //
     // load the pic and sprite headers into the arrays in the data segment
     //
-    pictable = SafeMalloc(NUMPICS * sizeof(*pictable));
+    pictable = (pictabletype*)SafeMalloc(NUMPICS * sizeof(*pictable));
     CAL_GetGrChunkLength(STRUCTPIC); // position file pointer
-    compseg = SafeMalloc(chunkcomplen);
+    compseg = (byte*)SafeMalloc(chunkcomplen);
     read(grhandle, compseg, chunkcomplen);
     CAL_HuffExpand(compseg, (byte *)pictable, NUMPICS * sizeof(*pictable), grhuffman);
     free(compseg);
@@ -540,7 +540,7 @@ void CAL_SetupMapFile(void)
     if (handle == -1)
         CA_CannotOpen(fname);
 
-    tinf = SafeMalloc(sizeof(*tinf));
+    tinf = (mapfiletype*)SafeMalloc(sizeof(*tinf));
 
     read(handle, tinf, sizeof(*tinf));
     close(handle);
@@ -573,7 +573,7 @@ void CAL_SetupMapFile(void)
         if (pos < 0) // $FFFFFFFF start is a sparse map
             continue;
 
-        mapheaderseg[i] = SafeMalloc(sizeof(*mapheaderseg[i]));
+        mapheaderseg[i] = (maptype*)SafeMalloc(sizeof(*mapheaderseg[i]));
 
         lseek(maphandle, pos, SEEK_SET);
         read(maphandle, mapheaderseg[i], sizeof(*mapheaderseg[i]));
@@ -583,7 +583,7 @@ void CAL_SetupMapFile(void)
     // allocate space for 3 64*64 planes
     //
     for (i = 0; i < MAPPLANES; i++)
-        mapsegs[i] = SafeMalloc(MAPAREA * sizeof(*mapsegs[i]));
+        mapsegs[i] = (word*)SafeMalloc(MAPAREA * sizeof(*mapsegs[i]));
 }
 
 //==========================================================================
@@ -725,7 +725,7 @@ int32_t CA_CacheAudioChunk(int chunk)
     if (audiosegs[chunk])
         return size; // already in memory
 
-    audiosegs[chunk] = SafeMalloc(size);
+    audiosegs[chunk] = (byte*)SafeMalloc(size);
 
     lseek(audiohandle, pos, SEEK_SET);
     read(audiohandle, audiosegs[chunk], size);
@@ -745,12 +745,12 @@ void CA_CacheAdlibSoundChunk(int chunk)
 
     lseek(audiohandle, pos, SEEK_SET);
 
-    bufferseg = SafeMalloc(ORIG_ADLIBSOUND_SIZE - 1);
+    bufferseg = (byte*)SafeMalloc(ORIG_ADLIBSOUND_SIZE - 1);
     ptr = bufferseg;
 
     read(audiohandle, ptr, ORIG_ADLIBSOUND_SIZE - 1); // without data[1]
 
-    AdLibSound *sound = SafeMalloc(size + sizeof(*sound) - ORIG_ADLIBSOUND_SIZE);
+    AdLibSound *sound = (AdLibSound*)SafeMalloc(size + sizeof(*sound) - ORIG_ADLIBSOUND_SIZE);
 
     sound->common.length = READLONGWORD(ptr);
     ptr += 4;
@@ -892,7 +892,7 @@ void CAL_ExpandGrChunk(int chunk, int32_t *source)
     //
     // allocate final space and decompress it
     //
-    grsegs[chunk] = SafeMalloc(expanded);
+    grsegs[chunk] = (byte*)SafeMalloc(expanded);
 
     CAL_HuffExpand((byte *)source, grsegs[chunk], expanded, grhuffman);
 }
@@ -965,7 +965,7 @@ void CA_CacheGrChunks(void)
 
         lseek(grhandle, pos, SEEK_SET);
 
-        bufferseg = SafeMalloc(compressed);
+        bufferseg = (int32_t*)SafeMalloc(compressed);
         source = bufferseg;
 
         read(grhandle, source, compressed);
@@ -1021,7 +1021,7 @@ void CA_CacheMap(int mapnum)
 
         lseek(maphandle, pos, SEEK_SET);
 
-        bufferseg = SafeMalloc(compressed);
+        bufferseg = (word*)SafeMalloc(compressed);
         source = bufferseg;
 
         read(maphandle, source, compressed);
@@ -1034,7 +1034,7 @@ void CA_CacheMap(int mapnum)
         //
         expanded = *source;
         source++;
-        buffer2seg = SafeMalloc(expanded);
+        buffer2seg = (word*)SafeMalloc(expanded);
         CAL_CarmackExpand((byte *)source, buffer2seg, expanded);
         CA_RLEWexpand(buffer2seg + 1, dest, size, tinf->RLEWtag);
         free(buffer2seg);

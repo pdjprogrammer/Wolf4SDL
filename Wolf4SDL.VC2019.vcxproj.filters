@@ -135,112 +135,112 @@
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\id_ca.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\id_in.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\id_pm.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\id_sd.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\id_us.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\id_vh.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\id_vl.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\sdl_winmain.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\sdl_wrap.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\signon.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\wl_act1.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\wl_act2.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\wl_agent.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\wl_atmos.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\wl_cloudsky.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\wl_debug.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\wl_draw.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\wl_game.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\wl_inter.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\wl_main.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\wl_menu.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\wl_parallax.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\wl_plane.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\wl_play.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\wl_scale.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\wl_shade.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\wl_state.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\wl_text.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\wl_utils.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\dc\dc_cd.c">
-      <Filter>Source Files\dc</Filter>
-    </ClCompile>
-    <ClCompile Include="src\dc\dc_main.c">
-      <Filter>Source Files\dc</Filter>
-    </ClCompile>
-    <ClCompile Include="src\dc\dc_maple.c">
-      <Filter>Source Files\dc</Filter>
-    </ClCompile>
-    <ClCompile Include="src\dc\dc_video.c">
-      <Filter>Source Files\dc</Filter>
-    </ClCompile>
-    <ClCompile Include="src\dc\dc_vmu.c">
-      <Filter>Source Files\dc</Filter>
-    </ClCompile>
     <ClCompile Include="src\dosbox\dbopl.cpp">
       <Filter>Source Files\dosbox</Filter>
     </ClCompile>
-    <ClCompile Include="src\mame\fmopl.c">
+    <ClCompile Include="src\id_ca.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\id_in.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\id_pm.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\id_sd.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\id_us.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\id_vh.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\id_vl.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sdl_winmain.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sdl_wrap.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\signon.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\wl_act1.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\wl_act2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\wl_agent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\wl_atmos.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\wl_cloudsky.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\wl_debug.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\wl_draw.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\wl_game.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\wl_inter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\wl_main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\wl_menu.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\wl_parallax.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\wl_plane.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\wl_play.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\wl_scale.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\wl_shade.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\wl_state.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\wl_text.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\wl_utils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\dc\dc_cd.cpp">
+      <Filter>Source Files\dc</Filter>
+    </ClCompile>
+    <ClCompile Include="src\dc\dc_main.cpp">
+      <Filter>Source Files\dc</Filter>
+    </ClCompile>
+    <ClCompile Include="src\dc\dc_maple.cpp">
+      <Filter>Source Files\dc</Filter>
+    </ClCompile>
+    <ClCompile Include="src\dc\dc_video.cpp">
+      <Filter>Source Files\dc</Filter>
+    </ClCompile>
+    <ClCompile Include="src\dc\dc_vmu.cpp">
+      <Filter>Source Files\dc</Filter>
+    </ClCompile>
+    <ClCompile Include="src\mame\fmopl.cpp">
       <Filter>Source Files\mame</Filter>
     </ClCompile>
   </ItemGroup>

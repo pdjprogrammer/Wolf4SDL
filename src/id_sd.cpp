@@ -422,7 +422,7 @@ void SD_PrepareSound(int which)
 
     int destsamples = (int)((float)size * (float)param_samplerate / (float)ORIGSAMPLERATE);
 
-    byte *wavebuffer = SafeMalloc(sizeof(headchunk) + sizeof(wavechunk) + destsamples * 2); // dest are 16-bit samples
+    byte *wavebuffer = (byte*) SafeMalloc(sizeof(headchunk) + sizeof(wavechunk) + destsamples * 2); // dest are 16-bit samples
 
     headchunk head = {{'R', 'I', 'F', 'F'}, 0, {'W', 'A', 'V', 'E'}, {'f', 'm', 't', ' '}, 0x10, 0x0001, 1, (longword)param_samplerate, (longword)(param_samplerate * 2), 2, 16};
     wavechunk dhead = {{'d', 'a', 't', 'a'}, (longword)(destsamples * 2)};
@@ -513,7 +513,7 @@ void SDL_SetupDigi(void)
     word *soundInfoPage = (word *)(void *)PM_GetPage(ChunksInFile - 1);
     NumDigi = (word)PM_GetPageSize(ChunksInFile - 1) / 4;
 
-    DigiList = SafeMalloc(NumDigi * sizeof(*DigiList));
+    DigiList = (digiinfo*)SafeMalloc(NumDigi * sizeof(*DigiList));
     int i, page;
     for (i = 0; i < NumDigi; i++)
     {

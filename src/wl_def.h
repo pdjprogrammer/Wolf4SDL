@@ -8,6 +8,8 @@
 #include <fcntl.h>
 #include <math.h>
 #include <ctype.h>
+#include <cstring>
+#include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
 #if defined(_arch_dreamcast)
