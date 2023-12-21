@@ -52,6 +52,7 @@ HighScore Scores[MaxScores] =
 		{"Jay Wilbur", 10000, 1},
 };
 
+#ifndef USE_RAND
 int rndindex = 0;
 
 static byte rndtable[] = {
@@ -74,6 +75,7 @@ static byte rndtable[] = {
 	17, 46, 52, 231, 232, 76, 31, 221, 84, 37, 216, 165, 212, 106,
 	197, 242, 98, 43, 39, 175, 254, 145, 190, 84, 118, 222, 187, 136,
 	120, 163, 236, 249};
+#endif
 
 //	Internal routines
 
@@ -794,10 +796,17 @@ US_LineInput(int x, int y, char *buf, const char *def, boolean escok,
 ///////////////////////////////////////////////////////////////////////////
 void US_InitRndT(int randomize)
 {
-	if (randomize)
-		rndindex = (SDL_GetTicks() >> 4) & 0xff;
-	else
-		rndindex = 0;
+#ifdef USE_RAND
+    if (randomize)
+        srand((unsigned)time(0));
+    else
+        srand(0);
+#else
+    if(randomize)
+        rndindex = (SDL_GetTicks() >> 4) & 0xff;
+    else
+        rndindex = 0;
+#endif
 }
 
 ///////////////////////////////////////////////////////////////////////////
@@ -807,6 +816,10 @@ void US_InitRndT(int randomize)
 ///////////////////////////////////////////////////////////////////////////
 int US_RndT()
 {
-	rndindex = (rndindex + 1) & 0xff;
-	return rndtable[rndindex];
+#ifdef USE_RAND
+    return RANDINT(256);
+#else
+    rndindex = (rndindex+1)&0xff;
+    return rndtable[rndindex];
+#endif
 }

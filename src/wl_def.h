@@ -8,8 +8,13 @@
 #include <fcntl.h>
 #include <math.h>
 #include <ctype.h>
+#ifdef __cplusplus
+#ifdef USE_RAND
+#include <ctime>
+#endif
 #include <cstring>
 #include <iostream>
+#endif
 #include <stdio.h>
 #include <stdlib.h>
 #if defined(_arch_dreamcast)

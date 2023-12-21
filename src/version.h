@@ -51,7 +51,7 @@
 //#define VIEWMAP									// Enables the overhead map
 //#define REVEALMAP									// Enables showing only the areas of the overhead map that have been seen
 //#define USE_READTHIS								// Enables help text in the main menu, also works on SPEAR but there are no textures for the ReadThis frame.
-
+//#define USE_RAND                                    // Enables the C++ random number generator
 
 #define DEBUGKEYS									// Comment this out to compile without the Tab debug keys
 //#define ARTSEXTERN

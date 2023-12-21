@@ -67,6 +67,14 @@ extern HighScore Scores[];
         PrintY = WindowY; \
     }
 
+#ifdef USE_RAND
+#define RANDINT(range)   ((int)(((uint64_t)(range) * (uint64_t)rand()) / (uint64_t)RAND_MAX))
+#define RANDUINT(range)   ((unsigned)(((uint64_t)(range) * (uint64_t)rand()) / (uint64_t)RAND_MAX))
+#define RANDSHORT(range)   ((short)(((uint64_t)(range) * (uint64_t)rand()) / (uint64_t)RAND_MAX))
+#define RANDUSHORT(range)   ((unsigned short)(((uint64_t)(range) * (uint64_t)rand()) / (uint64_t)RAND_MAX))
+#define RANDBYTE(range)   ((byte)(((uint64_t)(range) * (uint64_t)rand()) / (uint64_t)RAND_MAX))
+#endif
+
 void US_Startup(void);
 void US_Shutdown(void);
 void US_TextScreen(void),
