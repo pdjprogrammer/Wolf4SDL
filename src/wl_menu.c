@@ -1143,7 +1143,7 @@ int CP_NewGame(int blank)
 {
 	int which, episode;
 
-#ifndef SPEAR
+#if !defined(SPEAR) && !defined (SEAMLESSLEVELS)
 	firstpart :
 
 	DrawNewEpisode();
@@ -1219,7 +1219,7 @@ int CP_NewGame(int blank)
 	if (which < 0)
 	{
 		MenuFadeOut();
-#ifndef SPEAR
+#if !defined(SPEAR) && !defined (SEAMLESSLEVELS)
 		goto firstpart;
 #else
 		return 0;
@@ -1243,7 +1243,7 @@ int CP_NewGame(int blank)
 	return 0;
 }
 
-#ifndef SPEAR
+#if !defined(SPEAR) && !defined (SEAMLESSLEVELS)
 
 /////////////////////
 //
@@ -5672,6 +5672,7 @@ void CheckForEpisodes(void)
 		Quit("NO WOLFENSTEIN 3-D DATA FILES to be found!");
 #else
 #ifndef SPEAR
+#ifndef SEAMLESSLEVELS
 	if (!stat("vswap.wl6", &statbuf))
 	{
 		strcpy(extension, "wl6");
@@ -5682,6 +5683,7 @@ void CheckForEpisodes(void)
 			NewEmenu[10].active =
 			EpisodeSelect[1] =
 			EpisodeSelect[2] = EpisodeSelect[3] = EpisodeSelect[4] = EpisodeSelect[5] = 1;
+
 	}
 	else
 	{
@@ -5693,11 +5695,21 @@ void CheckForEpisodes(void)
 		else
 		{
 			if (!stat("vswap.wl1", &statbuf))
+			{
 				strcpy(extension, "wl1");
+}
 			else
 				Quit("NO WOLFENSTEIN 3-D DATA FILES to be found!");
 		}
 	}
+#else
+	if (!stat("vswap.wl6", &statbuf))
+	{
+		strcpy(extension, "wl6");
+	}
+	else
+		Quit("NO WOLFENSTEIN 3-D DATA FILES to be found!");
+#endif
 #endif
 #endif
 

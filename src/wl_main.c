@@ -1525,7 +1525,7 @@ static void DemoLoop()
 		EnableEndGameMenuItem();
 		NewGame(param_difficulty, 0);
 
-#ifndef SPEAR
+#if !defined(SPEAR) && !defined(SEAMLESSLEVELS)
 		gamestate.episode = param_tedlevel / 10;
 		gamestate.mapon = param_tedlevel % 10;
 #else

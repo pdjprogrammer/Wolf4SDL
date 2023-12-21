@@ -1072,7 +1072,7 @@ void RecordDemo(void)
 
     VW_FadeOut();
 
-#ifndef SPEAR
+#if !defined(SPEAR) && !defined(SEAMLESSLEVELS)
     NewGame(gd_hard, level / 10);
     gamestate.mapon = level % 10;
 #else
@@ -1559,7 +1559,7 @@ restartgame:
         case ex_victorious:
             if (viewsize == 21)
                 DrawPlayScreen();
-#ifndef SPEAR
+#if !defined(SPEAR) && !defined(SEAMLESSLEVELS)
             VW_FadeOut();
 #else
             VL_FadeOut(0, 255, 0, 17, 17, 300);

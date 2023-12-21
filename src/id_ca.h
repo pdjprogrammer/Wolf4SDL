@@ -56,4 +56,8 @@ void CA_CacheMap(int mapnum);
 
 void CA_CannotOpen(const char *name);
 
+#ifdef MAPNAME
+void CA_PrintMapName(int which);
+#endif
+
 #endif
