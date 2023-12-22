@@ -111,7 +111,8 @@ CP_itemtype SndMenu[] = {
 	{1, "", 0},
 	{1, "", 0},
 #else
-	{1, STR_NONE, 0},
+#ifndef VIEASM
+		{1, STR_NONE, 0},
 	{1, STR_PC, 0},
 	{1, STR_ALSB, 0},
 	{0, "", 0},
@@ -123,6 +124,18 @@ CP_itemtype SndMenu[] = {
 	{0, "", 0},
 	{1, STR_NONE, 0},
 	{1, STR_ALSB, 0}
+#else
+	 {1, "Off", 0},
+	{1, "On", 0},
+	{0, "", 0},
+	{0, "", 0},
+	{1, "Off", 0},
+	{1, "On", 0},
+	{0, "", 0},
+	{0, "", 0},
+	{1, "Adjust Volume", AdjustVolume},
+	{1, "Reverse Stereo", 0},
+#endif // !VIEASM
 #endif
 };
 
@@ -1333,6 +1346,7 @@ void DrawNewGameDiff(int w)
 // HANDLE SOUND MENU
 //
 ////////////////////////////////////////////////////////////////////
+#ifndef VIEASM
 int CP_Sound(int blank)
 {
 	int which;
@@ -1384,7 +1398,6 @@ int CP_Sound(int blank)
 				ShootSnd();
 			}
 			break;
-
 			//
 			// DIGITIZED SOUND
 			//
@@ -1411,7 +1424,6 @@ int CP_Sound(int blank)
 				ShootSnd();
 			}
 			break;
-
 			//
 			// MUSIC
 			//
@@ -1439,11 +1451,12 @@ int CP_Sound(int blank)
 
 	return 0;
 }
-
+#endif
 //////////////////////
 //
 // DRAW THE SOUND MENU
 //
+#ifndef VIEASM
 void DrawSoundMenu(void)
 {
 	int i, on;
@@ -1550,6 +1563,322 @@ void DrawSoundMenu(void)
 	DrawMenuGun(&SndItems);
 	VW_UpdateScreen();
 }
+#else
+void
+DrawSliderBox(int x, int y, int val, int valinc, int width, int height, byte colour)
+{
+	byte usecolour;
+	if (colour == READCOLOR)
+		usecolour = READHCOLOR;
+	else
+		usecolour = HIGHLIGHT;
+	DrawOutline(x + valinc * val, y, width, height, 0, colour);
+	VWB_Bar(x + 1 + valinc * val, y + 1, width - 1, height - 1, usecolour);
+}
+
+void
+DrawSoundVols(bool curmode)
+{
+	ClearMScreen();
+	DrawWindow(40, 25, 240, 145, BKGDCOLOR);
+
+	VWB_DrawPic(112, 184, C_MOUSELBACKPIC);
+
+	WindowX = 0;
+	WindowW = 320;
+	PrintY = 30;
+	SETFONTCOLOR(READCOLOR, BKGDCOLOR);
+	US_CPrint("Adjust Volume");
+
+	PrintY = 58;
+	SETFONTCOLOR(TEXTCOLOR, BKGDCOLOR);
+	US_CPrint("Sound");
+
+	PrintY = 108;
+	US_CPrint("Music");
+
+	char soundstr[4], musicstr[4];
+
+	sprintf(soundstr, "%d", soundvol);
+	sprintf(musicstr, "%d", musicvol);
+
+	if (curmode)
+	{
+		SETFONTCOLOR(TEXTCOLOR, BKGDCOLOR);
+	}
+	else
+	{
+		SETFONTCOLOR(READCOLOR, BKGDCOLOR);
+	}
+	PrintX = 65 + soundvol * 2 - strlen(soundstr) * 4;
+	PrintY = 84;
+	US_Print(soundstr);
+
+	if (!curmode)
+	{
+		SETFONTCOLOR(TEXTCOLOR, BKGDCOLOR);
+	}
+	else
+	{
+		SETFONTCOLOR(READCOLOR, BKGDCOLOR);
+	}
+	PrintX = 65 + musicvol * 2 - strlen(musicstr) * 4;
+	PrintY = 134;
+	US_Print(musicstr);
+
+
+	VWB_Bar(60, 72, 210, 10, TEXTCOLOR);
+	DrawOutline(60, 72, 210, 10, 0, HIGHLIGHT);
+
+	VWB_Bar(60, 122, 210, 10, TEXTCOLOR);
+	DrawOutline(60, 122, 210, 10, 0, HIGHLIGHT);
+
+	DrawSliderBox(60, 72, soundvol, 2, 10, 10, (curmode) ? TEXTCOLOR : READCOLOR);
+	DrawSliderBox(60, 122, musicvol, 2, 10, 10, (curmode) ? READCOLOR : TEXTCOLOR);
+
+	VW_UpdateScreen();
+}
+
+
+int AdjustVolume(int)
+{
+	ControlInfo ci;
+	int exit = 0, oldSV = soundvol, oldMV = musicvol;
+	bool curmode = 0;
+
+	DrawSoundVols(curmode);
+	MenuFadeIn();
+	WaitKeyUp();
+	do
+	{
+		SDL_Delay(5);
+		ReadAnyControl(&ci);
+		switch (ci.dir)
+		{
+		case dir_North:
+		case dir_South:
+			curmode = (curmode) ? 0 : 1;
+			DrawSoundVols(curmode);
+			IN_ClearKeysDown();
+			break;
+		case dir_West:
+			if (curmode)
+			{
+				if (musicvol > 0)
+				{
+					musicvol--;
+					DrawSoundVols(curmode);
+					SD_ChangeVolume((byte)(soundvol * 1.28), (byte)(musicvol * 1.28));
+					TicDelay(2);
+				}
+			}
+			else
+			{
+				if (soundvol > 0)
+				{
+					soundvol--;
+					DrawSoundVols(curmode);
+					SD_ChangeVolume((byte)(soundvol * 1.28), (byte)(musicvol * 1.28));
+					TicDelay(2);
+				}
+			}
+			break;
+		case dir_East:
+			if (curmode)
+			{
+				if (musicvol < 100)
+				{
+					musicvol++;
+					DrawSoundVols(curmode);
+					SD_ChangeVolume((byte)(soundvol * 1.28), (byte)(musicvol * 1.28));
+					TicDelay(2);
+				}
+			}
+			else
+			{
+				if (soundvol < 100)
+				{
+					soundvol++;
+					DrawSoundVols(curmode);
+					SD_ChangeVolume((byte)(soundvol * 1.28), (byte)(musicvol * 1.28));
+					TicDelay(2);
+				}
+			}
+			break;
+		}
+
+		if (ci.button0 || Keyboard(sc_Space) || Keyboard(sc_Enter))
+			exit = 1;
+		else if (ci.button1 || Keyboard(sc_Escape))
+			exit = 2;
+
+	} while (!exit);
+
+	if (exit == 2)
+	{
+		soundvol = oldSV;
+		musicvol = oldMV;
+		SD_PlaySound(ESCPRESSEDSND);
+	}
+	else
+		SD_PlaySound(SHOOTSND);
+
+	WaitKeyUp();
+	MenuFadeOut();
+
+	return 0;
+}
+
+int
+CP_Sound(int)
+{
+	int which;
+
+	DrawSoundMenu();
+	MenuFadeIn();
+	WaitKeyUp();
+
+	do
+	{
+		which = HandleMenu(&SndItems, &SndMenu[0], NULL);
+		//
+		// HANDLE MENU CHOICES
+		//
+		switch (which)
+		{
+			//
+			// SOUND EFFECTS
+			//
+		case 0:
+			if (SoundMode != sdm_Off)
+			{
+				SD_WaitSoundDone();
+				SD_SetSoundMode(sdm_Off);
+				DrawSoundMenu();
+			}
+			break;
+		case 1:
+			if (SoundMode != sdm_AdLib)
+			{
+				SD_WaitSoundDone();
+				SD_SetSoundMode(sdm_AdLib);
+				CA_LoadAllSounds();
+				DrawSoundMenu();
+				ShootSnd();
+			}
+			break;
+
+			//
+			// MUSIC
+			//
+		case 4:
+			if (MusicMode != smm_Off)
+			{
+				SD_SetMusicMode(smm_Off);
+				DrawSoundMenu();
+				ShootSnd();
+			}
+			break;
+		case 5:
+			if (MusicMode != smm_AdLib)
+			{
+				SD_SetMusicMode(smm_AdLib);
+				DrawSoundMenu();
+				ShootSnd();
+				StartCPMusic(MENUSONG);
+			}
+			break;
+		case 8:
+			DrawSoundMenu();
+			MenuFadeIn();
+			WaitKeyUp();
+			break;
+		case 9:
+			reversestereo ^= 1;
+			SD_Reverse(reversestereo);
+			DrawSoundMenu();
+			ShootSnd();
+		}
+	} while (which >= 0);
+
+	MenuFadeOut();
+
+	return 0;
+}
+
+void
+DrawSoundMenu(void)
+{
+	int i, on;
+
+	//
+	// DRAW SOUND MENU
+	//
+	ClearMScreen();
+	VWB_DrawPic(112, 184, C_MOUSELBACKPIC);
+
+	DrawWindow(SM_X - 8, SM_Y1 - 3, SM_W, SM_H1, BKGDCOLOR);
+	DrawWindow(SM_X - 8, SM_Y2 - 3, SM_W, SM_H2, BKGDCOLOR);
+	DrawWindow(SM_X - 8, SM_Y3 - 3, SM_W, SM_H3, BKGDCOLOR);
+
+	VWB_DrawPic(100, SM_Y1 - 20, C_FXTITLEPIC);
+	VWB_DrawPic(100, SM_Y2 - 20, C_MUSICTITLEPIC);
+	VWB_DrawPic(100, SM_Y3 - 20, C_DIGITITLEPIC);
+
+	DrawMenu(&SndItems, &SndMenu[0]);
+
+	for (i = 0; i < SndItems.amount; i++)
+		if (SndMenu[i].string[0])
+		{
+			//
+			// DRAW SELECTED/NOT SELECTED GRAPHIC BUTTONS
+			//
+			on = 0;
+			switch (i)
+			{
+				//
+				// SOUND EFFECTS
+				//
+			case 0:
+				if (SoundMode == sdm_Off)
+					on = 1;
+				break;
+			case 1:
+				if (SoundMode == sdm_AdLib)
+					on = 1;
+				break;
+
+				//
+				// MUSIC
+				//
+			case 4:
+				if (MusicMode == smm_Off)
+					on = 1;
+				break;
+			case 5:
+				if (MusicMode == smm_AdLib)
+					on = 1;
+				break;
+			case 9:
+				if (reversestereo)
+					on = 1;
+				break;
+			}
+
+			if (i < 6 || i > 8)
+			{
+				if (on)
+					VWB_DrawPic(SM_X + 24, SM_Y1 + i * 13 + 2, C_SELECTEDPIC);
+				else
+					VWB_DrawPic(SM_X + 24, SM_Y1 + i * 13 + 2, C_NOTSELECTEDPIC);
+			}
+		}
+
+	DrawMenuGun(&SndItems);
+	VW_UpdateScreen();
+}
+#endif
+
 
 //
 // DRAW LOAD/SAVE IN PROGRESS
@@ -1932,7 +2261,7 @@ int CP_Control(int blank)
 #endif
 
 #ifdef USE_MODERN_CONTROLS
-		
+
 		case CTL_ALWAYSRUN:
 			alwaysRun ^= 1;
 			DrawCtlScreen();
@@ -2677,7 +3006,7 @@ enum
 	NEXTWEP//,
 	//AUTOMAP
 };
-int actionorder[6] = { WEP1, WEP2, WEP3, WEP4, PREVWEP, NEXTWEP/*, AUTOMAP*/};
+int actionorder[6] = { WEP1, WEP2, WEP3, WEP4, PREVWEP, NEXTWEP/*, AUTOMAP*/ };
 
 int CP_KeyboardMoreActionCtl(int blank)
 {
@@ -2716,10 +3045,10 @@ int CP_KeyboardMoreActionCtl(int blank)
 			DefineKeyMoreActionsBtns(6);
 			DrawMoreActionsKeys(6);
 			break;
-		//case CTL_KB_MORE_ACTION_AUTOMAP:
-		//	DefineKeyMoreActionsBtns(7);
-		//	DrawMoreActionsKeys(7);
-		//	break;
+			//case CTL_KB_MORE_ACTION_AUTOMAP:
+			//	DefineKeyMoreActionsBtns(7);
+			//	DrawMoreActionsKeys(7);
+			//	break;
 		default:
 			which = -1;
 			menuExit++;
@@ -2740,7 +3069,7 @@ void ExitToControlScreen(void) {
 	if (menuExit <= 2) {
 		if (menuExit == 1) {
 			menuExit++;
-			MenuFadeOut();			
+			MenuFadeOut();
 		}
 
 		if (menuExit == 2) {
@@ -3938,7 +4267,7 @@ void PrintCustMouse(int i)
 #endif
 			US_Print(mbarray[j]);
 			break;
-}
+		}
 }
 
 void DrawCustMouse(int highlight)
@@ -4332,7 +4661,7 @@ int CP_Quit(int blank)
 		SD_StopSound();
 		MenuFadeOut();
 		Quit(NULL);
-}
+	}
 
 	DrawMainMenu();
 	return 0;
@@ -4420,17 +4749,19 @@ void IntroScreen(void)
 		VWB_Bar(164, 105, 12, 2, FILLCOLOR);
 #endif
 
-	
-
+#ifndef VIEASM
 	if (AdLibPresent && !SoundBlasterPresent)
+#endif	
 		VWB_Bar(164, 128, 12, 2, FILLCOLOR);
 
+#ifndef VIEASM
 	if (SoundBlasterPresent)
+#endif	
 		VWB_Bar(164, 151, 12, 2, FILLCOLOR);
 
 	//    if (SoundSourcePresent)
 	//        VWB_Bar (164, 174, 12, 2, FILLCOLOR);
-	}
+}
 
 ////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////
@@ -4535,13 +4866,13 @@ void SetupSaveGames()
 				read(handle, temp, 32);
 				close(handle);
 				strcpy(&SaveGameNames[i][0], temp);
-		}
+			}
 #ifdef _arch_dreamcast
 			// Remove unpacked version of file
 			fs_unlink(name);
-	}
+		}
 #endif
-}
+	}
 }
 
 ////////////////////////////////////////////////////////////////////
@@ -5097,29 +5428,29 @@ int Confirm(const char* string)
 #ifdef SPANISH
 	} while (!Keyboard(sc_S) && !Keyboard(sc_N) && !Keyboard(sc_Escape));
 #else
-} while (!Keyboard(sc_Y) && !Keyboard(sc_N) && !Keyboard(sc_Escape) && !ci.button0 && !ci.button1);
+	} while (!Keyboard(sc_Y) && !Keyboard(sc_N) && !Keyboard(sc_Escape) && !ci.button0 && !ci.button1);
 #endif
 
 #ifdef SPANISH
-if (Keyboard(sc_S) || ci.button0)
-{
-	xit = 1;
-	ShootSnd();
-}
+	if (Keyboard(sc_S) || ci.button0)
+	{
+		xit = 1;
+		ShootSnd();
+	}
 #else
-if (Keyboard(sc_Y) || ci.button0)
-{
-	xit = 1;
-	ShootSnd();
-}
+	if (Keyboard(sc_Y) || ci.button0)
+	{
+		xit = 1;
+		ShootSnd();
+	}
 #endif
 
-IN_ClearKeysDown();
-WaitKeyUp();
+	IN_ClearKeysDown();
+	WaitKeyUp();
 
-SD_PlaySound((soundnames)whichsnd[xit]);
+	SD_PlaySound((soundnames)whichsnd[xit]);
 
-return xit;
+	return xit;
 }
 
 #ifdef JAPAN
@@ -5227,7 +5558,10 @@ int StartCPMusic(int song)
 
 	lastmusic = song;
 	lastoffs = SD_MusicOff();
+
+#ifndef VIEASM
 	UNCACHEAUDIOCHUNK(STARTMUSIC + lastmusic);
+#endif	
 
 	SD_StartMusic(STARTMUSIC + song);
 	return lastoffs;
@@ -5235,7 +5569,9 @@ int StartCPMusic(int song)
 
 void FreeMusic(void)
 {
+#ifndef VIEASM
 	UNCACHEAUDIOCHUNK(STARTMUSIC + lastmusic);
+#endif	
 }
 
 ///////////////////////////////////////////////////////////////////////////
@@ -5634,8 +5970,8 @@ void CheckForEpisodes(void)
 			{
 				Quit("The configuration directory \"%s\" could not be created.", configdir);
 			}
+		}
 	}
-}
 
 	//
 	// JAPANESE VERSION
@@ -5697,7 +6033,7 @@ void CheckForEpisodes(void)
 			if (!stat("vswap.wl1", &statbuf))
 			{
 				strcpy(extension, "wl1");
-}
+			}
 			else
 				Quit("NO WOLFENSTEIN 3-D DATA FILES to be found!");
 		}
@@ -5759,7 +6095,9 @@ void CheckForEpisodes(void)
 #endif
 #else
 	strcpy(graphext, extension);
+#ifndef VIEASM
 	strcpy(audioext, extension);
+#endif
 #endif
 
 	strcat(configname, extension);
@@ -5771,4 +6109,4 @@ void CheckForEpisodes(void)
 #endif
 	strcat(endfilename, extension);
 #endif
-	}
+}

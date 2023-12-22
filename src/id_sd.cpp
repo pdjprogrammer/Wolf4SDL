@@ -26,7 +26,7 @@
 //                      NeedsDigitized - load digitized sounds?
 //                      NeedsMusic - load music?
 //
-
+/*
 #include "wl_def.h"
 #include <SDL_mixer.h>
 #if defined(GP2X_940)
@@ -1293,3 +1293,4 @@ SD_MusicPlaying(void)
 
     return (result);
 }
+*/

@@ -2153,10 +2153,12 @@ statetype s_fatshoot6 = {false, SPR_FAT_SHOOT4, 10, NULL, (statefunc)T_Shoot, &s
 
 void SpawnSchabbs(int tilex, int tiley)
 {
+#ifndef VIEASM
     if (DigiMode != sds_Off)
         s_schabbdie2.tictime = 140;
     else
         s_schabbdie2.tictime = 5;
+#endif
 
     SpawnNewObj(tilex, tiley, &s_schabbstand);
     newobj->speed = SPDPATROL;
@@ -2179,10 +2181,12 @@ void SpawnSchabbs(int tilex, int tiley)
 
 void SpawnGift(int tilex, int tiley)
 {
+#ifndef VIEASM
     if (DigiMode != sds_Off)
         s_giftdie2.tictime = 140;
     else
         s_giftdie2.tictime = 5;
+#endif
 
     SpawnNewObj(tilex, tiley, &s_giftstand);
     newobj->speed = SPDPATROL;
@@ -2205,10 +2209,12 @@ void SpawnGift(int tilex, int tiley)
 
 void SpawnFat(int tilex, int tiley)
 {
+#ifndef VIEASM
     if (DigiMode != sds_Off)
         s_fatdie2.tictime = 140;
     else
         s_fatdie2.tictime = 5;
+#endif
 
     SpawnNewObj(tilex, tiley, &s_fatstand);
     newobj->speed = SPDPATROL;
@@ -2772,10 +2778,12 @@ void SpawnFakeHitler(int tilex, int tiley)
 
 void SpawnHitler(int tilex, int tiley)
 {
+#ifndef VIEASM
     if (DigiMode != sds_Off)
         s_hitlerdie2.tictime = 140;
     else
         s_hitlerdie2.tictime = 5;
+#endif
 
     SpawnNewObj(tilex, tiley, &s_mechastand);
     newobj->speed = SPDPATROL;

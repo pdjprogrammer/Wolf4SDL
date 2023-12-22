@@ -16,6 +16,7 @@
 //#define JAPAN
 
 //#define SEAMLESSLEVELS							// Only works on Wolf3d
+#define VIEASM
 
 /*
 	Wolf3d Full v1.1 Apogee (with ReadThis)			- define CARMACIZED and APOGEE_1_1

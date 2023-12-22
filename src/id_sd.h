@@ -4,7 +4,7 @@
 //      Version for Wolfenstein
 //      By Jason Blochowiak
 //
-
+/*
 #ifndef __ID_SD_H_
 #define __ID_SD_H_
 
@@ -163,3 +163,4 @@ extern int SD_PlayDigitized(word which, int leftpos, int rightpos);
 extern void SD_StopDigitized(void);
 
 #endif
+*/

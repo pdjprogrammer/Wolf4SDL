@@ -52,6 +52,8 @@ static char stderrPath[MAX_PATH];
 #endif
 #endif
 
+bool allowwindow = true;
+
 #if defined(_WIN32_WCE) && _WIN32_WCE < 300
 /* seems to be undefined in Win CE although in online help */
 #define isspace(a) (((CHAR)a == ' ') || ((CHAR)a == '\t'))
@@ -171,13 +173,20 @@ static void cleanup_output(void)
 			size_t readbytes = fread(buf, 1, 16383, file);
 			fclose(file);
 
-			if (readbytes != 0)
+#ifdef VIEASM
+			if (allowwindow)
 			{
-				buf[readbytes] = 0; // cut after last byte (<=16383)
-				MessageBox(NULL, buf, "Wolf4SDL", MB_OK);
+#endif
+				if (readbytes != 0)
+				{
+					buf[readbytes] = 0; // cut after last byte (<=16383)
+					MessageBox(NULL, buf, "Wolf4SDL", MB_OK);
+				}
+				else
+					remove(stdoutPath); // remove empty file
+#ifdef VIEASM
 			}
-			else
-				remove(stdoutPath); // remove empty file
+#endif
 		}
 	}
 	if (stderrPath[0])

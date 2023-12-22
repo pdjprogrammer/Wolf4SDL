@@ -25,6 +25,10 @@
 
 extern byte signon[];
 
+#ifdef VIEASM
+boolean nosound = false;
+#endif
+
 /*
 =============================================================================
 
@@ -77,6 +81,9 @@ boolean startgame;
 boolean loadedgame;
 int mouseadjustment;
 
+byte soundvol, musicvol;
+bool reversestereo;
+
 char configdir[256] = "";
 char configname[13] = "config.";
 
@@ -128,7 +135,9 @@ void ReadConfig(void)
 {
 	SDMode sd;
 	SMMode sm;
+#ifndef VIEASM
 	SDSMode sds;
+#endif	
 
 	char configpath[300];
 
@@ -158,7 +167,9 @@ void ReadConfig(void)
 
 		read(file, &sd, sizeof(sd));
 		read(file, &sm, sizeof(sm));
+#ifndef VIEASM
 		read(file, &sds, sizeof(sds));
+#endif
 
 		read(file, &mouseenabled, sizeof(mouseenabled));
 #ifdef USE_MODERN_CONTROLS
@@ -190,8 +201,15 @@ void ReadConfig(void)
 		read(file, &viewsize, sizeof(viewsize));
 		read(file, &mouseadjustment, sizeof(mouseadjustment));
 
+#ifdef VIEASM
+		read(file, &soundvol, sizeof(soundvol));
+		read(file, &musicvol, sizeof(musicvol));
+		read(file, &reversestereo, sizeof(reversestereo));
+#endif
+
 		close(file);
 
+#ifndef VIEASM
 		if ((sd == sdm_AdLib || sm == smm_AdLib) && !AdLibPresent && !SoundBlasterPresent)
 		{
 			sd = sdm_PC;
@@ -200,6 +218,7 @@ void ReadConfig(void)
 
 		if ((sds == sds_SoundBlaster && !SoundBlasterPresent))
 			sds = sds_Off;
+#endif
 
 		// make sure values are correct
 
@@ -237,6 +256,11 @@ void ReadConfig(void)
 		else if (viewsize > 21)
 			viewsize = 21;
 
+#ifdef VIEASM
+		if (soundvol > 100) soundvol = 100;
+		if (musicvol > 100) musicvol = 100;
+#endif
+
 		MainMenu[6].active = 1;
 		MainItems.curpos = 0;
 	}
@@ -246,6 +270,7 @@ void ReadConfig(void)
 		// no config file, so select by hardware
 		//
 	noconfig:
+#ifndef VIEASM
 		if (SoundBlasterPresent || AdLibPresent)
 		{
 			sd = sdm_AdLib;
@@ -261,6 +286,10 @@ void ReadConfig(void)
 			sds = sds_SoundBlaster;
 		else
 			sds = sds_Off;
+#else
+		sd = sdm_AdLib;
+		sm = smm_AdLib;
+#endif		
 
 		if (MousePresent)
 		{
@@ -278,11 +307,22 @@ void ReadConfig(void)
 #endif
 		viewsize = 19; // start with a good size
 		mouseadjustment = 5;
+
+#ifdef VIEASM
+		soundvol = 100;
+		musicvol = 100;
+		reversestereo = false;
+#endif
 	}
 
 	SD_SetMusicMode(sm);
 	SD_SetSoundMode(sd);
+#ifndef VIEASM
 	SD_SetDigiDevice(sds);
+#else
+	SD_ChangeVolume((byte)(soundvol * 1.28), (byte)(musicvol * 1.28));
+	SD_Reverse(reversestereo);
+#endif
 }
 
 /*
@@ -315,7 +355,9 @@ void WriteConfig(void)
 
 		write(file, &SoundMode, sizeof(SoundMode));
 		write(file, &MusicMode, sizeof(MusicMode));
+#ifndef VIEASM
 		write(file, &DigiMode, sizeof(DigiMode));
+#endif
 
 		write(file, &mouseenabled, sizeof(mouseenabled));
 #ifdef USE_MODERN_CONTROLS
@@ -346,6 +388,12 @@ void WriteConfig(void)
 #endif
 		write(file, &viewsize, sizeof(viewsize));
 		write(file, &mouseadjustment, sizeof(mouseadjustment));
+
+#ifdef VIEASM
+		write(file, &soundvol, sizeof(soundvol));
+		write(file, &musicvol, sizeof(musicvol));
+		write(file, &reversestereo, sizeof(reversestereo));
+#endif
 
 		close(file);
 	}
@@ -920,6 +968,7 @@ void FinishSignon(void)
 
 //===========================================================================
 
+#ifndef VIEASM
 /*
 =====================
 =
@@ -1196,8 +1245,11 @@ void DoJukebox(void)
 
 	MenuFadeOut();
 	IN_ClearKeysDown();
-	}
+}
 #endif
+#endif // !VIEASM
+
+
 
 /*
 ==========================
@@ -1211,9 +1263,11 @@ void DoJukebox(void)
 
 static void InitGame()
 {
+#ifndef VIEASM
 #ifndef SPEARDEMO
 	boolean didjukebox = false;
 #endif
+#endif // !VIEASM
 
 	// initialize SDL
 	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_JOYSTICK) < 0)
@@ -1270,7 +1324,9 @@ static void InitGame()
 	//
 	// build some tables
 	//
+#ifndef VIEASM
 	InitDigiMap();
+#endif // !VIEASM	
 
 	ReadConfig();
 
@@ -1284,8 +1340,10 @@ static void InitGame()
 #ifndef SPEARDEMO
 	if (Keyboard(sc_M))
 	{
+#ifndef VIEASM
 		DoJukebox();
 		didjukebox = true;
+#endif // !VIEASM	
 	}
 	else
 #endif
@@ -1311,9 +1369,11 @@ static void InitGame()
 	// initialize variables
 	//
 	InitRedShifts();
+#ifndef VIEASM
 #ifndef SPEARDEMO
 	if (!didjukebox)
 #endif
+#endif // !VIEASM
 		FinishSignon();
 
 #ifdef NOTYET
@@ -1459,7 +1519,7 @@ void Quit(const char* errorStr, ...)
 #endif
 		}
 		exit(1);
-		}
+	}
 
 	if (!error || !*error)
 	{
@@ -1499,8 +1559,12 @@ void Quit(const char* errorStr, ...)
 #endif
 	}
 
+#ifdef VIEASM
+	allowwindow = false;
+#endif
+
 	exit(0);
-	}
+}
 
 //===========================================================================
 
@@ -1679,195 +1743,197 @@ void CheckParameters(int argc, char* argv[])
 else IFARG("--baby")
 param_difficulty = 0;
 		else IFARG("--easy")
-		param_difficulty = 1;
+			param_difficulty = 1;
 		else IFARG("--normal")
-		param_difficulty = 2;
+			param_difficulty = 2;
 		else IFARG("--hard")
-		param_difficulty = 3;
+			param_difficulty = 3;
 		else IFARG("--nowait")
-		param_nowait = true;
+			param_nowait = true;
 		else IFARG("--tedlevel")
 		{
-		if (++i >= argc)
-		{
-			printf("The tedlevel option is missing the level argument!\n");
-			hasError = true;
-		}
-		else
-			param_tedlevel = atoi(argv[i]);
-		}
+			if (++i >= argc)
+			{
+				printf("The tedlevel option is missing the level argument!\n");
+				hasError = true;
+			}
+			else
+				param_tedlevel = atoi(argv[i]);
+				}
 		else IFARG("--windowed")
-		fullscreen = false;
+			fullscreen = false;
 		else IFARG("--windowed-mouse")
 		{
-		fullscreen = false;
-		forcegrabmouse = true;
-		}
+			fullscreen = false;
+			forcegrabmouse = true;
+			}
 		else IFARG("--res")
 		{
-		if (i + 2 >= argc)
-		{
-			printf("The res option needs the width and/or the height argument!\n");
-			hasError = true;
-		}
-		else
-		{
-			screenWidth = atoi(argv[++i]);
-			screenHeight = atoi(argv[++i]);
-			unsigned factor = screenWidth / 320;
-			if (screenWidth % 320 || screenHeight != 200 * factor && screenHeight != 240 * factor)
-				printf("Screen size must be a multiple of 320x200 or 320x240!\n"), hasError = true;
-		}
-		}
-		else IFARG("--resf")
-		{
-		if (i + 2 >= argc)
-		{
-			printf("The resf option needs the width and/or the height argument!\n");
-			hasError = true;
-		}
-		else
-		{
-			screenWidth = atoi(argv[++i]);
-			screenHeight = atoi(argv[++i]);
-			if (screenWidth < 320)
-				printf("Screen width must be at least 320!\n"), hasError = true;
-			if (screenHeight < 200)
-				printf("Screen height must be at least 200!\n"), hasError = true;
-		}
-		}
-		else IFARG("--bits")
-		{
-		if (++i >= argc)
-		{
-			printf("The bits option is missing the color depth argument!\n");
-			hasError = true;
-		}
-		else
-		{
-			screenBits = atoi(argv[i]);
-			switch (screenBits)
+			if (i + 2 >= argc)
 			{
-			case 8:
-			case 16:
-			case 24:
-			case 32:
-				break;
-
-			default:
-				printf("Screen color depth must be 8, 16, 24, or 32!\n");
-				hasError = true;
-				break;
-			}
-		}
-		}
-		else IFARG("--nodblbuf")
-		usedoublebuffering = false;
-		else IFARG("--extravbls")
-		{
-		if (++i >= argc)
-		{
-			printf("The extravbls option is missing the vbls argument!\n");
-			hasError = true;
-		}
-		else
-		{
-			extravbls = atoi(argv[i]);
-			if (extravbls < 0)
-			{
-				printf("Extravbls must be positive!\n");
-				hasError = true;
-			}
-		}
-		}
-		else IFARG("--joystick")
-		{
-		if (++i >= argc)
-		{
-			printf("The joystick option is missing the index argument!\n");
-			hasError = true;
-		}
-		else
-			param_joystickindex = atoi(argv[i]); // index is checked in InitGame
-		}
-		else IFARG("--joystickhat")
-		{
-		if (++i >= argc)
-		{
-			printf("The joystickhat option is missing the index argument!\n");
-			hasError = true;
-		}
-		else
-			param_joystickhat = atoi(argv[i]);
-		}
-		else IFARG("--samplerate")
-		{
-		if (++i >= argc)
-		{
-			printf("The samplerate option is missing the rate argument!\n");
-			hasError = true;
-		}
-		else
-			param_samplerate = atoi(argv[i]);
-		sampleRateGiven = true;
-		}
-		else IFARG("--audiobuffer")
-		{
-		if (++i >= argc)
-		{
-			printf("The audiobuffer option is missing the size argument!\n");
-			hasError = true;
-		}
-		else
-			param_audiobuffer = atoi(argv[i]);
-		audioBufferGiven = true;
-		}
-		else IFARG("--mission")
-		{
-		if (++i >= argc)
-		{
-			printf("The mission option is missing the mission argument!\n");
-			hasError = true;
-		}
-		else
-		{
-			param_mission = atoi(argv[i]);
-			if (param_mission < 0 || param_mission > 3)
-			{
-				printf("The mission option must be between 0 and 3!\n");
-				hasError = true;
-			}
-		}
-		}
-		else IFARG("--configdir")
-		{
-		if (++i >= argc)
-		{
-			printf("The configdir option is missing the dir argument!\n");
-			hasError = true;
-		}
-		else
-		{
-			size_t len = strlen(argv[i]);
-			if (len + 2 > sizeof(configdir))
-			{
-				printf("The config directory is too long!\n");
+				printf("The res option needs the width and/or the height argument!\n");
 				hasError = true;
 			}
 			else
 			{
-				strcpy(configdir, argv[i]);
-				if (argv[i][len] != '/' && argv[i][len] != '\\')
-					strcat(configdir, "/");
+				screenWidth = atoi(argv[++i]);
+				screenHeight = atoi(argv[++i]);
+				unsigned factor = screenWidth / 320;
+				if (screenWidth % 320 || screenHeight != 200 * factor && screenHeight != 240 * factor)
+					printf("Screen size must be a multiple of 320x200 or 320x240!\n"), hasError = true;
 			}
-		}
-		}
+			}
+		else IFARG("--resf")
+		{
+			if (i + 2 >= argc)
+			{
+				printf("The resf option needs the width and/or the height argument!\n");
+				hasError = true;
+			}
+			else
+			{
+				screenWidth = atoi(argv[++i]);
+				screenHeight = atoi(argv[++i]);
+				if (screenWidth < 320)
+					printf("Screen width must be at least 320!\n"), hasError = true;
+				if (screenHeight < 200)
+					printf("Screen height must be at least 200!\n"), hasError = true;
+			}
+			}
+		else IFARG("--bits")
+		{
+			if (++i >= argc)
+			{
+				printf("The bits option is missing the color depth argument!\n");
+				hasError = true;
+			}
+			else
+			{
+				screenBits = atoi(argv[i]);
+				switch (screenBits)
+				{
+				case 8:
+				case 16:
+				case 24:
+				case 32:
+					break;
+
+				default:
+					printf("Screen color depth must be 8, 16, 24, or 32!\n");
+					hasError = true;
+					break;
+				}
+			}
+			}
+		else IFARG("--nodblbuf")
+			usedoublebuffering = false;
+		else IFARG("--extravbls")
+		{
+			if (++i >= argc)
+			{
+				printf("The extravbls option is missing the vbls argument!\n");
+				hasError = true;
+			}
+			else
+			{
+				extravbls = atoi(argv[i]);
+				if (extravbls < 0)
+				{
+					printf("Extravbls must be positive!\n");
+					hasError = true;
+				}
+			}
+			}
+		else IFARG("--joystick")
+		{
+			if (++i >= argc)
+			{
+				printf("The joystick option is missing the index argument!\n");
+				hasError = true;
+			}
+			else
+				param_joystickindex = atoi(argv[i]); // index is checked in InitGame
+				}
+		else IFARG("--joystickhat")
+		{
+			if (++i >= argc)
+			{
+				printf("The joystickhat option is missing the index argument!\n");
+				hasError = true;
+			}
+			else
+				param_joystickhat = atoi(argv[i]);
+				}
+		else IFARG("--samplerate")
+		{
+			if (++i >= argc)
+			{
+				printf("The samplerate option is missing the rate argument!\n");
+				hasError = true;
+			}
+			else
+				param_samplerate = atoi(argv[i]);
+			sampleRateGiven = true;
+			}
+		else IFARG("--audiobuffer")
+		{
+			if (++i >= argc)
+			{
+				printf("The audiobuffer option is missing the size argument!\n");
+				hasError = true;
+			}
+			else
+				param_audiobuffer = atoi(argv[i]);
+			audioBufferGiven = true;
+			}
+		else IFARG("--mission")
+		{
+			if (++i >= argc)
+			{
+				printf("The mission option is missing the mission argument!\n");
+				hasError = true;
+			}
+			else
+			{
+				param_mission = atoi(argv[i]);
+				if (param_mission < 0 || param_mission > 3)
+				{
+					printf("The mission option must be between 0 and 3!\n");
+					hasError = true;
+				}
+			}
+			}
+		else IFARG("--configdir")
+		{
+			if (++i >= argc)
+			{
+				printf("The configdir option is missing the dir argument!\n");
+				hasError = true;
+			}
+			else
+			{
+				size_t len = strlen(argv[i]);
+				if (len + 2 > sizeof(configdir))
+				{
+					printf("The config directory is too long!\n");
+					hasError = true;
+				}
+				else
+				{
+					strcpy(configdir, argv[i]);
+					if (argv[i][len] != '/' && argv[i][len] != '\\')
+						strcat(configdir, "/");
+				}
+			}
+			}
 		else IFARG("--goodtimes")
-		param_goodtimes = true;
+			param_goodtimes = true;
 		else IFARG("--ignorenumchunks")
-		param_ignorenumchunks = true;
+			param_ignorenumchunks = true;
 		else IFARG("--help")
-		showHelp = true;
+			showHelp = true;
+		else IFARG("--nosound")
+			nosound = true;
 		else hasError = true;
 	}
 	if (hasError || showHelp)
@@ -1888,6 +1954,7 @@ param_difficulty = 0;
 			" --hard                 Sets the difficulty to hard for tedlevel\n"
 			" --nowait               Skips intro screens\n"
 			" --windowed[-mouse]     Starts the game in a window [and grabs mouse]\n"
+			" --nosound				 Turns off sound\n"
 			" --res <width> <height> Sets the screen resolution\n"
 			"                        (must be multiple of 320x200 or 320x240)\n"
 			" --resf <w> <h>         Sets any screen resolution >= 320x200\n"

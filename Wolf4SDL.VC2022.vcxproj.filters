@@ -120,6 +120,15 @@
     <ClInclude Include="src\wl_utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\asmcomp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\asmcref.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\vieasm.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="win\Wolf4SDL.rc">
@@ -241,6 +250,12 @@
       <Filter>Source Files\mame</Filter>
     </ClCompile>
     <ClCompile Include="src\id_us.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\asmcomp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\vieasm.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

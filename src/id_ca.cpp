@@ -61,7 +61,9 @@ typedef struct
 
 word *mapsegs[MAPPLANES];
 maptype *mapheaderseg[NUMMAPS];
-byte *audiosegs[NUMSNDCHUNKS];
+#ifndef VIEASM
+byte* audiosegs[NUMSNDCHUNKS];
+#endif
 byte *grsegs[NUMCHUNKS];
 
 mapfiletype *tinf;
@@ -76,19 +78,25 @@ mapfiletype *tinf;
 
 char extension[5]; // Need a string, not constant to change cache files
 char graphext[5];
+#ifndef VIEASM
 char audioext[5];
+#endif
 static const char gheadname[] = "vgahead.";
 static const char gfilename[] = "vgagraph.";
 static const char gdictname[] = "vgadict.";
 static const char mheadname[] = "maphead.";
 static const char mfilename[] = "maptemp.";
+#ifndef VIEASM
 static const char aheadname[] = "audiohed.";
 static const char afilename[] = "audiot.";
+#endif
 
 void CA_CannotOpen(const char *string);
 
 static int32_t grstarts[NUMCHUNKS + 1];
-static int32_t *audiostarts; // array of offsets in audio / audiot
+#ifndef VIEASM
+static int32_t* audiostarts; // array of offsets in audio / audiot
+#endif
 
 #ifdef GRHEADERLINKED
 huffnode *grhuffman;
@@ -98,11 +106,15 @@ huffnode grhuffman[255];
 
 int grhandle = -1;    // handle to EGAGRAPH
 int maphandle = -1;   // handle to MAPTEMP / GAMEMAPS
+#ifndef VIEASM
 int audiohandle = -1; // handle to AUDIOT / AUDIO
+#endif
 
 int32_t chunkcomplen, chunkexplen;
 
+#ifndef VIEASM
 SDMode oldsoundmode;
+#endif
 
 static int32_t GRFILEPOS(const size_t idx)
 {
@@ -588,6 +600,7 @@ void CAL_SetupMapFile(void)
 
 //==========================================================================
 
+#ifndef VIEASM
 /*
 ======================
 =
@@ -621,7 +634,7 @@ void CAL_SetupAudioFile(void)
     if (audiohandle == -1)
         CA_CannotOpen(fname);
 }
-
+#endif
 //==========================================================================
 
 /*
@@ -643,7 +656,9 @@ void CA_Startup(void)
 
     CAL_SetupMapFile();
     CAL_SetupGrFile();
+#ifndef VIEASM
     CAL_SetupAudioFile();
+#endif
 }
 
 //==========================================================================
@@ -664,8 +679,10 @@ void CA_Shutdown(void)
 
     if (maphandle != -1)
         close(maphandle);
+#ifndef VIEASM
     if (audiohandle != -1)
         close(audiohandle);
+#endif
 
     for (i = 0; i < NUMCHUNKS; i++)
     {
@@ -691,6 +708,7 @@ void CA_Shutdown(void)
     free(tinf);
     tinf = NULL;
 
+#ifndef VIEASM
     switch (oldsoundmode)
     {
     case sdm_Off:
@@ -701,13 +719,16 @@ void CA_Shutdown(void)
     case sdm_AdLib:
         start = STARTADLIBSOUNDS;
         break;
-    }
+}
 
     for (i = 0; i < NUMSOUNDS; i++, start++)
         UNCACHEAUDIOCHUNK(start);
+#endif
 }
 
 //===========================================================================
+
+#ifndef VIEASM
 
 /*
 ======================
@@ -842,7 +863,7 @@ cachein:
             CA_CacheAudioChunk(start);
     }
 }
-
+#endif
 //===========================================================================
 
 /*

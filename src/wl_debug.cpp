@@ -320,10 +320,16 @@ void ShapeTest(void)
                 // display sound info
                 //
                 US_Print("\n\n Number of sounds: ");
+
+#ifndef VIEASM
                 US_PrintUnsigned(NumDigi);
 
                 for (l = j = 0; j < NumDigi; j++)
                     l += DigiList[j].length;
+#else
+                //TODO Replace with equivalent
+#endif
+
 
                 US_Print("\n Total bytes: ");
                 US_PrintUnsigned(l);
@@ -332,6 +338,7 @@ void ShapeTest(void)
             }
             else
             {
+#ifndef VIEASM
                 //
                 // display sounds
                 //
@@ -365,13 +372,16 @@ void ShapeTest(void)
 
                     if (v2 < 0)
                         VWB_Vlin(WindowY + WindowH - 32 + v2,
-                                 WindowY + WindowH - 32,
-                                 WindowX + 8 + (j / 32), BLACK);
+                            WindowY + WindowH - 32,
+                            WindowX + 8 + (j / 32), BLACK);
                     else
                         VWB_Vlin(WindowY + WindowH - 32,
-                                 WindowY + WindowH - 32 + v2,
-                                 WindowX + 8 + (j / 32), BLACK);
+                            WindowY + WindowH - 32 + v2,
+                            WindowX + 8 + (j / 32), BLACK);
                 }
+#else
+                //TODO Replace with equivalent
+#endif
             }
         }
 
@@ -412,7 +422,11 @@ void ShapeTest(void)
 
         case sc_P:
             if (sound != -1)
+#ifndef VIEASM
                 SD_PlayDigitized(sound, 8, 8);
+#else
+                SD_PlayDigitized(sound, 8, 8, false);
+#endif
             break;
 
         case sc_Escape:

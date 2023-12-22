@@ -169,6 +169,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\asmcomp.h" />
+    <ClInclude Include="src\asmcref.h" />
     <ClInclude Include="src\audiosod.h" />
     <ClInclude Include="src\audiowl6.h" />
     <ClInclude Include="src\dc\dc_main.h" />
@@ -191,6 +193,7 @@
     <ClInclude Include="src\mame\fmopl.h" />
     <ClInclude Include="src\sdl_wrap.h" />
     <ClInclude Include="src\version.h" />
+    <ClInclude Include="src\vieasm.h" />
     <ClInclude Include="src\wl_atmos.h" />
     <ClInclude Include="src\wl_cloudsky.h" />
     <ClInclude Include="src\wl_def.h" />
@@ -209,6 +212,7 @@
     <Image Include="win\Wolf4SDL.ico" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\asmcomp.cpp" />
     <ClCompile Include="src\dc\dc_cd.cpp" />
     <ClCompile Include="src\dc\dc_main.cpp" />
     <ClCompile Include="src\dc\dc_maple.cpp" />
@@ -226,6 +230,7 @@
     <ClCompile Include="src\sdl_winmain.cpp" />
     <ClCompile Include="src\sdl_wrap.cpp" />
     <ClCompile Include="src\signon.cpp" />
+    <ClCompile Include="src\vieasm.cpp" />
     <ClCompile Include="src\wl_act1.cpp" />
     <ClCompile Include="src\wl_act2.cpp" />
     <ClCompile Include="src\wl_agent.cpp" />

@@ -78,6 +78,10 @@ enum
 typedef int8_t bool;
 #endif
 
+#ifdef VIEASM
+extern bool allowwindow;
+#endif
+
 typedef uint8_t byte;
 typedef uint16_t word;
 typedef int32_t fixed;
@@ -97,7 +101,11 @@ typedef struct
 void Quit(const char *errorStr, ...);
 
 #include "id_pm.h"
+#ifdef VIEASM
+#include "asmcomp.h"
+#else
 #include "id_sd.h"
+#endif
 #include "id_in.h"
 #include "id_vl.h"
 #include "id_vh.h"
@@ -1950,4 +1958,9 @@ void GetFlatTextures(void);
 void DrawParallax(void);
 #endif
 
+#endif
+
+#ifdef VIEASM
+extern byte soundvol, musicvol;
+extern bool reversestereo;
 #endif
