@@ -15,6 +15,7 @@ IF YOU FIND ANY, PLEASE TELL ME SO I CAN FIX THEM!
 #include "wl_def.h"
 #include "asmcref.h"
 
+#ifdef VIEASM
 extern bool nosound = false;
 
 SDMode          SoundMode;
@@ -283,3 +284,4 @@ void SD_StopAmbient(int ambindex)
 
     ASM_StopChannel(ambientsnds[ambindex]);
 }
+#endif

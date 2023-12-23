@@ -26,7 +26,7 @@
 //                      NeedsDigitized - load digitized sounds?
 //                      NeedsMusic - load music?
 //
-/*
+
 #include "wl_def.h"
 #include <SDL_mixer.h>
 #if defined(GP2X_940)
@@ -39,6 +39,7 @@
 #endif
 #endif
 
+#ifndef VIEASM
 #define ORIGSAMPLERATE 7042
 
 typedef struct
@@ -1293,4 +1294,4 @@ SD_MusicPlaying(void)
 
     return (result);
 }
-*/
+#endif

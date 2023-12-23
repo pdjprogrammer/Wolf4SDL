@@ -1932,8 +1932,10 @@ param_difficulty = 0;
 			param_ignorenumchunks = true;
 		else IFARG("--help")
 			showHelp = true;
+#ifdef VIEASM
 		else IFARG("--nosound")
 			nosound = true;
+#endif
 		else hasError = true;
 	}
 	if (hasError || showHelp)

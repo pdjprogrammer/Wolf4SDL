@@ -65,9 +65,11 @@ void CalcTics(void);
 void ThreeDRefresh(void);
 
 // WSJ's message feature
-void GetMessage(char *lastmessage, int color);
+#ifdef WSJ_MESSAGE
+void GetMessage(char* lastmessage, int color);
 void DrawMessage(void);
 void DrawRatios(void);
+#endif
 
 #ifdef USE_SKYWALLPARALLAX
 void ScaleSkyPost();
@@ -1653,8 +1655,10 @@ void ThreeDRefresh(void)
 
     DrawPlayerWeapon(); // draw player's hands
 
+#ifdef WSJ_MESSAGE
     if (messagetime > 0) // WSJ's message feature
         DrawMessage();
+#endif
 
     if (Keyboard(sc_Tab) && viewsize == 21 && gamestate.weapon != -1)
         ShowActStatus();
@@ -1706,6 +1710,7 @@ void ThreeDRefresh(void)
 #endif
 }
 
+#ifdef WSJ_MESSAGE
 //
 // In-game messages | WSJ's routine
 //
@@ -1893,3 +1898,4 @@ void DrawRatios(void)
     SETPRINTXY(ratioPrintX, ratioPrintY - 20);
     US_Print(ratiobuf);
 }
+#endif

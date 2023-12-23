@@ -421,6 +421,7 @@ void PollCustomKeyboardMove(void)
 void PollCustomControls(void)
 {
 	if (param_debugmode) {
+#ifdef WSJ_MESSAGE
 		if (Keyboard(buttonscan[bt_cus_ctl_1]))
 			GetMessage("Adv Ctl 1", DEF_MSG_CLR);
 
@@ -450,6 +451,7 @@ void PollCustomControls(void)
 
 		if (Keyboard(buttonscan[bt_cus_ctl_10]))
 			GetMessage("Adv Ctl 10", DEF_MSG_CLR);
+#endif
 	}	
 }
 #endif

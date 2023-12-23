@@ -1607,12 +1607,16 @@ extern short midangle;
 extern word horizwall[MAXWALLTILES], vertwall[MAXWALLTILES];
 
 extern int messagetime;
-void GetMessage(char *lastmessage, int color); // WSJ's message feature
+#ifdef WSJ_MESSAGE
+void GetMessage(char* lastmessage, int color); // WSJ's message feature
 void DrawMessage(void);
+
 void GetTimer(int seconds, int eventtype);
 void DrawTimer(void);
+
 extern int lastsec;
 extern boolean fs_drawflag;
+#endif
 
 void ScalePost(void);
 void ThreeDRefresh(void);

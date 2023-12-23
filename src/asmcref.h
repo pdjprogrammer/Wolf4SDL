@@ -7,13 +7,21 @@ BY GERARD 'ALUMIUN' WATSON
 #ifndef _ASMCREF_H_
 #define _ASMCREF_H_
 
-// This table holds the file names for the sounds defined in AUDIOWL6.H.
-// Change these to suit your sounds and your AUDIOHED.WL6 or SOD file.
-// Currently these are set up for Wolfenstein, not SoD.
-
 /*
-* FROM THE wolfinst.txt in the Advanced Audio Manager tutorial archive
-* 
+VIEASM Beta readme.txt
+
+As this is still the beta, there will be bugs. If you encouter any, please tell me. Also, the sounds will need to be at a reasonably high sample rate to sound normal, preferably 44100 Hz. Otherwise, enjoy. :)
+
+Usage of asmcref.h:
+
+This file holds the file names that correspond to your audio header file. By default they are set up for Wolfenstein only. You will need to modify both the sound and music tables, as well as the file paths, to suit your own needs. :)
+
+AlumiuN
+
+=========
+
+wolfinst.txt
+
 Now that this is set up, unless you are using the standard AUDIOWL6.H, you will need to change the tables in ASMCREF.H. These are the external file names for the sounds. The sound's position in the table reflects its position in the soundnames table in your AUDIOxxx.H file. In addition to this, there is a variable for the directory that the sounds and music are stored in. Please note that when using a backslash in either a sound filename or the directory name, you must use '\\' instead of a simple backslash.
 
 Unfortunately, due to the inability of SDL_mixer to do some things, and due to the inability of my engine to tell whether a particular sound is playing (maybe next version?), some of the SD_ functions will no longer work as they did before.
@@ -32,6 +40,10 @@ void SD_StopAmbient(int ambindex) - stops an ambient sound with index number amb
 Implementing these is up to you, but I wouldn't imagine it would be too hard.
 */
 
+// This table holds the file names for the sounds defined in AUDIOWL6.H.
+// Change these to suit your sounds and your AUDIOHED.WL6 or SOD file.
+// Currently these are set up for Wolfenstein, not SoD.
+#ifdef VIEASM
 const char *sounddir = "sounds\\";
 
 const char *ASM_Soundnames[NUMSOUNDS] = {
@@ -140,33 +152,34 @@ const char *ASM_Soundnames[NUMSOUNDS] = {
 const char *musicdir = "music\\";
 
 const char *ASM_Musicnames[NUMMUSICS] = {
-	"CORNER.OGG",              // 0
-	"DUNGEON.OGG",             // 1
-	"WARMARCH.OGG",            // 2
-	"GETTHEM.OGG",             // 3
-	"HEADACHE.OGG",            // 4
-	"HITLWLTZ.OGG",            // 5
-	"INTROCW3.OGG",            // 6
-	"NAZI_NOR.OGG",            // 7
-	"NAZI_OMI.OGG",            // 8
-	"POW.OGG",                 // 9
-	"SALUTE.OGG",              // 10
-	"SEARCHN.OGG",             // 11
-	"SUSPENSE.OGG",            // 12
-	"VICTORS.OGG",             // 13
-	"WONDERIN.OGG",            // 14
-	"FUNKYOU.OGG",             // 15
-	"ENDLEVEL.OGG",            // 16
-	"GOINGAFT.OGG",            // 17
-	"PREGNANT.OGG",            // 18
-	"ULTIMATE.OGG",            // 19
-	"NAZI_RAP.OGG",            // 20
-	"ZEROHOUR.OGG",            // 21
-	"TWELFTH.OGG",             // 22
-	"ROSTER.OGG",              // 23
-	"URAHERO.OGG",             // 24
-	"VICMARCH.OGG",            // 25
-	"PACMAN.OGG"               // 26
+	"CORNER.ogg",              // 0
+	"DUNGEON.ogg",             // 1
+	"WARMARCH.ogg",            // 2
+	"GETTHEM.ogg",             // 3
+	"HEADACHE.ogg",            // 4
+	"HITLWLTZ.ogg",            // 5
+	"INTROCW3.ogg",            // 6
+	"NAZI_NOR.ogg",            // 7
+	"NAZI_OMI.ogg",            // 8
+	"POW.ogg",                 // 9
+	"SALUTE.ogg",              // 10
+	"SEARCHN.ogg",             // 11
+	"SUSPENSE.ogg",            // 12
+	"VICTORS.ogg",             // 13
+	"WONDERIN.ogg",            // 14
+	"FUNKYOU.ogg",             // 15
+	"ENDLEVEL.ogg",            // 16
+	"GOINGAFT.ogg",            // 17
+	"PREGNANT.ogg",            // 18
+	"ULTIMATE.ogg",            // 19
+	"NAZI_RAP.ogg",            // 20
+	"ZEROHOUR.ogg",            // 21
+	"TWELFTH.ogg",             // 22
+	"ROSTER.ogg",              // 23
+	"URAHERO.ogg",             // 24
+	"VICMARCH.ogg",            // 25
+	"PACMAN.ogg"               // 26
 };
 
 #endif  // _ASMCREF_H_
+#endif

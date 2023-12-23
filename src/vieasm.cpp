@@ -20,7 +20,10 @@ PLEASE ALSO NOTE THAT THIS IS STILL A BETA. IT IS LIKELY TO HAVE LOTS OF BUGS.
 IF YOU FIND ANY, PLEASE TELL ME SO I CAN FIX THEM!
 */
 
+
 // Initialization stuff
+
+#define VERBOSE
 
 #include "vieasm.h"                    // Duh.
 #include <SDL.h>

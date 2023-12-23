@@ -4,7 +4,7 @@
 //      Version for Wolfenstein
 //      By Jason Blochowiak
 //
-/*
+
 #ifndef __ID_SD_H_
 #define __ID_SD_H_
 
@@ -12,6 +12,7 @@
 
 #define TickBase 70 // 70Hz per tick - used as a base for timer 0
 
+#ifndef VIEASM
 typedef enum
 {
     sdm_Off,
@@ -163,4 +164,4 @@ extern int SD_PlayDigitized(word which, int leftpos, int rightpos);
 extern void SD_StopDigitized(void);
 
 #endif
-*/
+#endif
