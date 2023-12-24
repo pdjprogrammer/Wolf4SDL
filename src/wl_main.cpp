@@ -104,7 +104,7 @@ int param_audiobuffer = 128;
 #else
 int param_joystickhat = -1;
 int param_samplerate = 44100;
-int param_audiobuffer = 2048;
+int param_audiobuffer = 2048 / (44100 / param_samplerate);
 #endif
 
 int param_mission = 0;
@@ -112,6 +112,7 @@ boolean param_goodtimes = false;
 boolean param_ignorenumchunks = false;
 
 #ifdef VIEASM
+boolean param_8bitsound = false;
 bool noSound = false;
 #endif
 
@@ -1933,6 +1934,8 @@ param_difficulty = 0;
 		else IFARG("--help")
 			showHelp = true;
 #ifdef VIEASM
+		else IFARG("--8bitsound")
+			param_8bitsound = true;
 		else IFARG("--nosound")
 			noSound = true;
 #endif
@@ -1956,7 +1959,10 @@ param_difficulty = 0;
 			" --hard                 Sets the difficulty to hard for tedlevel\n"
 			" --nowait               Skips intro screens\n"
 			" --windowed[-mouse]     Starts the game in a window [and grabs mouse]\n"
+#ifdef VIEASM
 			" --nosound				 Turns off sound\n"
+			" --8bitsound			 Sets the sound to 8 bits (default 16 bits)\n"
+#endif
 			" --res <width> <height> Sets the screen resolution\n"
 			"                        (must be multiple of 320x200 or 320x240)\n"
 			" --resf <w> <h>         Sets any screen resolution >= 320x200\n"

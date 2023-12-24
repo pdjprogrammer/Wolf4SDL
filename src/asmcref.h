@@ -46,7 +46,7 @@ Implementing these is up to you, but I wouldn't imagine it would be too hard.
 #ifdef VIEASM
 const char *sounddir = "sounds\\";
 
-const char *ASM_Soundnames[NUMSOUNDS] = {
+const char* ASM_Soundnames[NUMSOUNDS] = {
 	"HITWALLSND.wav",              // 0
     "SELECTWPNSND.wav",            // 1
     "SELECTITEMSND.wav",           // 2
@@ -137,6 +137,7 @@ const char *ASM_Soundnames[NUMSOUNDS] = {
     "MISSILEHITSND.wav"            // 86
 #endif
 };
+
 
 // This table holds the file names for the music defined in AUDIOWL6.H.
 // Change these to suit your music and your AUDIOHED.WL6 or SOD file.

@@ -1391,6 +1391,10 @@ extern int param_mission;
 extern boolean param_goodtimes;
 extern boolean param_ignorenumchunks;
 
+#ifdef VIEASM
+extern boolean param_8bitsound;
+#endif
+
 void NewGame(int difficulty, int episode);
 void CalcProjection(int32_t focal);
 void NewViewSize(int width);

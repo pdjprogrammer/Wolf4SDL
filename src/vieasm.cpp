@@ -88,11 +88,12 @@ void ASM_ChannelDone(int channel)
 // ASM_Open
 // Opens audio device at given specs, clears used
 
-bool ASM_Open(int frequency, int channels, int maxchan, int buffersize, Uint8 sndvolume, Uint8 musvolume, bool reverse)
+bool ASM_Open(int frequency, bool use8Bit, int maxchan, int buffersize, Uint8 sndvolume, Uint8 musvolume, bool reverse)
 {
     if (ASM_IsOpen())       // Device is already open!
         return false;
 #ifdef VERBOSE
+    int channels;
     Uint16 null;
     SDL_version compile_version;
 
@@ -112,6 +113,11 @@ bool ASM_Open(int frequency, int channels, int maxchan, int buffersize, Uint8 sn
            "\n" 
            , link_version->major, link_version->minor, link_version->patch);
 
+    if (use8Bit)
+        channels = Mix_OpenAudio(frequency, AUDIO_S8, 2, buffersize);
+    else
+        channels = Mix_OpenAudio(frequency, AUDIO_S16, 2, buffersize);
+
     printf("Opened with:\n" 
            "      frequency - %d Hz\n"
            "       channels - %d\n"
@@ -123,7 +129,7 @@ bool ASM_Open(int frequency, int channels, int maxchan, int buffersize, Uint8 sn
            "----------\n"
            , frequency, channels, maxchan, buffersize, sndvolume, musvolume, (reverse) ? "true" : "false");
 #endif
-    if(Mix_OpenAudio(frequency, AUDIO_S8, 2, buffersize) == -1) 
+    if(Mix_OpenAudio(frequency, channels, 2, buffersize) == -1)
     {
 #ifdef VERBOSE
         printf("ASM_Open: %s\n", Mix_GetError());

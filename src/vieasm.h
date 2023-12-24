@@ -79,7 +79,7 @@ extern bool switching;
 
 /* Other, 'real' functions */
 
-extern bool ASM_Open(int frequency, int channels, int maxchan, int buffersize, Uint8 sndvolume, Uint8 musvolume, bool reverse);
+extern bool ASM_Open(int frequency, bool use8Bit, int maxchan, int buffersize, Uint8 sndvolume, Uint8 musvolume, bool reverse);
 extern bool ASM_IsOpen(void);
 extern bool ASM_PlayMusic(char *musfile);
 extern bool ASM_SwitchMus(char *loadmus, int fadems, bool fade);

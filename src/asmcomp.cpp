@@ -52,11 +52,10 @@ void SD_Startup(void)
     if (noSound)
         return;
 
-    if (!ASM_Open(param_samplerate, MIX_CHANNELS, ASM_ABSMAXCHANNELS/2, param_audiobuffer,
-                128, 128, false))
+    if (!ASM_Open(param_samplerate, param_8bitsound, ASM_ABSMAXCHANNELS/2, param_audiobuffer, 128, 128, false))
     {        
         printf ("SD_Startup: Unable to open audio device. Trying defaults.\n"); 
-        if (!ASM_Open(22050, 16, 128, 2048, 128, 128, false))
+        if (!ASM_Open(22050, true, 128, 2048, 128, 128, false))
         {    
             printf ("SD_Startup: Unable to open audio device with defaults.\n"
                     "            Try closing any other applications that might\n"
