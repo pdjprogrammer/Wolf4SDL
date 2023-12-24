@@ -25,10 +25,6 @@
 
 extern byte signon[];
 
-#ifdef VIEASM
-boolean nosound = false;
-#endif
-
 /*
 =============================================================================
 
@@ -114,6 +110,10 @@ int param_audiobuffer = 2048;
 int param_mission = 0;
 boolean param_goodtimes = false;
 boolean param_ignorenumchunks = false;
+
+#ifdef VIEASM
+bool noSound = false;
+#endif
 
 /*
 =============================================================================
@@ -1934,7 +1934,7 @@ param_difficulty = 0;
 			showHelp = true;
 #ifdef VIEASM
 		else IFARG("--nosound")
-			nosound = true;
+			noSound = true;
 #endif
 		else hasError = true;
 	}

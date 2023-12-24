@@ -34,6 +34,8 @@ inline void Delay(int wolfticks)
 #define SD_GetVolume(snd, mus) ASM_ReturnVolume(snd, mus)
 #define SD_Reverse(reverse) ASM_ReverseStereo(reverse)
 
+extern bool noSound;
+
 extern sample ASM_Audiosegs[NUMSOUNDS];
 
 // These enums are now treated differently. Because there are no seperate devices,

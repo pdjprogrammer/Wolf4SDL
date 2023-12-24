@@ -27,6 +27,6 @@ target_link_libraries(
         -lSDL2main
         -lSDL2
         -lSDL2_mixer
-        -static-libgcc
-        -static-libstdc++
+        #-static-libgcc
+        #-static-libstdc++
 )

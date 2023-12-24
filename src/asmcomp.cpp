@@ -16,8 +16,6 @@ IF YOU FIND ANY, PLEASE TELL ME SO I CAN FIX THEM!
 #include "asmcref.h"
 
 #ifdef VIEASM
-extern bool nosound = false;
-
 SDMode          SoundMode;
 SMMode          MusicMode;
 
@@ -51,7 +49,7 @@ void SD_ChannelDone(int channel)
 
 void SD_Startup(void)
 {
-    if (nosound)
+    if (noSound)
         return;
 
     if (!ASM_Open(param_samplerate, MIX_CHANNELS, ASM_ABSMAXCHANNELS/2, param_audiobuffer,
