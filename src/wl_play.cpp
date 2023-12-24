@@ -941,6 +941,9 @@ void CheckKeys(void)
 	if ((scan >= sc_F1 && scan <= sc_F9) || scan == sc_Escape || buttonstate[bt_esc])
 	{
 		int lastoffs = StopMusic();
+#ifdef SAVE_GAME_SCREENSHOT
+		VL_SetSaveGameSlot();
+#endif
 		ClearMemory();
 		VW_FadeOut();
 

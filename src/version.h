@@ -16,7 +16,8 @@
 //#define JAPAN
 
 //#define SEAMLESSLEVELS							// Only works on Wolf3d
-#define VIEASM									// AlumiuN's Advanced Sound Manager. Information in asmcref.h
+//#define VIEASM									// AlumiuN's Advanced Sound Manager. Some modifications made by WSJ.
+													// Information in asmcref.h
 
 /*
 	Wolf3d Full v1.1 Apogee (with ReadThis)			- define CARMACIZED and APOGEE_1_1
@@ -52,9 +53,10 @@
 //#define VIEWMAP									// Enables the overhead map
 //#define REVEALMAP									// Enables showing only the areas of the overhead map that have been seen
 //#define USE_READTHIS								// Enables help text in the main menu, also works on SPEAR but there are no textures
-													// for the ReadThis frame.
+													// for the ReadThis frame. By MCS
 //#define USE_RAND                                  // Enables the C++ random number generator
-//#define WSJ_MESSAGE								// WSJ's message feature, shows on-screen messages.
+//#define WSJ_MESSAGE								// WSJ's message feature, shows on-screen messages
+#define SAVE_GAME_SCREENSHOT						// Shows a screenshot in the Save and Load screens. By insurrectionman
 
 #define DEBUGKEYS									// Comment this out to compile without the Tab debug keys
 //#define ARTSEXTERN

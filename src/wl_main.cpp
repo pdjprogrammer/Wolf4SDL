@@ -922,7 +922,11 @@ void SignonScreen(void) // VGA version
 void FinishSignon(void)
 {
 #ifndef SPEAR
+#ifndef SAVE_GAME_SCREENSHOT
 	VW_Bar(0, 189, 300, 11, VL_GetPixel(0, 0));
+#else
+	VW_Bar(0, 189, 300, 11, VL_GetPixel(screenBuffer, 0, 0));
+#endif
 	WindowX = 0;
 	WindowW = 320;
 	PrintY = 190;
@@ -944,7 +948,11 @@ void FinishSignon(void)
 		IN_Ack();
 
 #ifndef JAPAN
+#ifndef SAVE_GAME_SCREENSHOT
 	VW_Bar(0, 189, 300, 11, VL_GetPixel(0, 0));
+#else
+	VW_Bar(0, 189, 300, 11, VL_GetPixel(screenBuffer, 0, 0));
+#endif
 
 	PrintY = 190;
 	SETFONTCOLOR(10, 4);

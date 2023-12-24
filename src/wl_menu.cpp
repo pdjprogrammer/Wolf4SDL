@@ -975,6 +975,9 @@ int CP_CheckQuick(ScanCode scancode)
 		// QUICKSAVE
 		//
 	case sc_F8:
+#ifdef SAVE_GAME_SCREENSHOT
+		VL_SetSaveGameSlot();
+#endif
 		if (SaveGamesAvail[LSItems.curpos] && pickquick)
 		{
 			fontnumber = 1;
@@ -2021,6 +2024,26 @@ void TrackWhichGame(int w)
 	PrintLSEntry(lastgameon, TEXTCOLOR);
 	PrintLSEntry(w, HIGHLIGHT);
 
+#ifdef SAVE_GAME_SCREENSHOT
+	char loadpath[300];
+	char bmpName[13] = BMP_SAVE;
+	bmpName[7] = w + '0';
+
+	if (configdir[0]) {
+		snprintf(loadpath, sizeof(loadpath), "%s/%s", configdir, bmpName);
+	}
+	else {
+		strcpy(loadpath, bmpName);
+	}
+
+	DrawWindow(LSP_X - 1, LSP_Y - 1, LSP_W + 1, LSP_H + 1, 0x00);
+	SDL_Surface* bmpSurface = SDL_LoadBMP(bmpName);
+
+	if (bmpSurface != NULL) {
+		//VL_LatchToScreenScaledCoord(bmpSurface, 0, 0, LSP_W, LSP_H, LSP_X * scaleFactor, LSP_Y * scaleFactor); //TODO Fix
+	}
+#endif
+
 	lastgameon = w;
 }
 
@@ -2039,6 +2062,11 @@ void DrawLoadSaveScreen(int loadsave)
 	fontnumber = 1;
 	VWB_DrawPic(112, 184, C_MOUSELBACKPIC);
 	DrawWindow(LSM_X - 10, LSM_Y - 5, LSM_W, LSM_H, BKGDCOLOR);
+
+#ifdef SAVE_GAME_SCREENSHOT
+	DrawWindow(LSP_X - 1, LSP_Y - 1, LSP_W + 1, LSP_H + 1, 0x00);
+#endif
+
 	DrawStripes(10);
 
 	if (!loadsave)
@@ -2089,6 +2117,11 @@ int CP_SaveGame(int quick)
 	char savepath[300];
 	char input[32];
 
+#ifdef SAVE_GAME_SCREENSHOT
+	char picpath[300];
+	char bmpName[13] = BMP_SAVE;
+#endif
+
 	strcpy(name, SaveName);
 
 	//
@@ -2115,6 +2148,20 @@ int CP_SaveGame(int quick)
 			fwrite(input, 1, 32, file);
 			fseek(file, 32, SEEK_SET);
 			SaveTheGame(file, 0, 0);
+
+#ifdef SAVE_GAME_SCREENSHOT
+			bmpName[7] = which + '0';
+			if (configdir[0]) {
+				snprintf(picpath, sizeof(picpath), "%s/%s", configdir, bmpName);
+			}
+			else {
+				strcpy(picpath, bmpName);
+			}
+
+			unlink(picpath);
+			SDL_SaveBMP(lastGameSurface, picpath);
+#endif
+
 			fclose(file);
 
 #ifdef _arch_dreamcast
@@ -2151,8 +2198,8 @@ int CP_SaveGame(int quick)
 					DrawLoadSaveScreen(1);
 					PrintLSEntry(which, HIGHLIGHT);
 					VW_UpdateScreen();
-				}
 			}
+		}
 
 			ShootSnd();
 
@@ -2184,6 +2231,19 @@ int CP_SaveGame(int quick)
 				DrawLSAction(1);
 				SaveTheGame(file, LSA_X + 8, LSA_Y + 5);
 
+#ifdef SAVE_GAME_SCREENSHOT
+				bmpName[7] = which + '0';
+				if (configdir[0]) {
+					snprintf(picpath, sizeof(picpath), "%s/%s", configdir, bmpName);
+			}
+				else {
+					strcpy(picpath, bmpName);
+				}
+
+				unlink(picpath);
+				SDL_SaveBMP(lastGameSurface, picpath);
+#endif
+
 				fclose(file);
 
 #ifdef _arch_dreamcast
@@ -2205,7 +2265,7 @@ int CP_SaveGame(int quick)
 
 			fontnumber = 1;
 			break;
-		}
+}
 
 	} while (which >= 0);
 
@@ -2280,7 +2340,7 @@ int CP_Control(int blank)
 	} while (which >= 0);
 
 	return 0;
-}
+		}
 
 ////////////////////////////////////////////////////////////////////
 //
@@ -2882,7 +2942,7 @@ enum
 	LEFT,
 	STF_LEFT,
 	STF_RIGHT
-};
+	};
 int moveorder[6] = { FWRD, BKWD, LEFT, RIGHT, STF_LEFT, STF_RIGHT };
 #else
 enum
@@ -3577,19 +3637,19 @@ void EnterCtrlData(int index, CustomCtrls* cust, void (*DrawRtn)(int), void (*Pr
 				{
 					picked = 1;
 					SD_PlaySound(ESCPRESSEDSND);
-				}
+					}
 
 				if (picked)
 					break;
 
 				ReadAnyControl(&ci);
-			}
+					}
 
 			SETFONTCOLOR(TEXTCOLOR, BKGDCOLOR);
 			redraw = 1;
 			WaitKeyUp();
 			continue;
-		}
+					}
 
 		if (ci.button1 || IN_KeyDown(sc_Escape))
 			exit = 1;
@@ -3630,15 +3690,15 @@ void EnterCtrlData(int index, CustomCtrls* cust, void (*DrawRtn)(int), void (*Pr
 		case dir_South:
 			exit = 1;
 		}
-	} while (!exit);
+				} while (!exit);
 
-	SD_PlaySound(ESCPRESSEDSND);
-	WaitKeyUp();
+				SD_PlaySound(ESCPRESSEDSND);
+				WaitKeyUp();
 
 #ifndef USE_MODERN_CONTROLS
-	DrawWindow(5, PrintY - 1, 310, 13, BKGDCOLOR);
+				DrawWindow(5, PrintY - 1, 310, 13, BKGDCOLOR);
 #endif
-}
+			}
 
 ////////////////////////
 //
@@ -4294,7 +4354,7 @@ void DrawCustMouse(int highlight)
 #endif
 	for (i = 0; i < 4; i++)
 		PrintCustMouse(i);
-}
+		}
 
 #ifdef USE_MODERN_CONTROLS
 void PrintCustJoy(int i)
@@ -4410,7 +4470,7 @@ void DrawCustJoy(int hilight)
 
 	for (i = 0; i < 4; i++)
 		PrintCustJoy(i);
-}
+			}
 #endif
 
 
@@ -4482,7 +4542,7 @@ void PrintMoreActionsKeys(int i)
 	PrintY = CST_START + (CST_SPC_Y * i);
 	PrintY = OPT_KEYBOARD_MORE_ACTION_TEXT_Y + (CST_SPC_Y * i);
 	US_Print((const char*)IN_GetScanName(buttonscan[4 + actionorder[i]]));
-}
+		}
 
 void DrawMoreActionsKeys(int hilight)
 {
@@ -4606,7 +4666,7 @@ int CP_ChangeView(int blank)
 		VL_ClearScreen(0);
 
 	return 0;
-}
+	}
 
 /////////////////////////////
 //
@@ -4661,7 +4721,7 @@ int CP_Quit(int blank)
 		SD_StopSound();
 		MenuFadeOut();
 		Quit(NULL);
-	}
+}
 
 	DrawMainMenu();
 	return 0;
@@ -4866,13 +4926,13 @@ void SetupSaveGames()
 				read(handle, temp, 32);
 				close(handle);
 				strcpy(&SaveGameNames[i][0], temp);
-			}
+		}
 #ifdef _arch_dreamcast
 			// Remove unpacked version of file
 			fs_unlink(name);
-		}
-#endif
 	}
+#endif
+}
 }
 
 ////////////////////////////////////////////////////////////////////
@@ -5428,29 +5488,29 @@ int Confirm(const char* string)
 #ifdef SPANISH
 	} while (!Keyboard(sc_S) && !Keyboard(sc_N) && !Keyboard(sc_Escape));
 #else
-	} while (!Keyboard(sc_Y) && !Keyboard(sc_N) && !Keyboard(sc_Escape) && !ci.button0 && !ci.button1);
+} while (!Keyboard(sc_Y) && !Keyboard(sc_N) && !Keyboard(sc_Escape) && !ci.button0 && !ci.button1);
 #endif
 
 #ifdef SPANISH
-	if (Keyboard(sc_S) || ci.button0)
-	{
-		xit = 1;
-		ShootSnd();
-	}
+if (Keyboard(sc_S) || ci.button0)
+{
+	xit = 1;
+	ShootSnd();
+}
 #else
-	if (Keyboard(sc_Y) || ci.button0)
-	{
-		xit = 1;
-		ShootSnd();
-	}
+if (Keyboard(sc_Y) || ci.button0)
+{
+	xit = 1;
+	ShootSnd();
+}
 #endif
 
-	IN_ClearKeysDown();
-	WaitKeyUp();
+IN_ClearKeysDown();
+WaitKeyUp();
 
-	SD_PlaySound((soundnames)whichsnd[xit]);
+SD_PlaySound((soundnames)whichsnd[xit]);
 
-	return xit;
+return xit;
 }
 
 #ifdef JAPAN
@@ -5970,8 +6030,8 @@ void CheckForEpisodes(void)
 			{
 				Quit("The configuration directory \"%s\" could not be created.", configdir);
 			}
-		}
 	}
+}
 
 	//
 	// JAPANESE VERSION
@@ -6109,4 +6169,4 @@ void CheckForEpisodes(void)
 #endif
 	strcat(endfilename, extension);
 #endif
-}
+	}

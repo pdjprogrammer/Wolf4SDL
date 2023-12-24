@@ -14,7 +14,11 @@ void Quit(const char *error, ...);
 
 //===========================================================================
 
-extern SDL_Surface *screen, *screenBuffer;
+extern SDL_Surface* screen, * screenBuffer;
+#ifdef SAVE_GAME_SCREENSHOT
+extern SDL_Surface *lastGameSurface;
+#endif
+
 #if SDL_MAJOR_VERSION == 2
 extern SDL_Window *window;
 extern SDL_Renderer *renderer;
@@ -59,7 +63,13 @@ void VL_FadeIn(int start, int end, SDL_Color *palette, int steps);
 byte *VL_LockSurface(SDL_Surface *surface);
 void VL_UnlockSurface(SDL_Surface *surface);
 
+#ifndef SAVE_GAME_SCREENSHOT
 byte VL_GetPixel(int x, int y);
+#else
+byte VL_GetPixel(SDL_Surface *surface, int x, int y);
+void VL_SetSaveGameSlot();
+#endif
+
 void VL_Plot(int x, int y, int color);
 void VL_Hlin(unsigned x, unsigned y, unsigned width, int color);
 void VL_Vlin(int x, int y, int height, int color);
