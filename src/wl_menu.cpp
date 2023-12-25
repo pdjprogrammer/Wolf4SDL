@@ -2038,8 +2038,16 @@ void TrackWhichGame(int w)
 
 	DrawWindow(LSP_X - 1, LSP_Y - 1, LSP_W + 1, LSP_H + 1, 0x00);
 	SDL_Surface* bmpSurface = SDL_LoadBMP(bmpName);
-
+	
 	if (bmpSurface != NULL) {
+		byte* byteArray = new byte[bmpSurface->w * bmpSurface->h * 4];
+
+		VL_SurfaceToByteArray(bmpSurface, byteArray);
+		VL_MemToScreen(byteArray, LSP_W, LSP_H, LSP_X, LSP_Y);
+
+		delete[] byteArray;
+		SDL_FreeSurface(bmpSurface);
+
 		//VL_LatchToScreenScaledCoord(bmpSurface, 0, 0, LSP_W, LSP_H, LSP_X * scaleFactor, LSP_Y * scaleFactor); //TODO Fix
 	}
 #endif

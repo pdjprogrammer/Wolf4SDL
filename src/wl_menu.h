@@ -131,7 +131,7 @@
 #define LSP_Y   80
 #define LSP_W   128
 #define LSP_H   80
-#define BMP_SAVE "savegam?.svg"
+#define BMP_SAVE "savegam?.bmp"
 #endif
 
 #define NM_X 50

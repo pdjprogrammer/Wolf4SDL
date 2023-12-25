@@ -83,6 +83,7 @@ void VL_MemToScreenScaledCoord2(byte *source, int origwidth, int origheight, int
                                 int destx, int desty, int width, int height);
 
 void VL_MemToScreen(byte *source, int width, int height, int x, int y);
+void VL_SurfaceToByteArray(SDL_Surface* surface, byte* byteArray);
 
 #endif
 
