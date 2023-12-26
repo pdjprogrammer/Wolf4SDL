@@ -772,7 +772,7 @@ void GetBonus(statobj_t *check)
 	if (playstate == ex_died) // ADDEDFIX 31 - Chris
 		return;
 
-    char prefix[24] = "Picked up ";
+    char prefix[64] = "Picked up ";
 	char pickupStr[48] = "";
 
 	switch (check->itemnumber)
@@ -941,10 +941,10 @@ void GetBonus(statobj_t *check)
 	check->shapenum = -1; // remove from list
 
 #ifdef WSJ_MESSAGE
-	// This is basically just a hack to allow function calls within
+	// This is basically just a hack to allow other functions within
 	// this function to use GetMessage without being overwritten by an empty GetMessage here.
 	// The GiveKey() function has its own GetMessage output.
-	if (!IsCharArrayEmpty(pickupStr)) 
+	if (!IsCharArrayEmpty(pickupStr))
 	{
 		strcat(prefix, pickupStr);
 		GetMessage(prefix, DEF_MSG_CLR);

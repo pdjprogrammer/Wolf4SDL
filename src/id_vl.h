@@ -23,9 +23,10 @@ extern SDL_Surface *lastGameSurface;
 extern SDL_Window *window;
 extern SDL_Renderer *renderer;
 extern SDL_Texture *texture;
+extern SDL_Rect *displayBounds;
 #endif
 
-extern boolean fullscreen, usedoublebuffering;
+extern boolean fullscreen, usedoublebuffering, disableresscaling;
 extern unsigned screenWidth, screenHeight, screenPitch, bufferPitch;
 extern int screenBits;
 extern int scaleFactor;

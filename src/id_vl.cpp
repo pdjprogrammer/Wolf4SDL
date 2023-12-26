@@ -39,6 +39,7 @@ int screenBits = 16;
 #endif
 #else
 boolean usedoublebuffering = true;
+boolean disableresscaling = false;
 unsigned screenWidth = 640;
 unsigned screenHeight = 400;
 int screenBits = -1; // use "best" color depth according to libSDL
@@ -137,6 +138,8 @@ void VL_SetVGAPlaneMode(void) {
     int i;
     uint32_t a, r, g, b;
 
+    SDL_DisplayMode displayMode;
+    SDL_GetCurrentDisplayMode(0, &displayMode);
 #ifdef SPEAR
     const char* title = "Spear of Destiny";
 #else
@@ -176,6 +179,12 @@ void VL_SetVGAPlaneMode(void) {
     }
     SDL_SetColors(screenBuffer, gamepal, 0, 256);
 #else
+    if (fullscreen && !disableresscaling)
+    {
+        screenWidth = displayMode.w;
+        screenHeight = displayMode.h;
+    }
+
     window = SDL_CreateWindow(title, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, screenWidth, screenHeight,
                               (fullscreen ? SDL_WINDOW_FULLSCREEN : 0) | SDL_WINDOW_OPENGL);
 
