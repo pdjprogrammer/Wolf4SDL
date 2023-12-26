@@ -117,7 +117,7 @@ void CheckWeaponChange(void)
 #ifdef USE_MODERN_CONTROLS
 /*#ifdef _DEBUG
 		printf("\nNext Weapon Pressed");
-#endif*/	
+#endif*/
 #endif
 		newWeapon = gamestate.weapon + 1;
 		if (newWeapon > gamestate.bestweapon)
@@ -745,6 +745,11 @@ void GiveKey(int key)
 {
 	gamestate.keys |= (1 << key);
 	DrawKeys();
+#ifdef WSJ_MESSAGE
+	char pickupStr[48] = "";
+	sprintf(pickupStr, "Picked up %s ", keyname[key]);
+	GetMessage(pickupStr, DEF_MSG_CLR);
+#endif
 }
 
 /*
@@ -767,6 +772,9 @@ void GetBonus(statobj_t *check)
 	if (playstate == ex_died) // ADDEDFIX 31 - Chris
 		return;
 
+    char prefix[24] = "Picked up ";
+	char pickupStr[48] = "";
+
 	switch (check->itemnumber)
 	{
 	case bo_firstaid:
@@ -775,6 +783,9 @@ void GetBonus(statobj_t *check)
 
 		SD_PlaySound(HEALTH2SND);
 		HealSelf(25);
+#ifdef WSJ_MESSAGE
+            strcat(pickupStr, "First Aid Kit");
+#endif
 		break;
 
 	case bo_key1:
@@ -789,21 +800,33 @@ void GetBonus(statobj_t *check)
 		SD_PlaySound(BONUS1SND);
 		GivePoints(100);
 		gamestate.treasurecount++;
+#ifdef WSJ_MESSAGE
+            strcat(pickupStr, "Cross (100 points)");
+#endif
 		break;
 	case bo_chalice:
 		SD_PlaySound(BONUS2SND);
 		GivePoints(500);
 		gamestate.treasurecount++;
+#ifdef WSJ_MESSAGE
+            strcat(pickupStr, "Chalice (500 points)");
+#endif
 		break;
 	case bo_bible:
 		SD_PlaySound(BONUS3SND);
 		GivePoints(1000);
 		gamestate.treasurecount++;
+#ifdef WSJ_MESSAGE
+            strcat(pickupStr, "Bible (1000 points)");
+#endif
 		break;
 	case bo_crown:
 		SD_PlaySound(BONUS4SND);
 		GivePoints(5000);
 		gamestate.treasurecount++;
+#ifdef WSJ_MESSAGE
+            strcat(pickupStr, "Crown (5000 points)");
+#endif
 		break;
 
 	case bo_clip:
@@ -812,6 +835,9 @@ void GetBonus(statobj_t *check)
 
 		SD_PlaySound(GETAMMOSND);
 		GiveAmmo(8);
+#ifdef WSJ_MESSAGE
+            strcat(pickupStr, "Clip");
+#endif
 		break;
 	case bo_clip2:
 		if (gamestate.ammo == 99)
@@ -819,6 +845,9 @@ void GetBonus(statobj_t *check)
 
 		SD_PlaySound(GETAMMOSND);
 		GiveAmmo(4);
+#ifdef WSJ_MESSAGE
+            strcat(pickupStr, "Clip");
+#endif
 		break;
 
 #ifdef SPEAR
@@ -828,17 +857,26 @@ void GetBonus(statobj_t *check)
 
 		SD_PlaySound(GETAMMOBOXSND);
 		GiveAmmo(25);
+#ifdef WSJ_MESSAGE
+        strcat(pickupStr, "Ammo box");
+#endif
 		break;
 #endif
 
 	case bo_machinegun:
 		SD_PlaySound(GETMACHINESND);
 		GiveWeapon(wp_machinegun);
+#ifdef WSJ_MESSAGE
+            strcat(pickupStr, "Machine gun");
+#endif
 		break;
 	case bo_chaingun:
 		SD_PlaySound(GETGATLINGSND);
 		facetimes = 38;
 		GiveWeapon(wp_chaingun);
+#ifdef WSJ_MESSAGE
+            strcat(pickupStr, "Gatling gun");
+#endif
 
 		if (viewsize != 21)
 			StatusDrawFace(GOTGATLINGPIC);
@@ -851,6 +889,9 @@ void GetBonus(statobj_t *check)
 		GiveAmmo(25);
 		GiveExtraMan();
 		gamestate.treasurecount++;
+#ifdef WSJ_MESSAGE
+            strcat(pickupStr, "an extra life!");
+#endif
 		break;
 
 	case bo_food:
@@ -859,6 +900,9 @@ void GetBonus(statobj_t *check)
 
 		SD_PlaySound(HEALTH1SND);
 		HealSelf(10);
+#ifdef WSJ_MESSAGE
+            strcat(pickupStr, "Food");
+#endif
 		break;
 
 	case bo_alpo:
@@ -867,6 +911,9 @@ void GetBonus(statobj_t *check)
 
 		SD_PlaySound(HEALTH1SND);
 		HealSelf(4);
+#ifdef WSJ_MESSAGE
+            strcat(pickupStr, "Dog food");
+#endif
 		break;
 
 	case bo_gibs:
@@ -875,6 +922,9 @@ void GetBonus(statobj_t *check)
 
 		SD_PlaySound(SLURPIESND);
 		HealSelf(1);
+#ifdef WSJ_MESSAGE
+            strcat(pickupStr, "Yum yum");
+#endif
 		break;
 
 #ifdef SPEAR
@@ -889,6 +939,17 @@ void GetBonus(statobj_t *check)
 
 	StartBonusFlash();
 	check->shapenum = -1; // remove from list
+
+#ifdef WSJ_MESSAGE
+	// This is basically just a hack to allow function calls within
+	// this function to use GetMessage without being overwritten by an empty GetMessage here.
+	// The GiveKey() function has its own GetMessage output.
+	if (!IsCharArrayEmpty(pickupStr)) 
+	{
+		strcat(prefix, pickupStr);
+		GetMessage(prefix, DEF_MSG_CLR);
+	}
+#endif
 }
 
 /*
@@ -1207,7 +1268,10 @@ void Cmd_Use(void)
 		//
 		// pushable wall
 		//
-
+#ifdef WSJ_MESSAGE
+		strcat(str, "You found a secret!");
+		GetMessage(str, DEF_MSG_CLR);
+#endif
 		PushWall(checkx, checky, dir);
 		return;
 	}

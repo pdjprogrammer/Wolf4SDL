@@ -49,3 +49,21 @@ longword READLONGWORD(byte *ptr)
 
     return val;
 }
+
+/*
+===================
+=
+= Char arrays utilities
+=
+===================
+*/
+
+int IsCharArrayEmpty(const char* str) {
+    while (*str) {
+        if (!isspace((unsigned char)*str)) {
+            return 0;
+        }
+        str++;
+    }
+    return 1;
+}

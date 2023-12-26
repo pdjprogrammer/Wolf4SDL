@@ -15,4 +15,5 @@ fixed FixedDiv(fixed a, fixed b);
 word READWORD(byte *ptr);
 longword READLONGWORD(byte *ptr);
 
+int IsCharArrayEmpty(const char* str);
 #endif

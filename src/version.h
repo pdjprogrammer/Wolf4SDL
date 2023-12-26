@@ -55,7 +55,7 @@
 //#define USE_READTHIS								// Enables help text in the main menu, also works on SPEAR but there are no textures
 													// for the ReadThis frame. By MCS
 //#define USE_RAND                                  // Enables the C++ random number generator
-//#define WSJ_MESSAGE								// WSJ's message feature, shows on-screen messages
+#define WSJ_MESSAGE								// WSJ's message feature, shows on-screen messages for pickups, secrets and locked doors.
 #define SAVE_GAME_SCREENSHOT						// Shows a screenshot in the Save and Load screens. By insurrectionman
 
 #define DEBUGKEYS									// Comment this out to compile without the Tab debug keys

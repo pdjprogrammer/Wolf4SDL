@@ -168,6 +168,10 @@
       <DataExecutionPrevention>
       </DataExecutionPrevention>
     </Link>
+    <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\asmcomp.h" />

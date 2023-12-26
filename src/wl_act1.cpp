@@ -500,6 +500,12 @@ void OperateDoor(int door)
         {
             if (doorposition[door] == 0)
                 SD_PlaySound(NOWAYSND); // ADDEDFIX 9       // locked
+
+#ifdef WSJ_MESSAGE
+            char lockStr[48];
+            sprintf(lockStr, "You need the %s to open this door", keyname[lock - dr_lock1]);
+            GetMessage(lockStr, DEF_MSG_CLR);
+#endif
             return;
         }
     }

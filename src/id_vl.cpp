@@ -564,8 +564,7 @@ byte VL_GetPixel(int x, int y)
 byte VL_GetPixel(SDL_Surface *surface, int x, int y) {
     byte col;
 
-    assert_ret(x >= 0 && (unsigned) x < screenWidth && y >= 0 && (unsigned) y < screenHeight &&
-               "VL_GetPixel: Pixel out of bounds!");
+    assert_ret(x >= 0 && (unsigned) x < screenWidth && y >= 0 && (unsigned) y < screenHeight && "VL_GetPixel: Pixel out of bounds!");
 
     if (!VL_LockSurface(surface))
         return 0;
@@ -580,13 +579,13 @@ byte VL_GetPixel(SDL_Surface *surface, int x, int y) {
 /*
 ==============================
 =
-= DrawPixel
+= VL_DrawPixel
 =
 = Draws the pixel onto the surface
 =
 ==============================
 */
-void DrawPixel(SDL_Surface *surface, int x, int y, Uint32 pixel) {
+void VL_DrawPixel(SDL_Surface *surface, int x, int y, Uint32 pixel) {
     int bpp = surface->format->BytesPerPixel;
     /* Here p is the address to the pixel we want to set */
     Uint8 *p = (Uint8 *) surface->pixels + y * surface->pitch + x * bpp;
@@ -621,13 +620,13 @@ void DrawPixel(SDL_Surface *surface, int x, int y, Uint32 pixel) {
 /*
 ==============================
 =
-= SDL_DuplicateSurface
+= VL_DuplicateSurface
 =
 = Deep copies SDL_Surface
 =
 ==============================
 */
-SDL_Surface *SDL_DuplicateSurface(SDL_Surface *surf) {
+SDL_Surface *VL_DuplicateSurface(SDL_Surface *surf) {
     SDL_Surface *cpy;
     cpy = (SDL_Surface *) malloc(sizeof(SDL_Surface));
     memcpy((SDL_Surface *) cpy, (SDL_Surface *) surf, sizeof(SDL_Surface));
@@ -643,18 +642,18 @@ SDL_Surface *SDL_DuplicateSurface(SDL_Surface *surf) {
 /*
 =================================
 =
-= SDL_ScaleSurface
+= VL_ScaleSurface
 =
 = Creates a surface to scaled width, then scales it accordingly
 = Width and Height can be any size, not multiples of 320x200
 =
 =================================
 */
-SDL_Surface* SDL_ScaleSurface(SDL_Surface* surface, Uint16 width, Uint16 height) {
+SDL_Surface *VL_ScaleSurface(SDL_Surface *surface, Uint16 width, Uint16 height) {
     if (!surface || !width || !height)
         return nullptr;
 
-    SDL_Surface* scaledSurface = SDL_CreateRGBSurface(surface->flags, width, height, 8, 0, 0, 0, 0);
+    SDL_Surface *scaledSurface = SDL_CreateRGBSurface(surface->flags, width, height, 8, 0, 0, 0, 0);
     SDL_SetPaletteColors(scaledSurface->format->palette, gamepal, 0, 256);
 
     double stretchFactorX = static_cast<double>(width) / static_cast<double>(surface->w);
@@ -664,8 +663,8 @@ SDL_Surface* SDL_ScaleSurface(SDL_Surface* surface, Uint16 width, Uint16 height)
         for (Sint32 x = 0; x < surface->w; x++) {
             for (Sint32 o_y = 0; o_y < stretchFactorY; ++o_y) {
                 for (Sint32 o_x = 0; o_x < stretchFactorX; ++o_x) {
-                    DrawPixel(scaledSurface, static_cast<Sint32>(stretchFactorX * x) + o_x,
-                              static_cast<Sint32>(stretchFactorY * y) + o_y, VL_GetPixel(surface, x, y));
+                    VL_DrawPixel(scaledSurface, static_cast<Sint32>(stretchFactorX * x) + o_x,
+                                 static_cast<Sint32>(stretchFactorY * y) + o_y, VL_GetPixel(surface, x, y));
                 }
             }
         }
@@ -682,7 +681,7 @@ SDL_Surface* SDL_ScaleSurface(SDL_Surface* surface, Uint16 width, Uint16 height)
 =================
 */
 void VL_SetSaveGameSlot() {
-    lastGameSurface = SDL_ScaleSurface(SDL_DuplicateSurface(screenBuffer), 128, 80);
+    lastGameSurface = VL_ScaleSurface(VL_DuplicateSurface(screenBuffer), 128, 80);
 }
 
 #endif
@@ -782,38 +781,28 @@ void VL_BarScaledCoord(int scx, int scy, int scwidth, int scheight, int color) {
 =
 = VL_SurfaceToByteArray
 =
-= This function converts the pixel data from an SDL surface into a byte array,
-= with each pixel's RGB components stored as consecutive bytes.
-= It assumes a 32-bit pixel format and handles locking and unlocking the surface
-= for safe access during the conversion.
+= This function converts the pixel data from an SDL surface into a byte array.
 =
 ===================
 */
 
-void VL_SurfaceToByteArray(SDL_Surface* surface, byte* byteArray) {
+void VL_SurfaceToByteArray(SDL_Surface *surface, byte *byteArray) {
     if (!surface || !byteArray) {
         return;
     }
 
     int width = surface->w;
     int height = surface->h;
-    SDL_LockSurface(surface);
+    VL_LockSurface(surface);
 
     for (int y = 0; y < height; ++y) {
         for (int x = 0; x < width; ++x) {
-            Uint32 pixel = VL_GetPixel(surface, x, y); // Assuming VL_GetPixel retrieves the color at (x, y)
-            Uint8 r, g, b;
-            SDL_GetRGB(pixel, surface->format, &r, &g, &b);
-
-            // Assuming your pixel format is 32-bit (4 bytes)
-            byteArray[(y * width + x) * 4] = r;
-            byteArray[(y * width + x) * 4 + 1] = g;
-            byteArray[(y * width + x) * 4 + 2] = b;
-            byteArray[(y * width + x) * 4 + 3] = 0;
+            byte colorIndex = ((byte*)surface->pixels)[y * surface->pitch + x];
+            byteArray[y * width + x] = colorIndex;
         }
     }
 
-    SDL_UnlockSurface(surface);
+    VL_UnlockSurface(surface);
 }
 
 /*

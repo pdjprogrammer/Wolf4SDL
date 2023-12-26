@@ -2013,6 +2013,7 @@ int CP_LoadGame(int quick)
 	return exit;
 }
 
+
 ///////////////////////////////////
 //
 // HIGHLIGHT CURRENT SELECTED ENTRY
@@ -2026,7 +2027,7 @@ void TrackWhichGame(int w)
 
 #ifdef SAVE_GAME_SCREENSHOT
 	char loadpath[300];
-	char bmpName[13] = BMP_SAVE;
+	char bmpName[13] = BMP_SAVE_FILENAME;
 	bmpName[7] = w + '0';
 
 	if (configdir[0]) {
@@ -2040,15 +2041,13 @@ void TrackWhichGame(int w)
 	SDL_Surface* bmpSurface = SDL_LoadBMP(bmpName);
 	
 	if (bmpSurface != NULL) {
-		byte* byteArray = new byte[bmpSurface->w * bmpSurface->h * 4];
+		byte* surfaceBytes = new byte[bmpSurface->w * bmpSurface->h * 4];
 
-		VL_SurfaceToByteArray(bmpSurface, byteArray);
-		VL_MemToScreen(byteArray, LSP_W, LSP_H, LSP_X, LSP_Y);
+		VL_SurfaceToByteArray(bmpSurface, surfaceBytes);
+		VL_MemToScreen(surfaceBytes, LSP_W, LSP_H, LSP_X, LSP_Y);
 
-		delete[] byteArray;
+		delete[] surfaceBytes;
 		SDL_FreeSurface(bmpSurface);
-
-		//VL_LatchToScreenScaledCoord(bmpSurface, 0, 0, LSP_W, LSP_H, LSP_X * scaleFactor, LSP_Y * scaleFactor); //TODO Fix
 	}
 #endif
 
@@ -2127,7 +2126,7 @@ int CP_SaveGame(int quick)
 
 #ifdef SAVE_GAME_SCREENSHOT
 	char picpath[300];
-	char bmpName[13] = BMP_SAVE;
+	char bmpName[13] = BMP_SAVE_FILENAME;
 #endif
 
 	strcpy(name, SaveName);

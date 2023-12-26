@@ -1575,7 +1575,7 @@ void ViewMap(void);
 =============================================================================
 */
 
-#define DEF_MSG_CLR 0x10
+#define DEF_MSG_CLR 0x10 // White
 #define SPC_MSG_CLR 0x45
 
 extern byte *vbuf;
@@ -1691,6 +1691,11 @@ extern objtype *LastAttacker;
 
 extern short anglefrac;
 extern int facecount, facetimes;
+
+const char keyname[2][20] = {
+	"Gold Key",
+	"Silver Key"
+};
 
 void Thrust(int angle, int32_t speed);
 void SpawnPlayer(int tilex, int tiley, int dir);
