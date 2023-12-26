@@ -15,10 +15,6 @@
 //#define APOGEE_1_2
 //#define JAPAN
 
-//#define SEAMLESSLEVELS							// Only works on Wolf3d
-//#define VIEASM									// AlumiuN's Advanced Sound Manager. Some modifications made by WSJ.
-													// Information in asmcref.h
-
 /*
 	Wolf3d Full v1.1 Apogee (with ReadThis)			- define CARMACIZED and APOGEE_1_1
 	Wolf3d Full v1.4 Apogee (with ReadThis)			- define CARMACIZED
@@ -52,13 +48,18 @@
 //#define FIXRAINSNOWLEAKS							// Enables leaking ceilings fix (by Adam Biser, only needed if maps with rain/snow and ceilings exist)
 //#define VIEWMAP									// Enables the overhead map
 //#define REVEALMAP									// Enables showing only the areas of the overhead map that have been seen
-//#define USE_READTHIS								// Enables help text in the main menu, also works on SPEAR but there are no textures
-													// for the ReadThis frame. By MCS
+//#define USE_MODERN_CONTROLS						// !!!!! DELETE CONFIG.WL6 AFTER CHANGING !!!!! - Enables Modern Control Scheme (WASD + Controller)
+//#define SHOW_GAME_OPTIONS (Incomplete)			// Requires USE_MODERN_CONTROLS flag enabled.
+                                                    // Enables game options for certain features (enable/disable shading, textured floor and ceiling, precipitation (rain, snow)
+//#define SEAMLESSLEVELS							// Only works on Wolf3d
+//#define VIEASM									// AlumiuN's Advanced Sound Manager. Some modifications made by WSJ. Information in asmcref.h
+//#define USE_READTHIS								// Enables help text in the main menu, also works on SPEAR but there are no textures for the ReadThis frame. By MCS
 //#define USE_RAND                                  // Enables the C++ random number generator
 #define WSJ_MESSAGE								// WSJ's message feature, shows on-screen messages for pickups, secrets and locked doors.
 #define SAVE_GAME_SCREENSHOT						// Shows a screenshot in the Save and Load screens. By insurrectionman
 
 #define DEBUGKEYS									// Comment this out to compile without the Tab debug keys
+//#define NO_TIME_WASTE								// Disables the FadeIn and FadeOut delay, useful when debugging
 //#define ARTSEXTERN
 #define DEMOSEXTERN
 #define PLAYDEMOLIKEORIGINAL						// When playing or recording demos, several bug fixes do not take
@@ -73,9 +74,5 @@
 
 //#define BANDEDHOLOWALLS							// Use the old DOS-style "banded" wall drawing behaviour when inside walls
 
-//#define NO_TIME_WASTE								// Disables the FadeIn and FadeOut delay, useful when debugging
-//#define USE_MODERN_CONTROLS						// !!!!! DELETE CONFIG.WL6 AFTER CHANGING !!!!! - Enables Modern Control Scheme
-//#define SHOW_CUSTOM_CONTROLS						// !!!!! DELETE CONFIG.WL6 AFTER CHANGING !!!!! - Needs #USE_MODERN_CONTROLS flag enabled and code changes to customize the keys.
-//#define SHOW_GAME_OPTIONS (Incomplete)			// Needs #USE_MODERN_CONTROLS flag enabled.
-                                                    // Enables game options for certain features (enable/disable shading, textured floor and ceiling, precipitation (rain, snow)
+//#define SHOW_CUSTOM_CONTROLS						// !!!!! DELETE CONFIG.WL6 AFTER CHANGING !!!!! - Requires #USE_MODERN_CONTROLS flag enabled and code changes to customize the keys.
 #endif
