@@ -23,8 +23,6 @@ IF YOU FIND ANY, PLEASE TELL ME SO I CAN FIX THEM!
 
 // Initialization stuff
 
-#define VERBOSE
-
 #include "vieasm.h"                    // Duh.
 #include <SDL.h>
 

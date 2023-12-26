@@ -51,7 +51,7 @@
 //#define USE_MODERN_CONTROLS						// !!!!! DELETE CONFIG.WL6 AFTER CHANGING !!!!! - Enables Modern Control Scheme (WASD + Controller)
 //#define SHOW_GAME_OPTIONS (Incomplete)			// Requires USE_MODERN_CONTROLS flag enabled.
                                                     // Enables game options for certain features (enable/disable shading, textured floor and ceiling, precipitation (rain, snow)
-//#define SEAMLESSLEVELS							// Only works on Wolf3d
+//#define SEAMLESSLEVELS							// Disables the Episode selection screen on Wolf3D.
 //#define VIEASM									// AlumiuN's Advanced Sound Manager. Some modifications made by WSJ. Information in asmcref.h
 //#define USE_READTHIS								// Enables help text in the main menu, also works on SPEAR but there are no textures for the ReadThis frame. By MCS
 //#define USE_RAND                                  // Enables the C++ random number generator
