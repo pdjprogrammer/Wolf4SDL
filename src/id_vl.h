@@ -26,8 +26,9 @@ extern SDL_Texture *texture;
 extern SDL_Rect *displayBounds;
 #endif
 
-extern boolean fullscreen, usedoublebuffering, disableresscaling;
+extern boolean fullscreen, usedoublebuffering, disableresscaling, stretchtoscreen;
 extern unsigned screenWidth, screenHeight, screenPitch, bufferPitch;
+extern unsigned originalScreenWidth, originalScreenHeight, defaultScreenWidth, defaultScreenHeight;
 extern int screenBits;
 extern int scaleFactor;
 

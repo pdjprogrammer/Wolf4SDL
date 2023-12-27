@@ -22,7 +22,7 @@ void ClearSplitVWB(void)
 {
 	WindowX = 0;
 	WindowY = 0;
-	WindowW = 320;
+	WindowW = originalScreenWidth;
 	WindowH = 160;
 }
 
@@ -139,7 +139,7 @@ void Victory(void)
 	StartCPMusic(URAHERO_MUS);
 	ClearSplitVWB();
 
-	VWB_Bar(0, 0, 320, screenHeight / scaleFactor - STATUSLINES + 1, VIEWCOLOR);
+	VWB_Bar(0, 0, originalScreenWidth, screenHeight / scaleFactor - STATUSLINES + 1, VIEWCOLOR);
 	if (bordercol != VIEWCOLOR)
 		DrawStatusBorder(VIEWCOLOR);
 
@@ -250,7 +250,7 @@ void Victory(void)
 	IN_Ack();
 
 	VW_FadeOut();
-	if (screenHeight % 200 != 0)
+	if (screenHeight % originalScreenHeight != 0)
 		VL_ClearScreen(0);
 
 	MainMenu[savegame].active = 0; // ADDEDFIX 3 - Tricob
@@ -278,7 +278,7 @@ void Victory(void)
 void PG13(void)
 {
 	VW_FadeOut();
-	VWB_Bar(0, 0, 320, 200, 0x82); // background
+	VWB_Bar(0, 0, originalScreenWidth, originalScreenHeight, 0x82); // background
 
 	VWB_DrawPic(216, 110, PG13PIC);
 	VW_UpdateScreen();
@@ -513,7 +513,7 @@ void LevelCompleted(void)
 	};
 
 	ClearSplitVWB(); // set up for double buffering in split screen
-	VWB_Bar(0, 0, 320, screenHeight / scaleFactor - STATUSLINES + 1, VIEWCOLOR);
+	VWB_Bar(0, 0, originalScreenWidth, screenHeight / scaleFactor - STATUSLINES + 1, VIEWCOLOR);
 
 	if (bordercol != VIEWCOLOR)
 		DrawStatusBorder(VIEWCOLOR);

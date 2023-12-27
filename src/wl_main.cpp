@@ -908,7 +908,7 @@ void SignonScreen(void) // VGA version
 {
 	VL_SetVGAPlaneMode();
 
-	VL_MemToScreen(signon, 320, 200, 0, 0);
+	VL_MemToScreen(signon, originalScreenWidth, originalScreenHeight, 0, 0);
 }
 
 /*
@@ -928,7 +928,7 @@ void FinishSignon(void)
 	VW_Bar(0, 189, 300, 11, VL_GetPixel(screenBuffer, 0, 0));
 #endif
 	WindowX = 0;
-	WindowW = 320;
+	WindowW = originalScreenWidth;
 	PrintY = 190;
 
 #ifndef JAPAN
@@ -1229,7 +1229,7 @@ void DoJukebox(void)
 	SETFONTCOLOR(READHCOLOR, BKGDCOLOR);
 	PrintY = 15;
 	WindowX = 0;
-	WindowY = 320;
+	WindowY = originalScreenWidth;
 	US_CPrint("Robert's Jukebox");
 
 	SETFONTCOLOR(TEXTCOLOR, BKGDCOLOR);
@@ -1468,8 +1468,8 @@ void ShowViewSize(int width)
 	}
 	else
 	{
-		viewwidth = width * 16 * screenWidth / 320;
-		viewheight = (int)(width * 16 * HEIGHTRATIO * screenHeight / 200);
+		viewwidth = width * 16 * screenWidth / originalScreenWidth;
+		viewheight = (int)(width * 16 * HEIGHTRATIO * screenHeight / originalScreenHeight);
 		DrawPlayBorder();
 	}
 
@@ -1485,7 +1485,7 @@ void NewViewSize(int width)
 	else if (viewsize == 20)
 		SetViewSize(screenWidth, screenHeight - scaleFactor * STATUSLINES);
 	else
-		SetViewSize(width * 16 * screenWidth / 320, (unsigned)(width * 16 * HEIGHTRATIO * screenHeight / 200));
+		SetViewSize(width * 16 * screenWidth / originalScreenWidth, (unsigned)(width * 16 * HEIGHTRATIO * screenHeight / originalScreenHeight));
 }
 
 //===========================================================================
@@ -1702,7 +1702,7 @@ static void DemoLoop()
 			if (playstate == ex_abort)
 				break;
 			VW_FadeOut();
-			if (screenHeight % 200 != 0)
+			if (screenHeight % originalScreenHeight != 0)
 				VL_ClearScreen(0);
 			StartCPMusic(INTROSONG);
 		}
@@ -1778,6 +1778,8 @@ param_difficulty = 0;
 		}
 		else IFARG("--disableresscaling")
 			disableresscaling = true;
+        else IFARG("--stretchtoscreen")
+            stretchtoscreen = true;
 		else IFARG("--res")
 		{
 			if (i + 2 >= argc)
@@ -1789,8 +1791,8 @@ param_difficulty = 0;
 			{
 				screenWidth = atoi(argv[++i]);
 				screenHeight = atoi(argv[++i]);
-				unsigned factor = screenWidth / 320;
-				if (screenWidth % 320 || screenHeight != 200 * factor && screenHeight != 240 * factor)
+				unsigned factor = screenWidth / originalScreenWidth;
+				if (screenWidth % originalScreenWidth || screenHeight != originalScreenHeight * factor && screenHeight != 240 * factor)
 					printf("Screen size must be a multiple of 320x200 or 320x240!\n"), hasError = true;
 			}
 			}
@@ -1805,9 +1807,9 @@ param_difficulty = 0;
 			{
 				screenWidth = atoi(argv[++i]);
 				screenHeight = atoi(argv[++i]);
-				if (screenWidth < 320)
+				if (screenWidth < originalScreenWidth)
 					printf("Screen width must be at least 320!\n"), hasError = true;
-				if (screenHeight < 200)
+				if (screenHeight < originalScreenHeight)
 					printf("Screen height must be at least 200!\n"), hasError = true;
 			}
 			}

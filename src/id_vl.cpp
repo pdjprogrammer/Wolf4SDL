@@ -40,6 +40,11 @@ int screenBits = 16;
 #else
 boolean usedoublebuffering = true;
 boolean disableresscaling = false;
+boolean stretchtoscreen = false;
+unsigned originalScreenWidth = 320; // Only meant to remove magic values in the code. DO NOT CHANGE.
+unsigned originalScreenHeight = 200; // Only meant to remove magic values in the code. DO NOT CHANGE.
+unsigned defaultScreenWidth = 640; // DO NOT CHANGE
+unsigned defaultScreenHeight = 400; // DO NOT CHANGE
 unsigned screenWidth = 640;
 unsigned screenHeight = 400;
 int screenBits = -1; // use "best" color depth according to libSDL
@@ -190,6 +195,12 @@ void VL_SetVGAPlaneMode(void) {
 
     SDL_PixelFormatEnumToMasks(SDL_PIXELFORMAT_ARGB8888, &screenBits, &r, &g, &b, &a);
 
+    if(fullscreen && stretchtoscreen)
+    {
+        screenWidth = defaultScreenWidth;
+        screenHeight = defaultScreenHeight;
+    }
+
     screen = SDL_CreateRGBSurface(0, screenWidth, screenHeight, screenBits, r, g, b, a);
 
     if (!screen) {
@@ -223,9 +234,10 @@ void VL_SetVGAPlaneMode(void) {
     screenPitch = screen->pitch;
     bufferPitch = screenBuffer->pitch;
 
-    scaleFactor = screenWidth / 320;
-    if (screenHeight / 200 < scaleFactor)
-        scaleFactor = screenHeight / 200;
+    scaleFactor = screenWidth / originalScreenWidth;
+
+    if (screenHeight / originalScreenHeight < scaleFactor)
+        scaleFactor = screenHeight / originalScreenHeight;
 
     printHorizAdjust = picHorizAdjust / scaleFactor;
     printVertAdjust = picVertAdjust / scaleFactor;
@@ -706,8 +718,7 @@ void VL_SetSaveGameSlot() {
 void VL_Hlin(unsigned x, unsigned y, unsigned width, int color) {
     byte *dest;
 
-    assert(x >= 0 && x + width <= screenWidth && y >= 0 && y < screenHeight &&
-           "VL_Hlin: Destination rectangle out of bounds!");
+    assert(x >= 0 && x + width <= screenWidth && y >= 0 && y < screenHeight && "VL_Hlin: Destination rectangle out of bounds!");
 
     dest = VL_LockSurface(screenBuffer);
     if (dest == NULL)
