@@ -924,9 +924,9 @@ void FinishSignon(void)
 #ifndef SPEAR
 
 #ifndef SAVE_GAME_SCREENSHOT
-	VW_Bar(0 + scalingOffsetX, 189 + scalingOffsetY, 300, 11, VL_GetFirstColoredPixel(screenBuffer));
+	VW_Bar(scalingOffsetX, 189 + scalingOffsetY, 300, 11, VL_GetFirstColoredPixel(screenBuffer));
 #else
-	VW_Bar(0 + scalingOffsetX, 189 + scalingOffsetY, 300, 11, VL_GetFirstColoredPixel(screenBuffer));
+	VW_Bar(scalingOffsetX, 189 + scalingOffsetY, 300, 11, VL_GetFirstColoredPixel(screenBuffer));
 #endif
 	WindowX = scalingOffsetX;
 	WindowW = originalScreenWidth;
@@ -950,9 +950,9 @@ void FinishSignon(void)
 
 #ifndef JAPAN
 #ifndef SAVE_GAME_SCREENSHOT
-	VW_Bar(0 + scalingOffsetX, 189 + scalingOffsetY, 300, 11, VL_GetFirstColoredPixel(screenBuffer));
+	VW_Bar(scalingOffsetX, 189 + scalingOffsetY, 300, 11, VL_GetFirstColoredPixel(screenBuffer));
 #else
-	VW_Bar(0 + scalingOffsetX, 189 + scalingOffsetY, 300, 11, VL_GetFirstColoredPixel(screenBuffer));
+	VW_Bar(scalingOffsetX, 189 + scalingOffsetY, 300, 11, VL_GetFirstColoredPixel(screenBuffer));
 #endif
 
 	PrintY = 190 + scalingOffsetY;
@@ -1658,8 +1658,8 @@ static void DemoLoop()
 			SDL_Color pal[256];
 			VL_ConvertPalette(grsegs[TITLEPALETTE], pal, 256);
 
-			VWB_DrawPic(0, 0, TITLE1PIC);
-			VWB_DrawPic(0, 80, TITLE2PIC);
+			VWB_DrawPic(scalingOffsetX, scalingOffsetY, TITLE1PIC);
+			VWB_DrawPic(scalingOffsetX, 80 + scalingOffsetY, TITLE2PIC);
 
 			VW_UpdateScreen();
 			VL_FadeIn(0, 255, pal, 30);
@@ -1674,7 +1674,7 @@ static void DemoLoop()
 			//
 			// credits page
 			//
-			VWB_DrawPic(0, 0, CREDITSPIC);
+			VWB_DrawPic(scalingOffsetX, scalingOffsetY, CREDITSPIC);
 			VW_UpdateScreen();
 			VW_FadeIn();
 			if (IN_UserInput(TickBase * 10))
