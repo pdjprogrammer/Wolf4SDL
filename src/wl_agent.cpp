@@ -341,7 +341,7 @@ void ControlMovement(objtype *ob)
 
 void StatusDrawPic(unsigned x, unsigned y, unsigned picnum)
 {
-	VWB_DrawPicScaledCoord(((screenWidth - scaleFactor * 320) / 16 + scaleFactor * x) * 8,
+	VWB_DrawPicScaledCoord(((screenWidth - scaleFactor * originalScreenWidth) / 16 + scaleFactor * x) * 8,
 						   screenHeight - scaleFactor * (STATUSLINES - y), picnum);
 }
 

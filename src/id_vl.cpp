@@ -40,9 +40,9 @@ int screenBits = 16;
 #else
 boolean usedoublebuffering = true;
 boolean disableresscaling = false;
-boolean stretchtoscreen = false;
-unsigned originalScreenWidth = 320; // Only meant to remove magic values in the code. DO NOT CHANGE.
-unsigned originalScreenHeight = 200; // Only meant to remove magic values in the code. DO NOT CHANGE.
+boolean disablehdscaling = false;
+unsigned originalScreenWidth = 320; // Only meant to remove magic values in the code.
+unsigned originalScreenHeight = 200; // Only meant to remove magic values in the code.
 unsigned defaultScreenWidth = 640; // DO NOT CHANGE
 unsigned defaultScreenHeight = 400; // DO NOT CHANGE
 unsigned screenWidth = 640;
@@ -86,9 +86,7 @@ SDL_Color gamepal[] = {
 #ifdef SPEAR
 #include "sodpal.inc"
 #else
-
 #include "wolfpal.inc"
-
 #endif
 };
 
@@ -195,7 +193,7 @@ void VL_SetVGAPlaneMode(void) {
 
     SDL_PixelFormatEnumToMasks(SDL_PIXELFORMAT_ARGB8888, &screenBits, &r, &g, &b, &a);
 
-    if(fullscreen && stretchtoscreen)
+    if(fullscreen && disablehdscaling)
     {
         screenWidth = defaultScreenWidth;
         screenHeight = defaultScreenHeight;

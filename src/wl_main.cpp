@@ -1778,8 +1778,8 @@ param_difficulty = 0;
 		}
 		else IFARG("--disableresscaling")
 			disableresscaling = true;
-        else IFARG("--stretchtoscreen")
-            stretchtoscreen = true;
+        else IFARG("--disablehdscaling")
+            disablehdscaling = true;
 		else IFARG("--res")
 		{
 			if (i + 2 >= argc)
