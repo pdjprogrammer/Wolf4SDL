@@ -26,11 +26,13 @@ extern SDL_Texture *texture;
 extern SDL_Rect *displayBounds;
 #endif
 
-extern boolean fullscreen, usedoublebuffering, disableresscaling, disablehdscaling;
+extern boolean fullscreen, usedoublebuffering, disablehdresolution, disablehdscaling;
 extern unsigned screenWidth, screenHeight, screenPitch, bufferPitch;
 extern unsigned originalScreenWidth, originalScreenHeight, defaultScreenWidth, defaultScreenHeight;
 extern int screenBits;
 extern int scaleFactor;
+extern int scalingOffsetX; // Used with HD scaling to calculate and center screens
+extern int scalingOffsetY;
 
 extern boolean screenfaded;
 extern unsigned bordercolor;
@@ -65,10 +67,11 @@ void VL_FadeIn(int start, int end, SDL_Color *palette, int steps);
 byte *VL_LockSurface(SDL_Surface *surface);
 void VL_UnlockSurface(SDL_Surface *surface);
 
-#ifndef SAVE_GAME_SCREENSHOT
 byte VL_GetPixel(int x, int y);
-#else
-byte VL_GetPixel(SDL_Surface *surface, int x, int y);
+SDL_Surface* VL_DuplicateSurface(SDL_Surface* surf);
+byte VL_GetFirstColoredPixel(SDL_Surface* surface);
+#ifdef SAVE_GAME_SCREENSHOT
+byte VL_GetPixel(SDL_Surface* surface, int x, int y);
 void VL_SetSaveGameSlot();
 #endif
 

@@ -39,7 +39,7 @@ int screenBits = 16;
 #endif
 #else
 boolean usedoublebuffering = true;
-boolean disableresscaling = false;
+boolean disablehdresolution = false;
 boolean disablehdscaling = false;
 unsigned originalScreenWidth = 320;
 unsigned originalScreenHeight = 200;
@@ -48,8 +48,8 @@ unsigned defaultScreenHeight = 400; // DO NOT CHANGE
 unsigned screenWidth = 640;
 unsigned screenHeight = 400;
 int screenBits = -1; // use "best" color depth according to libSDL
-int screenOffsetX = 0; // Used with HD scaling to calculate and center screens
-int screenOffsetY = 0;
+int scalingOffsetX = 0; // Used with HD scaling to calculate and center screens
+int scalingOffsetY = 0;
 #endif
 
 SDL_Surface *screen = NULL;
@@ -184,7 +184,7 @@ void VL_SetVGAPlaneMode(void) {
     }
     SDL_SetColors(screenBuffer, gamepal, 0, 256);
 #else
-    if (fullscreen && !disableresscaling)
+    if (fullscreen && !disablehdresolution)
     {
         screenWidth = displayMode.w;
         screenHeight = displayMode.h;
@@ -195,7 +195,7 @@ void VL_SetVGAPlaneMode(void) {
 
     SDL_PixelFormatEnumToMasks(SDL_PIXELFORMAT_ARGB8888, &screenBits, &r, &g, &b, &a);
 
-    if(fullscreen && disablehdscaling)
+    if(disablehdresolution || disablehdscaling)
     {
         screenWidth = defaultScreenWidth;
         screenHeight = defaultScreenHeight;
@@ -239,11 +239,20 @@ void VL_SetVGAPlaneMode(void) {
     if (screenHeight / originalScreenHeight < scaleFactor)
         scaleFactor = screenHeight / originalScreenHeight;
 
+#ifdef _DEBUG
+    printf("VL_SetVGAPlaneMode - scaleFactor: %d\n", scaleFactor);
+#endif
+
     printHorizAdjust = picHorizAdjust / scaleFactor;
     printVertAdjust = picVertAdjust / scaleFactor;
 
-    screenOffsetX = (screenWidth - scaleFactor * originalScreenWidth) / (2 * scaleFactor);
-    screenOffsetY = 0;
+    scalingOffsetX = (screenWidth - scaleFactor * originalScreenWidth) / (2 * scaleFactor);
+    scalingOffsetY = (screenHeight - scaleFactor * originalScreenHeight) / (2 * scaleFactor);
+
+#ifdef _DEBUG
+    printf("VL_SetVGAPlaneMode - screenOffsetX: %d\n", scalingOffsetX);
+    printf("VL_SetVGAPlaneMode - screenOffsetY: %d\n", scalingOffsetY);
+#endif
 
     ylookup = (uint32_t *) SafeMalloc(screenHeight * sizeof(*ylookup));
     pixelangle = (short *) SafeMalloc(screenWidth * sizeof(*pixelangle));
@@ -568,7 +577,6 @@ void VL_Plot(int x, int y, int color) {
 =================
 */
 
-#ifndef SAVE_GAME_SCREENSHOT
 byte VL_GetPixel(int x, int y)
 {
     byte col;
@@ -584,20 +592,42 @@ byte VL_GetPixel(int x, int y)
 
     return col;
 }
-#else
-byte VL_GetPixel(SDL_Surface *surface, int x, int y) {
+#ifdef SAVE_GAME_SCREENSHOT
+byte VL_GetPixel(SDL_Surface* surface, int x, int y) {
     byte col;
 
-    assert_ret(x >= 0 && (unsigned) x < screenWidth && y >= 0 && (unsigned) y < screenHeight && "VL_GetPixel: Pixel out of bounds!");
+    assert_ret(x >= 0 && (unsigned)x < screenWidth && y >= 0 && (unsigned)y < screenHeight && "VL_GetPixel: Pixel out of bounds!");
 
     if (!VL_LockSurface(surface))
         return 0;
 
-    col = ((byte *) surface->pixels)[ylookup[y] + x];
+    col = ((byte*)surface->pixels)[ylookup[y] + x];
 
     VL_UnlockSurface(surface);
 
     return col;
+}
+
+/*
+==============================
+=
+= VL_DuplicateSurface
+=
+= Deep copies SDL_Surface
+=
+==============================
+*/
+SDL_Surface* VL_DuplicateSurface(SDL_Surface* surf) {
+    SDL_Surface* cpy;
+    cpy = (SDL_Surface*)malloc(sizeof(SDL_Surface));
+    memcpy((SDL_Surface*)cpy, (SDL_Surface*)surf, sizeof(SDL_Surface));
+    cpy->format = (SDL_PixelFormat*)malloc(sizeof(SDL_PixelFormat));
+    memcpy((SDL_PixelFormat*)cpy->format, (SDL_PixelFormat*)surf->format,
+        sizeof(SDL_PixelFormat));
+    size_t size = surf->pitch * surf->h;
+    cpy->pixels = malloc(size);
+    memcpy((Uint8*)cpy->pixels, (Uint8*)surf->pixels, size * sizeof(Uint8));
+    return cpy;
 }
 
 /*
@@ -639,28 +669,6 @@ void VL_DrawPixel(SDL_Surface *surface, int x, int y, Uint32 pixel) {
             *(Uint32 *) p = pixel;
             break;
     }
-}
-
-/*
-==============================
-=
-= VL_DuplicateSurface
-=
-= Deep copies SDL_Surface
-=
-==============================
-*/
-SDL_Surface *VL_DuplicateSurface(SDL_Surface *surf) {
-    SDL_Surface *cpy;
-    cpy = (SDL_Surface *) malloc(sizeof(SDL_Surface));
-    memcpy((SDL_Surface *) cpy, (SDL_Surface *) surf, sizeof(SDL_Surface));
-    cpy->format = (SDL_PixelFormat *) malloc(sizeof(SDL_PixelFormat));
-    memcpy((SDL_PixelFormat *) cpy->format, (SDL_PixelFormat *) surf->format,
-           sizeof(SDL_PixelFormat));
-    size_t size = surf->pitch * surf->h;
-    cpy->pixels = malloc(size);
-    memcpy((Uint8 *) cpy->pixels, (Uint8 *) surf->pixels, size * sizeof(Uint8));
-    return cpy;
 }
 
 /*
@@ -968,4 +976,61 @@ void VL_MemToScreenScaledCoord2(byte *source, int origwidth, int origheight, int
 
 void VL_ScreenToScreen(SDL_Surface *source, SDL_Surface *dest) {
     SDL_BlitSurface(source, NULL, dest, NULL);
+}
+
+/*
+=================
+=
+= VL_GetFirstColoredPixel
+=
+= This function is mainly to resolve issues around the coloring of the
+= VW_Bar showing messages in the Signon screen when using HD scaling.
+= 
+= By default, it used to pick the pixel at 0,0 in the Signon screen
+= (a red pixel) to color the bar accordingly.
+= 
+= With HD, scaling, the first pixel of the screen is not the correct place to look.
+= 
+= In order to be able to achieve the same result, regardless of scaling, we now look
+= for the first colored pixel on the screen.
+= 
+= This is far from being super efficient but it should always work, regardless of the scaling.
+= 
+=================
+*/
+
+byte VL_GetFirstColoredPixel(SDL_Surface* surface) 
+{
+    byte color = 0;
+
+    int colorX = 0;
+    int colorY = 0;
+
+    SDL_LockSurface(surface);
+    Uint8* pixels = static_cast<Uint8*>(surface->pixels);
+
+    int width = surface->w;
+    int height = surface->h;
+    Uint8 pixel = 0;
+
+    for (int y = 0; y < height; ++y) {
+        if (pixel != 0)
+            break;
+
+        for (int x = 0; x < width; ++x) {
+            pixel = pixels[y * width + x];
+
+            if (pixel != 0 && pixel != SDL_MapRGB(surface->format, 0, 0, 0)) {
+                colorX = x;
+                colorY = y;
+                break;
+            }
+        }
+    }
+
+    color = ((byte*)surface->pixels)[ylookup[colorY] + colorX];
+
+    SDL_UnlockSurface(surface);
+
+    return color;
 }

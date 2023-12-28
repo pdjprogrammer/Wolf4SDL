@@ -4795,36 +4795,36 @@ void IntroScreen(void)
 	}
 #else
 	for (i = 0; i < 10; i++)
-		VWB_Bar(49, 163 - 8 * i, 6, 5, MAINCOLOR - i);
+		VWB_Bar(49 + scalingOffsetX, (163 - 8 * i) + scalingOffsetY, 6, 5, MAINCOLOR - i);
 	for (i = 0; i < 10; i++)
-		VWB_Bar(89, 163 - 8 * i, 6, 5, EMSCOLOR - i);
+		VWB_Bar(89 + scalingOffsetX, (163 - 8 * i) + scalingOffsetY, 6, 5, EMSCOLOR - i);
 	for (i = 0; i < 10; i++)
-		VWB_Bar(129, 163 - 8 * i, 6, 5, XMSCOLOR - i);
+		VWB_Bar(129 + scalingOffsetX, (163 - 8 * i) + scalingOffsetY, 6, 5, XMSCOLOR - i);
 #endif
 
 	//
 	// FILL BOXES
 	//
 	if (MousePresent)
-		VWB_Bar(164, 82, 12, 2, FILLCOLOR);
+		VWB_Bar(164 + scalingOffsetX, 82 + scalingOffsetY, 12, 2, FILLCOLOR);
 
 #ifdef USE_MODERN_CONTROLS
 	if (IN_ControllerPresent())
 		VWB_Bar(164, 105, 12, 2, FILLCOLOR);
 #else
 	if (IN_JoyPresent())
-		VWB_Bar(164, 105, 12, 2, FILLCOLOR);
+		VWB_Bar(164 + scalingOffsetX, 105 + scalingOffsetY, 12, 2, FILLCOLOR);
 #endif
 
 #ifndef VIEASM
 	if (AdLibPresent && !SoundBlasterPresent)
 #endif	
-		VWB_Bar(164, 128, 12, 2, FILLCOLOR);
+		VWB_Bar(164 + scalingOffsetX, 128 + scalingOffsetY, 12, 2, FILLCOLOR);
 
 #ifndef VIEASM
 	if (SoundBlasterPresent)
 #endif	
-		VWB_Bar(164, 151, 12, 2, FILLCOLOR);
+		VWB_Bar(164 + scalingOffsetX, 151 + scalingOffsetY, 12, 2, FILLCOLOR);
 
 	//    if (SoundSourcePresent)
 	//        VWB_Bar (164, 174, 12, 2, FILLCOLOR);

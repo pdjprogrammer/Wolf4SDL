@@ -278,9 +278,9 @@ void Victory(void)
 void PG13(void)
 {
 	VW_FadeOut();
-	VWB_Bar(0, 0, originalScreenWidth, originalScreenHeight, 0x82); // background
+	VWB_Bar(scalingOffsetX, scalingOffsetY, originalScreenWidth, originalScreenHeight, 0x82); // background
 
-	VWB_DrawPic(216, 110, PG13PIC);
+	VWB_DrawPic(216 + scalingOffsetX, 110 + scalingOffsetY, PG13PIC);
 	VW_UpdateScreen();
 
 	VW_FadeIn();

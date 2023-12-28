@@ -908,7 +908,7 @@ void SignonScreen(void) // VGA version
 {
 	VL_SetVGAPlaneMode();
 
-	VL_MemToScreen(signon, originalScreenWidth, originalScreenHeight, 0, 0);
+	VL_MemToScreen(signon, MaxX, MaxY, scalingOffsetX, scalingOffsetY);
 }
 
 /*
@@ -922,14 +922,15 @@ void SignonScreen(void) // VGA version
 void FinishSignon(void)
 {
 #ifndef SPEAR
+
 #ifndef SAVE_GAME_SCREENSHOT
-	VW_Bar(0, 189, 300, 11, VL_GetPixel(0, 0));
+	VW_Bar(0 + scalingOffsetX, 189 + scalingOffsetY, 300, 11, VL_GetFirstColoredPixel(screenBuffer));
 #else
-	VW_Bar(0, 189, 300, 11, VL_GetPixel(screenBuffer, 0, 0));
+	VW_Bar(0 + scalingOffsetX, 189 + scalingOffsetY, 300, 11, VL_GetFirstColoredPixel(screenBuffer));
 #endif
-	WindowX = 0;
+	WindowX = scalingOffsetX;
 	WindowW = originalScreenWidth;
-	PrintY = 190;
+	PrintY = 190 + scalingOffsetY;
 
 #ifndef JAPAN
 	SETFONTCOLOR(14, 4);
@@ -949,12 +950,12 @@ void FinishSignon(void)
 
 #ifndef JAPAN
 #ifndef SAVE_GAME_SCREENSHOT
-	VW_Bar(0, 189, 300, 11, VL_GetPixel(0, 0));
+	VW_Bar(0 + scalingOffsetX, 189 + scalingOffsetY, 300, 11, VL_GetFirstColoredPixel(screenBuffer));
 #else
-	VW_Bar(0, 189, 300, 11, VL_GetPixel(screenBuffer, 0, 0));
+	VW_Bar(0 + scalingOffsetX, 189 + scalingOffsetY, 300, 11, VL_GetFirstColoredPixel(screenBuffer));
 #endif
 
-	PrintY = 190;
+	PrintY = 190 + scalingOffsetY;
 	SETFONTCOLOR(10, 4);
 
 #ifdef SPANISH
@@ -1663,7 +1664,7 @@ static void DemoLoop()
 			VW_UpdateScreen();
 			VL_FadeIn(0, 255, pal, 30);
 #else
-			VWB_DrawPic(0, 0, TITLEPIC);
+			VWB_DrawPic(scalingOffsetX, scalingOffsetY, TITLEPIC);
 			VW_UpdateScreen();
 			VW_FadeIn();
 #endif
@@ -1777,7 +1778,7 @@ param_difficulty = 0;
 			forcegrabmouse = true;
 		}
 		else IFARG("--disableresscaling")
-			disableresscaling = true;
+			disablehdresolution = true;
         else IFARG("--disablehdscaling")
             disablehdscaling = true;
 		else IFARG("--res")
@@ -2027,7 +2028,7 @@ int main(int argc, char* argv[])
 {
 #ifdef _DEBUG
 	printf("\n");
-	printf("Wolfenstein 3D Starting...");
+	printf("Wolfenstein 3D Starting...\n\n");
 #endif
 #if defined(_arch_dreamcast)
 	DC_Init();
