@@ -41,13 +41,15 @@ int screenBits = 16;
 boolean usedoublebuffering = true;
 boolean disableresscaling = false;
 boolean disablehdscaling = false;
-unsigned originalScreenWidth = 320; // Only meant to remove magic values in the code.
-unsigned originalScreenHeight = 200; // Only meant to remove magic values in the code.
+unsigned originalScreenWidth = 320;
+unsigned originalScreenHeight = 200;
 unsigned defaultScreenWidth = 640; // DO NOT CHANGE
 unsigned defaultScreenHeight = 400; // DO NOT CHANGE
 unsigned screenWidth = 640;
 unsigned screenHeight = 400;
 int screenBits = -1; // use "best" color depth according to libSDL
+int screenOffsetX = 0; // Used with HD scaling to calculate and center screens
+int screenOffsetY = 0;
 #endif
 
 SDL_Surface *screen = NULL;
@@ -239,6 +241,9 @@ void VL_SetVGAPlaneMode(void) {
 
     printHorizAdjust = picHorizAdjust / scaleFactor;
     printVertAdjust = picVertAdjust / scaleFactor;
+
+    screenOffsetX = (screenWidth - scaleFactor * originalScreenWidth) / (2 * scaleFactor);
+    screenOffsetY = 0;
 
     ylookup = (uint32_t *) SafeMalloc(screenHeight * sizeof(*ylookup));
     pixelangle = (short *) SafeMalloc(screenWidth * sizeof(*pixelangle));
