@@ -16,7 +16,7 @@
 					<Add directory="libraries/mingw/include/SDL2" />
 				</Compiler>
 				<Linker>
-					<Add directory="libraries/mingw/lib/SDL2/x86" />
+					<Add directory="libraries/mingw/lib/SDL2/x64" />
 				</Linker>
 			</Target>
 		</Build>
@@ -31,6 +31,7 @@
 			<Add library="SDL2_mixer" />
 			<Add directory="libraries/mingw/lib/SDL2" />
 		</Linker>
+		<Unit filename="src/asmcomp.cpp" />
 		<Unit filename="src/audiosod.h" />
 		<Unit filename="src/audiowl6.h" />
 		<Unit filename="src/f_spear.h" />
@@ -40,112 +41,53 @@
 		<Unit filename="src/gfxv_sod.h" />
 		<Unit filename="src/gfxv_wl6.h" />
 		<Unit filename="src/gp2x.h" />
-		<Unit filename="src/id_ca.c">
-			<Option compilerVar="CC" />
-		</Unit>
+		<Unit filename="src/id_ca.cpp" />
 		<Unit filename="src/id_ca.h" />
-		<Unit filename="src/id_in.c">
-			<Option compilerVar="CC" />
-		</Unit>
+		<Unit filename="src/id_in.cpp" />
 		<Unit filename="src/id_in.h" />
-		<Unit filename="src/id_pm.c">
-			<Option compilerVar="CC" />
-		</Unit>
+		<Unit filename="src/id_pm.cpp" />
 		<Unit filename="src/id_pm.h" />
-		<Unit filename="src/id_sd.c">
-			<Option compilerVar="CC" />
-		</Unit>
+		<Unit filename="src/id_sd.cpp" />
 		<Unit filename="src/id_sd.h" />
-		<Unit filename="src/id_us.c">
-			<Option compilerVar="CC" />
-		</Unit>
+		<Unit filename="src/id_us.cpp" />
 		<Unit filename="src/id_us.h" />
-		<Unit filename="src/id_vh.c">
-			<Option compilerVar="CC" />
-		</Unit>
+		<Unit filename="src/id_vh.cpp" />
 		<Unit filename="src/id_vh.h" />
-		<Unit filename="src/id_vl.c">
-			<Option compilerVar="CC" />
-		</Unit>
+		<Unit filename="src/id_vl.cpp" />
 		<Unit filename="src/id_vl.h" />
-		<Unit filename="src/mame/fmopl.c">
-			<Option compilerVar="CC" />
-		</Unit>
+		<Unit filename="src/mame/fmopl.cpp" />
 		<Unit filename="src/mame/fmopl.h" />
-		<Unit filename="src/sdl_winmain.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="src/sdl_wrap.c">
-			<Option compilerVar="CC" />
-		</Unit>
+		<Unit filename="src/sdl_winmain.cpp" />
+		<Unit filename="src/sdl_wrap.cpp" />
 		<Unit filename="src/sdl_wrap.h" />
-		<Unit filename="src/signon.c">
-			<Option compilerVar="CC" />
-		</Unit>
+		<Unit filename="src/signon.cpp" />
 		<Unit filename="src/sodpal.inc" />
 		<Unit filename="src/version.h" />
-		<Unit filename="src/wl_act1.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="src/wl_act2.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="src/wl_agent.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="src/wl_atmos.c">
-			<Option compilerVar="CC" />
-		</Unit>
+		<Unit filename="src/vieasm.cpp" />
+		<Unit filename="src/wl_act1.cpp" />
+		<Unit filename="src/wl_act2.cpp" />
+		<Unit filename="src/wl_agent.cpp" />
+		<Unit filename="src/wl_atmos.cpp" />
 		<Unit filename="src/wl_atmos.h" />
-		<Unit filename="src/wl_cloudsky.c">
-			<Option compilerVar="CC" />
-		</Unit>
+		<Unit filename="src/wl_cloudsky.cpp" />
 		<Unit filename="src/wl_cloudsky.h" />
-		<Unit filename="src/wl_debug.c">
-			<Option compilerVar="CC" />
-		</Unit>
+		<Unit filename="src/wl_debug.cpp" />
 		<Unit filename="src/wl_def.h" />
-		<Unit filename="src/wl_draw.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="src/wl_game.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="src/wl_inter.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="src/wl_main.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="src/wl_menu.c">
-			<Option compilerVar="CC" />
-		</Unit>
+		<Unit filename="src/wl_draw.cpp" />
+		<Unit filename="src/wl_game.cpp" />
+		<Unit filename="src/wl_inter.cpp" />
+		<Unit filename="src/wl_main.cpp" />
+		<Unit filename="src/wl_menu.cpp" />
 		<Unit filename="src/wl_menu.h" />
-		<Unit filename="src/wl_parallax.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="src/wl_plane.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="src/wl_play.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="src/wl_scale.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="src/wl_shade.c">
-			<Option compilerVar="CC" />
-		</Unit>
+		<Unit filename="src/wl_parallax.cpp" />
+		<Unit filename="src/wl_plane.cpp" />
+		<Unit filename="src/wl_play.cpp" />
+		<Unit filename="src/wl_scale.cpp" />
+		<Unit filename="src/wl_shade.cpp" />
 		<Unit filename="src/wl_shade.h" />
-		<Unit filename="src/wl_state.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="src/wl_text.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="src/wl_utils.c">
-			<Option compilerVar="CC" />
-		</Unit>
+		<Unit filename="src/wl_state.cpp" />
+		<Unit filename="src/wl_text.cpp" />
+		<Unit filename="src/wl_utils.cpp" />
 		<Unit filename="src/wl_utils.h" />
 		<Unit filename="src/wolfpal.inc" />
 		<Unit filename="win/Wolf4SDL.rc">
