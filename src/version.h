@@ -48,7 +48,7 @@
 //#define FIXRAINSNOWLEAKS							// Enables leaking ceilings fix (by Adam Biser, only needed if maps with rain/snow and ceilings exist)
 //#define VIEWMAP									// Enables the overhead map
 //#define REVEALMAP									// Enables showing only the areas of the overhead map that have been seen
-//#define USE_MODERN_CONTROLS						// !!!!! DELETE CONFIG.WL6 AFTER CHANGING !!!!! - Enables Modern Control Scheme (WASD + Controller)
+#define USE_MODERN_CONTROLS						// !!!!! DELETE CONFIG.WL6 AFTER CHANGING !!!!! - Enables Modern Control Scheme (WASD + Controller)
 //#define SHOW_GAME_OPTIONS (Incomplete)			// Requires USE_MODERN_CONTROLS flag enabled.
                                                     // Enables game options for certain features (enable/disable shading, textured floor and ceiling, precipitation (rain, snow)
 //#define SEAMLESSLEVELS							// Disables the Episode selection screen on Wolf3D.
@@ -74,5 +74,5 @@
 
 //#define BANDEDHOLOWALLS							// Use the old DOS-style "banded" wall drawing behaviour when inside walls
 
-//#define SHOW_CUSTOM_CONTROLS						// !!!!! DELETE CONFIG.WL6 AFTER CHANGING !!!!! - Requires #USE_MODERN_CONTROLS flag enabled and code changes to customize the keys.
+#define SHOW_CUSTOM_CONTROLS						// !!!!! DELETE CONFIG.WL6 AFTER CHANGING !!!!! - Requires #USE_MODERN_CONTROLS flag enabled and code changes to customize the keys.
 #endif

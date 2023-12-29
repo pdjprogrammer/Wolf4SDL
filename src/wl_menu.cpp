@@ -2518,7 +2518,7 @@ void DrawCtlScreen(void)
 	VWB_DrawPic(112 + scalingOffsetX, 184 + +scalingOffsetY, C_MOUSELBACKPIC);
 	DrawWindow(CTL_X - 8 + +scalingOffsetX, CTL_Y - 5 + +scalingOffsetY, CTL_W, CTL_H, BKGDCOLOR);
 #endif
-	WindowX = 0 + scalingOffsetX;
+	WindowX = scalingOffsetX;
 	WindowW = 320;
 	SETFONTCOLOR(TEXTCOLOR, BKGDCOLOR);
 
@@ -2555,7 +2555,7 @@ void DrawCtlScreen(void)
 		VWB_DrawPic(x, y, C_NOTSELECTEDPIC);
 
 #ifdef USE_MODERN_CONTROLS
-	y = CTL_Y + 16;
+	y = CTL_Y + 16 + scalingOffsetY;
 #else
 	y = CTL_Y + 29 + scalingOffsetY;
 #endif	
@@ -2566,7 +2566,7 @@ void DrawCtlScreen(void)
 	else
 		VWB_DrawPic(x, y, C_NOTSELECTEDPIC);
 
-	y = CTL_Y + 29;
+	y = CTL_Y + 29 + scalingOffsetY;
 
 	if (alwaysRun)
 		VWB_DrawPic(x, y, C_SELECTEDPIC);
@@ -2611,9 +2611,9 @@ void DrawOptScreen(void)
 #else
 	ClearMScreen();
 	DrawStripes(10);
-	VWB_DrawPic(80, 0, C_CONTROLPIC);
-	VWB_DrawPic(112, 184, C_MOUSELBACKPIC);
-	DrawWindow(OPT_X - 8, OPT_Y - 5, OPT_W, OPT_H, BKGDCOLOR);
+	VWB_DrawPic(80 + scalingOffsetX, 0, C_CONTROLPIC);
+	VWB_DrawPic(112 + scalingOffsetX, 184 + scalingOffsetY, C_MOUSELBACKPIC);
+	DrawWindow(OPT_X - 8 + scalingOffsetX, OPT_Y - 5 + scalingOffsetY, OPT_W, OPT_H, BKGDCOLOR);
 #endif
 	WindowX = 0;
 	WindowW = 320;
@@ -3306,7 +3306,7 @@ int CP_CustomCtl(int blank)
 
 	} while (which >= 0);
 
-	ExitMenu();
+	ExitToControlScreen();
 
 	return 0;
 }
@@ -3386,25 +3386,25 @@ void EnterCtrlData(int index, CustomCtrls* cust, void (*DrawRtn)(int), void (*Pr
 #else
 			switch (type) {
 			case KEYBOARDMOVE:
-				x = CTL_MOUSE_X + 10;
-				y = OPT_KB_MOVE_KEYS_Y;
+				x = CTL_MOUSE_X + 10 + scalingOffsetX;
+				y = OPT_KB_MOVE_KEYS_Y + scalingOffsetY;
 				w = 80;
 				break;
 			case KEYBOARDMOREACTIONS:
-				x = OPT_KEYBOARD_MORE_ACTION_TEXT_X;
-				y = OPT_KEYBOARD_MORE_ACTION_TEXT_Y;
+				x = OPT_KEYBOARD_MORE_ACTION_TEXT_X + scalingOffsetX;
+				y = OPT_KEYBOARD_MORE_ACTION_TEXT_Y + scalingOffsetY;
 				w = 75;
 				break;
 #ifdef SHOW_CUSTOM_CONTROLS
 			case CUSTOMCONTROLS:
-				x = CUS_CTL_RIGHT_TEXT_X;
-				y = CUS_CTL_TEXT_Y;
+				x = CUS_CTL_RIGHT_TEXT_X + scalingOffsetX;
+				y = CUS_CTL_TEXT_Y + scalingOffsetY;
 				w = 75;
 				break;
 #endif
 			default:
-				x = CTL_MOUSE_X;
-				y = CST_START;
+				x = CTL_MOUSE_X + scalingOffsetX;
+				y = CST_START + scalingOffsetY;
 				w = CST_SPC;
 				break;
 			}
@@ -3787,11 +3787,11 @@ void DrawMouseCtlScreen(void)
 	int which = 0;
 
 	ClearMScreen();
-	WindowX = 0;
-	WindowW = 320;
-	VWB_DrawPic(112, 184, C_MOUSELBACKPIC);
+	WindowX = scalingOffsetX;
+	WindowW = 320 + scalingOffsetY;
+	VWB_DrawPic(112 + scalingOffsetX, 184 + scalingOffsetY, C_MOUSELBACKPIC);
 	DrawStripes(10);
-	VWB_DrawPic(80, 0, C_CUSTOMIZEPIC);
+	VWB_DrawPic(80 + scalingOffsetX, 0, C_CUSTOMIZEPIC);
 
 	//
 	// MOUSE
@@ -3810,13 +3810,13 @@ void DrawMouseCtlScreen(void)
 
 	SETFONTCOLOR(TEXTCOLOR, BKGDCOLOR);
 
-	DrawWindow(OPT_MOUSE_X - 8, OPT_MOUSE_Y - 5, OPT_MOUSE_W, OPT_MOUSE_H, BKGDCOLOR);
+	DrawWindow(OPT_MOUSE_X - 8 + scalingOffsetX, OPT_MOUSE_Y - 5 + scalingOffsetY, OPT_MOUSE_W, OPT_MOUSE_H, BKGDCOLOR);
 	DrawMenuGun(&CusMouseItems);
 
 	if (mouseYAxis)
-		VWB_DrawPic(56, OPT_MOUSE_Y + 68, C_SELECTEDPIC);
+		VWB_DrawPic(56 + scalingOffsetX, OPT_MOUSE_Y + 68 + scalingOffsetY, C_SELECTEDPIC);
 	else
-		VWB_DrawPic(56, OPT_MOUSE_Y + 68, C_NOTSELECTEDPIC);
+		VWB_DrawPic(56 + scalingOffsetX, OPT_MOUSE_Y + 68 + scalingOffsetY, C_NOTSELECTEDPIC);
 
 	DrawMenu(&CusMouseItems, CtlMouseMenu);
 	DrawCustMouse(0);
@@ -3851,9 +3851,9 @@ void DrawKeyboardMoveCtlScreen(void)
 	ClearMScreen();
 	WindowX = 0;
 	WindowW = 320;
-	VWB_DrawPic(112, 184, C_MOUSELBACKPIC);
+	VWB_DrawPic(112 + scalingOffsetX, 184 + scalingOffsetY, C_MOUSELBACKPIC);
 	DrawStripes(10);
-	VWB_DrawPic(80, 0, C_CUSTOMIZEPIC);
+	VWB_DrawPic(80 + scalingOffsetX, 0, C_CUSTOMIZEPIC);
 
 	//
 	// MOUSE
@@ -3872,7 +3872,7 @@ void DrawKeyboardMoveCtlScreen(void)
 
 	SETFONTCOLOR(TEXTCOLOR, BKGDCOLOR);
 
-	DrawWindow(OPT_KEYBOARD_MOVE_X - 8, OPT_KEYBOARD_MOVE_Y, OPT_KEYBOARD_MOVE_W, OPT_KEYBOARD_MOVE_H, BKGDCOLOR);
+	DrawWindow(OPT_KEYBOARD_MOVE_X - 8 + scalingOffsetX, OPT_KEYBOARD_MOVE_Y + scalingOffsetY, OPT_KEYBOARD_MOVE_W, OPT_KEYBOARD_MOVE_H, BKGDCOLOR);
 	DrawMenuGun(&CusKeyboardMoveItems);
 
 	DrawMenu(&CusKeyboardMoveItems, CtlKeyboardMoveMenu);
@@ -3908,9 +3908,9 @@ void DrawKeyboardActionCtlScreen(void)
 	ClearMScreen();
 	WindowX = 0;
 	WindowW = 320;
-	VWB_DrawPic(112, 184, C_MOUSELBACKPIC);
+	VWB_DrawPic(112 + scalingOffsetX, 184 + scalingOffsetY, C_MOUSELBACKPIC);
 	DrawStripes(10);
-	VWB_DrawPic(80, 0, C_CUSTOMIZEPIC);
+	VWB_DrawPic(80 + scalingOffsetX, 0, C_CUSTOMIZEPIC);
 
 	//
 	// MOUSE
@@ -3929,7 +3929,7 @@ void DrawKeyboardActionCtlScreen(void)
 
 	SETFONTCOLOR(TEXTCOLOR, BKGDCOLOR);
 
-	DrawWindow(OPT_KEYBOARD_ACTION_X - 8, OPT_KEYBOARD_ACTION_Y - 5, OPT_KEYBOARD_ACTION_W, OPT_KEYBOARD_ACTION_H - 13, BKGDCOLOR);
+	DrawWindow(OPT_KEYBOARD_ACTION_X - 8 + scalingOffsetX, OPT_KEYBOARD_ACTION_Y - 5 + scalingOffsetY, OPT_KEYBOARD_ACTION_W, OPT_KEYBOARD_ACTION_H - 13, BKGDCOLOR);
 	DrawMenuGun(&CusKeyboardActionItems);
 
 	DrawMenu(&CusKeyboardActionItems, CtlKeyboardActionMenu);
@@ -3965,9 +3965,9 @@ void DrawKeyboardMoreActionCtlScreen(void)
 	ClearMScreen();
 	WindowX = 0;
 	WindowW = 320;
-	VWB_DrawPic(112, 184, C_MOUSELBACKPIC);
+	VWB_DrawPic(112 + scalingOffsetX, 184 + scalingOffsetY, C_MOUSELBACKPIC);
 	DrawStripes(10);
-	VWB_DrawPic(80, 0, C_CUSTOMIZEPIC);
+	VWB_DrawPic(80 + scalingOffsetX, 0, C_CUSTOMIZEPIC);
 
 	//
 	// MOUSE
@@ -3986,7 +3986,7 @@ void DrawKeyboardMoreActionCtlScreen(void)
 
 	SETFONTCOLOR(TEXTCOLOR, BKGDCOLOR);
 
-	DrawWindow(OPT_KEYBOARD_MORE_ACTION_X - 8, OPT_KEYBOARD_MORE_ACTION_Y - 5, OPT_KEYBOARD_MORE_ACTION_W, OPT_KEYBOARD_MORE_ACTION_H - 13, BKGDCOLOR);
+	DrawWindow(OPT_KEYBOARD_MORE_ACTION_X - 8 + scalingOffsetX, OPT_KEYBOARD_MORE_ACTION_Y - 5 + scalingOffsetY, OPT_KEYBOARD_MORE_ACTION_W, OPT_KEYBOARD_MORE_ACTION_H - 13, BKGDCOLOR);
 	DrawMenuGun(&CusKeyboardMoreActionItems);
 
 	DrawMenu(&CusKeyboardMoreActionItems, CtlKeyboardMoreActionMenu);
@@ -4024,9 +4024,9 @@ void DrawCustomCtlScreen(void)
 	ClearMScreen();
 	WindowX = 0;
 	WindowW = 320;
-	VWB_DrawPic(112, 184, C_MOUSELBACKPIC);
+	VWB_DrawPic(112 + scalingOffsetX, 184 + scalingOffsetY, C_MOUSELBACKPIC);
 	DrawStripes(10);
-	VWB_DrawPic(80, 0, C_CUSTOMIZEPIC);
+	VWB_DrawPic(80 + scalingOffsetX, 0, C_CUSTOMIZEPIC);
 
 	//
 	// MOUSE
@@ -4045,7 +4045,7 @@ void DrawCustomCtlScreen(void)
 
 	SETFONTCOLOR(TEXTCOLOR, BKGDCOLOR);
 
-	DrawWindow(CUS_CTL_X - 8, CUS_CTL_Y, CUS_CTL_W, CUS_CTL_H, BKGDCOLOR);
+	DrawWindow(CUS_CTL_X - 8 + scalingOffsetX, CUS_CTL_Y + scalingOffsetY, CUS_CTL_W, CUS_CTL_H, BKGDCOLOR);
 	DrawMenuGun(&CusCtlItems);
 
 	DrawMenu(&CusCtlItems, CusCtlMenu);
@@ -4330,8 +4330,8 @@ void PrintCustMouse(int i)
 #ifndef USE_MODERN_CONTROLS
 			PrintX = CST_START + CST_SPC * i;
 #else
-			PrintX = CTL_MOUSE_X;
-			PrintY = CST_START + (CST_SPC_Y * i);
+			PrintX = CTL_MOUSE_X + scalingOffsetX;
+			PrintY = CST_START + scalingOffsetY + (CST_SPC_Y * i);
 #endif
 			US_Print(mbarray[j]);
 			break;
@@ -4358,7 +4358,7 @@ void DrawCustMouse(int highlight)
 #ifndef USE_MODERN_CONTROLS
 	PrintY = CST_Y + 13 * 2;
 #else
-	PrintX = CTL_MOUSE_X;
+	PrintX = CTL_MOUSE_X + scalingOffsetX;
 #endif
 	for (i = 0; i < 4; i++)
 		PrintCustMouse(i);
@@ -4488,8 +4488,8 @@ void PrintCustKeybd(int i)
 #ifndef USE_MODERN_CONTROLS
 	PrintX = CST_START + CST_SPC * i;
 #else
-	PrintX = CTL_MOUSE_X;
-	PrintY = CST_START + (CST_SPC_Y * i);
+	PrintX = CTL_MOUSE_X + scalingOffsetX;
+	PrintY = CST_START + scalingOffsetY + (CST_SPC_Y * i);
 #endif
 	US_Print((const char*)IN_GetScanName(buttonscan[order[i]]));
 }
@@ -4505,7 +4505,7 @@ void DrawCustKeybd(int hilight)
 #ifndef USE_MODERN_CONTROLS
 	PrintY = CST_Y + 13 * 8;
 #else
-	PrintX = CTL_MOUSE_X;
+	PrintX = CTL_MOUSE_X + scalingOffsetX;
 #endif
 	for (i = 0; i < 4; i++)
 		PrintCustKeybd(i);
@@ -4516,8 +4516,8 @@ void PrintCustKeys(int i)
 #ifndef USE_MODERN_CONTROLS
 	PrintX = CST_START + CST_SPC * i;
 #else
-	PrintX = OPT_KB_MOVE_KEYS_X;
-	PrintY = OPT_KB_MOVE_KEYS_Y + (CST_SPC_Y * i);
+	PrintX = OPT_KB_MOVE_KEYS_X + scalingOffsetX;
+	PrintY = OPT_KB_MOVE_KEYS_Y + scalingOffsetY + (CST_SPC_Y * i);
 #endif
 	US_Print((const char*)IN_GetScanName(dirscan[moveorder[i]]));
 }
@@ -4534,7 +4534,7 @@ void DrawCustKeys(int hilight)
 	int amount = 4;
 
 #ifdef USE_MODERN_CONTROLS
-	PrintX = CTL_MOUSE_X;
+	PrintX = CTL_MOUSE_X + scalingOffsetX;
 	amount = 6;
 #else
 	PrintY = CST_Y + 13 * 10;
@@ -4546,9 +4546,9 @@ void DrawCustKeys(int hilight)
 #ifdef USE_MODERN_CONTROLS
 void PrintMoreActionsKeys(int i)
 {
-	PrintX = OPT_KEYBOARD_MORE_ACTION_RIGHT_TEXT_X;
-	PrintY = CST_START + (CST_SPC_Y * i);
-	PrintY = OPT_KEYBOARD_MORE_ACTION_TEXT_Y + (CST_SPC_Y * i);
+	PrintX = OPT_KEYBOARD_MORE_ACTION_RIGHT_TEXT_X + scalingOffsetX;
+	//PrintY = CST_START + (CST_SPC_Y * i);
+	PrintY = OPT_KEYBOARD_MORE_ACTION_TEXT_Y + scalingOffsetY + (CST_SPC_Y * i);
 	US_Print((const char*)IN_GetScanName(buttonscan[4 + actionorder[i]]));
 		}
 
@@ -4561,7 +4561,7 @@ void DrawMoreActionsKeys(int hilight)
 		color = HIGHLIGHT;
 	SETFONTCOLOR(color, BKGDCOLOR);
 
-	PrintX = CTL_MOUSE_X;
+	PrintX = CTL_MOUSE_X + scalingOffsetX;
 
 	for (i = 0; i < 6; i++)
 		PrintMoreActionsKeys(i);
@@ -4571,9 +4571,9 @@ void DrawMoreActionsKeys(int hilight)
 
 void PrintCustomCtlKeys(int i)
 {
-	PrintX = CUS_CTL_RIGHT_TEXT_X;
-	PrintY = CST_START + (CST_SPC_Y * i);
-	PrintY = CUS_CTL_TEXT_Y + (CST_SPC_Y * i);
+	PrintX = CUS_CTL_RIGHT_TEXT_X + scalingOffsetX;
+	//PrintY = CST_START + (CST_SPC_Y * i);
+	PrintY = CUS_CTL_TEXT_Y + scalingOffsetY + (CST_SPC_Y * i);
 	US_Print((const char*)IN_GetScanName(buttonscan[19 + advorder[i]]));
 }
 
@@ -4586,7 +4586,7 @@ void DrawCustomCtlKeys(int hilight)
 		color = HIGHLIGHT;
 	SETFONTCOLOR(color, BKGDCOLOR);
 
-	PrintX = CTL_MOUSE_X;
+	PrintX = CTL_MOUSE_X + scalingOffsetX;
 
 	for (i = 0; i < MAX_CUSTOM_CONTROLS; i++)
 		PrintCustomCtlKeys(i);

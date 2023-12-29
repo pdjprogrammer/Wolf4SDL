@@ -146,9 +146,10 @@
 #define STR_PREV_WPN "Prev Wpn"
 #define STR_NEXT_WPN "Next Wpn"
 #define STR_AUTOMAP "Automap"
-
 #else
 #define STR_JOYEN "Joystick Enabled"
+#endif
+
 #ifdef SHOW_CUSTOM_CONTROLS
 #define STR_CUS_CONTROLS "Custom Controls"
 
@@ -162,7 +163,6 @@
 #define STR_CUS_CTL_8 "Cus Ctl 8"
 #define STR_CUS_CTL_9 "Cus Ctl 9"
 #define STR_CUS_CTL_10 "Cus Ctl 10"
-#endif
 #endif
 
 #ifdef SPEAR
