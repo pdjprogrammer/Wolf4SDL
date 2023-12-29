@@ -813,14 +813,14 @@ void DrawMainMenu(void)
 #else
 	ClearMScreen();
 
-	VWB_DrawPic(112, 184, C_MOUSELBACKPIC);
+	VWB_DrawPic(112 + scalingOffsetX, 184 + scalingOffsetY, C_MOUSELBACKPIC);
 	DrawStripes(10);
-	VWB_DrawPic(84, 0, C_OPTIONSPIC);
+	VWB_DrawPic(84 + scalingOffsetX, 0, C_OPTIONSPIC);
 
 #ifdef SPANISH
 	DrawWindow(MENU_X - 8, MENU_Y - 3, MENU_W + 8, MENU_H, BKGDCOLOR);
 #else
-	DrawWindow(MENU_X - 8, MENU_Y - 3, MENU_W, MENU_H, BKGDCOLOR);
+	DrawWindow(MENU_X - 8 + scalingOffsetX, MENU_Y - 3 + scalingOffsetY, MENU_W, MENU_H, BKGDCOLOR);
 #endif
 #endif
 
@@ -1273,12 +1273,12 @@ void DrawNewEpisode(void)
 	VWB_DrawPic(0, 0, S_EPISODEPIC);
 #else
 	ClearMScreen();
-	VWB_DrawPic(112, 184, C_MOUSELBACKPIC);
+	VWB_DrawPic(112 + scalingOffsetX, 184 + scalingOffsetY, C_MOUSELBACKPIC);
 
-	DrawWindow(NE_X - 4, NE_Y - 4, NE_W + 8, NE_H + 8, BKGDCOLOR);
+	DrawWindow(NE_X - 4 + scalingOffsetX, NE_Y - 4 + scalingOffsetY, NE_W + 8, NE_H + 8, BKGDCOLOR);
 	SETFONTCOLOR(READHCOLOR, BKGDCOLOR);
 	PrintY = 2;
-	WindowX = 0;
+	WindowX = 0 + scalingOffsetX;
 #ifdef SPANISH
 	US_CPrint("Cual episodio jugar?");
 #else
@@ -1290,7 +1290,7 @@ void DrawNewEpisode(void)
 	DrawMenu(&NewEitems, &NewEmenu[0]);
 
 	for (i = 0; i < 6; i++)
-		VWB_DrawPic(NE_X + 32, NE_Y + i * 26, C_EPISODE1PIC + i);
+		VWB_DrawPic(NE_X + 32 + scalingOffsetX, NE_Y + i * 26 + scalingOffsetY, C_EPISODE1PIC + i);
 
 	VW_UpdateScreen();
 	MenuFadeIn();
@@ -1309,11 +1309,11 @@ void DrawNewGame(void)
 	VWB_DrawPic(0, 0, S_SKILLPIC);
 #else
 	ClearMScreen();
-	VWB_DrawPic(112, 184, C_MOUSELBACKPIC);
+	VWB_DrawPic(112 + scalingOffsetX, 184 + scalingOffsetY, C_MOUSELBACKPIC);
 
 	SETFONTCOLOR(READHCOLOR, BKGDCOLOR);
-	PrintX = NM_X + 20;
-	PrintY = NM_Y - 32;
+	PrintX = NM_X + 20 + scalingOffsetX;
+	PrintY = NM_Y - 32 + scalingOffsetY;
 
 #ifndef SPEAR
 #ifdef SPANISH
@@ -1325,7 +1325,7 @@ void DrawNewGame(void)
 	VWB_DrawPic(PrintX, PrintY, C_HOWTOUGHPIC);
 #endif
 
-	DrawWindow(NM_X - 5, NM_Y - 10, NM_W, NM_H, BKGDCOLOR);
+	DrawWindow(NM_X - 5 + scalingOffsetX, NM_Y - 10 + scalingOffsetY, NM_W, NM_H, BKGDCOLOR);
 #endif
 
 	DrawMenu(&NewItems, &NewMenu[0]);
@@ -1341,7 +1341,7 @@ void DrawNewGame(void)
 //
 void DrawNewGameDiff(int w)
 {
-	VWB_DrawPic(NM_X + 185, NM_Y + 7, w + C_BABYMODEPIC);
+	VWB_DrawPic(NM_X + 185 + scalingOffsetX, NM_Y + 7 + scalingOffsetY, w + C_BABYMODEPIC);
 }
 
 ////////////////////////////////////////////////////////////////////
@@ -1471,11 +1471,11 @@ void DrawSoundMenu(void)
 	// DRAW SOUND MENU
 	//
 	ClearMScreen();
-	VWB_DrawPic(112, 184, C_MOUSELBACKPIC);
+	VWB_DrawPic(112 + scalingOffsetX, 184 + scalingOffsetY, C_MOUSELBACKPIC);
 
-	DrawWindow(SM_X - 8, SM_Y1 - 3, SM_W, SM_H1, BKGDCOLOR);
-	DrawWindow(SM_X - 8, SM_Y2 - 3, SM_W, SM_H2, BKGDCOLOR);
-	DrawWindow(SM_X - 8, SM_Y3 - 3, SM_W, SM_H3, BKGDCOLOR);
+	DrawWindow(SM_X - 8 + scalingOffsetX, SM_Y1 - 3 + scalingOffsetY, SM_W, SM_H1, BKGDCOLOR);
+	DrawWindow(SM_X - 8 + scalingOffsetX, SM_Y2 - 3 + scalingOffsetY, SM_W, SM_H2, BKGDCOLOR);
+	DrawWindow(SM_X - 8 + scalingOffsetX, SM_Y3 - 3 + scalingOffsetY, SM_W, SM_H3, BKGDCOLOR);
 #endif
 
 	//
@@ -1494,9 +1494,9 @@ void DrawSoundMenu(void)
 
 	DrawMenu(&SndItems, &SndMenu[0]);
 #ifndef JAPAN
-	VWB_DrawPic(100, SM_Y1 - 20, C_FXTITLEPIC);
-	VWB_DrawPic(100, SM_Y2 - 20, C_DIGITITLEPIC);
-	VWB_DrawPic(100, SM_Y3 - 20, C_MUSICTITLEPIC);
+	VWB_DrawPic(100 + scalingOffsetX, SM_Y1 - 20 + scalingOffsetY, C_FXTITLEPIC);
+	VWB_DrawPic(100 + scalingOffsetX, SM_Y2 - 20 + scalingOffsetY, C_DIGITITLEPIC);
+	VWB_DrawPic(100 + scalingOffsetX, SM_Y3 - 20 + scalingOffsetY, C_MUSICTITLEPIC);
 #endif
 
 	for (i = 0; i < SndItems.amount; i++)
@@ -1558,9 +1558,9 @@ void DrawSoundMenu(void)
 			}
 
 			if (on)
-				VWB_DrawPic(SM_X + 24, SM_Y1 + i * 13 + 2, C_SELECTEDPIC);
+				VWB_DrawPic(SM_X + 24 + scalingOffsetX, SM_Y1 + i * 13 + 2 + scalingOffsetY, C_SELECTEDPIC);
 			else
-				VWB_DrawPic(SM_X + 24, SM_Y1 + i * 13 + 2, C_NOTSELECTEDPIC);
+				VWB_DrawPic(SM_X + 24 + scalingOffsetX, SM_Y1 + i * 13 + 2 + scalingOffsetY, C_NOTSELECTEDPIC);
 		}
 
 	DrawMenuGun(&SndItems);
@@ -2060,15 +2060,15 @@ void TrackWhichGame(int w)
 //
 void DrawLoadSaveScreen(int loadsave)
 {
-#define DISKX 100
-#define DISKY 0
+#define DISKX 100 + scalingOffsetX
+#define DISKY scalingOffsetY
 
 	int i;
 
 	ClearMScreen();
 	fontnumber = 1;
-	VWB_DrawPic(112, 184, C_MOUSELBACKPIC);
-	DrawWindow(LSM_X - 10, LSM_Y - 5, LSM_W, LSM_H, BKGDCOLOR);
+	VWB_DrawPic(112 + scalingOffsetX, 184 + scalingOffsetY, C_MOUSELBACKPIC);
+	DrawWindow(LSM_X - 10 + scalingOffsetX, LSM_Y - 5 + scalingOffsetY, LSM_W, LSM_H, BKGDCOLOR);
 
 #ifdef SAVE_GAME_SCREENSHOT
 	DrawWindow(LSP_X - 1, LSP_Y - 1, LSP_W + 1, LSP_H + 1, 0x00);
@@ -2077,9 +2077,9 @@ void DrawLoadSaveScreen(int loadsave)
 	DrawStripes(10);
 
 	if (!loadsave)
-		VWB_DrawPic(60, 0, C_LOADGAMEPIC);
+		VWB_DrawPic(60 + scalingOffsetX, 0, C_LOADGAMEPIC);
 	else
-		VWB_DrawPic(60, 0, C_SAVEGAMEPIC);
+		VWB_DrawPic(60 + scalingOffsetX, 0, C_SAVEGAMEPIC);
 
 	for (i = 0; i < 10; i++)
 		PrintLSEntry(i, TEXTCOLOR);
@@ -2097,10 +2097,10 @@ void DrawLoadSaveScreen(int loadsave)
 void PrintLSEntry(int w, int color)
 {
 	SETFONTCOLOR(color, BKGDCOLOR);
-	DrawOutline(LSM_X + LSItems.indent, LSM_Y + w * 13, LSM_W - LSItems.indent - 15, 11, color,
+	DrawOutline(LSM_X + LSItems.indent + scalingOffsetX, LSM_Y + w * 13 + scalingOffsetY, LSM_W - LSItems.indent - 15, 11, color,
 		color);
-	PrintX = LSM_X + LSItems.indent + 2;
-	PrintY = LSM_Y + w * 13 + 1;
+	PrintX = LSM_X + LSItems.indent + 2 + scalingOffsetX;
+	PrintY = LSM_Y + w * 13 + 1 + scalingOffsetY;
 	fontnumber = 0;
 
 	if (SaveGamesAvail[w])
@@ -2394,16 +2394,16 @@ void DrawMouseSens(void)
 	VWB_DrawPic(0, 0, S_MOUSESENSPIC);
 #else
 	ClearMScreen();
-	VWB_DrawPic(112, 184, C_MOUSELBACKPIC);
+	VWB_DrawPic(112 + scalingOffsetX, 184 + scalingOffsetY, C_MOUSELBACKPIC);
 #ifdef SPANISH
 	DrawWindow(10, 80, 300, 43, BKGDCOLOR);
 #else
-	DrawWindow(10, 80, 300, 30, BKGDCOLOR);
+	DrawWindow(10 + scalingOffsetX, 80 + scalingOffsetY, 300, 30, BKGDCOLOR);
 #endif
 
-	WindowX = 0;
+	WindowX = scalingOffsetX;
 	WindowW = 320;
-	PrintY = 82;
+	PrintY = 82 + scalingOffsetY;
 	SETFONTCOLOR(READCOLOR, BKGDCOLOR);
 	US_CPrint(STR_MOUSEADJ);
 
@@ -2415,18 +2415,18 @@ void DrawMouseSens(void)
 	PrintX = 252;
 	US_Print(STR_FAST);
 #else
-	PrintX = 14;
-	PrintY = 95;
+	PrintX = 14 + scalingOffsetX;
+	PrintY = 95 + scalingOffsetY;
 	US_Print(STR_SLOW);
-	PrintX = 269;
+	PrintX = 269 + scalingOffsetX;
 	US_Print(STR_FAST);
 #endif
 #endif
 
-	VWB_Bar(60, 97, 200, 10, TEXTCOLOR);
-	DrawOutline(60, 97, 200, 10, 0, HIGHLIGHT);
-	DrawOutline(60 + 20 * mouseadjustment, 97, 20, 10, 0, READCOLOR);
-	VWB_Bar(61 + 20 * mouseadjustment, 98, 19, 9, READHCOLOR);
+	VWB_Bar(60 + scalingOffsetX, 97 + scalingOffsetY, 200, 10, TEXTCOLOR);
+	DrawOutline(60 + scalingOffsetX, 97 + scalingOffsetY, 200, 10, 0, HIGHLIGHT);
+	DrawOutline(60 + 20 * mouseadjustment + scalingOffsetX, 97 + scalingOffsetY, 20, 10, 0, READCOLOR);
+	VWB_Bar(61 + 20 * mouseadjustment + scalingOffsetX, 98 + scalingOffsetY, 19, 9, READHCOLOR);
 
 	VW_UpdateScreen();
 	MenuFadeIn();
@@ -2454,10 +2454,10 @@ int MouseSensitivity(int blank)
 			if (mouseadjustment)
 			{
 				mouseadjustment--;
-				VWB_Bar(60, 97, 200, 10, TEXTCOLOR);
-				DrawOutline(60, 97, 200, 10, 0, HIGHLIGHT);
-				DrawOutline(60 + 20 * mouseadjustment, 97, 20, 10, 0, READCOLOR);
-				VWB_Bar(61 + 20 * mouseadjustment, 98, 19, 9, READHCOLOR);
+				VWB_Bar(60 + scalingOffsetX, 97 + scalingOffsetY, 200, 10, TEXTCOLOR);
+				DrawOutline(60 + scalingOffsetX, 97 + scalingOffsetY, 200, 10, 0, HIGHLIGHT);
+				DrawOutline(60 + 20 * mouseadjustment + scalingOffsetX, 97 + scalingOffsetY, 20, 10, 0, READCOLOR);
+				VWB_Bar(61 + 20 * mouseadjustment + scalingOffsetX, 98 + scalingOffsetY, 19, 9, READHCOLOR);
 				VW_UpdateScreen();
 				SD_PlaySound(MOVEGUN1SND);
 				TicDelay(20);
@@ -2469,10 +2469,10 @@ int MouseSensitivity(int blank)
 			if (mouseadjustment < 9)
 			{
 				mouseadjustment++;
-				VWB_Bar(60, 97, 200, 10, TEXTCOLOR);
-				DrawOutline(60, 97, 200, 10, 0, HIGHLIGHT);
-				DrawOutline(60 + 20 * mouseadjustment, 97, 20, 10, 0, READCOLOR);
-				VWB_Bar(61 + 20 * mouseadjustment, 98, 19, 9, READHCOLOR);
+				VWB_Bar(60 + scalingOffsetX, 97 + scalingOffsetY, 200, 10, TEXTCOLOR);
+				DrawOutline(60 + scalingOffsetX, 97 + scalingOffsetY, 200, 10, 0, HIGHLIGHT);
+				DrawOutline(60 + 20 * mouseadjustment + scalingOffsetX, 97 + scalingOffsetY, 20, 10, 0, READCOLOR);
+				VWB_Bar(61 + 20 * mouseadjustment + scalingOffsetX, 98 + scalingOffsetY, 19, 9, READHCOLOR);
 				VW_UpdateScreen();
 				SD_PlaySound(MOVEGUN1SND);
 				TicDelay(20);
@@ -2491,6 +2491,7 @@ int MouseSensitivity(int blank)
 	{
 		mouseadjustment = oldMA;
 		SD_PlaySound(ESCPRESSEDSND);
+
 	}
 	else
 		SD_PlaySound(SHOOTSND);
@@ -2513,11 +2514,11 @@ void DrawCtlScreen(void)
 #else
 	ClearMScreen();
 	DrawStripes(10);
-	VWB_DrawPic(80, 0, C_CONTROLPIC);
-	VWB_DrawPic(112, 184, C_MOUSELBACKPIC);
-	DrawWindow(CTL_X - 8, CTL_Y - 5, CTL_W, CTL_H, BKGDCOLOR);
+	VWB_DrawPic(80 + scalingOffsetX, 0, C_CONTROLPIC);
+	VWB_DrawPic(112 + scalingOffsetX, 184 + +scalingOffsetY, C_MOUSELBACKPIC);
+	DrawWindow(CTL_X - 8 + +scalingOffsetX, CTL_Y - 5 + +scalingOffsetY, CTL_W, CTL_H, BKGDCOLOR);
 #endif
-	WindowX = 0;
+	WindowX = 0 + scalingOffsetX;
 	WindowW = 320;
 	SETFONTCOLOR(TEXTCOLOR, BKGDCOLOR);
 
@@ -2545,8 +2546,8 @@ void DrawCtlScreen(void)
 #endif
 	DrawMenu(&CtlItems, CtlMenu);
 
-	x = CTL_X + CtlItems.indent - 24;
-	y = CTL_Y + 3;
+	x = CTL_X + CtlItems.indent - 24 + scalingOffsetX;
+	y = CTL_Y + 3 + scalingOffsetY;
 
 	if (mouseenabled)
 		VWB_DrawPic(x, y, C_SELECTEDPIC);
@@ -2556,7 +2557,7 @@ void DrawCtlScreen(void)
 #ifdef USE_MODERN_CONTROLS
 	y = CTL_Y + 16;
 #else
-	y = CTL_Y + 29;
+	y = CTL_Y + 29 + scalingOffsetY;
 #endif	
 
 #ifdef USE_MODERN_CONTROLS
@@ -4682,8 +4683,10 @@ int CP_ChangeView(int blank)
 void DrawChangeView(int view)
 {
 	int rescaledHeight = screenHeight / scaleFactor;
+	int rescaledWidth = screenWidth / scaleFactor;
+
 	if (view != 21)
-		VWB_Bar(0, rescaledHeight - 40, 320, 40, bordercol);
+		VWB_Bar(0, rescaledHeight - 40, rescaledWidth, 40, bordercol);
 
 #ifdef JAPAN
 	VWB_DrawPic(0, 0, S_CHANGEPIC);
@@ -4693,7 +4696,7 @@ void DrawChangeView(int view)
 	ShowViewSize(view);
 
 	PrintY = (screenHeight / scaleFactor) - 39;
-	WindowX = 0;
+	WindowX = scalingOffsetX;
 	WindowY = 320; // TODO: Check this!
 	SETFONTCOLOR(HIGHLIGHT, BKGDCOLOR);
 
@@ -4846,7 +4849,7 @@ void IntroScreen(void)
 void ClearMScreen(void)
 {
 #ifndef SPEAR
-	VWB_Bar(0, 0, 320, 200, BORDCOLOR);
+	VWB_BarScaledCoord(0, 0, screenWidth, screenHeight, BORDCOLOR);
 #else
 	VWB_DrawPic(0, 0, C_BACKDROPPIC);
 #endif
@@ -4970,12 +4973,12 @@ int HandleMenu(CP_iteminfo* item_i, CP_itemtype* items, void (*routine)(int w))
 	basey = item_i->y - 2;
 	y = basey + which * 13;
 
-	VWB_DrawPic(x, y, C_CURSOR1PIC);
+	VWB_DrawPic(x + scalingOffsetX, y + scalingOffsetY, C_CURSOR1PIC);
 	SetTextColor(items + which, 1);
 	if (redrawitem)
 	{
-		PrintX = item_i->x + item_i->indent;
-		PrintY = item_i->y + which * 13;
+		PrintX = item_i->x + item_i->indent + scalingOffsetX;
+		PrintY = item_i->y + which * 13 + scalingOffsetY;
 		US_Print((items + which)->string);
 	}
 	//
@@ -5009,7 +5012,7 @@ int HandleMenu(CP_iteminfo* item_i, CP_itemtype* items, void (*routine)(int w))
 				shape = C_CURSOR1PIC;
 				timer = 70;
 			}
-			VWB_DrawPic(x, y, shape);
+			VWB_DrawPic(x + scalingOffsetX, y + scalingOffsetY, shape);
 			if (routine)
 				routine(which);
 			VW_UpdateScreen();
@@ -5147,9 +5150,9 @@ int HandleMenu(CP_iteminfo* item_i, CP_itemtype* items, void (*routine)(int w))
 	//
 	if (lastitem != which)
 	{
-		VWB_Bar(x - 1, y, 25, 16, BKGDCOLOR);
-		PrintX = item_i->x + item_i->indent;
-		PrintY = item_i->y + which * 13;
+		VWB_Bar(x - 1 + scalingOffsetX, y + scalingOffsetY, 25, 16, BKGDCOLOR);
+		PrintX = item_i->x + item_i->indent + scalingOffsetX;
+		PrintY = item_i->y + which * 13 + scalingOffsetY;
 		US_Print((items + which)->string);
 		redrawitem = 1;
 	}
@@ -5190,11 +5193,11 @@ int HandleMenu(CP_iteminfo* item_i, CP_itemtype* items, void (*routine)(int w))
 //
 void EraseGun(CP_iteminfo* item_i, CP_itemtype* items, int x, int y, int which)
 {
-	VWB_Bar(x - 1, y, 25, 16, BKGDCOLOR);
+	VWB_Bar(x - 1 + scalingOffsetX, y + scalingOffsetY, 25, 16, BKGDCOLOR);
 	SetTextColor(items + which, 0);
 
-	PrintX = item_i->x + item_i->indent;
-	PrintY = item_i->y + which * 13;
+	PrintX = item_i->x + item_i->indent + scalingOffsetX;
+	PrintY = item_i->y + which * 13 + scalingOffsetY;
 	US_Print((items + which)->string);
 	VW_UpdateScreen();
 }
@@ -5204,7 +5207,7 @@ void EraseGun(CP_iteminfo* item_i, CP_itemtype* items, int x, int y, int which)
 //
 void DrawHalfStep(int x, int y)
 {
-	VWB_DrawPic(x, y, C_CURSOR1PIC);
+	VWB_DrawPic(x + scalingOffsetX, y + scalingOffsetY, C_CURSOR1PIC);
 	VW_UpdateScreen();
 	SD_PlaySound(MOVEGUN1SND);
 	SDL_Delay(8 * 100 / 7);
@@ -5216,13 +5219,13 @@ void DrawHalfStep(int x, int y)
 void DrawGun(CP_iteminfo* item_i, CP_itemtype* items, int x, int* y, int which, int basey,
 	void (*routine)(int w))
 {
-	VWB_Bar(x - 1, *y, 25, 16, BKGDCOLOR);
+	VWB_Bar(x - 1 + scalingOffsetX, *y + scalingOffsetY, 25, 16, BKGDCOLOR);
 	*y = basey + which * 13;
-	VWB_DrawPic(x, *y, C_CURSOR1PIC);
+	VWB_DrawPic(x + scalingOffsetX, *y + scalingOffsetY, C_CURSOR1PIC);
 	SetTextColor(items + which, 1);
 
-	PrintX = item_i->x + item_i->indent;
-	PrintY = item_i->y + which * 13;
+	PrintX = item_i->x + item_i->indent + scalingOffsetX;
+	PrintY = item_i->y + which * 13 + scalingOffsetY;
 	US_Print((items + which)->string);
 
 	//
@@ -5260,8 +5263,8 @@ void DrawMenu(CP_iteminfo* item_i, CP_itemtype* items)
 {
 	int i, which = item_i->curpos;
 
-	WindowX = PrintX = item_i->x + item_i->indent;
-	WindowY = PrintY = item_i->y;
+	WindowX = PrintX = item_i->x + item_i->indent + scalingOffsetX;
+	WindowY = PrintY = item_i->y + scalingOffsetY;
 	WindowW = 320;
 	WindowH = 200;
 
@@ -5269,7 +5272,7 @@ void DrawMenu(CP_iteminfo* item_i, CP_itemtype* items)
 	{
 		SetTextColor(items + i, which == i);
 
-		PrintY = item_i->y + i * 13;
+		PrintY = item_i->y + i * 13 + scalingOffsetY;
 		if ((items + i)->active)
 			US_Print((items + i)->string);
 		else
@@ -5602,8 +5605,8 @@ void Message(const char* string)
 	if (w + 10 > mw)
 		mw = w + 10;
 
-	PrintY = (WindowH / 2) - h / 2;
-	PrintX = WindowX = 160 - mw / 2;
+	PrintY = (WindowH / 2) - h / 2 + scalingOffsetY;
+	PrintX = WindowX = 160 - mw / 2 + scalingOffsetX;
 
 	DrawWindow(WindowX - 5, PrintY - 5, mw + 10, h + 10, TEXTCOLOR);
 	DrawOutline(WindowX - 5, PrintY - 5, mw + 10, h + 10, 0, HIGHLIGHT);
@@ -5931,8 +5934,8 @@ void DrawMenuGun(CP_iteminfo* iteminfo)
 {
 	int x, y;
 
-	x = iteminfo->x;
-	y = iteminfo->y + iteminfo->curpos * 13 - 2;
+	x = iteminfo->x + scalingOffsetX;
+	y = iteminfo->y + iteminfo->curpos * 13 - 2 + scalingOffsetY;
 	VWB_DrawPic(x, y, C_CURSOR1PIC);
 }
 
@@ -5944,8 +5947,10 @@ void DrawMenuGun(CP_iteminfo* iteminfo)
 void DrawStripes(int y)
 {
 #ifndef SPEAR
-	VWB_Bar(0, y, 320, 24, 0);
-	VWB_Hlin(0, 319, y + 22, STRIPE);
+	int rescaledWidth = screenWidth / scaleFactor;
+
+	VWB_Bar(0, y, rescaledWidth, 24, 0);
+	VWB_Hlin(0, rescaledWidth - 1, y + 22, STRIPE);
 #else
 	VWB_Bar(0, y, 320, 22, 0);
 	VWB_Hlin(0, 319, y + 23, 0);

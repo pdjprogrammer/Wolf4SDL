@@ -982,12 +982,12 @@ void DrawHighScores(void)
 	ClearMScreen();
 	DrawStripes(10);
 
-	VWB_DrawPic(48, 0, HIGHSCORESPIC);
+	VWB_DrawPic(48 + scalingOffsetX, 0, HIGHSCORESPIC);
 
 #ifndef APOGEE_1_0
-	VWB_DrawPic(4 * 8, 68, C_NAMEPIC);
-	VWB_DrawPic(20 * 8, 68, C_LEVELPIC);
-	VWB_DrawPic(28 * 8, 68, C_SCOREPIC);
+	VWB_DrawPic(4 * 8 + scalingOffsetX, 68 + scalingOffsetY, C_NAMEPIC);
+	VWB_DrawPic(20 * 8 + scalingOffsetX, 68 + scalingOffsetY, C_LEVELPIC);
+	VWB_DrawPic(28 * 8 + scalingOffsetX, 68 + scalingOffsetY, C_SCOREPIC);
 #else
 	VWB_DrawPic(35 * 8, 68, C_CODEPIC);
 #endif
@@ -1010,13 +1010,13 @@ void DrawHighScores(void)
 
 	for (i = 0, s = Scores; i < MaxScores; i++, s++)
 	{
-		PrintY = 76 + (16 * i);
+		PrintY = 76 + (16 * i) + scalingOffsetY;
 
 		//
 		// name
 		//
 #ifndef SPEAR
-		PrintX = 4 * 8;
+		PrintX = 4 * 8 + scalingOffsetX;
 #else
 		PrintX = 16;
 #endif
@@ -1030,7 +1030,7 @@ void DrawHighScores(void)
 		for (str = buffer; *str; str++)
 			*str = *str + (129 - '0'); // Used fixed-width numbers (129...)
 		USL_MeasureString(buffer, &w, &h);
-		PrintX = (22 * 8) - w;
+		PrintX = (22 * 8) + scalingOffsetX - w;
 #else
 		USL_MeasureString(buffer, &w, &h);
 		PrintX = 194 - w;
@@ -1061,7 +1061,7 @@ void DrawHighScores(void)
 		for (str = buffer; *str; str++)
 			*str = *str + (129 - '0'); // Used fixed-width numbers (129...)
 		USL_MeasureString(buffer, &w, &h);
-		PrintX = (34 * 8) - 8 - w;
+		PrintX = (34 * 8) - 8 + scalingOffsetX - w;
 #else
 		USL_MeasureString(buffer, &w, &h);
 		PrintX = 292 - w;
