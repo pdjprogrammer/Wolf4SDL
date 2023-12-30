@@ -1312,8 +1312,8 @@ void DrawNewGame(void)
 	VWB_DrawPic(112, 184 + scalingOffsetY, C_MOUSELBACKPIC);
 
 	SETFONTCOLOR(READHCOLOR, BKGDCOLOR);
-	PrintX = NM_X + 20 + scalingOffsetX;
-	PrintY = NM_Y - 32 + scalingOffsetY;
+	PrintX = NM_X + 20;
+	PrintY = NM_Y - 32;
 
 #ifndef SPEAR
 #ifdef SPANISH
@@ -3861,15 +3861,13 @@ void DrawKeyboardMoveCtlScreen(void)
 	// MOUSE
 	//
 	SETFONTCOLOR(READCOLOR, BKGDCOLOR);
-	WindowX = 0;
+	WindowX = scalingOffsetX;
 	WindowW = 320;
 
-#ifndef SPEAR
-	//PrintY = OPT_MOUSE_Y;
-	//US_CPrint("Mouse\n");
-#else
-	PrintY = CST_Y + 13;
-	VWB_DrawPic(128, 48, C_MOUSEPIC);
+#ifdef SPEAR
+	SETFONTCOLOR(TEXTCOLOR, BKGDCOLOR);
+	PrintY = OPT_MOUSE_Y;
+	US_CPrint("Movement keys");
 #endif
 
 	SETFONTCOLOR(TEXTCOLOR, BKGDCOLOR);
@@ -3918,18 +3916,16 @@ void DrawKeyboardActionCtlScreen(void)
 	// MOUSE
 	//
 	SETFONTCOLOR(READCOLOR, BKGDCOLOR);
-	WindowX = 0;
+	WindowX = scalingOffsetX;
 	WindowW = 320;
 
-#ifndef SPEAR
-	//PrintY = OPT_MOUSE_Y;
-	//US_CPrint("Mouse\n");
-#else
-	PrintY = CST_Y + 13;
-	VWB_DrawPic(128, 48, C_MOUSEPIC);
+#ifdef SPEAR
+	SETFONTCOLOR(TEXTCOLOR, BKGDCOLOR);
+	PrintY = OPT_MOUSE_Y;
+	US_CPrint("Action keys 1/2");
 #endif
 
-	SETFONTCOLOR(TEXTCOLOR, BKGDCOLOR);
+	SETFONTCOLOR(TEXTCOLOR, BKGDCOLOR);	
 
 	DrawWindow(OPT_KEYBOARD_ACTION_X - 8, OPT_KEYBOARD_ACTION_Y - 5, OPT_KEYBOARD_ACTION_W, OPT_KEYBOARD_ACTION_H - 13, BKGDCOLOR);
 	DrawMenuGun(&CusKeyboardActionItems);
@@ -3975,15 +3971,13 @@ void DrawKeyboardMoreActionCtlScreen(void)
 	// MOUSE
 	//
 	SETFONTCOLOR(READCOLOR, BKGDCOLOR);
-	WindowX = 0;
+	WindowX = scalingOffsetX;
 	WindowW = 320;
 
-#ifndef SPEAR
-	//PrintY = OPT_MOUSE_Y;
-	//US_CPrint("Mouse\n");
-#else
-	PrintY = CST_Y + 13;
-	VWB_DrawPic(128, 48, C_MOUSEPIC);
+#ifdef SPEAR
+	SETFONTCOLOR(TEXTCOLOR, BKGDCOLOR);
+	PrintY = OPT_MOUSE_Y;
+	US_CPrint("Action keyr 2/2");
 #endif
 
 	SETFONTCOLOR(TEXTCOLOR, BKGDCOLOR);
@@ -4042,7 +4036,7 @@ void DrawCustomCtlScreen(void)
 	//US_CPrint("Mouse\n");
 #else
 	PrintY = CST_Y + 13;
-	VWB_DrawPic(128, 48, C_MOUSEPIC);
+	VWB_DrawPic(128, 48, C_KEYBOARDPIC);
 #endif
 
 	SETFONTCOLOR(TEXTCOLOR, BKGDCOLOR);
@@ -4101,7 +4095,7 @@ void DrawJoystickScreen(void)
 	//US_CPrint("Mouse\n");
 #else
 	PrintY = CST_Y + 13;
-	VWB_DrawPic(128, 48, C_MOUSEPIC);
+	VWB_DrawPic(40, 48, C_JOYSTICKPIC);
 #endif
 
 	SETFONTCOLOR(TEXTCOLOR, BKGDCOLOR);
@@ -4179,7 +4173,7 @@ void DrawCustomScreen(void)
 	PrintY = CST_Y + scalingOffsetY;
 	US_CPrint("Mouse\n");
 #else
-	PrintY = CST_Y + 13;
+	PrintY = CST_Y + scalingOffsetY + 13;
 	VWB_DrawPic(128, 48, C_MOUSEPIC);
 #endif
 
@@ -4203,7 +4197,6 @@ void DrawCustomScreen(void)
 	PrintX = cstStart + CST_SPC * 3;
 	US_Print(STR_CSTRAFE "\n");
 #endif
-
 	DrawWindow(5, PrintY - 1 - scalingOffsetY, 310, 13, BKGDCOLOR);
 	DrawCustMouse(0);
 	US_Print("\n");

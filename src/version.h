@@ -5,7 +5,7 @@
 
 /* Defines used for different versions */
 
-//#define SPEAR
+#define SPEAR
 //#define SPEARDEMO
 //#define UPLOAD
 #define GOODTIMES
@@ -31,6 +31,11 @@
 
 #endif
 
+//#define USE_MODERN_CONTROLS						// !!!!! DELETE CONFIG.WL6 AFTER CHANGING !!!!!
+//#define SHOW_GAME_OPTIONS (Incomplete)			// Requires USE_MODERN_CONTROLS flag enabled.
+													// Enables game options for feature flags (shading, textured floor, ceiling and precipitation)
+//#define VIEASM									// AlumiuN's Advanced Sound Manager. Some modifications made by WSJ. Information in asmcref.h
+
 #define DISABLE_WALLSOUND							// Disables wall hit and space bar sounds
 //#define USE_FEATUREFLAGS							// Enables the level feature flags (see bottom of wl_def.h)
 //#define USE_SHADING								// Enables shading support (see wl_shade.c)
@@ -48,11 +53,7 @@
 //#define FIXRAINSNOWLEAKS							// Enables leaking ceilings fix (by Adam Biser, only needed if maps with rain/snow and ceilings exist)
 //#define VIEWMAP									// Enables the overhead map
 //#define REVEALMAP									// Enables showing only the areas of the overhead map that have been seen
-//#define USE_MODERN_CONTROLS						// !!!!! DELETE CONFIG.WL6 AFTER CHANGING !!!!! - Enables Modern Control Scheme (WASD + Controller)
-//#define SHOW_GAME_OPTIONS (Incomplete)			// Requires USE_MODERN_CONTROLS flag enabled.
-                                                    // Enables game options for certain features (enable/disable shading, textured floor and ceiling, precipitation (rain, snow)
 //#define SEAMLESSLEVELS							// Disables the Episode selection screen on Wolf3D.
-//#define VIEASM									// AlumiuN's Advanced Sound Manager. Some modifications made by WSJ. Information in asmcref.h
 //#define USE_READTHIS								// Enables help text in the main menu, also works on SPEAR but there are no textures for the ReadThis frame. By MCS
 //#define USE_RAND                                  // Enables the C++ random number generator
 //#define WSJ_MESSAGE								// WSJ's message feature, shows on-screen messages for pickups, secrets and locked doors.
@@ -74,5 +75,6 @@
 
 //#define BANDEDHOLOWALLS							// Use the old DOS-style "banded" wall drawing behaviour when inside walls
 
-//#define SHOW_CUSTOM_CONTROLS						// !!!!! DELETE CONFIG.WL6 AFTER CHANGING !!!!! - Requires #USE_MODERN_CONTROLS flag enabled and code changes to customize the keys.
+//#define SHOW_CUSTOM_CONTROLS						// !!!!! DELETE CONFIG.WL6 AFTER CHANGING !!!!!
+													// Requires #USE_MODERN_CONTROLS flag enabled and code changes to customize the keys.
 #endif

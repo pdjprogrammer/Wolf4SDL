@@ -1647,6 +1647,7 @@ static void DemoLoop()
 #ifndef DEMOTEST
 
 #ifdef SPEAR
+			VWB_Bar(0, 0, rescaledWidth, rescaledHeight, 0);
 			SDL_Color pal[256];
 			VL_ConvertPalette(grsegs[TITLEPALETTE], pal, 256);
 
