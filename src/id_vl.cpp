@@ -39,8 +39,8 @@ int screenBits = 16;
 #endif
 #else
 boolean usedoublebuffering = true;
-boolean disablehdresolution = false;
-boolean disablehdscaling = false;
+boolean disablehdres = false;
+boolean disableratiofix = false;
 unsigned originalScreenWidth = 320;
 unsigned originalScreenHeight = 240;
 unsigned defaultScreenWidth = 640; // DO NOT CHANGE
@@ -50,6 +50,7 @@ unsigned screenHeight = 480;
 int screenBits = -1; // use "best" color depth according to libSDL
 int scalingOffsetX = 0; // Used with HD scaling to calculate and center screens
 int scalingOffsetY = 0;
+int ratioCorrection = 20;
 #endif
 
 SDL_Surface *screen = NULL;
@@ -186,7 +187,14 @@ void VL_SetVGAPlaneMode(void) {
     }
     SDL_SetColors(screenBuffer, gamepal, 0, 256);
 #else
-    if (fullscreen && !disablehdresolution)
+    if (disableratiofix) 
+    {
+        originalScreenHeight = 200;
+        defaultScreenHeight = 400;
+        ratioCorrection = 0;
+    }
+
+    if (fullscreen && !disablehdres)
     {
         screenWidth = displayMode.w;
         screenHeight = displayMode.h;
@@ -197,7 +205,7 @@ void VL_SetVGAPlaneMode(void) {
 
     SDL_PixelFormatEnumToMasks(SDL_PIXELFORMAT_ARGB8888, &screenBits, &r, &g, &b, &a);
 
-    if(disablehdresolution || disablehdscaling)
+    if(disablehdres)
     {
         screenWidth = defaultScreenWidth;
         screenHeight = defaultScreenHeight;
@@ -249,7 +257,7 @@ void VL_SetVGAPlaneMode(void) {
     printVertAdjust = picVertAdjust / scaleFactor;
 
     scalingOffsetX = (screenWidth - scaleFactor * originalScreenWidth) / (2 * scaleFactor);
-    scalingOffsetY = (screenHeight - scaleFactor * originalScreenHeight) / (2 * scaleFactor) + 20;
+    scalingOffsetY = (screenHeight - scaleFactor * originalScreenHeight) / (2 * scaleFactor) + ratioCorrection;
 
     rescaledWidth = screenWidth / scaleFactor;
     rescaledHeight = screenHeight / scaleFactor;

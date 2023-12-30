@@ -1319,6 +1319,8 @@ void DrawNewGame(void)
 #ifdef SPANISH
 	US_Print("Eres macho?");
 #else
+	PrintX += scalingOffsetX;
+	PrintY += scalingOffsetY;
 	US_Print("How tough are you?");
 #endif
 #else

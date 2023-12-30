@@ -1771,10 +1771,10 @@ param_difficulty = 0;
 			fullscreen = false;
 			forcegrabmouse = true;
 		}
-		else IFARG("--disableresscaling")
-			disablehdresolution = true;
-        else IFARG("--disablehdscaling")
-            disablehdscaling = true;
+		else IFARG("--disablehdres")
+			disablehdres = true;
+		else IFARG("--disableratiofix")
+			disableratiofix = true;
 		else IFARG("--res")
 		{
 			if (i + 2 >= argc)
@@ -1966,8 +1966,10 @@ param_difficulty = 0;
 			" --hard                 Sets the difficulty to hard for tedlevel\n"
 			" --nowait               Skips intro screens\n"
 			" --windowed[-mouse]     Starts the game in a window [and grabs mouse]\n"
-			" --disableresscaling    Disables the resolution detection and\n"
-			"                        scaling (Only works in fullscreen)\n"
+			" --disablehdres		 Disables resolution detection \n"
+			" 						 (Only works in fullscreen) \n"
+			" --disableratiofix		 Disables the aspect ratio correction to get\n"
+			"                        a proper 4:3 ratio\n"
 #ifdef VIEASM
 			" --nosound				 Turns off sound\n"
 			" --8bitsound			 Sets the sound to 8 bits (default 16 bits)\n"
