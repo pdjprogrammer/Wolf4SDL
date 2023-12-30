@@ -3329,7 +3329,7 @@ void EnterCtrlData(int index, CustomCtrls* cust, void (*DrawRtn)(int), void (*Pr
 
 #ifndef USE_MODERN_CONTROLS
 	amount = 4;
-	PrintY = CST_Y + 13 * index;
+	PrintY = CST_Y + scalingOffsetY + 13 * index;
 #else
 	switch (type) {
 	case JOYSTICK:
@@ -3382,7 +3382,7 @@ void EnterCtrlData(int index, CustomCtrls* cust, void (*DrawRtn)(int), void (*Pr
 		{
 #ifndef USE_MODERN_CONTROLS
 			x = CST_START + CST_SPC * which;
-			DrawWindow(5, PrintY - 1, 310, 13, BKGDCOLOR);
+			DrawWindow(5, PrintY - 1 - scalingOffsetY, 310, 13, BKGDCOLOR);
 #else
 			switch (type) {
 			case KEYBOARDMOVE:
@@ -3412,8 +3412,8 @@ void EnterCtrlData(int index, CustomCtrls* cust, void (*DrawRtn)(int), void (*Pr
 			DrawRtn(1);
 
 #ifndef USE_MODERN_CONTROLS
-			DrawWindow(x - 2, PrintY, CST_SPC, 11, TEXTCOLOR);
-			DrawOutline(x - 2, PrintY, CST_SPC, 11, 0, HIGHLIGHT);
+			DrawWindow(x - 2, PrintY - scalingOffsetY, CST_SPC, 11, TEXTCOLOR);
+			DrawOutline(x - 2, PrintY - scalingOffsetY, CST_SPC, 11, 0, HIGHLIGHT);
 #else
 			DrawWindow(x - 2, y + (CST_SPC_Y * (index - 1)), w, 11, TEXTCOLOR);
 			DrawOutline(x - 2, y + (CST_SPC_Y * (index - 1)), w, 11, 0, HIGHLIGHT);
@@ -3704,7 +3704,7 @@ void EnterCtrlData(int index, CustomCtrls* cust, void (*DrawRtn)(int), void (*Pr
 				WaitKeyUp();
 
 #ifndef USE_MODERN_CONTROLS
-				DrawWindow(5, PrintY - 1, 310, 13, BKGDCOLOR);
+				DrawWindow(5, PrintY - 1 - scalingOffsetY, 310, 13, BKGDCOLOR);
 #endif
 			}
 
@@ -3715,16 +3715,18 @@ void EnterCtrlData(int index, CustomCtrls* cust, void (*DrawRtn)(int), void (*Pr
 void FixupCustom(int w)
 {
 	static int lastwhich = -1;
-	int y = CST_Y + 26 + w * 13;
+	int x1 = 7 + scalingOffsetX;
+	int x2 = 32 + scalingOffsetX;
+	int y = CST_Y + scalingOffsetY + 26 + w * 13;
 
-	VWB_Hlin(7, 32, y - 1, DEACTIVE);
-	VWB_Hlin(7, 32, y + 12, BORD2COLOR);
+	VWB_Hlin(x1, x2, y - 1, DEACTIVE);
+	VWB_Hlin(x1, x2, y + 12, BORD2COLOR);
 #ifndef SPEAR
-	VWB_Hlin(7, 32, y - 2, BORDCOLOR);
-	VWB_Hlin(7, 32, y + 13, BORDCOLOR);
+	VWB_Hlin(x1, x2, y - 2, BORDCOLOR);
+	VWB_Hlin(x1, x2, y + 13, BORDCOLOR);
 #else
-	VWB_Hlin(7, 32, y - 2, BORD2COLOR);
-	VWB_Hlin(7, 32, y + 13, BORD2COLOR);
+	VWB_Hlin(x1, x2, y - 2, BORD2COLOR);
+	VWB_Hlin(x1, x2, y + 13, BORD2COLOR);
 #endif
 
 	switch (w)
@@ -3744,15 +3746,15 @@ void FixupCustom(int w)
 
 	if (lastwhich >= 0)
 	{
-		y = CST_Y + 26 + lastwhich * 13;
-		VWB_Hlin(7, 32, y - 1, DEACTIVE);
-		VWB_Hlin(7, 32, y + 12, BORD2COLOR);
+		y = CST_Y + scalingOffsetY + 26 + lastwhich * 13;
+		VWB_Hlin(x1, x2, y - 1, DEACTIVE);
+		VWB_Hlin(x1, x2, y + 12, BORD2COLOR);
 #ifndef SPEAR
-		VWB_Hlin(7, 32, y - 2, BORDCOLOR);
-		VWB_Hlin(7, 32, y + 13, BORDCOLOR);
+		VWB_Hlin(x1, x2, y - 2, BORDCOLOR);
+		VWB_Hlin(x1, x2, y + 13, BORDCOLOR);
 #else
-		VWB_Hlin(7, 32, y - 2, BORD2COLOR);
-		VWB_Hlin(7, 32, y + 13, BORD2COLOR);
+		VWB_Hlin(x1, x2, y - 2, BORDCOLOR);
+		VWB_Hlin(x1, x2, y + 13, BORDCOLOR);
 #endif
 
 		if (lastwhich != w)
@@ -4137,6 +4139,7 @@ void DrawJoystickScreen(void)
 void DrawCustomScreen(void)
 {
 	int i;
+	int cstStart = CST_START + scalingOffsetX;
 
 #ifdef JAPAN
 	VWB_DrawPic(0, 0, S_CUSTOMPIC);
@@ -4159,7 +4162,7 @@ void DrawCustomScreen(void)
 	DrawCustKeys(0);
 #else
 	ClearMScreen();
-	WindowX = 0;
+	WindowX = scalingOffsetX;
 	WindowW = 320;
 	VWB_DrawPic(112, 184 + scalingOffsetY, C_MOUSELBACKPIC);
 	DrawStripes(10);
@@ -4169,11 +4172,11 @@ void DrawCustomScreen(void)
 	// MOUSE
 	//
 	SETFONTCOLOR(READCOLOR, BKGDCOLOR);
-	WindowX = 0;
+	WindowX = scalingOffsetX;
 	WindowW = 320;
 
 #ifndef SPEAR
-	PrintY = CST_Y;
+	PrintY = CST_Y + scalingOffsetY;
 	US_CPrint("Mouse\n");
 #else
 	PrintY = CST_Y + 13;
@@ -4191,17 +4194,17 @@ void DrawCustomScreen(void)
 	PrintX = CST_START - 16 + CST_SPC * 3;
 	US_Print(STR_CSTRAFE "\n");
 #else
-	PrintX = CST_START;
+	PrintX = cstStart;
 	US_Print(STR_CRUN);
-	PrintX = CST_START + CST_SPC * 1;
+	PrintX = cstStart + CST_SPC * 1;
 	US_Print(STR_COPEN);
-	PrintX = CST_START + CST_SPC * 2;
+	PrintX = cstStart + CST_SPC * 2;
 	US_Print(STR_CFIRE);
-	PrintX = CST_START + CST_SPC * 3;
+	PrintX = cstStart + CST_SPC * 3;
 	US_Print(STR_CSTRAFE "\n");
 #endif
 
-	DrawWindow(5, PrintY - 1, 310, 13, BKGDCOLOR);
+	DrawWindow(5, PrintY - 1 - scalingOffsetY, 310, 13, BKGDCOLOR);
 	DrawCustMouse(0);
 	US_Print("\n");
 
@@ -4231,16 +4234,16 @@ void DrawCustomScreen(void)
 	PrintX = CST_START - 16 + CST_SPC * 3;
 	US_Print(STR_CSTRAFE "\n");
 #else
-	PrintX = CST_START;
+	PrintX = cstStart;
 	US_Print(STR_CRUN);
-	PrintX = CST_START + CST_SPC * 1;
+	PrintX = cstStart + CST_SPC * 1;
 	US_Print(STR_COPEN);
-	PrintX = CST_START + CST_SPC * 2;
+	PrintX = cstStart + CST_SPC * 2;
 	US_Print(STR_CFIRE);
-	PrintX = CST_START + CST_SPC * 3;
+	PrintX = cstStart + CST_SPC * 3;
 	US_Print(STR_CSTRAFE "\n");
 #endif
-	DrawWindow(5, PrintY - 1, 310, 13, BKGDCOLOR);
+	DrawWindow(5, PrintY - 1 - scalingOffsetY, 310, 13, BKGDCOLOR);
 	DrawCustJoy(0);
 	US_Print("\n");
 
@@ -4264,16 +4267,16 @@ void DrawCustomScreen(void)
 	PrintX = CST_START - 16 + CST_SPC * 3;
 	US_Print(STR_CSTRAFE "\n");
 #else
-	PrintX = CST_START;
+	PrintX = cstStart;
 	US_Print(STR_CRUN);
-	PrintX = CST_START + CST_SPC * 1;
+	PrintX = cstStart + CST_SPC * 1;
 	US_Print(STR_COPEN);
-	PrintX = CST_START + CST_SPC * 2;
+	PrintX = cstStart + CST_SPC * 2;
 	US_Print(STR_CFIRE);
-	PrintX = CST_START + CST_SPC * 3;
+	PrintX = cstStart + CST_SPC * 3;
 	US_Print(STR_CSTRAFE "\n");
 #endif
-	DrawWindow(5, PrintY - 1, 310, 13, BKGDCOLOR);
+	DrawWindow(5, PrintY - 1 - scalingOffsetY, 310, 13, BKGDCOLOR);
 	DrawCustKeybd(0);
 	US_Print("\n");
 
@@ -4291,16 +4294,16 @@ void DrawCustomScreen(void)
 	US_Print("/");
 	US_Print(STR_BKWD "\n");
 #else
-	PrintX = CST_START;
+	PrintX = cstStart;
 	US_Print(STR_LEFT);
-	PrintX = CST_START + CST_SPC * 1;
+	PrintX = cstStart + CST_SPC * 1;
 	US_Print(STR_RIGHT);
-	PrintX = CST_START + CST_SPC * 2;
+	PrintX = cstStart + CST_SPC * 2;
 	US_Print(STR_FRWD);
-	PrintX = CST_START + CST_SPC * 3;
+	PrintX = cstStart + CST_SPC * 3;
 	US_Print(STR_BKWD "\n");
 #endif
-	DrawWindow(5, PrintY - 1, 310, 13, BKGDCOLOR);
+	DrawWindow(5, PrintY - 1 - scalingOffsetY, 310, 13, BKGDCOLOR);
 	DrawCustKeys(0);
 #endif
 	//
@@ -4328,7 +4331,7 @@ void PrintCustMouse(int i)
 		if (order[i] == buttonmouse[j])
 		{
 #ifndef USE_MODERN_CONTROLS
-			PrintX = CST_START + CST_SPC * i;
+			PrintX = CST_START + scalingOffsetX + CST_SPC * i;
 #else
 			PrintX = CTL_MOUSE_X + scalingOffsetX;
 			PrintY = CST_START + scalingOffsetY + (CST_SPC_Y * i);
@@ -4356,7 +4359,8 @@ void DrawCustMouse(int highlight)
 		CtlMouseMenu[0].active = 1;
 
 #ifndef USE_MODERN_CONTROLS
-	PrintY = CST_Y + 13 * 2 + scalingOffsetX;
+	PrintY = CST_Y + scalingOffsetY + 13 * 2;
+	PrintX = CST_START + scalingOffsetX;
 #else
 	PrintX = CTL_MOUSE_X + scalingOffsetX;
 #endif
@@ -4431,7 +4435,7 @@ void PrintCustJoy(int i)
 		if (order[i] == buttonjoy[j])
 		{
 #ifndef USE_MODERN_CONTROLS
-			PrintX = CST_START + CST_SPC * i;
+			PrintX = CST_START + scalingOffsetX + CST_SPC * i;
 			US_Print(mbarray[j]);
 #else
 			PrintX = CTL_MOUSE_X;
@@ -4471,7 +4475,8 @@ void DrawCustJoy(int hilight)
 #endif	
 
 #ifndef USE_MODERN_CONTROLS
-	PrintY = CST_Y + 13 * 5;
+	PrintY = CST_Y + scalingOffsetY + 13 * 5;
+	PrintX = CST_START + scalingOffsetX;
 #else
 	PrintX = CTL_MOUSE_X;
 #endif
@@ -4481,12 +4486,10 @@ void DrawCustJoy(int hilight)
 			}
 #endif
 
-
-
 void PrintCustKeybd(int i)
 {
 #ifndef USE_MODERN_CONTROLS
-	PrintX = CST_START + CST_SPC * i;
+	PrintX = CST_START + scalingOffsetX + CST_SPC * i;
 #else
 	PrintX = CTL_MOUSE_X + scalingOffsetX;
 	PrintY = CST_START + scalingOffsetY + (CST_SPC_Y * i);
@@ -4503,7 +4506,8 @@ void DrawCustKeybd(int hilight)
 		color = HIGHLIGHT;
 	SETFONTCOLOR(color, BKGDCOLOR);
 #ifndef USE_MODERN_CONTROLS
-	PrintY = CST_Y + 13 * 8 + scalingOffsetY;
+	PrintY = CST_Y + scalingOffsetY + 13 * 8;
+	PrintX = CST_START + scalingOffsetX;
 #else
 	PrintX = CTL_MOUSE_X + scalingOffsetX;
 #endif
@@ -4514,7 +4518,7 @@ void DrawCustKeybd(int hilight)
 void PrintCustKeys(int i)
 {
 #ifndef USE_MODERN_CONTROLS
-	PrintX = CST_START + CST_SPC * i;
+	PrintX = CST_START + scalingOffsetX + CST_SPC * i;
 #else
 	PrintX = OPT_KB_MOVE_KEYS_X + scalingOffsetX;
 	PrintY = OPT_KB_MOVE_KEYS_Y + scalingOffsetY + (CST_SPC_Y * i);
@@ -4537,7 +4541,8 @@ void DrawCustKeys(int hilight)
 	PrintX = CTL_MOUSE_X + scalingOffsetX;
 	amount = 6;
 #else
-	PrintY = CST_Y + 13 * 10 + scalingOffsetY;
+	PrintY = CST_Y + scalingOffsetY + 13 * 10;
+	PrintX = CST_START + scalingOffsetX;
 #endif
 	for (i = 0; i < amount; i++)
 		PrintCustKeys(i);

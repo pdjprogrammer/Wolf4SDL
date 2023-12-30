@@ -59,7 +59,7 @@
 //#define SAVE_GAME_SCREENSHOT						// Shows a screenshot in the Save and Load screens. By insurrectionman
 
 #define DEBUGKEYS									// Comment this out to compile without the Tab debug keys
-//#define NO_TIME_WASTE								// Disables the FadeIn and FadeOut delay, useful when debugging
+#define NO_TIME_WASTE								// Disables the FadeIn and FadeOut delay, useful when debugging
 //#define ARTSEXTERN
 #define DEMOSEXTERN
 #define PLAYDEMOLIKEORIGINAL						// When playing or recording demos, several bug fixes do not take
