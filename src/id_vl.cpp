@@ -42,11 +42,11 @@ boolean usedoublebuffering = true;
 boolean disablehdresolution = false;
 boolean disablehdscaling = false;
 unsigned originalScreenWidth = 320;
-unsigned originalScreenHeight = 200;
+unsigned originalScreenHeight = 240;
 unsigned defaultScreenWidth = 640; // DO NOT CHANGE
-unsigned defaultScreenHeight = 400; // DO NOT CHANGE
+unsigned defaultScreenHeight = 480; // DO NOT CHANGE
 unsigned screenWidth = 640;
-unsigned screenHeight = 400;
+unsigned screenHeight = 480;
 int screenBits = -1; // use "best" color depth according to libSDL
 int scalingOffsetX = 0; // Used with HD scaling to calculate and center screens
 int scalingOffsetY = 0;
@@ -69,6 +69,8 @@ SDL_Texture *texture = NULL;
 #endif
 
 int scaleFactor;
+int rescaledWidth;
+int rescaledHeight;
 
 boolean screenfaded;
 unsigned bordercolor;
@@ -247,7 +249,10 @@ void VL_SetVGAPlaneMode(void) {
     printVertAdjust = picVertAdjust / scaleFactor;
 
     scalingOffsetX = (screenWidth - scaleFactor * originalScreenWidth) / (2 * scaleFactor);
-    scalingOffsetY = (screenHeight - scaleFactor * originalScreenHeight) / (2 * scaleFactor);
+    scalingOffsetY = (screenHeight - scaleFactor * originalScreenHeight) / (2 * scaleFactor) + 20;
+
+    rescaledWidth = screenWidth / scaleFactor;
+    rescaledHeight = screenHeight / scaleFactor;
 
 #ifdef _DEBUG
     printf("VL_SetVGAPlaneMode - screenOffsetX: %d\n", scalingOffsetX);

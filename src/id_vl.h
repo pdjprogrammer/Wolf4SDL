@@ -31,6 +31,8 @@ extern unsigned screenWidth, screenHeight, screenPitch, bufferPitch;
 extern unsigned originalScreenWidth, originalScreenHeight, defaultScreenWidth, defaultScreenHeight;
 extern int screenBits;
 extern int scaleFactor;
+extern int rescaledWidth;
+extern int rescaledHeight;
 extern int scalingOffsetX; // Used with HD scaling to calculate and center screens
 extern int scalingOffsetY;
 

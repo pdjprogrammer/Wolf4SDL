@@ -91,7 +91,7 @@
 #endif
 #ifdef USE_MODERN_CONTROLS
 #define CTL_X 43
-#ifdef SHOW_CUSTOM_CONTROLS
+#if defined(USE_MODERN_CONTROLS) && defined(SHOW_CUSTOM_CONTROLS)
 #define CTL_H 114
 #else
 #define CTL_H 100
@@ -188,7 +188,7 @@
 
 #define OPT_KEYBOARD_MORE_ACTION_RIGHT_TEXT_X 200
 
-#ifdef SHOW_CUSTOM_CONTROLS
+#if defined(USE_MODERN_CONTROLS) && defined(SHOW_CUSTOM_CONTROLS)
 #define CUS_CTL_X 26
 #define CUS_CTL_Y 50
 #define CUS_CTL_W 280
@@ -238,7 +238,7 @@ extern CP_iteminfo MainItems;
 
 void ExitToControlScreen(void);
 
-#ifdef SHOW_CUSTOM_CONTROLS
+#if defined(USE_MODERN_CONTROLS) && defined(SHOW_CUSTOM_CONTROLS)
 extern const int MAX_CUSTOM_CONTROLS;
 extern const int CUS_CTL_ARRAY_RANGE_START;
 extern const int CUS_CTL_ARRAY_RANGE_END;
@@ -313,7 +313,7 @@ void DrawKeyboardMoreActionCtlScreen(void);
 
 void CheckKeyConflict(void);
 
-#ifdef SHOW_CUSTOM_CONTROLS
+#if defined(USE_MODERN_CONTROLS) && defined(SHOW_CUSTOM_CONTROLS)
 void DrawCustomCtlScreen(void);
 #endif
 #endif
@@ -363,7 +363,7 @@ int CP_KeyboardMoveCtl(int);
 int CP_KeyboardActionCtl(int);
 int CP_KeyboardMoreActionCtl(int);
 int CP_JoystickCtl(int);
-#ifdef SHOW_CUSTOM_CONTROLS
+#if defined(USE_MODERN_CONTROLS) && defined(SHOW_CUSTOM_CONTROLS)
 int CP_CustomCtl(int);
 #endif
 #else

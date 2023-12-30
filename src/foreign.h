@@ -150,7 +150,7 @@
 #define STR_JOYEN "Joystick Enabled"
 #endif
 
-#ifdef SHOW_CUSTOM_CONTROLS
+#if defined(USE_MODERN_CONTROLS) && defined(SHOW_CUSTOM_CONTROLS)
 #define STR_CUS_CONTROLS "Custom Controls"
 
 #define STR_CUS_CTL_1 "Cus Ctl 1"

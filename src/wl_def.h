@@ -1244,7 +1244,7 @@ enum
 	bt_movebackward,
 	bt_turnleft,
 	bt_turnright,
-#ifdef SHOW_CUSTOM_CONTROLS
+#if defined(USE_MODERN_CONTROLS) && defined(SHOW_CUSTOM_CONTROLS)
 	bt_cus_ctl_1,
 	bt_cus_ctl_2,
 	bt_cus_ctl_3,
@@ -1486,7 +1486,7 @@ extern int lastgamemusicoffset;
 //
 #ifdef USE_MODERN_CONTROLS
 extern boolean mouseenabled, mouseYAxis, controllerEnabled, alwaysRun;
-#ifdef SHOW_CUSTOM_CONTROLS
+#if defined(USE_MODERN_CONTROLS) && defined(SHOW_CUSTOM_CONTROLS)
 extern int customControls[10];
 #endif
 #else

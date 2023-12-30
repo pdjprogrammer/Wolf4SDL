@@ -177,7 +177,7 @@ void ReadConfig(void)
 		read(file, &mouseYAxis, sizeof(mouseYAxis));
 		read(file, &alwaysRun, sizeof(alwaysRun));
 		read(file, &controllerEnabled, sizeof(controllerEnabled));
-#ifdef SHOW_CUSTOM_CONTROLS
+#if defined(USE_MODERN_CONTROLS) && defined(SHOW_CUSTOM_CONTROLS)
 		read(file, customControls, sizeof(customControls));
 #endif
 #else
@@ -306,7 +306,7 @@ void ReadConfig(void)
 		if (IN_JoyPresent())
 			joystickenabled = true;
 #endif
-		viewsize = 19; // start with a good size
+		viewsize = 20; // start with a good size
 		mouseadjustment = 5;
 
 #ifdef VIEASM
@@ -365,7 +365,7 @@ void WriteConfig(void)
 		write(file, &mouseYAxis, sizeof(mouseYAxis));
 		write(file, &alwaysRun, sizeof(alwaysRun));
 		write(file, &controllerEnabled, sizeof(controllerEnabled));
-#ifdef SHOW_CUSTOM_CONTROLS
+#if defined(USE_MODERN_CONTROLS) && defined(SHOW_CUSTOM_CONTROLS)
 		write(file, customControls, sizeof(customControls));
 #endif
 #else
@@ -923,13 +923,9 @@ void FinishSignon(void)
 {
 #ifndef SPEAR
 
-#ifndef SAVE_GAME_SCREENSHOT
 	VW_Bar(scalingOffsetX, 189 + scalingOffsetY, 300, 11, VL_GetFirstColoredPixel(screenBuffer));
-#else
-	VW_Bar(scalingOffsetX, 189 + scalingOffsetY, 300, 11, VL_GetFirstColoredPixel(screenBuffer));
-#endif
 	WindowX = scalingOffsetX;
-	WindowW = originalScreenWidth;
+	WindowW = 320;
 	PrintY = 190 + scalingOffsetY;
 
 #ifndef JAPAN
@@ -949,11 +945,7 @@ void FinishSignon(void)
 		IN_Ack();
 
 #ifndef JAPAN
-#ifndef SAVE_GAME_SCREENSHOT
 	VW_Bar(scalingOffsetX, 189 + scalingOffsetY, 300, 11, VL_GetFirstColoredPixel(screenBuffer));
-#else
-	VW_Bar(scalingOffsetX, 189 + scalingOffsetY, 300, 11, VL_GetFirstColoredPixel(screenBuffer));
-#endif
 
 	PrintY = 190 + scalingOffsetY;
 	SETFONTCOLOR(10, 4);
@@ -1658,13 +1650,14 @@ static void DemoLoop()
 			SDL_Color pal[256];
 			VL_ConvertPalette(grsegs[TITLEPALETTE], pal, 256);
 
-			VWB_DrawPic(scalingOffsetX, scalingOffsetY, TITLE1PIC);
-			VWB_DrawPic(scalingOffsetX, 80 + scalingOffsetY, TITLE2PIC);
+			VWB_DrawPic(0, 0, TITLE1PIC);
+			VWB_DrawPic(0, 80, TITLE2PIC);
 
 			VW_UpdateScreen();
 			VL_FadeIn(0, 255, pal, 30);
 #else
-			VWB_DrawPic(scalingOffsetX, scalingOffsetY, TITLEPIC);
+			VWB_Bar(0, 0, rescaledWidth, rescaledHeight, 0);
+			VWB_DrawPic(0, 0, TITLEPIC);
 			VW_UpdateScreen();
 			VW_FadeIn();
 #endif
@@ -1674,7 +1667,7 @@ static void DemoLoop()
 			//
 			// credits page
 			//
-			VWB_DrawPic(scalingOffsetX, scalingOffsetY, CREDITSPIC);
+			VWB_DrawPic(0, 0, CREDITSPIC);
 			VW_UpdateScreen();
 			VW_FadeIn();
 			if (IN_UserInput(TickBase * 10))

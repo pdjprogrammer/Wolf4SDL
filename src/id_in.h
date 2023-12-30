@@ -55,7 +55,7 @@ typedef int ScanCode;
 #define sc_StrafeRight SDLK_d
 #define sc_LeftBracket SDLK_LEFTBRACKET
 #define sc_RightBracket SDLK_RIGHTBRACKET
-#ifdef SHOW_CUSTOM_CONTROLS
+#if defined(USE_MODERN_CONTROLS) && defined(SHOW_CUSTOM_CONTROLS)
 #define sc_CusCtl_1 SDLK_KP_0
 #define sc_CusCtl_2 SDLK_KP_1
 #define sc_CusCtl_3 SDLK_KP_2

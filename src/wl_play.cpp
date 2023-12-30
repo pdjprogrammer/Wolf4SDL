@@ -410,7 +410,7 @@ void PollCustomKeyboardMove(void)
 		controlx = ((alwaysRun && buttonstate[bt_run]) || (!alwaysRun && !buttonstate[bt_run])) ? BASEMOVE * tics : RUNMOVE * tics;
 }
 
-#ifdef SHOW_CUSTOM_CONTROLS
+#if defined(USE_MODERN_CONTROLS) && defined(SHOW_CUSTOM_CONTROLS)
 /*
 ===================
 =
@@ -668,10 +668,8 @@ void PollControls(void)
 	//
 	PollKeyboardButtons();
 
-#ifdef USE_MODERN_CONTROLS
-#ifdef SHOW_CUSTOM_CONTROLS
+#if defined(USE_MODERN_CONTROLS) && defined(SHOW_CUSTOM_CONTROLS)
 	PollCustomControls();
-#endif
 #endif
 
 	if (mouseenabled && IN_IsInputGrabbed())
