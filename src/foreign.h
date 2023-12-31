@@ -121,8 +121,6 @@
 
 #ifdef USE_MODERN_CONTROLS
 #define STR_OP "Options"
-#define STR_OP_GAME "Game Options"
-
 #define STR_JOYEN "Controller Enabled"
 
 #define STR_OP_MOUSE "Mouse Config"
@@ -148,6 +146,10 @@
 #define STR_AUTOMAP "Automap"
 #else
 #define STR_JOYEN "Joystick Enabled"
+#endif
+
+#if defined(USE_MODERN_CONTROLS) && defined(SHOW_GAME_OPTIONS)
+#define STR_OP_GAME "Game Options"
 #endif
 
 #if defined(USE_MODERN_CONTROLS) && defined(SHOW_CUSTOM_CONTROLS)

@@ -2046,7 +2046,7 @@ void TrackWhichGame(int w)
 		byte* surfaceBytes = new byte[bmpSurface->w * bmpSurface->h * 4];
 
 		VL_SurfaceToByteArray(bmpSurface, surfaceBytes);
-		VL_MemToScreen(surfaceBytes, LSP_W, LSP_H, LSP_X, LSP_Y);
+		VL_MemToScreen(surfaceBytes, LSP_W, LSP_H, LSP_X + scalingOffsetX, LSP_Y + scalingOffsetY);
 
 		delete[] surfaceBytes;
 		SDL_FreeSurface(bmpSurface);
@@ -2217,11 +2217,11 @@ int CP_SaveGame(int quick)
 
 			fontnumber = 0;
 			if (!SaveGamesAvail[which])
-				VWB_Bar(LSM_X + LSItems.indent + 1, LSM_Y + which * 13 + 1,
+				VWB_Bar(LSM_X + LSItems.indent + 1 + scalingOffsetX, LSM_Y + scalingOffsetY + which * 13 + 1,
 					LSM_W - LSItems.indent - 16, 10, BKGDCOLOR);
 			VW_UpdateScreen();
 
-			if (US_LineInput(LSM_X + LSItems.indent + 2, LSM_Y + which * 13 + 1, input, input, true, 31,
+			if (US_LineInput(LSM_X + LSItems.indent + 2 + scalingOffsetX, LSM_Y + scalingOffsetY + which * 13 + 1, input, input, true, 31,
 				LSM_W - LSItems.indent - 30))
 			{
 				SaveGamesAvail[which] = 1;
@@ -2264,7 +2264,7 @@ int CP_SaveGame(int quick)
 			}
 			else
 			{
-				VWB_Bar(LSM_X + LSItems.indent + 1, LSM_Y + which * 13 + 1,
+				VWB_Bar(LSM_X + LSItems.indent + 1 + scalingOffsetX, LSM_Y + scalingOffsetY + which * 13 + 1,
 					LSM_W - LSItems.indent - 16, 10, BKGDCOLOR);
 				PrintLSEntry(which, HIGHLIGHT);
 				VW_UpdateScreen();

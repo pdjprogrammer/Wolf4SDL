@@ -111,7 +111,7 @@
 #endif
 #define OPT_W 200
 
-#ifdef SHOW_GAME_OPTIONS
+#if defined(USE_MODERN_CONTROLS) && defined(SHOW_GAME_OPTIONS)
 #define OPT_H 62
 #else
 #define OPT_H 48

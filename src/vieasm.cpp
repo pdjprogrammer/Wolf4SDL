@@ -26,7 +26,6 @@ IF YOU FIND ANY, PLEASE TELL ME SO I CAN FIX THEM!
 #include "vieasm.h"                    // Duh.
 #include <SDL.h>
 
-#ifdef VIEASM
 const char *ASM_Verstring = "v0.9.1 Beta";  // Version string
 
 Uint8 sndvol, musvol;                       // Volumes for sound
@@ -530,4 +529,3 @@ int ASM_CurChannels(void)
 {
     return lastchan;
 }
-#endif

@@ -5,7 +5,7 @@
 
 /* Defines used for different versions */
 
-#define SPEAR
+//#define SPEAR
 //#define SPEARDEMO
 //#define UPLOAD
 #define GOODTIMES
@@ -31,8 +31,8 @@
 
 #endif
 
-//#define USE_MODERN_CONTROLS						// !!!!! DELETE CONFIG.WL6 AFTER CHANGING !!!!!
-//#define SHOW_GAME_OPTIONS (Incomplete)			// Requires USE_MODERN_CONTROLS flag enabled.
+#define USE_MODERN_CONTROLS						// !!!!! DELETE CONFIG.WL6 AFTER CHANGING !!!!!
+#define SHOW_GAME_OPTIONS						// Requires USE_MODERN_CONTROLS flag enabled.
 													// Enables game options for feature flags (shading, textured floor, ceiling and precipitation)
 //#define VIEASM									// AlumiuN's Advanced Sound Manager. Some modifications made by WSJ. Information in asmcref.h
 
