@@ -516,20 +516,20 @@ void IN_GetGameControllerHat(int* dpadUp, int* dpadDown, int* dpadLeft, int* dpa
 	int hatState = SDL_JoystickGetHat(Joystick, 0);
 
 	if (hatState & SDL_HAT_RIGHT) {
-		dpadRight = hatState;
+		*dpadRight = hatState;
 		//printf("\nD-Pad Right Pressed");
 	}
 	else if (hatState & SDL_HAT_LEFT) {
-		dpadLeft = hatState;
+		*dpadLeft = hatState;
 		//printf("\nD-Pad Left Pressed");
 	}
 
 	if (hatState & SDL_HAT_DOWN) {
-		dpadDown = hatState;
+		*dpadDown = hatState;
 		//printf("\nD-Pad Down Pressed");
 	}
 	else if (hatState & SDL_HAT_UP) {
-		dpadUp = hatState;
+		*dpadUp = hatState;
 		//printf("\nD-Pad Up Pressed");
 	}
 }
