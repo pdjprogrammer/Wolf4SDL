@@ -51,8 +51,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 2,0,0,0
- PRODUCTVERSION 2,0,0,0
+ FILEVERSION 1,1,0,0
+ PRODUCTVERSION 1,1,0,0
  FILEFLAGSMASK 0x17L
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -67,14 +67,14 @@ BEGIN
     BEGIN
         BLOCK "000904b0"
         BEGIN
-            VALUE "FileDescription", "SDL-Port of Wolfenstein 3D"
-            VALUE "FileVersion", "2.1.0.0"
-            VALUE "InternalName", "Wolf4SDL"
+            VALUE "FileDescription", "Modernized port of Wolf4SDL"
+            VALUE "FileVersion", "1.1.0.0"
+            VALUE "InternalName", "DDWolf"
             VALUE "LegalCopyright", "Original Wolfenstein 3D is copyrighted by id Software"
             VALUE "LegalTrademarks", "Wolfenstein 3D is a trademark of id Software"
-            VALUE "OriginalFilename", "Wolf4SDL.exe"
-            VALUE "ProductName", "Wolf4SDL"
-            VALUE "ProductVersion", "2.1.0.0"
+            VALUE "OriginalFilename", "DDWolf.exe"
+            VALUE "ProductName", "DDWolf"
+            VALUE "ProductVersion", "1.1.0.0"
         END
     END
     BLOCK "VarFileInfo"
@@ -91,7 +91,7 @@ END
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_WOLF4SDL            ICON                    "Wolf4SDL.ico"
+IDI_WOLF4SDL            ICON                    "DDWolf.ico"
 
 #endif    // German (Germany) resources
 /////////////////////////////////////////////////////////////////////////////

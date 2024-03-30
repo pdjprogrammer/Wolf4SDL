@@ -139,7 +139,7 @@ Currently supported operating systems :
 
 <h2><em>Usage</em></h2>
 
-Wolf4SDL supports the following command line options :
+DDWolf supports the following command line options :
 ```
  --help                           This help page
  --tedlevel <level>               Starts the game in the given level
@@ -187,12 +187,12 @@ The current version of the source code is available on GitHub at: https://github
 
 **_Preferred methods for compiling the source code:_**
 
-- Visual C++ (2019/2022)
-  - [VS 2022] - Wolf4SDL.VC2022.sln
-  - [VS 2019] - Wolf4SDL.VC2019.sln
+- Visual Studio C++ (2019/2022)
+  - [VS 2022] - DDWolf.VC2022.sln
+  - [VS 2019] - DDWolf.VC2019.sln
     - README-VC.txt
 - Code::Blocks 8.02
-  - Wolf4SDL.cbp
+  - DDWolf_x64.cbp
     - README-codeblocks.txt
 - Dev-C++ 5.0 Beta 9.2 (4.9.9.2) (Currently broken)
   - Wolf4SDL.dev

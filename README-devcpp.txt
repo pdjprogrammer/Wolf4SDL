@@ -21,33 +21,18 @@ the file should you get any issues when compiling.
 | Needed files: |
 -----------------
  - Dev-C++ 5.0 Beta 9.2 (4.9.9.2) with Mingw/GCC 3.4.2 (about 9 MB)
-   - http://www.bloodshed.net/dev/devcpp.html
+   - https://www.bloodshed.net/
 
- - SDL2 2.0.18
-   - https://www.libsdl.org/release/SDL2-devel-2.0.18-mingw.tar.gz
-
- - SDL2_Mixer 2.0.4
-   - https://www.libsdl.org/projects/SDL_mixer/release/SDL2_mixer-devel-2.0.4-mingw.tar.gz
-
+--------------
+| Libraries: |
+--------------
+- Run _script-sdl2-mingw.bat
+	- This will automatically download and setup the libraries.
+	
 ----------------
 | Installation |
 ----------------
  - Install Dev-C++ to "C:\Dev-Cpp"
-
- - Extract SDL2 and SDL2_Mixer on your desktop.
-
- - SDL2 and SDL2_Mixer "include" folder:
-   - Inside the SDL2 folder/archive, navigate to "\i686-w64-mingw32\include\"
-   - Copy and paste the SDL2 folder (THE ENTIRE FOLDER, NOT THE CONTENT) into "C:\Dev-Cpp\include\"
-   - SDL2 includes should be in "C:\Dev-Cpp\include\SDL2"
-   - Repeat same steps for SDL2_Mixer.
-
- - SDL2 and SDL2_Mixer "lib" folder:
-   - Create a folder called "SDL2" inside "C:\Dev-Cpp\lib\"
-   - Inside the SDL2 folder/archive, navigate to "\i686-w64-mingw32\lib\"
-   - Take all the FILES ONLY (no folders) (files with .a and .la extensions) and copy them into "C:\Dev-Cpp\lib\SDL2"
-   - Repeat same steps for SDL2_Mixer.
-
  - Open Wolf4SDL.dev and compile!
 
 --------------------

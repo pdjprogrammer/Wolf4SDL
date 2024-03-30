@@ -120,30 +120,14 @@
     <ClInclude Include="src\wl_utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\asmcomp.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\asmcref.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\vieasm.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="win\Wolf4SDL.rc">
-      <Filter>Resource Files</Filter>
-    </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Changes.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="win\Wolf4SDL.ico">
-      <Filter>Resource Files</Filter>
-    </Image>
-  </ItemGroup>
-  <ItemGroup>
+    <ClCompile Include="src\dosbox\dbopl.cpp">
+      <Filter>Source Files\dosbox</Filter>
+    </ClCompile>
     <ClCompile Include="src\id_ca.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -154,6 +138,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\id_sd.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\id_us.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\id_vh.cpp">
@@ -243,20 +230,8 @@
     <ClCompile Include="src\dc\dc_vmu.cpp">
       <Filter>Source Files\dc</Filter>
     </ClCompile>
-    <ClCompile Include="src\dosbox\dbopl.cpp">
-      <Filter>Source Files\dosbox</Filter>
-    </ClCompile>
     <ClCompile Include="src\mame\fmopl.cpp">
       <Filter>Source Files\mame</Filter>
-    </ClCompile>
-    <ClCompile Include="src\id_us.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\asmcomp.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\vieasm.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -266,5 +241,15 @@
     <None Include="src\wolfpal.inc">
       <Filter>Source Files</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="win\DDWolf.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="win\DDWolf.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>
