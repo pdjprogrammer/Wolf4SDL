@@ -13,10 +13,12 @@
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Compiler>
-					<Add directory="libraries/mingw/include/SDL2" />
+					<Add directory="libraries/mingw/SDL2-2.0.18/x86_64-w64-mingw32/include/SDL2" />
+					<Add directory="libraries/mingw/SDL2_mixer-2.0.4/x86_64-w64-mingw32/include/SDL2" />
 				</Compiler>
 				<Linker>
-					<Add directory="libraries/mingw/lib/SDL2/x64" />
+					<Add directory="libraries/mingw/SDL2-2.0.18/x86_64-w64-mingw32/lib" />
+					<Add directory="libraries/mingw/SDL2_mixer-2.0.4/x86_64-w64-mingw32/lib" />
 				</Linker>
 			</Target>
 		</Build>

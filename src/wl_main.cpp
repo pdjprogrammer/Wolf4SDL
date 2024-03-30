@@ -1968,8 +1968,7 @@ param_difficulty = 0;
 			" --windowed[-mouse]     Starts the game in a window [and grabs mouse]\n"
 			" --disablehdres		 Disables resolution detection \n"
 			" 						 (Only works in fullscreen) \n"
-			" --disableratiofix		 Disables the aspect ratio correction to get\n"
-			"                        a proper 4:3 ratio\n"
+			" --disableratiofix		 Disables the 4:3 aspect ratio correction"
 #ifdef VIEASM
 			" --nosound				 Turns off sound\n"
 			" --8bitsound			 Sets the sound to 8 bits (default 16 bits)\n"

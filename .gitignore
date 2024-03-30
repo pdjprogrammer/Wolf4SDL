@@ -75,6 +75,5 @@ Makefile.win
 /.idea
 /cmake-build-debug
 /cmake-build-release
-
 /libraries
 /_workingdir
