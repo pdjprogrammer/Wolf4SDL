@@ -73,7 +73,6 @@
 #define FIXCALCROTATE								// Apply a modified version of Ginyu's fix to make CalcRotate more accurate at high resolutions
 
 //#define BANDEDHOLOWALLS							// Use the old DOS-style "banded" wall drawing behaviour when inside walls
-
 //#define SHOW_GAME_OPTIONS							// Requires USE_MODERN_CONTROLS flag enabled. (Do not use, incomplete)
 													// Enables game options for feature flags
 													// shading, textured floor, ceiling and precipitation

@@ -239,7 +239,7 @@ int IN_MouseButtons(void);
 
 #ifdef USE_MODERN_CONTROLS
 void IN_GetGameControllerDelta(int* analog0X, int* analog0Y, int* analog1X, int* analog1Y);
-void IN_GetGameControllerHat(int* dpadUp, int* dpadDown, int* dpadLeft, int* dpadRight);
+//void IN_GetGameControllerHat(int* dpadUp, int* dpadDown, int* dpadLeft, int* dpadRight);
 int IN_GameControllerButtons(void);
 
 boolean IN_ControllerPresent();

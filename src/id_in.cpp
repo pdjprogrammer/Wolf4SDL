@@ -512,27 +512,24 @@ void IN_GetGameControllerDelta(int* analog0X, int* analog0Y, int* analog1X, int*
 	*analog0Y = a0Y;
 }
 
-void IN_GetGameControllerHat(int* dpadUp, int* dpadDown, int* dpadLeft, int* dpadRight) {
-	int hatState = SDL_JoystickGetHat(Joystick, 0);
+//Unused for now
+/*void IN_GetGameControllerHat(int* dpadUp, int* dpadDown, int* dpadLeft, int* dpadRight) {
+	Uint8 hatState = SDL_JoystickGetHat(Joystick, 0);
 
 	if (hatState & SDL_HAT_RIGHT) {
 		*dpadRight = hatState;
-		//printf("\nD-Pad Right Pressed");
 	}
 	else if (hatState & SDL_HAT_LEFT) {
 		*dpadLeft = hatState;
-		//printf("\nD-Pad Left Pressed");
 	}
 
 	if (hatState & SDL_HAT_DOWN) {
 		*dpadDown = hatState;
-		//printf("\nD-Pad Down Pressed");
 	}
 	else if (hatState & SDL_HAT_UP) {
 		*dpadUp = hatState;
-		//printf("\nD-Pad Up Pressed");
 	}
-}
+}*/
 
 /*
 ===================
@@ -553,7 +550,7 @@ int IN_GameControllerButtons()
 
 	int res = 0;
 	for (i = 0; i < GameControllerNumButtons && i < 16; i++)
-		res |= SDL_GameControllerGetButton(GameController, i) << i;
+		res |= SDL_GameControllerGetButton(GameController, (SDL_GameControllerButton)i) << i;
 
 	return res;
 }
