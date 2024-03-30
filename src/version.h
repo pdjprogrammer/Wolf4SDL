@@ -31,8 +31,8 @@
 
 #endif
 
-#define USE_MODERN_CONTROLS						// !!!!! DELETE CONFIG.WL6 AFTER CHANGING !!!!!
-#define SHOW_GAME_OPTIONS						// Requires USE_MODERN_CONTROLS flag enabled.
+//#define USE_MODERN_CONTROLS						// Enables modern controls - ! DELETE CONFIG.WL6 AFTER CHANGING !
+//#define SHOW_GAME_OPTIONS							// Requires USE_MODERN_CONTROLS flag enabled. (Do not use, incomplete)
 													// Enables game options for feature flags (shading, textured floor, ceiling and precipitation)
 //#define VIEASM									// AlumiuN's Advanced Sound Manager. Some modifications made by WSJ. Information in asmcref.h
 

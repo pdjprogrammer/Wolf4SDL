@@ -1,10 +1,14 @@
-<p align="center">
+<!--<p align="center">
   <img src="images/wolf4sdl_logo.png">
-</p>
+</p>-->
 
-<h1 align="center"><em>Wolf4SDL</em></h1>
+<h1 align="center"><em>DDWolf</em></h1>
 
-Wolf4SDL is an open-source port of id Software's classic first-person shooter Wolfenstein 3D to the cross-platform multimedia library "Simple DirectMedia Layer (SDL)" (http://www.libsdl.org). It is meant to keep the original feel while taking advantage of some improvements mentioned in the list below.
+DDWolf is a fork of the Wolf4SDL engine for Wolfenstein3D aimed at brigning modern QOL improvements while still preserving the game as pure and close to the original as possible.
+
+<h2><em>Wolf4SDL</em></h2>
+
+Wolf4SDL is an open-source port of id Software's classic first-person shooter Wolfenstein 3D to the cross-platform multimedia library "Simple DirectMedia Layer (SDL)" (http://www.libsdl.org).
 
 The overall work to get to where we are would not be possible without the following people, more credits at the end of the readme.
 
@@ -14,6 +18,11 @@ The overall work to get to where we are would not be possible without the follow
 
 <h2><em>Main features</em></h2>
 
+* HD Resolution support.
+  - The game will automatically detect your main monitor's resolution
+  and be set accordingly.
+    - No more screen resolution change on launch!
+    - Can still manually specify resolution using launch parameter.
 * Modern control scheme (OPTIONAL).
   - Dedicated strafing buttons (WASD).
   - Can disable mouse Y axis.
@@ -29,36 +38,46 @@ The overall work to get to where we are would not be possible without the follow
     - B : Strafe (mapped to key but not useful for now with controller)
     - Y : Run
     - X : Open door
+* AlumiuN's Advanced Sound Manager (Some modifications by WSJ)
+* Set of 10 customizable "actions" and menu to assign/remap those buttons.
+  - For modders to add their own actions more easily (Code changes required to implement custom actions).
 
-- AdLib sounds and music:
-  - This port includes the OPL2 emulator from MAME, so you can not only hear the AdLib sounds but also music without any AdLib-compatible soundcard in near to perfect quality!
+<h2><em>Feature Flags</em></h2>
 
-* Multichannel digitized sounds:
-  - Digitized sounds play on 8 channels! So in a fire fight you will always hear, when a guard opens the door behind you ;)
+```
+#USE_MODERN_CONTROLS
+#VIEASM                     AlumiuN's Advanced Sound Manager. 
+                            Some modifications made by WSJ.
+                            (No sounds included, OFF by default)
+#SEAMLESSLEVELS             Disables the Episode selection screen on Wolf3D.
+#USE_READTHIS               Enables help text in the main menu.
+#USE_RAND                   Enables the C++ random number generator.
+#WSJ_MESSAGE                WSJ's message feature, shows on-screen messages 
+                            for pickups, secrets and locked doors.
+#SAVE_GAME_SCREENSHOT       Shows a screenshot in the Save and Load screens.
+```
 
-- Higher screen resolutions:
-  - Aside from the original 320x200 resolution, Wolf4SDL currently supports any resolutions being multiples of 320x200 or 320x240, the default being 640x400.
-  - Unlike some other ports, Wolf4SDL does NOT apply any bilinear or similar filtering, so the graphics are NOT blurred but pixelated just as we love it.
+<h2><em>Wolf4SDL Additional features</em></h2>
 
-<h2><em>Additional features</em></h2>
-
+* High-resolution texture support:
+  - Wolf4SDL supports textures up to 256x256 dynamically. No need for any code change.
 * Two additional view sizes:
   - Wolf4SDL supports one view size using the full width of the screen and showing the status bar, like in Mac-enstein, and one view size filling the whole screen (press TAB to see the status bar).
-
-- (Nearly) unlimited sound and song lengths:
+* (Nearly) unlimited sound and song lengths:
   - Mod developers are not restricted to 64kB for digitized sounds and IMF songs anymore, so longer songs and digitized sounds with better quality are possible.
-
 * Resuming ingame music:
   - When you come back to the game from the menu or load a save game, the music will be resumed where it was suspended rather than started from the beginning.
-
-- Freely movable pushwalls: 
+* Freely movable pushwalls: 
   - Moving pushwalls can be viewed from all sides, allowing mod developers to place them with fewer restrictions. The player can also follow the pushwall directly instead of having to wait until the pushwall has left a whole tile.
-
 * Optional integrated features for mod developers:
   - Wolf4SDL already contains the shading, directional 3D sprites, floor and ceiling textures, high resolution textures/sprites, parallax sky, cloud sky and outside atmosphere features, which can be easily activated in version.h.
-
-- Set of 10 customizable "actions" and menu to assign/remap those buttons.
-  - For modders to add their own actions more easily (Code changes required to implement custom actions).
+* AdLib sounds and music:
+  - This port includes the OPL2 emulator from MAME, so you can not only hear the AdLib sounds but also music without any AdLib-compatible soundcard in near to perfect quality!
+* Multichannel digitized sounds:
+  - Digitized sounds play on 8 channels! So in a fire fight you will always hear, when a guard opens the door behind you ;)
+* Higher screen resolutions:
+  - Aside from the original 320x200 resolution, Wolf4SDL currently supports any resolutions being multiples of 320x200 or 320x240, the default being 640x400.
+  - Unlike some other ports, Wolf4SDL does NOT apply any bilinear or similar filtering, so the graphics are NOT blurred but pixelated just as we love it.
 
 The following versions of Wolfenstein 3D data files are currently supported by the source code (choose the version by commenting/uncommenting lines in version.h as described in that file):
 
