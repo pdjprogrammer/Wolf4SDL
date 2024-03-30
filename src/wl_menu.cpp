@@ -4848,6 +4848,7 @@ void ClearMScreen(void)
 #ifndef SPEAR
 	VWB_BarScaledCoord(0, 0, screenWidth, screenHeight, BORDCOLOR);
 #else
+	VWB_BarScaledCoord(0, 0, screenWidth, screenHeight, 0);
 	VWB_DrawPic(0, 0, C_BACKDROPPIC);
 #endif
 }

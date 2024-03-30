@@ -5,7 +5,7 @@
 
 /* Defines used for different versions */
 
-#define SPEAR
+//#define SPEAR
 //#define SPEARDEMO
 //#define UPLOAD
 #define GOODTIMES
@@ -32,9 +32,8 @@
 #endif
 
 //#define USE_MODERN_CONTROLS						// Enables modern controls - ! DELETE CONFIG.WL6 AFTER CHANGING !
-//#define SHOW_GAME_OPTIONS							// Requires USE_MODERN_CONTROLS flag enabled. (Do not use, incomplete)
-													// Enables game options for feature flags (shading, textured floor, ceiling and precipitation)
-//#define VIEASM									// AlumiuN's Advanced Sound Manager. Some modifications made by WSJ. Information in asmcref.h
+//#define VIEASM									// AlumiuN's Advanced Sound Manager.
+													// Some modifications made by WSJ. Information in asmcref.h
 
 #define DISABLE_WALLSOUND							// Disables wall hit and space bar sounds
 //#define USE_FEATUREFLAGS							// Enables the level feature flags (see bottom of wl_def.h)
@@ -75,6 +74,9 @@
 
 //#define BANDEDHOLOWALLS							// Use the old DOS-style "banded" wall drawing behaviour when inside walls
 
+//#define SHOW_GAME_OPTIONS							// Requires USE_MODERN_CONTROLS flag enabled. (Do not use, incomplete)
+													// Enables game options for feature flags
+													// shading, textured floor, ceiling and precipitation
 //#define SHOW_CUSTOM_CONTROLS						// !!!!! DELETE CONFIG.WL6 AFTER CHANGING !!!!!
 													// Requires #USE_MODERN_CONTROLS flag enabled and code changes to customize the keys.
 #endif
