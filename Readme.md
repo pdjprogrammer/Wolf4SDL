@@ -4,11 +4,17 @@
 
 <h1 align="center"><em>DDWolf</em></h1>
 
-DDWolf is a fork of Wolf4SDL that aims at bringing modern QOL improvements to the engine while still preserving the game as pure and close to the original as possible.
+DDWolf aims at bringing modern improvements to the Wolf4SDL engine while still preserving the game as pure and close to the original as possible.
 
-DDWolf is based on Wolf4SDL, currently maintained by KS-Presto, available at: https://github.com/KS-Presto/Wolf4SDL
+DDWolf is based on KS-Presto's Wolf4SDL.
+
+KS-Presto's Wolf4SDL is available at: https://github.com/KS-Presto/Wolf4SDL
 
 <h2><em>Wolf4SDL</em></h2>
+
+<p align="center">
+  <img src="images/wolf4sdl_logo.png">
+</p>
 
 Wolf4SDL is an open-source port of id Software's classic first-person shooter Wolfenstein 3D to the cross-platform multimedia library "Simple DirectMedia Layer (SDL)" (http://www.libsdl.org).
 
@@ -44,13 +50,13 @@ The overall work to get to where we are would not be possible without the follow
     - Y : Run
     - X : Open door
 * Aspect ration correction:
-  - Aspect ration is automatically corrected for 4:3
-    - Can be disabled using a launch parameter
+  - Aspect ration is automatically corrected for 4:3.
+    - Can be disabled using a launch parameter.
 * Set of 10 customizable "actions" and menu to assign/remap those buttons:
   - For modders to add their own actions more easily.
   - Code changes required to implement custom actions.
 
-<h2><em>DDWolf Feature Flags</em></h2>
+<h2><em>DDWolf Additional Feature Flags</em></h2>
 
 ```
 #USE_MODERN_CONTROLS
@@ -166,13 +172,13 @@ AlumiuN's Advanced Sound Manager
 --8bitsound                       Sets the sound to 8 bits (default 16 bits)
 
 Spear of Destiny
---mission <mission>              Mission number to play (1-3)
---goodtimes                      Disable copy protection quiz
+--mission <mission>               Mission number to play (1-3)
+--goodtimes                       Disable copy protection quiz
 ```
 
 <h2><em>Compiling from source code</em></h2>
 
-The current version of the source code is available on GitHub at: https://github.com/brosseaualex/Wolf4SDL
+The current version of the source code is available on GitHub at: https://github.com/brosseaualex/DDWolf
 
 **_What you need:_**
 
