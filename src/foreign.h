@@ -74,10 +74,10 @@
 #define STR_CFIRE "Fire"
 #define STR_CSTRAFE "Strafe"
 
-#define STR_LEFT "Left"	  //Todo DemolitionDerby - revert to original string
-#define STR_RIGHT "Right" //Todo DemolitionDerby - revert to original string
-#define STR_FRWD "Frwd"	  //Todo DemolitionDerby - revert to original string
-#define STR_BKWD "Bkwrd"  //Todo DemolitionDerby - revert to original string
+#define STR_LEFT "Left"
+#define STR_RIGHT "Right"
+#define STR_FRWD "Frwd"
+#define STR_BKWD "Bkwrd"
 
 #define STR_THINK "Thinking"
 
