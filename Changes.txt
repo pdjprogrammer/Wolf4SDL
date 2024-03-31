@@ -1,4 +1,7 @@
-DDWolf v1.1
+DDWolf v1.1.1
+ - Fixed issue with control mapping order.
+
+DDWolf v1.1.0
  - HD Resolution support
 	- The game will automatically detect your main monitor's resolution and be set accordingly.
 	- No more screen resolution change on launch!
@@ -6,6 +9,8 @@ DDWolf v1.1
  - AlumiuN's Advanced Sound Manager (Some modifications by WSJ)
 	- No sounds included, disabled by default.
 	- Instructions in source code.
+- 4:3 aspect ratio correction.
+	- Can be disabled using --disableratiofix launch parameter
  - Added popular Feature Flags
 	- #SEAMLESSLEVELS
 		- Disables the Episode selection screen on Wolf3D
@@ -18,7 +23,7 @@ DDWolf v1.1
 	- #SAVE_GAME_SCREENSHOT
 		- Shows a screenshot in the Save and Load screens
 
-DDWolf v1.0
+DDWolf v1.0.0
  - Dedicated strafing keys
    - WASD controls
  - Can disable Y axis on mouse

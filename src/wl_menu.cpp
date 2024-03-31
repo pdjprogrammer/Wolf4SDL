@@ -2957,12 +2957,12 @@ int moveorder[6] = { FWRD, BKWD, LEFT, RIGHT, STF_LEFT, STF_RIGHT };
 #else
 enum
 {
-	LEFT,
-	RIGHT,
 	FWRD,
-	BKWD
+	RIGHT,
+	BKWD,
+	LEFT
 };
-int moveorder[4] = { LEFT, RIGHT, FWRD, BKWD };
+int moveorder[4] = { LEFT, RIGHT, FWRD, BKWD }; //Move order is not the same as everywhere else here, keep it as is												
 #endif
 
 #ifdef USE_MODERN_CONTROLS

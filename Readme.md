@@ -105,8 +105,8 @@ The following versions of Wolfenstein 3D data files are currently supported by t
 - Wolfenstein 3D v1.4 shareware
 - Spear of Destiny full
 - Spear of Destiny demo
-- Spear of Destiny - Mission 2: Return to Danger (not tested)
-- Spear of Destiny - Mission 3: Ultimate Challenge (not tested)
+- Spear of Destiny - Mission 2: Return to Danger
+- Spear of Destiny - Mission 3: Ultimate Challenge
 ```
 
 <h2><em>Operating system support</em></h2>
@@ -121,10 +121,10 @@ Currently supported operating systems :
 - Windows 7 (32 and 64 bits)
 - Windows 10 (32 and 64 bits)
 - Windows 11 (32 and 64 bits)
-- Linux
-- BSD variants
-- Mac OS X (x86)
-- Only little endian platforms like x86, ARM and SH-4 are currently supported.
+- Linux*
+- BSD variants*
+
+*Build system untested.
 ```
 
 <h2><em>How to play</em></h2>
@@ -199,12 +199,12 @@ The current version of the source code is available on GitHub at: https://github
     - README-devcpp.txt
 - [Untested] CMake
 - [Untested] Makefile (for Linux, BSD variants and MinGW/MSYS)
-- [Untested] Xcode (for Mac OS X, macosx/Wolf4SDL.xcodeproj/project.pbxproj)
 
 **_Deprecated / outdated / unsupported / possibly broken_**
 
 - Special compiling for Dreamcast (see README-dc.txt)
 - Special compiling for GP2X (see README-GP2X.txt)
+- Xcode (for Mac OS X, macosx/Wolf4SDL.xcodeproj/project.pbxproj)
 
 <h2><em>SDL Libraries</em></h2>
 
