@@ -17,6 +17,8 @@
 					<Add directory="libraries/mingw/SDL2_mixer-2.0.4/x86_64-w64-mingw32/include/SDL2" />
 				</Compiler>
 				<Linker>
+					<Add option="-static-libstdc++" />
+					<Add option="-static-libgcc" />
 					<Add option="-lSDL2main -lSDL2" />
 					<Add directory="libraries/mingw/SDL2-2.0.18/x86_64-w64-mingw32/lib" />
 					<Add directory="libraries/mingw/SDL2_mixer-2.0.4/x86_64-w64-mingw32/lib" />
