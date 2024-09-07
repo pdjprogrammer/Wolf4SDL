@@ -6,8 +6,8 @@ set compilerPath=vc
 set tempFolderName=temp
 set localPath=%cd%\%libFolderName%
 set tempPath=%libFolderName%\temp
-set sdl2Filename=SDL2-devel-2.0.18-VC.zip
-set sdl2MixerFilename=SDL2_mixer-devel-2.0.4-VC.zip
+set sdl2Filename=SDL2-devel-2.30.7-VC.zip
+set sdl2MixerFilename=SDL2_mixer-devel-2.8.0-VC.zip
 set sdl2ArchivePath=%tempPath%\%sdl2Filename%
 set sdl2MixerArchivePath=%tempPath%\%sdl2MixerFilename%
 

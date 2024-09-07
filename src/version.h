@@ -32,7 +32,7 @@
 #endif
 
 //#define USE_MODERN_CONTROLS						// Enables modern controls - ! DELETE CONFIG.WL6 AFTER CHANGING !
-//#define VIEASM									// AlumiuN's Advanced Sound Manager.
+#define VIEASM										// AlumiuN's Advanced Sound Manager.
 													// Some modifications made by WSJ. Information in asmcref.h
 
 #define DISABLE_WALLSOUND							// Disables wall hit and space bar sounds
@@ -40,8 +40,11 @@
 //#define USE_SHADING								// Enables shading support (see wl_shade.c)
 //#define USE_DIR3DSPR								// Enables directional 3d sprites
 //#define USE_FLOORCEILINGTEX						// Enables texture-mapped floors and ceilings (see wl_plane.c)
-//#define USE_HIRES	(deprecated)					// Enables high resolution textures/sprites (128x128)
-													// NOT REQUIRED ANYMORE - Wolf4SDL supports textures up to 256x256 dynamically.
+
+//#define USE_HIRES	(deprecated) !! SET TEXTURESHIFT IN WL_DEF.H INSTEAD !!
+// Set TEXTURESHIFT in wl_def.h to 7 for 128x128 pixels
+// Set TEXTURESHIFT in wl_def.h to 8 for 256x256 pixels
+
 //#define USE_MULTIFLATS							// Enables floor and ceiling textures stored in the third mapplane
 //#define USE_PARALLAX 16							// Enables parallax sky with 16 textures per sky (see wl_parallax.c)
 //#define USE_SKYWALLPARALLAX 16					// Enables parallax sky on walls with 16 repeats of sky texture

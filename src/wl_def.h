@@ -225,6 +225,8 @@ typedef uint8_t tiletype;
 #define MAPSIZE (1 << MAPSHIFT)
 #define MAPAREA (MAPSIZE * MAPSIZE)
 
+//Set TEXTURESHIFT to 7 for 128x128 pixels textures
+//Set TEXTURESHIFT to 8 for 256x256 pixels textures
 #define TEXTURESHIFT 6
 
 #if TEXTURESHIFT == 8
