@@ -13,17 +13,11 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
     </Filter>
-    <Filter Include="Source Files\dc">
-      <UniqueIdentifier>{5b8c26be-b096-4f67-9d4a-dde7d6801601}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\dosbox">
       <UniqueIdentifier>{d424d492-7ec2-461a-a85f-3a71998ed52e}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\mame">
       <UniqueIdentifier>{fd07016f-1c30-4356-ba25-531ed6300e4f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\dc">
-      <UniqueIdentifier>{1e86b4b2-3790-4220-bf78-2b6f7290f4bc}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\dosbox">
       <UniqueIdentifier>{69b425c7-7e37-48dc-8828-87c92dbb4437}</UniqueIdentifier>
@@ -35,12 +29,6 @@
   <ItemGroup>
     <ClInclude Include="win\resource.h">
       <Filter>Resource Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\dc\dc_main.h">
-      <Filter>Header Files\dc</Filter>
-    </ClInclude>
-    <ClInclude Include="src\dc\dc_vmu.h">
-      <Filter>Header Files\dc</Filter>
     </ClInclude>
     <ClInclude Include="src\dosbox\dbopl.h">
       <Filter>Header Files\dosbox</Filter>
@@ -70,9 +58,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\gfxv_wl6.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\gp2x.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\id_ca.h">
@@ -120,14 +105,25 @@
     <ClInclude Include="src\wl_utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\asmcomp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\asmcref.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\vieasm.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Changes.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\dosbox\dbopl.cpp">
-      <Filter>Source Files\dosbox</Filter>
-    </ClCompile>
+    <Image Include="win\DDWolf.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
     <ClCompile Include="src\id_ca.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -138,9 +134,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\id_sd.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\id_us.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\id_vh.cpp">
@@ -215,23 +208,20 @@
     <ClCompile Include="src\wl_utils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\dc\dc_cd.cpp">
-      <Filter>Source Files\dc</Filter>
-    </ClCompile>
-    <ClCompile Include="src\dc\dc_main.cpp">
-      <Filter>Source Files\dc</Filter>
-    </ClCompile>
-    <ClCompile Include="src\dc\dc_maple.cpp">
-      <Filter>Source Files\dc</Filter>
-    </ClCompile>
-    <ClCompile Include="src\dc\dc_video.cpp">
-      <Filter>Source Files\dc</Filter>
-    </ClCompile>
-    <ClCompile Include="src\dc\dc_vmu.cpp">
-      <Filter>Source Files\dc</Filter>
+    <ClCompile Include="src\dosbox\dbopl.cpp">
+      <Filter>Source Files\dosbox</Filter>
     </ClCompile>
     <ClCompile Include="src\mame\fmopl.cpp">
       <Filter>Source Files\mame</Filter>
+    </ClCompile>
+    <ClCompile Include="src\id_us.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\asmcomp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\vieasm.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -241,11 +231,6 @@
     <None Include="src\wolfpal.inc">
       <Filter>Source Files</Filter>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="win\DDWolf.ico">
-      <Filter>Resource Files</Filter>
-    </Image>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="win\DDWolf.rc">

@@ -103,12 +103,12 @@ bool ASM_Open(int frequency, bool use8Bit, int maxchan, int buffersize, Uint8 sn
            , ASM_Verstring);
 
     MIX_VERSION(&compile_version);
-    printf("Compiled with SDL_mixer version: %d.%d.%d\n", 
+    printf("Compiled with SDL_mixer version: %d.%d.%d\n",
             compile_version.major, compile_version.minor, compile_version.patch);
 
     const SDL_version *link_version=Mix_Linked_Version();
     printf("Running with SDL_mixer version: %d.%d.%d\n"
-           "\n" 
+           "\n"
            , link_version->major, link_version->minor, link_version->patch);
 
     if (use8Bit)
@@ -116,7 +116,7 @@ bool ASM_Open(int frequency, bool use8Bit, int maxchan, int buffersize, Uint8 sn
     else
         channels = Mix_OpenAudio(frequency, AUDIO_S16, 2, buffersize);
 
-    printf("Opened with:\n" 
+    printf("Opened with:\n"
            "      frequency - %d Hz\n"
            "       channels - %d\n"
            "   max channels - %d\n"
@@ -276,7 +276,7 @@ void ASM_ReturnVolume(Uint8* retsnd, Uint8* retmus)
     *retsnd = 0;
     *retmus = 0;
 
-    ASM_AbortIfClosed;    
+    ASM_AbortIfClosed;
 
     *retsnd = sndvol;
     *retmus = musvol;
@@ -331,12 +331,12 @@ bool ASM_FadeInMus(char* loadmus, int fadems)
 
     if (Mix_PlayingMusic())
         Mix_HaltMusic();
-    
+
     if (music)
         Mix_FreeMusic(music);
 
     music = Mix_LoadMUS(loadmus);
-    
+
     if (music == NULL)
     {
 #ifdef VERBOSE
@@ -344,7 +344,7 @@ bool ASM_FadeInMus(char* loadmus, int fadems)
 #endif
         return false;
     }
-    
+
     Mix_FadeInMusic (music, -1, fadems);
 
     return true;
@@ -426,7 +426,7 @@ sample ASM_CacheFromMem(void *ptr, int size, const char *name)
 void ASM_Uncache(sample &sound)
 {
     ASM_AbortIfClosed;
-    
+
     if (sound.chunk == NULL)
         return;
 
@@ -463,7 +463,7 @@ int ASM_PlaySound(sample &sound, int angle, Uint8 distance, bool ambient)
     }
 
     Mix_Volume (chanon, sndvol);
-    
+
     if (Mix_PlayChannel(chanon, sound.chunk, (ambient) ? -1 : 0) == -1)
     {
 #ifdef VERBOSE
@@ -511,7 +511,7 @@ void ASM_SwitchStep(void)
         switching = false;
     }
 }
-        
+
 // ASM_ReverseStereo
 // Sets reverse stereo mode after initialization
 

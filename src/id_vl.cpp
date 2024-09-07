@@ -23,21 +23,6 @@
 #endif
 
 boolean fullscreen = true;
-#if defined(_arch_dreamcast)
-boolean usedoublebuffering = false;
-unsigned screenWidth = 320;
-unsigned screenHeight = 200;
-int screenBits = 8;
-#elif defined(GP2X)
-boolean usedoublebuffering = true;
-unsigned screenWidth = 320;
-unsigned screenHeight = 240;
-#if defined(GP2X_940)
-int screenBits = 8;
-#else
-int screenBits = 16;
-#endif
-#else
 boolean usedoublebuffering = true;
 boolean disablehdres = false;
 boolean disableratiofix = false;
@@ -51,7 +36,6 @@ int screenBits = -1; // use "best" color depth according to libSDL
 int scalingOffsetX = 0; // Used with HD scaling to calculate and center screens
 int scalingOffsetY = 0;
 int ratioCorrection = 20;
-#endif
 
 SDL_Surface *screen = NULL;
 unsigned screenPitch;
@@ -187,7 +171,7 @@ void VL_SetVGAPlaneMode(void) {
     }
     SDL_SetColors(screenBuffer, gamepal, 0, 256);
 #else
-    if (disableratiofix) 
+    if (disableratiofix)
     {
         originalScreenHeight = 200;
         defaultScreenHeight = 400;
@@ -271,7 +255,7 @@ void VL_SetVGAPlaneMode(void) {
     pixelangle = (short *) SafeMalloc(screenWidth * sizeof(*pixelangle));
     wallheight = (int16_t *) SafeMalloc(screenWidth * sizeof(*wallheight));
 #if defined(USE_FLOORCEILINGTEX) || defined(USE_CLOUDSKY)
-    spanstart = SafeMalloc((screenHeight / 2) * sizeof(*spanstart));
+    spanstart = (int16_t *) SafeMalloc((screenHeight / 2) * sizeof(*spanstart));
 #endif
 
     for (i = 0; i < screenHeight; i++)
@@ -998,21 +982,21 @@ void VL_ScreenToScreen(SDL_Surface *source, SDL_Surface *dest) {
 =
 = This function is mainly to resolve issues around the coloring of the
 = VW_Bar showing messages in the Signon screen when using HD scaling.
-= 
+=
 = By default, it used to pick the pixel at 0,0 in the Signon screen
 = (a red pixel) to color the bar accordingly.
-= 
+=
 = With HD, scaling, the first pixel of the screen is not the correct place to look.
-= 
+=
 = In order to be able to achieve the same result, regardless of scaling, we now look
 = for the first colored pixel on the screen.
-= 
+=
 = This is far from being super efficient but it should always work, regardless of the scaling.
-= 
+=
 =================
 */
 
-byte VL_GetFirstColoredPixel(SDL_Surface* surface) 
+byte VL_GetFirstColoredPixel(SDL_Surface* surface)
 {
     byte color = 0;
 

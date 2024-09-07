@@ -93,19 +93,9 @@ int param_difficulty = 1; // default is "normal"
 int param_tedlevel = -1;  // default is not to start a level
 int param_joystickindex = 0;
 
-#if defined(_arch_dreamcast)
-int param_joystickhat = 0;
-int param_samplerate = 11025; // higher samplerates result in "out of memory"
-int param_audiobuffer = 1024;
-#elif defined(GP2X_940)
-int param_joystickhat = -1;
-int param_samplerate = 11025; // higher samplerates result in "out of memory"
-int param_audiobuffer = 128;
-#else
 int param_joystickhat = -1;
 int param_samplerate = 44100;
 int param_audiobuffer = 2048 / (44100 / param_samplerate);
-#endif
 
 int param_mission = 0;
 boolean param_goodtimes = false;
@@ -138,13 +128,9 @@ void ReadConfig(void)
 	SMMode sm;
 #ifndef VIEASM
 	SDSMode sds;
-#endif	
+#endif
 
 	char configpath[300];
-
-#ifdef _arch_dreamcast
-	DC_LoadFromVMU(configname);
-#endif
 
 	if (configdir[0])
 		snprintf(configpath, sizeof(configpath), "%s/%s", configdir, configname);
@@ -290,7 +276,7 @@ void ReadConfig(void)
 #else
 		sd = sdm_AdLib;
 		sm = smm_AdLib;
-#endif		
+#endif
 
 		if (MousePresent)
 		{
@@ -337,10 +323,6 @@ void ReadConfig(void)
 void WriteConfig(void)
 {
 	char configpath[300];
-
-#ifdef _arch_dreamcast
-	fs_unlink(configname);
-#endif
 
 	if (configdir[0])
 		snprintf(configpath, sizeof(configpath), "%s/%s", configdir, configname);
@@ -398,9 +380,6 @@ void WriteConfig(void)
 
 		close(file);
 	}
-#ifdef _arch_dreamcast
-	DC_SaveToVMU(configname, NULL);
-#endif
 }
 
 //===========================================================================
@@ -758,9 +737,6 @@ void ShutdownId(void)
 	IN_Shutdown();
 	VW_Shutdown();
 	CA_Shutdown();
-#if defined(GP2X_940)
-	GP2X_Shutdown();
-#endif
 }
 
 //===========================================================================
@@ -1290,10 +1266,6 @@ static void InitGame()
 		exit(1);
 	}
 
-#if defined(GP2X_940)
-	GP2X_MemoryInit();
-#endif
-
 	SignonScreen();
 
 	VW_UpdateScreen();
@@ -1328,7 +1300,7 @@ static void InitGame()
 	//
 #ifndef VIEASM
 	InitDigiMap();
-#endif // !VIEASM	
+#endif // !VIEASM
 
 	ReadConfig();
 
@@ -1345,19 +1317,15 @@ static void InitGame()
 #ifndef VIEASM
 		DoJukebox();
 		didjukebox = true;
-#endif // !VIEASM	
+#endif // !VIEASM
 	}
 	else
 #endif
 
-		//
-		// draw intro screen stuff
-		//
-		IntroScreen();
-
-#ifdef _arch_dreamcast
-	//TODO: VMU Selection Screen
-#endif
+	//
+	// draw intro screen stuff
+	//
+	IntroScreen();
 
 	//
 	// load in and lock down some basic chunks
@@ -1992,7 +1960,7 @@ param_difficulty = 0;
 			" --ignorenumchunks      Ignores the number of chunks in VGAHEAD.*\n"
 			"                        (may be useful for some broken mods)\n"
 			" --configdir <dir>      Directory where config file and save games are stored\n"
-#if defined(_arch_dreamcast) || defined(_WIN32)
+#if defined(_WIN32)
 			"                        (default: current directory)\n"
 #else
 			"                        (default: $HOME/.wolf4sdl)\n"
@@ -2025,11 +1993,7 @@ int main(int argc, char* argv[])
 	printf("\n");
 	printf("Wolfenstein 3D Starting...\n\n");
 #endif
-#if defined(_arch_dreamcast)
-	DC_Init();
-#else
 	CheckParameters(argc, argv);
-#endif
 
 	CheckForEpisodes();
 

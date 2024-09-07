@@ -575,13 +575,9 @@ void IN_GetJoyDelta(int* dx, int* dy)
 	}
 
 	SDL_JoystickUpdate();
-#ifdef _arch_dreamcast
-	int x = 0;
-	int y = 0;
-#else
+
 	int x = SDL_JoystickGetAxis(Joystick, 0) >> 8;
 	int y = SDL_JoystickGetAxis(Joystick, 1) >> 8;
-#endif
 
 	if (param_joystickhat != -1)
 	{
@@ -673,132 +669,122 @@ static void processEvent(SDL_Event* event)
 {
 	switch (event->type)
 	{
-		// exit if the window is closed
-	case SDL_QUIT:
-		Quit(NULL);
+			// exit if the window is closed
+		case SDL_QUIT:
+			Quit(NULL);
 
-		// check for keypresses
-	case SDL_KEYDOWN:
-	{
-		if (event->key.keysym.sym == SDLK_SCROLLLOCK || event->key.keysym.sym == SDLK_F12)
+			// check for keypresses
+		case SDL_KEYDOWN:
 		{
-			GrabInput = !GrabInput;
-#if SDL_MAJOR_VERSION == 1
-			SDL_WM_GrabInput(GrabInput ? SDL_GRAB_ON : SDL_GRAB_OFF);
-#else
-			SDL_SetRelativeMouseMode(GrabInput ? SDL_TRUE : SDL_FALSE);
-#endif
-			return;
-		}
-
-		LastScan = event->key.keysym.sym;
-		SDL_Keymod mod = SDL_GetModState();
-		if (Keyboard(sc_Alt))
-		{
-			if (LastScan == SDLK_F4)
-				Quit(NULL);
-		}
-
-		if (LastScan == SDLK_KP_ENTER)
-			LastScan = SDLK_RETURN;
-		else if (LastScan == SDLK_RSHIFT)
-			LastScan = SDLK_LSHIFT;
-		else if (LastScan == SDLK_RALT)
-			LastScan = SDLK_LALT;
-		else if (LastScan == SDLK_RCTRL)
-			LastScan = SDLK_LCTRL;
-		else
-		{
-			if ((mod & KMOD_NUM) == 0)
+			if (event->key.keysym.sym == SDLK_SCROLLLOCK || event->key.keysym.sym == SDLK_F12)
 			{
-				switch (LastScan)
+				GrabInput = !GrabInput;
+	#if SDL_MAJOR_VERSION == 1
+				SDL_WM_GrabInput(GrabInput ? SDL_GRAB_ON : SDL_GRAB_OFF);
+	#else
+				SDL_SetRelativeMouseMode(GrabInput ? SDL_TRUE : SDL_FALSE);
+	#endif
+				return;
+			}
+
+			LastScan = event->key.keysym.sym;
+			SDL_Keymod mod = SDL_GetModState();
+			if (Keyboard(sc_Alt))
+			{
+				if (LastScan == SDLK_F4)
+					Quit(NULL);
+			}
+
+			if (LastScan == SDLK_KP_ENTER)
+				LastScan = SDLK_RETURN;
+			else if (LastScan == SDLK_RSHIFT)
+				LastScan = SDLK_LSHIFT;
+			else if (LastScan == SDLK_RALT)
+				LastScan = SDLK_LALT;
+			else if (LastScan == SDLK_RCTRL)
+				LastScan = SDLK_LCTRL;
+			else
+			{
+				if ((mod & KMOD_NUM) == 0)
 				{
-				case SDLK_KP_2:
-					LastScan = SDLK_DOWN;
-					break;
-				case SDLK_KP_4:
-					LastScan = SDLK_LEFT;
-					break;
-				case SDLK_KP_6:
-					LastScan = SDLK_RIGHT;
-					break;
-				case SDLK_KP_8:
-					LastScan = SDLK_UP;
-					break;
+					switch (LastScan)
+					{
+					case SDLK_KP_2:
+						LastScan = SDLK_DOWN;
+						break;
+					case SDLK_KP_4:
+						LastScan = SDLK_LEFT;
+						break;
+					case SDLK_KP_6:
+						LastScan = SDLK_RIGHT;
+						break;
+					case SDLK_KP_8:
+						LastScan = SDLK_UP;
+						break;
+					}
 				}
 			}
-		}
 
-		int sym = LastScan;
-		if (sym >= 'a' && sym <= 'z')
-			sym -= 32; // convert to uppercase
+			int sym = LastScan;
+			if (sym >= 'a' && sym <= 'z')
+				sym -= 32; // convert to uppercase
 
-		if (mod & (KMOD_SHIFT | KMOD_CAPS))
-		{
-			if (sym < lengthof(ShiftNames) && ShiftNames[sym])
-				LastASCII = ShiftNames[sym];
-		}
-		else
-		{
-			if (sym < lengthof(ASCIINames) && ASCIINames[sym])
-				LastASCII = ASCIINames[sym];
-		}
-
-		int intLastScan = LastScan;
-		KeyboardSet(intLastScan, 1);
-
-		if (LastScan == SDLK_PAUSE)
-			Paused = true;
-		break;
-	}
-
-	case SDL_KEYUP:
-	{
-		int key = event->key.keysym.sym;
-		if (key == SDLK_KP_ENTER)
-			key = SDLK_RETURN;
-		else if (key == SDLK_RSHIFT)
-			key = SDLK_LSHIFT;
-		else if (key == SDLK_RALT)
-			key = SDLK_LALT;
-		else if (key == SDLK_RCTRL)
-			key = SDLK_LCTRL;
-		else
-		{
-			if ((SDL_GetModState() & KMOD_NUM) == 0)
+			if (mod & (KMOD_SHIFT | KMOD_CAPS))
 			{
-				switch (key)
+				if (sym < lengthof(ShiftNames) && ShiftNames[sym])
+					LastASCII = ShiftNames[sym];
+			}
+			else
+			{
+				if (sym < lengthof(ASCIINames) && ASCIINames[sym])
+					LastASCII = ASCIINames[sym];
+			}
+
+			int intLastScan = LastScan;
+			KeyboardSet(intLastScan, 1);
+
+			if (LastScan == SDLK_PAUSE)
+				Paused = true;
+			break;
+		}
+
+		case SDL_KEYUP:
+		{
+			int key = event->key.keysym.sym;
+			if (key == SDLK_KP_ENTER)
+				key = SDLK_RETURN;
+			else if (key == SDLK_RSHIFT)
+				key = SDLK_LSHIFT;
+			else if (key == SDLK_RALT)
+				key = SDLK_LALT;
+			else if (key == SDLK_RCTRL)
+				key = SDLK_LCTRL;
+			else
+			{
+				if ((SDL_GetModState() & KMOD_NUM) == 0)
 				{
-				case SDLK_KP_2:
-					key = SDLK_DOWN;
-					break;
-				case SDLK_KP_4:
-					key = SDLK_LEFT;
-					break;
-				case SDLK_KP_6:
-					key = SDLK_RIGHT;
-					break;
-				case SDLK_KP_8:
-					key = SDLK_UP;
-					break;
+					switch (key)
+					{
+					case SDLK_KP_2:
+						key = SDLK_DOWN;
+						break;
+					case SDLK_KP_4:
+						key = SDLK_LEFT;
+						break;
+					case SDLK_KP_6:
+						key = SDLK_RIGHT;
+						break;
+					case SDLK_KP_8:
+						key = SDLK_UP;
+						break;
+					}
 				}
 			}
+
+			KeyboardSet(key, 0);
 		}
-
-		KeyboardSet(key, 0);
 	}
-
-#if defined(GP2X)
-	case SDL_JOYBUTTONDOWN:
-		GP2X_ButtonDown(event->jbutton.button);
-		break;
-
-	case SDL_JOYBUTTONUP:
-		GP2X_ButtonUp(event->jbutton.button);
-		break;
-#endif
-	}
-	}
+}
 
 void IN_WaitAndProcessEvents()
 {
@@ -870,13 +856,7 @@ void IN_Startup(void)
 	}
 
 	// I didn't find a way to ask libSDL whether a mouse is present, yet...
-#if defined(GP2X)
-	MousePresent = false;
-#elif defined(_arch_dreamcast)
-	MousePresent = DC_MousePresent();
-#else
 	MousePresent = true;
-#endif
 
 	IN_Started = true;
 }

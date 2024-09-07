@@ -72,8 +72,8 @@ The overall work to get to where we are would not be possible without the follow
 <h2><em>Wolf4SDL Additional features</em></h2>
 
 * High-resolution texture support:
-  - Wolf4SDL supports textures up to 256x256 dynamically.
-  - No need for any code change.
+  - Wolf4SDL supports textures up to 256x256.
+  - See version.h for details.
 * Two additional view sizes:
   - Wolf4SDL supports one view size using the full width of the screen and showing the status bar, like in Mac-enstein, and one view size filling the whole screen (press TAB to see the status bar).
 * (Nearly) unlimited sound and song lengths:
@@ -122,7 +122,6 @@ Currently supported operating systems :
 - Windows 10 (32 and 64 bits)
 - Windows 11 (32 and 64 bits)
 - Linux*
-- BSD variants*
 
 *Build system untested.
 ```
@@ -187,24 +186,16 @@ The current version of the source code is available on GitHub at: https://github
 
 **_Preferred methods for compiling the source code:_**
 
+- Code::Blocks 20.03
+  - DDWolf_x86.cbp (Requires 32-bits compiler)
+  - DDWolf_x64.cbp (Requires 64-bits compiler)
+    - README-codeblocks.txt
 - Visual Studio C++ (2019/2022)
   - [VS 2022] - DDWolf.VC2022.sln
   - [VS 2019] - DDWolf.VC2019.sln
     - README-VC.txt
-- Code::Blocks 8.02
-  - DDWolf_x64.cbp
-    - README-codeblocks.txt
-- Dev-C++ 5.0 Beta 9.2 (4.9.9.2) (Currently broken)
-  - Wolf4SDL.dev
-    - README-devcpp.txt
 - [Untested] CMake
 - [Untested] Makefile (for Linux, BSD variants and MinGW/MSYS)
-
-**_Deprecated / outdated / unsupported / possibly broken_**
-
-- Special compiling for Dreamcast (see README-dc.txt)
-- Special compiling for GP2X (see README-GP2X.txt)
-- Xcode (for Mac OS X, macosx/Wolf4SDL.xcodeproj/project.pbxproj)
 
 <h2><em>SDL Libraries</em></h2>
 
@@ -221,13 +212,13 @@ You only need to run the script and open the project you want to use.
 <h4>Script files</h4>
 
 ```
-- get-libs-vc.bat (Visual Studio libraries)
-- get-libs-mingw.bat (Code::Blocks libraries)
+- _get-libs-mingw.bat (Code::Blocks libraries)
+- _get-libs-vc.bat (Visual Studio libraries)
 ```
 
 The SDL and SDL_Mixer versions used in this project are the following :
-- SDL2 2.0.18 (https://www.libsdl.org/release/)
-- SDL2_mixer 2.0.4 (https://www.libsdl.org/projects/SDL_mixer/release/)
+- SDL2 2.30.7 (https://www.libsdl.org/release/)
+- SDL2_mixer 2.8.0 (https://www.libsdl.org/projects/SDL_mixer/release/)
 
 <h2><em>Important</em></h2>
 

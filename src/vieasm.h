@@ -6,7 +6,7 @@ BY GERARD 'ALUMIUN' WATSON
 #ifndef _VIEASM_H_
 #define _VIEASM_H_
 
-#include <SDL_mixer.h> // Duh.
+#include <SDL_mixer.h>
 #include <string.h>    // For memset
 #include <stdio.h>     // For printf
 

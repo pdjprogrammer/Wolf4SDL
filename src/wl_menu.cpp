@@ -643,10 +643,6 @@ void US_ControlPanel(ScanCode scancode)
 {
 	int which;
 
-#ifdef _arch_dreamcast
-	DC_StatusClearLCD();
-#endif
-
 	if (ingame)
 	{
 		if (CP_CheckQuick(scancode))
@@ -1047,7 +1043,7 @@ int CP_CheckQuick(ScanCode scancode)
 
 			if (!startgame && !loadedgame)
 				ContinueMusic(lastgamemusicoffset);
-
+			  
 			if (loadedgame)
 				playstate = ex_abort;
 
@@ -1578,7 +1574,7 @@ DrawSliderBox(int x, int y, int val, int valinc, int width, int height, byte col
 	else
 		usecolour = HIGHLIGHT;
 	DrawOutline(x + valinc * val, y, width, height, 0, colour);
-	VWB_Bar(x + 1 + valinc * val, y + 1, width - 1, height - 1, usecolour);
+	VWB_Bar(x + 1 + valinc * val + scalingOffsetX, y + 1 + scalingOffsetY, width - 1, height - 1, usecolour);
 }
 
 void
@@ -1589,17 +1585,18 @@ DrawSoundVols(bool curmode)
 
 	VWB_DrawPic(112, 184 + scalingOffsetY, C_MOUSELBACKPIC);
 
-	WindowX = 0;
+	WindowX = scalingOffsetX;
 	WindowW = 320;
-	PrintY = 30;
+	
+	PrintY = 30 + scalingOffsetY;
 	SETFONTCOLOR(READCOLOR, BKGDCOLOR);
 	US_CPrint("Adjust Volume");
 
-	PrintY = 58;
+	PrintY = 58 + scalingOffsetY;
 	SETFONTCOLOR(TEXTCOLOR, BKGDCOLOR);
 	US_CPrint("Sound");
 
-	PrintY = 108;
+	PrintY = 108 + scalingOffsetY;
 	US_CPrint("Music");
 
 	char soundstr[4], musicstr[4];
@@ -1615,8 +1612,8 @@ DrawSoundVols(bool curmode)
 	{
 		SETFONTCOLOR(READCOLOR, BKGDCOLOR);
 	}
-	PrintX = 65 + soundvol * 2 - strlen(soundstr) * 4;
-	PrintY = 84;
+	PrintX = 65 + scalingOffsetX + soundvol * 2 - strlen(soundstr) * 4;
+	PrintY = 84 + scalingOffsetY;
 	US_Print(soundstr);
 
 	if (!curmode)
@@ -1627,15 +1624,14 @@ DrawSoundVols(bool curmode)
 	{
 		SETFONTCOLOR(READCOLOR, BKGDCOLOR);
 	}
-	PrintX = 65 + musicvol * 2 - strlen(musicstr) * 4;
-	PrintY = 134;
+	PrintX = 65 + scalingOffsetX + musicvol * 2 - strlen(musicstr) * 4;
+	PrintY = 134 + scalingOffsetY;
 	US_Print(musicstr);
 
-
-	VWB_Bar(60, 72, 210, 10, TEXTCOLOR);
+	VWB_Bar(60 + scalingOffsetX, 72 + scalingOffsetY, 210, 10, TEXTCOLOR);
 	DrawOutline(60, 72, 210, 10, 0, HIGHLIGHT);
 
-	VWB_Bar(60, 122, 210, 10, TEXTCOLOR);
+	VWB_Bar(60 + scalingOffsetX, 122 + scalingOffsetY, 210, 10, TEXTCOLOR);
 	DrawOutline(60, 122, 210, 10, 0, HIGHLIGHT);
 
 	DrawSliderBox(60, 72, soundvol, 2, 10, 10, (curmode) ? TEXTCOLOR : READCOLOR);
@@ -1643,7 +1639,6 @@ DrawSoundVols(bool curmode)
 
 	VW_UpdateScreen();
 }
-
 
 int AdjustVolume(int)
 {
@@ -1937,10 +1932,6 @@ int CP_LoadGame(int quick)
 		{
 			name[7] = which + '0';
 
-#ifdef _arch_dreamcast
-			DC_LoadFromVMU(name);
-#endif
-
 			if (configdir[0])
 				snprintf(loadpath, sizeof(loadpath), "%s/%s", configdir, name);
 			else
@@ -1975,10 +1966,6 @@ int CP_LoadGame(int quick)
 		{
 			ShootSnd();
 			name[7] = which + '0';
-
-#ifdef _arch_dreamcast
-			DC_LoadFromVMU(name);
-#endif
 
 			if (configdir[0])
 				snprintf(loadpath, sizeof(loadpath), "%s/%s", configdir, name);
@@ -2173,10 +2160,6 @@ int CP_SaveGame(int quick)
 
 			fclose(file);
 
-#ifdef _arch_dreamcast
-			DC_SaveToVMU(name, input);
-#endif
-
 			return 1;
 		}
 	}
@@ -2254,11 +2237,6 @@ int CP_SaveGame(int quick)
 #endif
 
 				fclose(file);
-
-#ifdef _arch_dreamcast
-				DC_SaveToVMU(name, input);
-#endif
-
 				ShootSnd();
 				exit = 1;
 			}
@@ -4915,32 +4893,23 @@ void SetupSaveGames()
 	for (i = 0; i < 10; i++)
 	{
 		name[7] = '0' + i;
-#ifdef _arch_dreamcast
-		// Try to unpack file
-		if (DC_LoadFromVMU(name))
+
+		if (configdir[0])
+			snprintf(savepath, sizeof(savepath), "%s/%s", configdir, name);
+		else
+			strcpy(savepath, name);
+
+		const int handle = open(savepath, O_RDONLY | O_BINARY);
+		if (handle >= 0)
 		{
-#endif
-			if (configdir[0])
-				snprintf(savepath, sizeof(savepath), "%s/%s", configdir, name);
-			else
-				strcpy(savepath, name);
+			char temp[32];
 
-			const int handle = open(savepath, O_RDONLY | O_BINARY);
-			if (handle >= 0)
-			{
-				char temp[32];
-
-				SaveGamesAvail[i] = 1;
-				read(handle, temp, 32);
-				close(handle);
-				strcpy(&SaveGameNames[i][0], temp);
+			SaveGamesAvail[i] = 1;
+			read(handle, temp, 32);
+			close(handle);
+			strcpy(&SaveGameNames[i][0], temp);
 		}
-#ifdef _arch_dreamcast
-			// Remove unpacked version of file
-			fs_unlink(name);
 	}
-#endif
-}
 }
 
 ////////////////////////////////////////////////////////////////////
@@ -6007,7 +5976,7 @@ void CheckForEpisodes(void)
 	struct stat statbuf;
 
 	// On Linux like systems, the configdir defaults to $HOME/.wolf4sdl
-#if !defined(_WIN32) && !defined(_arch_dreamcast)
+#if !defined(_WIN32)
 	if (configdir[0] == 0)
 	{
 		// Set config location to home directory for multi-user support

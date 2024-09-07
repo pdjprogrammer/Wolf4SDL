@@ -193,7 +193,7 @@ void UpdateSoundLoc(void)
     for (i = 0; i < MIX_CHANNELS; i++)
 #else
     for (i = 0; i < ASM_CurChannels(); i++)
-#endif    
+#endif
     {
         if (channelSoundPos[i].valid)
         {
@@ -1546,10 +1546,6 @@ restartgame:
             VW_FadeOut();
             if (screenHeight % originalScreenHeight != 0)
                 VL_ClearScreen(0);
-
-#ifdef _arch_dreamcast
-            DC_StatusClearLCD();
-#endif
 
             ClearMemory();
 
