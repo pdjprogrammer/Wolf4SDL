@@ -1,3 +1,17 @@
+DDWolf v1.2.0
+ [Fixed]
+	- Scaling issue in AlumiuN's Advanced Sound Manager menu.
+	- SafeMalloc cast (Thanks kalnaren).
+	- SDL libraries download scripts.
+
+ [Changed]
+	- Updated SDL to 2.30.7
+	- Updated SDL Mixer to 2.8.0
+	- Removed DevC++ support
+		- CodeBlocks is preferred IDE.
+	- Removed GP2X and Dreamcast support.
+		- Unable to provide support for those platforms.
+
 DDWolf v1.1.1
  - Fixed issue with control mapping order.
 

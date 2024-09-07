@@ -72,8 +72,8 @@ The overall work to get to where we are would not be possible without the follow
 <h2><em>Wolf4SDL Additional features</em></h2>
 
 * High-resolution texture support:
-  - Wolf4SDL supports textures up to 256x256 dynamically.
-  - No need for any code change.
+  - Wolf4SDL supports textures up to 256x256.
+  - See version.h for details.
 * Two additional view sizes:
   - Wolf4SDL supports one view size using the full width of the screen and showing the status bar, like in Mac-enstein, and one view size filling the whole screen (press TAB to see the status bar).
 * (Nearly) unlimited sound and song lengths:
@@ -186,14 +186,14 @@ The current version of the source code is available on GitHub at: https://github
 
 **_Preferred methods for compiling the source code:_**
 
-- Visual Studio C++ (2019/2022)
-  - [VS 2022] - DDWolf.VC2022.sln
-  - [VS 2019] - DDWolf.VC2019.sln
-    - README-VC.txt
 - Code::Blocks 20.03
   - DDWolf_x86.cbp (Requires 32-bits compiler)
   - DDWolf_x64.cbp (Requires 64-bits compiler)
     - README-codeblocks.txt
+- Visual Studio C++ (2019/2022)
+  - [VS 2022] - DDWolf.VC2022.sln
+  - [VS 2019] - DDWolf.VC2019.sln
+    - README-VC.txt
 - [Untested] CMake
 - [Untested] Makefile (for Linux, BSD variants and MinGW/MSYS)
 
@@ -212,8 +212,8 @@ You only need to run the script and open the project you want to use.
 <h4>Script files</h4>
 
 ```
-- get-libs-vc.bat (Visual Studio libraries)
-- get-libs-mingw.bat (Code::Blocks libraries)
+- _get-libs-mingw.bat (Code::Blocks libraries)
+- _get-libs-vc.bat (Visual Studio libraries)
 ```
 
 The SDL and SDL_Mixer versions used in this project are the following :
