@@ -798,7 +798,7 @@ static void processEvent(SDL_Event* event)
 		break;
 #endif
 	}
-	}
+}
 
 void IN_WaitAndProcessEvents()
 {

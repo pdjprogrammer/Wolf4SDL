@@ -2,7 +2,7 @@
 | CodeBlocks |
 --------------
 
-This file explains how you can compile Wolf4SDL using CodeBlocks 20.03 x86 with MinGW.
+This file explains how you can compile Wolf4SDL using CodeBlocks 20.03 with MinGW.
 
 The steps explained in this document have been tested on Windows 10 and 11 x64.
 
@@ -22,14 +22,19 @@ the file should you get any issues when compiling.
 -----------------
 | Needed files: |
 -----------------
-- CodeBlocks 20.03 with MinGW
+- codeblocks-20.03mingw-setup.exe (32 bits)
+
+- codeblocks-20.03mingw-32bit-setup.exe (64 bits)
+	
   http://www.codeblocks.org/downloads/binaries
 
 --------------
 | Libraries: |
 --------------
-- Run _script-sdl2-mingw.bat
+- Run _get-libs-mingw.bat
 	- This will automatically download and setup the libraries.
+	- DO NOT EXECUTE IN A FOLDER WHERE ADMINISTRATOR ACCESS IS REQUIRED.
+		- Run in User folder (Desktop, My Documents etc...)
 
 ----------------
 | Installation |
@@ -39,7 +44,11 @@ the file should you get any issues when compiling.
 -----------------------
 | CodeBlocks Settings |
 -----------------------
-- Open "Wolf4SDL.cbp" (Make sure to select correct project)
+- If you are using 32 bits compiler
+	- Open "DDWolf_x86.cbp"
+
+- If you are using 64 bits compiler
+	- Open "DDWolf_x64.cbp"
 
 - Go to "Settings" -> "Compiler".
 

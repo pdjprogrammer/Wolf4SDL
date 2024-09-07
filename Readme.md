@@ -122,7 +122,6 @@ Currently supported operating systems :
 - Windows 10 (32 and 64 bits)
 - Windows 11 (32 and 64 bits)
 - Linux*
-- BSD variants*
 
 *Build system untested.
 ```
@@ -191,20 +190,12 @@ The current version of the source code is available on GitHub at: https://github
   - [VS 2022] - DDWolf.VC2022.sln
   - [VS 2019] - DDWolf.VC2019.sln
     - README-VC.txt
-- Code::Blocks 8.02
-  - DDWolf_x64.cbp
+- Code::Blocks 20.03
+  - DDWolf_x86.cbp (Requires 32-bits compiler)
+  - DDWolf_x64.cbp (Requires 64-bits compiler)
     - README-codeblocks.txt
-- Dev-C++ 5.0 Beta 9.2 (4.9.9.2) (Currently broken)
-  - Wolf4SDL.dev
-    - README-devcpp.txt
 - [Untested] CMake
 - [Untested] Makefile (for Linux, BSD variants and MinGW/MSYS)
-
-**_Deprecated / outdated / unsupported / possibly broken_**
-
-- Special compiling for Dreamcast (see README-dc.txt)
-- Special compiling for GP2X (see README-GP2X.txt)
-- Xcode (for Mac OS X, macosx/Wolf4SDL.xcodeproj/project.pbxproj)
 
 <h2><em>SDL Libraries</em></h2>
 
@@ -226,8 +217,8 @@ You only need to run the script and open the project you want to use.
 ```
 
 The SDL and SDL_Mixer versions used in this project are the following :
-- SDL2 2.0.18 (https://www.libsdl.org/release/)
-- SDL2_mixer 2.0.4 (https://www.libsdl.org/projects/SDL_mixer/release/)
+- SDL2 2.30.7 (https://www.libsdl.org/release/)
+- SDL2_mixer 2.8.0 (https://www.libsdl.org/projects/SDL_mixer/release/)
 
 <h2><em>Important</em></h2>
 

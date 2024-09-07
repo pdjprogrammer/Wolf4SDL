@@ -92,7 +92,7 @@
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
-      <LanguageStandard_C>Default</LanguageStandard_C>
+      <LanguageStandard_C>stdc11</LanguageStandard_C>
     </ClCompile>
     <Link>
       <AdditionalDependencies>SDL2.lib;SDL2_mixer.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -132,6 +132,7 @@
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <LanguageStandard_C>stdc11</LanguageStandard_C>
     </ClCompile>
     <Link>
       <AdditionalDependencies>SDL2.lib;SDL2_mixer.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -178,8 +179,6 @@
     <ClInclude Include="src\asmcref.h" />
     <ClInclude Include="src\audiosod.h" />
     <ClInclude Include="src\audiowl6.h" />
-    <ClInclude Include="src\dc\dc_main.h" />
-    <ClInclude Include="src\dc\dc_vmu.h" />
     <ClInclude Include="src\dosbox\dbopl.h" />
     <ClInclude Include="src\foreign.h" />
     <ClInclude Include="src\f_spear.h" />
@@ -215,11 +214,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\asmcomp.cpp" />
-    <ClCompile Include="src\dc\dc_cd.cpp" />
-    <ClCompile Include="src\dc\dc_main.cpp" />
-    <ClCompile Include="src\dc\dc_maple.cpp" />
-    <ClCompile Include="src\dc\dc_video.cpp" />
-    <ClCompile Include="src\dc\dc_vmu.cpp" />
     <ClCompile Include="src\dosbox\dbopl.cpp" />
     <ClCompile Include="src\id_ca.cpp" />
     <ClCompile Include="src\id_in.cpp" />

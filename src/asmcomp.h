@@ -18,7 +18,7 @@ BY GERARD 'ALUMIUN' WATSON
 
 inline void Delay(int wolfticks)
 {
-    if (wolfticks>0) 
+    if (wolfticks>0)
         SDL_Delay(wolfticks * 1000 / TickBase);
 }
 

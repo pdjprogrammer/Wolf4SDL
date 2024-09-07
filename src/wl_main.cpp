@@ -138,7 +138,7 @@ void ReadConfig(void)
 	SMMode sm;
 #ifndef VIEASM
 	SDSMode sds;
-#endif	
+#endif
 
 	char configpath[300];
 
@@ -290,7 +290,7 @@ void ReadConfig(void)
 #else
 		sd = sdm_AdLib;
 		sm = smm_AdLib;
-#endif		
+#endif
 
 		if (MousePresent)
 		{
@@ -1328,7 +1328,7 @@ static void InitGame()
 	//
 #ifndef VIEASM
 	InitDigiMap();
-#endif // !VIEASM	
+#endif // !VIEASM
 
 	ReadConfig();
 
@@ -1345,7 +1345,7 @@ static void InitGame()
 #ifndef VIEASM
 		DoJukebox();
 		didjukebox = true;
-#endif // !VIEASM	
+#endif // !VIEASM
 	}
 	else
 #endif

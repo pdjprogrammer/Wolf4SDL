@@ -41,7 +41,8 @@
 //#define USE_DIR3DSPR								// Enables directional 3d sprites
 //#define USE_FLOORCEILINGTEX						// Enables texture-mapped floors and ceilings (see wl_plane.c)
 
-//#define USE_HIRES	(deprecated) !! SET TEXTURESHIFT IN WL_DEF.H INSTEAD !!
+//#define USE_HIRES	(DO NOT USE)
+// !! SET TEXTURESHIFT IN WL_DEF.H INSTEAD !!
 // Set TEXTURESHIFT in wl_def.h to 7 for 128x128 pixels
 // Set TEXTURESHIFT in wl_def.h to 8 for 256x256 pixels
 
