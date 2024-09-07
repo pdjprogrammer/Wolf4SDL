@@ -79,13 +79,8 @@ int buttoncontroller[15] = {
 	bt_strafeleft, bt_straferight };
 #else
 int buttonjoy[32] = {
-#ifdef _arch_dreamcast
-	bt_attack, bt_strafe, bt_use, bt_run, bt_esc, bt_prevweapon, bt_nobutton, bt_nextweapon,
-	bt_pause, bt_strafeleft, bt_straferight, bt_nobutton, bt_nobutton, bt_nobutton, bt_nobutton, bt_nobutton,
-#else
 	bt_attack, bt_strafe, bt_use, bt_run, bt_esc, bt_pause, bt_nobutton, bt_nobutton, bt_nobutton, bt_prevweapon, bt_nextweapon,
 	bt_nobutton, bt_nobutton, bt_strafeleft, bt_straferight,
-#endif
 	bt_nobutton, bt_nobutton, bt_nobutton, bt_nobutton, bt_nobutton, bt_nobutton, bt_nobutton, bt_nobutton,
 	bt_nobutton, bt_nobutton, bt_nobutton, bt_nobutton, bt_nobutton, bt_nobutton, bt_nobutton, bt_nobutton };
 #endif

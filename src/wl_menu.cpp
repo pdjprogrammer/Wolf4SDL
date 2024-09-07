@@ -643,10 +643,6 @@ void US_ControlPanel(ScanCode scancode)
 {
 	int which;
 
-#ifdef _arch_dreamcast
-	DC_StatusClearLCD();
-#endif
-
 	if (ingame)
 	{
 		if (CP_CheckQuick(scancode))
@@ -1937,10 +1933,6 @@ int CP_LoadGame(int quick)
 		{
 			name[7] = which + '0';
 
-#ifdef _arch_dreamcast
-			DC_LoadFromVMU(name);
-#endif
-
 			if (configdir[0])
 				snprintf(loadpath, sizeof(loadpath), "%s/%s", configdir, name);
 			else
@@ -1975,10 +1967,6 @@ int CP_LoadGame(int quick)
 		{
 			ShootSnd();
 			name[7] = which + '0';
-
-#ifdef _arch_dreamcast
-			DC_LoadFromVMU(name);
-#endif
 
 			if (configdir[0])
 				snprintf(loadpath, sizeof(loadpath), "%s/%s", configdir, name);
@@ -2173,10 +2161,6 @@ int CP_SaveGame(int quick)
 
 			fclose(file);
 
-#ifdef _arch_dreamcast
-			DC_SaveToVMU(name, input);
-#endif
-
 			return 1;
 		}
 	}
@@ -2254,11 +2238,6 @@ int CP_SaveGame(int quick)
 #endif
 
 				fclose(file);
-
-#ifdef _arch_dreamcast
-				DC_SaveToVMU(name, input);
-#endif
-
 				ShootSnd();
 				exit = 1;
 			}
@@ -4915,32 +4894,23 @@ void SetupSaveGames()
 	for (i = 0; i < 10; i++)
 	{
 		name[7] = '0' + i;
-#ifdef _arch_dreamcast
-		// Try to unpack file
-		if (DC_LoadFromVMU(name))
+
+		if (configdir[0])
+			snprintf(savepath, sizeof(savepath), "%s/%s", configdir, name);
+		else
+			strcpy(savepath, name);
+
+		const int handle = open(savepath, O_RDONLY | O_BINARY);
+		if (handle >= 0)
 		{
-#endif
-			if (configdir[0])
-				snprintf(savepath, sizeof(savepath), "%s/%s", configdir, name);
-			else
-				strcpy(savepath, name);
+			char temp[32];
 
-			const int handle = open(savepath, O_RDONLY | O_BINARY);
-			if (handle >= 0)
-			{
-				char temp[32];
-
-				SaveGamesAvail[i] = 1;
-				read(handle, temp, 32);
-				close(handle);
-				strcpy(&SaveGameNames[i][0], temp);
+			SaveGamesAvail[i] = 1;
+			read(handle, temp, 32);
+			close(handle);
+			strcpy(&SaveGameNames[i][0], temp);
 		}
-#ifdef _arch_dreamcast
-			// Remove unpacked version of file
-			fs_unlink(name);
 	}
-#endif
-}
 }
 
 ////////////////////////////////////////////////////////////////////
@@ -6007,7 +5977,7 @@ void CheckForEpisodes(void)
 	struct stat statbuf;
 
 	// On Linux like systems, the configdir defaults to $HOME/.wolf4sdl
-#if !defined(_WIN32) && !defined(_arch_dreamcast)
+#if !defined(_WIN32)
 	if (configdir[0] == 0)
 	{
 		// Set config location to home directory for multi-user support

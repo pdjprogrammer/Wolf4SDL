@@ -1547,10 +1547,6 @@ restartgame:
             if (screenHeight % originalScreenHeight != 0)
                 VL_ClearScreen(0);
 
-#ifdef _arch_dreamcast
-            DC_StatusClearLCD();
-#endif
-
             ClearMemory();
 
             CheckHighScore(gamestate.score, gamestate.mapon + 1);

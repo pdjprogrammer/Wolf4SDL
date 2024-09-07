@@ -23,21 +23,6 @@
 #endif
 
 boolean fullscreen = true;
-#if defined(_arch_dreamcast)
-boolean usedoublebuffering = false;
-unsigned screenWidth = 320;
-unsigned screenHeight = 200;
-int screenBits = 8;
-#elif defined(GP2X)
-boolean usedoublebuffering = true;
-unsigned screenWidth = 320;
-unsigned screenHeight = 240;
-#if defined(GP2X_940)
-int screenBits = 8;
-#else
-int screenBits = 16;
-#endif
-#else
 boolean usedoublebuffering = true;
 boolean disablehdres = false;
 boolean disableratiofix = false;
@@ -51,7 +36,6 @@ int screenBits = -1; // use "best" color depth according to libSDL
 int scalingOffsetX = 0; // Used with HD scaling to calculate and center screens
 int scalingOffsetY = 0;
 int ratioCorrection = 20;
-#endif
 
 SDL_Surface *screen = NULL;
 unsigned screenPitch;

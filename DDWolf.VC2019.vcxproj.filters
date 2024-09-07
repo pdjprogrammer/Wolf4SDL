@@ -60,9 +60,6 @@
     <ClInclude Include="src\gfxv_wl6.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\gp2x.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\id_ca.h">
       <Filter>Header Files</Filter>
     </ClInclude>

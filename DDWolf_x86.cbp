@@ -44,7 +44,6 @@
 		<Unit filename="src/gfxv_jap.h" />
 		<Unit filename="src/gfxv_sod.h" />
 		<Unit filename="src/gfxv_wl6.h" />
-		<Unit filename="src/gp2x.h" />
 		<Unit filename="src/id_ca.cpp" />
 		<Unit filename="src/id_ca.h" />
 		<Unit filename="src/id_in.cpp" />
